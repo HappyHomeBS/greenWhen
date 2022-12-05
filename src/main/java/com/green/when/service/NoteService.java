@@ -14,4 +14,7 @@ public class NoteService {
     public List<NoteVo> getNoteList() {
         return mapper.getNoteList();
     }
+    public List<NoteVo> writeNote() {
+        return mapper.writeNote();
+    }
 }

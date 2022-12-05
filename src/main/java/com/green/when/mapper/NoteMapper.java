@@ -10,12 +10,12 @@ import java.util.List;
 @Mapper
 
 public interface NoteMapper {
-    List<NoteVo> getNoteList();
-
     //리스트 조회
-
-
+    List<NoteVo> getNoteList();
     //쓰기
+    List<NoteVo> writeNote();
+
+
     //읽기
     //삭제
 }
