@@ -10,11 +10,25 @@ import java.util.List;
 public class NoteService {
     @Autowired
     public NoteMapper mapper;
-
+    //리스트 조회
     public List<NoteVo> getNoteList() {
         return mapper.getNoteList();
     }
-    public List<NoteVo> writeNote() {
-        return mapper.writeNote();
+    //쓰기
+    public List<NoteVo> noteWrite() {
+        return mapper.noteWrite();
     }
+    //읽기
+    public List<NoteVo> noteRead(){
+        return mapper.noteRead();
+    }
+    //수신확인
+    public List<NoteVo> noteReadCheck(){
+        return mapper.noteReadCheck();
+    }
+    //삭제
+    public List<NoteVo> noteDelete(){
+        return mapper.noteDelete();
+    }
+
 }

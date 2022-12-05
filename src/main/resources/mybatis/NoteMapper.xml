@@ -7,14 +7,26 @@
         SELECT * FROM note_tb;
     </select>
 <!--쪽지쓰기 Auto increment 대체해서 max함수 사용, nvl 위해 coalesce-->
-    <insert id="writeNote">
+    <insert id="noteWrite">
         INSERT INTO note_tb(no, send, recept, title, content, time, readcheck)
-        VALUES ((COALESCE((SELECT MAX(no) FROM note_tb a), 0)+1), ${send}, ${recept}, ${title}, ${content}, NOW(), 0);
+        VALUES ((COALESCE((SELECT MAX(no) FROM note_tb a), 0)+1), ${send}, ${recept}, ${title}, ${content}, NOW(), 0)
     </insert>
 
 <!--쪽지 읽기-->
-
+    <select id="noteRead">
+        SELECT * FROM note_tb
+        WHERE no = ${no}
+    </select>
+<!-- 수신확인 -->
+    <update id="noteReadCheck">
+        UPDATE note_tb
+        SET readcheck = 1
+        WHERE no = ${no}
+    </update>
 
 <!--쪽지삭제-->
-
+    <delete id="noteDelete">
+        DELETE FROM note_tb
+        WHERE no= ${no}
+    </delete>
 </mapper>

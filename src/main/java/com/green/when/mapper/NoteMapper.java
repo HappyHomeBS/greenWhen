@@ -13,9 +13,11 @@ public interface NoteMapper {
     //리스트 조회
     List<NoteVo> getNoteList();
     //쓰기
-    List<NoteVo> writeNote();
-
-
+    List<NoteVo> noteWrite();
     //읽기
+    List<NoteVo> noteRead();
+    //수신확인
+    List<NoteVo> noteReadCheck();
     //삭제
+    List<NoteVo> noteDelete();
 }
