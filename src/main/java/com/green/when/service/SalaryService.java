@@ -13,4 +13,8 @@ public class SalaryService {
     public SalaryMapper mapper;
     public List<SalaryVo> getSalary() {
         return mapper.getSalary();}
+
+    public void signup(SalaryVo salaryVo) {
+        mapper.signup(salaryVo);
+    }
 }

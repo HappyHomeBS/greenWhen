@@ -5,6 +5,7 @@ import SignInModal from '../modals/SignInModal'
 
 const Header = () => {
     const [SignUpModalOn, setSignUpModalOn] = useState(false);
+    const [SignInModalOn, setSignInModalOn] = useState(false);
     return (
         <>
             <SignUpModal
@@ -23,8 +24,12 @@ const Header = () => {
                         <Navbar.Collapse id="basic-navbar-nav">
                             <Nav className="ml-auto">
                                 <Nav.Link>
-                                    <Button variant="primary">
+                                    <Button
+                                        variant="primary"
                                         onClick={() => setSignInModalOn(true)}
+                                    >
+
+                                        Sign In
                                     </Button>
                                 </Nav.Link>
                                 <Nav.Link>

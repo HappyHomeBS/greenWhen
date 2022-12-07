@@ -5,4 +5,9 @@
     <select id="getSalary" resultType="SalaryVo">
         SELECT * FROM member_tb;
     </select>
+
+    <insert id="signup">
+        INSERT INTO member_tb(userid, usernickname, userpw, useremail)
+        VALUES (#{userid}, #{usernickname}, #{userpw}, #{useremail})
+    </insert>
 </mapper>

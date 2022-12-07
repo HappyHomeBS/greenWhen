@@ -1,11 +1,8 @@
 package com.green.when.vo;
 
-import lombok.Builder;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
-@Builder @Data @Getter @Setter
+@Builder @Data @Getter @Setter @AllArgsConstructor @NoArgsConstructor @ToString
 public class SalaryVo {
     private String userid;
     private String usernickname;

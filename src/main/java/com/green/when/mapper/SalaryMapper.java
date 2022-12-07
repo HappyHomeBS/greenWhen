@@ -11,4 +11,5 @@ import java.util.List;
 public interface SalaryMapper {
     List<SalaryVo> getSalary();
 
+    void signup(SalaryVo salaryVo);
 }
