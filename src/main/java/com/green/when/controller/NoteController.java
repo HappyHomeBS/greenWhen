@@ -2,47 +2,44 @@ package com.green.when.controller;
 
 import com.green.when.service.NoteService;
 import com.green.when.vo.NoteVo;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
-import java.sql.SQLOutput;
 import java.util.List;
 
-@Controller
+@RequiredArgsConstructor
+@RestController
+@RequestMapping("/api")
 public class NoteController {
     @Autowired
     NoteService noteService;
 //  쪽지 리스트 출력
     @GetMapping("/noteList")
-    public List<NoteVo> noteList() {
-        List<NoteVo> noteList = noteService.getNoteList();
+    public List<NoteVo> noteList(@RequestParam String userId) {
+        System.out.println("testing!");
+        List<NoteVo> noteList = noteService.getNoteList(userId);
         System.out.println(noteList);
         return noteList;
     }
 
 // 쪽지 쓰기
-    @GetMapping("/noteWrite")
-    public List<NoteVo> noteWrite(){
-        List<NoteVo> noteWrite = noteService.noteWrite();
-        System.out.println(noteWrite);
-        return null;
+    @PostMapping("/noteWrite")
+    public void noteWrite(@RequestBody NoteVo noteVo) {
+        noteService.noteWrite(noteVo);
     }
 
-//쪽지 쓰는 폼
 //쪽지 읽기
     @GetMapping("/noteRead")
-    public List<NoteVo> noteRead(){
-        List<NoteVo> noteRead = noteService.noteRead();
+    public List<NoteVo> noteRead(@RequestParam int no){
+        List<NoteVo> noteRead = noteService.noteRead(no);
         System.out.println(noteRead);
-        List<NoteVo> noteReadCheck=noteService.noteReadCheck();
-        return null;
+        noteService.noteReadCheck(no);
+        return noteRead;
     }
 //쪽지 삭제
     @PostMapping("/noteDelete")
-    public List<NoteVo> noteDelete() {
-        List<NoteVo> noteDelete = noteService.noteDelete();
-        return null;
+    public void noteDelete(@RequestParam int no) {
+        noteService.noteDelete(no);
     }
 }

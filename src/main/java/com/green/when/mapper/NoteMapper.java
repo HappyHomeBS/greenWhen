@@ -11,13 +11,13 @@ import java.util.List;
 
 public interface NoteMapper {
     //리스트 조회
-    List<NoteVo> getNoteList();
+    List<NoteVo> getNoteList(String userId);
     //쓰기
-    List<NoteVo> noteWrite();
+    void noteWrite(NoteVo noteVo);
     //읽기
-    List<NoteVo> noteRead();
+    List<NoteVo> noteRead(int no);
     //수신확인
-    List<NoteVo> noteReadCheck();
+    void noteReadCheck(int no);
     //삭제
-    List<NoteVo> noteDelete();
+    void noteDelete(int no);
 }

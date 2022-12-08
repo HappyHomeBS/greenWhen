@@ -3,30 +3,32 @@
 
 <mapper namespace="com.green.when.mapper.NoteMapper">
 <!--목록조회-->
-    <select id="getNoteList" resultType="NoteVo">
-        SELECT * FROM note_tb;
+    <select id="getNoteList" parameterType="String" resultType="NoteVo">
+        SELECT *
+        FROM note_tb
+        WHERE recept = #{userId}
     </select>
 <!--쪽지쓰기 Auto increment 대체해서 max함수 사용, nvl 위해 coalesce-->
-    <insert id="noteWrite">
+    <insert id="noteWrite" parameterType="NoteVo">
         INSERT INTO note_tb(no, send, recept, title, content, time, readcheck)
-        VALUES ((COALESCE((SELECT MAX(no) FROM note_tb a), 0)+1), ${send}, ${recept}, ${title}, ${content}, NOW(), 0)
+        VALUES ((COALESCE((SELECT MAX(no) FROM note_tb a), 0)+1), #{send}, #{recept}, #{title}, #{content}, NOW(), 0)
     </insert>
 
 <!--쪽지 읽기-->
-    <select id="noteRead">
+    <select id="noteRead" parameterType="int" resultType="NoteVo">
         SELECT * FROM note_tb
-        WHERE no = ${no}
+        WHERE no = #{no}
     </select>
 <!-- 수신확인 -->
     <update id="noteReadCheck">
         UPDATE note_tb
         SET readcheck = 1
-        WHERE no = ${no}
+        WHERE no = #{no}
     </update>
 
 <!--쪽지삭제-->
     <delete id="noteDelete">
         DELETE FROM note_tb
-        WHERE no= ${no}
+        WHERE no= #{no}
     </delete>
 </mapper>
