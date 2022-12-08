@@ -7,7 +7,6 @@ import lombok.Setter;
 import lombok.ToString;
 // 데이터 없을 때 JSON 만들지 않는설정
 @JsonInclude(JsonInclude.Include.NON_NULL)
-
 @Getter
 @Setter
 @AllArgsConstructor
