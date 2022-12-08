@@ -10,4 +10,22 @@
         INSERT INTO member_tb(userid, usernickname, userpw, useremail)
         VALUES (#{userid}, #{usernickname}, #{userpw}, #{useremail})
     </insert>
+
+    <select id="useridCheck" resultType="Integer">
+        SELECT count(*)
+        FROM   member_tb
+        WHERE  userid = #{userid}
+    </select>
+
+    <select id="usernicknameCheck" resultType="Integer">
+        SELECT count(*)
+        FROM   member_tb
+        WHERE  usernickname = #{usernickname}
+    </select>
+
+    <select id="useremailCheck" resultType="Integer">
+        SELECT count(*)
+        FROM   member_tb
+        WHERE  useremail = #{useremail}
+    </select>
 </mapper>

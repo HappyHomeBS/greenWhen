@@ -12,4 +12,10 @@ public interface SalaryMapper {
     List<SalaryVo> getSalary();
 
     void signup(SalaryVo salaryVo);
+
+    int useridCheck(SalaryVo salaryVo);
+
+    int usernicknameCheck(SalaryVo salaryVo);
+
+    int useremailCheck(SalaryVo salaryVo);
 }

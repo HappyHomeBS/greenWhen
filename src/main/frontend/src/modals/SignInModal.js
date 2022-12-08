@@ -31,7 +31,7 @@ const SignInModal = ({ show, onHide }) => {
                         </Form.Group>
                         <br /> 
                         
-                        <Button block variant="info" type="button" className="my-3">
+                        <Button variant="info" type="button" className="my-3">
                             Submit
                         </Button>
                     </Form>

@@ -17,4 +17,16 @@ public class SalaryService {
     public void signup(SalaryVo salaryVo) {
         mapper.signup(salaryVo);
     }
+
+    public int useridCheck(SalaryVo salaryVo) {
+        return mapper.useridCheck(salaryVo);
+    }
+
+    public int usernicknameCheck(SalaryVo salaryVo) {
+        return mapper.usernicknameCheck(salaryVo);
+    }
+
+    public int useremailCheck(SalaryVo salaryVo) {
+        return mapper.useremailCheck(salaryVo);
+    }
 }
