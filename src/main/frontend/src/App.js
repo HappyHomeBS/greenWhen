@@ -1,14 +1,22 @@
 import React, {useEffect, useState} from 'react';
 import axios from 'axios';
 import { Container } from 'react-bootstrap';
-import NoteList from './components/NoteList';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import './App.css'
+import NoteListComponent from './components/NoteListComponent';
 
 function App() {
     return(
-        <Container className="p-3">
-            <NoteList></NoteList>
-        </Container>
+        <div>
+            <Router>
+                <div className="container">
+                    <Routes>
+                        <Route path="/" exact component = {NoteListComponent}></Route>
+                        <Route path="/note/test2" component = {NoteListComponent}></Route>
+                    </Routes>
+                </div>
+            </Router>
+        </div>
     )
 }
 export default App;

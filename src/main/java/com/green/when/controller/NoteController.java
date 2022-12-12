@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin(origins = "http://localhost:3000")
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api")
@@ -15,8 +16,8 @@ public class NoteController {
     @Autowired
     NoteService noteService;
 //  쪽지 리스트 출력
-    @GetMapping("/noteList")
-    public List<NoteVo> noteList(@RequestParam String userId) {
+    @GetMapping("/note/{userId}")
+    public List<NoteVo> noteList(@PathVariable String userId) {
         System.out.println("testing!");
         List<NoteVo> noteList = noteService.getNoteList(userId);
         System.out.println(noteList);
