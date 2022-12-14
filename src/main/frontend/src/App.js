@@ -12,6 +12,7 @@ function App() {
                 <div className="Container">
                     {/* Switch는 업데이트 되면서 없어짐 */}
                     <Routes> 
+                        {/*component 업데이트 되면서 element로 사용*/}
                         <Route path="/" exact element = {<NoteListComponent/>}></Route>
                         <Route path="/note/:userId" element = {<NoteListComponent/>}></Route>
                     </Routes>
