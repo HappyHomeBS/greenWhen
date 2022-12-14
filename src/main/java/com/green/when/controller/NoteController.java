@@ -18,6 +18,7 @@ public class NoteController {
 //  쪽지 리스트 출력
     @GetMapping("/note/{userId}")
     public List<NoteVo> noteList(@PathVariable String userId) {
+        System.out.println("userid:"+userId);
         System.out.println("testing!");
         List<NoteVo> noteList = noteService.getNoteList(userId);
         System.out.println(noteList);

@@ -1,19 +1,31 @@
-import React, {useEffect, Component } from 'react';
+import React, {Component } from 'react';
 import NoteService from '../service/NoteService.js';
+import { useParams, useNavigate } from 'react-router-dom'
+
+// useParams 사용을 위해 함수 HOC 생성 
+export const withRouter = (WrappedComponent) => (props) => {
+    const params=useParams();
+    const navigate = useNavigate();
+    return<WrappedComponent{...props} params={params} navigate = {navigate}/>;
+};
+
 
 class NoteListComponent extends Component {
-    
+//생성자로 초기화하기(note:에 데이터 들어감)
     constructor(props) {
         super(props)
         this.state = {
+            userId: this.props.params.userId,
             note: []
-        }
+        };
     }
-
-    componentDidMount() {
-        NoteService.getNoteList().then((res) => {
-            console.log(res.data);
-            this.setState({note: res.data});
+// 컴포넌트 생성시 실행(값 세팅)
+    componentDidMount(userId) {
+        userId=this.props.params.userId   
+        console.log(userId)
+        NoteService.getNoteList(userId).then((NoteData) => {
+        console.log(NoteData.data);
+        this.setState({note: NoteData.data});
         });
     }
 
@@ -32,6 +44,7 @@ class NoteListComponent extends Component {
                                 <th> 수신확인</th>
                             </tr>
                         </thead>
+                            {/*  */}
                         <tbody>
                             {
                                 this.state.note.map(
@@ -52,4 +65,4 @@ class NoteListComponent extends Component {
         );
     }
 }
-export default NoteListComponent;
+export default withRouter(NoteListComponent);

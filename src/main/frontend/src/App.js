@@ -1,5 +1,4 @@
 import React, {useEffect, useState} from 'react';
-import axios from 'axios';
 import { Container } from 'react-bootstrap';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import './App.css'
@@ -9,12 +8,15 @@ function App() {
     return(
         <div>
             <Router>
-                <div className="container">
-                    <Routes>
-                        <Route path="/" exact component = {NoteListComponent}></Route>
-                        <Route path="/note/test2" component = {NoteListComponent}></Route>
+                <header></header>
+                <div className="Container">
+                    {/* Switch는 업데이트 되면서 없어짐 */}
+                    <Routes> 
+                        <Route path="/" exact element = {<NoteListComponent/>}></Route>
+                        <Route path="/note/:userId" element = {<NoteListComponent/>}></Route>
                     </Routes>
                 </div>
+                <footer></footer>
             </Router>
         </div>
     )

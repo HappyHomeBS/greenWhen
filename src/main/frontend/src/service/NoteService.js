@@ -1,9 +1,9 @@
 import axios from 'axios';
-let userId="test2"
-// const NOTE_API_BASE_URL = `http://localhost:8080/api/note/${userId}`;
+const noteApiBaseUrl = `http://localhost:8080/api/`;
+
 class NoteService {
-    getNoteList() {
-        const res = axios.get(`http://localhost:8080/api/note/${userId}`);
+    getNoteList(userId) {
+        const res = axios.get(noteApiBaseUrl+"note/"+userId);
         console.log(res);
         return res;
     }
