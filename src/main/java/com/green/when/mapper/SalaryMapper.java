@@ -13,9 +13,9 @@ public interface SalaryMapper {
 
     void signup(SalaryVo salaryVo);
 
-    int useridCheck(SalaryVo salaryVo);
+    int useridCheck(String userid);
 
-    int usernicknameCheck(SalaryVo salaryVo);
+    int usernicknameCheck(String usernickname);
 
-    int useremailCheck(SalaryVo salaryVo);
+    int useremailCheck(String useremail);
 }

@@ -28,35 +28,41 @@ public class HomeController {
         return mv;
     }
 
-    @GetMapping("/api/hello")
-    public String test() {
-
-        return "Hello, world!!!!";
-    }
-    
     // 회원가입
     @PostMapping("/signup")
     public String signup(@RequestBody SalaryVo salaryVo) {
         System.out.println(salaryVo.toString());
         salaryService.signup(salaryVo);
         return "/home";
-
-
-    // 회원정보 중복체크
-    } @GetMapping("/userCheck")
-    public Model userCheck(@RequestBody SalaryVo salaryVo, Model model) {
-        System.out.println(salaryVo.toString());
-        int useridCheck = salaryService.useridCheck(salaryVo);
-        int usernicknameCheck = salaryService.usernicknameCheck(salaryVo);
-        int useremailCheck = salaryService.useremailCheck(salaryVo);
-        model.addAttribute("userid", useridCheck);
-        model.addAttribute("usernickname", usernicknameCheck);
-        model.addAttribute("useremail", useremailCheck);
-        System.out.println(model);
-        return model;
     }
 
+    // 회원정보 중복체크
+    @GetMapping("/userCheck")
+    public int userCheck(@RequestParam String userid) {
+        System.out.println(userid);
+        int useridCheck = salaryService.useridCheck(userid);
+        System.out.println(useridCheck);
+        return useridCheck;
 
+    }
+
+    // 이메일 중복체크
+    @GetMapping("/emailCheck")
+    public int emailCheck(@RequestParam String useremail) {
+        System.out.println(useremail);
+        int useremailCheck = salaryService.useremailCheck(useremail);
+        System.out.println(useremailCheck);
+        return useremailCheck;
+    }
+
+    // 닉네임 중복체크
+    @GetMapping("/nicknameCheck")
+    public int nicknameCheck(@RequestParam String usernickname) {
+        System.out.println(usernickname);
+        int usernicknameCheck = salaryService.usernicknameCheck(usernickname);
+        System.out.println(usernicknameCheck);
+        return usernicknameCheck;
+    }
 
 }
 

@@ -18,15 +18,15 @@ public class SalaryService {
         mapper.signup(salaryVo);
     }
 
-    public int useridCheck(SalaryVo salaryVo) {
-        return mapper.useridCheck(salaryVo);
+    public int useridCheck(String userid) {
+        return mapper.useridCheck(userid);
     }
 
-    public int usernicknameCheck(SalaryVo salaryVo) {
-        return mapper.usernicknameCheck(salaryVo);
+    public int usernicknameCheck(String usernickname) {
+        return mapper.usernicknameCheck(usernickname);
     }
 
-    public int useremailCheck(SalaryVo salaryVo) {
-        return mapper.useremailCheck(salaryVo);
+    public int useremailCheck(String useremail) {
+        return mapper.useremailCheck(useremail);
     }
 }

@@ -19,20 +19,26 @@ const SignInModal = ({ show, onHide }) => {
                 </Modal.Header>
                 <Modal.Body>
                     <Form>
-                        <Form.Group>
+                        <Form.Group className="my-3">
                             <Form.Label>아이디</Form.Label>
                             <Form.Control type="text" placeholder="아이디를 입력하세요" />
                         </Form.Group>
-                        <br />
 
-                        <Form.Group>
+                        <Form.Group className="my-3">
                             <Form.Label>비밀번호</Form.Label>
                             <Form.Control type="password" placeholder="비밀번호를 입력하세요" />
                         </Form.Group>
-                        <br /> 
-                        
-                        <Button variant="info" type="button" className="my-3">
-                            Submit
+
+                        <Form.Group className="my-3">
+                            <Button variant="info" type="button">
+                                로그인
+                            </Button>
+                        </Form.Group>
+                        <Button variant="info" type="button">
+                            아이디 찾기
+                        </Button>
+                        <Button variant="info" type="button">
+                            비밀번호 찾기
                         </Button>
                     </Form>
                 </Modal.Body>
