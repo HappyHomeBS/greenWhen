@@ -1,12 +1,13 @@
 import React, {Component } from 'react';
 import NoteService from '../service/NoteService.js';
-import { useParams, useNavigate } from 'react-router-dom'
+import { useLocation, useParams, useNavigate} from 'react-router-dom'
 
 // useParams 사용을 위해 함수 HOC 생성 
 export const withRouter = (WrappedComponent) => (props) => {
     const params=useParams();
     const navigate = useNavigate();
-    return<WrappedComponent{...props} params={params} navigate = {navigate}/>;
+    const location = useLocation();
+    return<WrappedComponent{...props} params={params} navigate = {navigate} location={location}/>;
 };
 
 
@@ -18,21 +19,34 @@ class NoteListComponent extends Component {
             userId: this.props.params.userId,
             note: []
         };
+        this.noteWrite = this.noteWrite.bind(this);
     }
-// 컴포넌트 생성시 실행(값 세팅)
+
+    // 컴포넌트 생성시 실행(값 세팅)
     componentDidMount(userId) {
         userId=this.props.params.userId   
-        console.log(userId)
+        // console.log(userId)
         NoteService.getNoteList(userId).then((NoteData) => {
-        console.log(NoteData.data);
-        this.setState({note: NoteData.data});
+            console.log(NoteData.data);
+            this.setState({note: NoteData.data});
         });
     }
+    
+    // 쓰기 페이지 이동
+    noteWrite() {
+        console.log(this.props.params.userId)
+        this.props.navigate('/noteWrite', {state:
+         { userId: this.props.params.userId }})
+    }
+
 
     render() {
         return (
             <div>
                 <h2 className="text-center">Note List</h2>
+                <div className = "row">
+                    <button className="btn btn-primary" onClick={this.noteWrite}>쪽지 보내기</button>
+                </div>
                 <div className ="row">
                     <table className="table table-striped table-bordered">
                         <thead>

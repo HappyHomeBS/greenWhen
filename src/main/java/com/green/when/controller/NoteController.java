@@ -1,5 +1,4 @@
 package com.green.when.controller;
-
 import com.green.when.service.NoteService;
 import com.green.when.vo.NoteVo;
 import lombok.RequiredArgsConstructor;
@@ -28,12 +27,13 @@ public class NoteController {
 // 쪽지 쓰기
     @PostMapping("/noteWrite")
     public void noteWrite(@RequestBody NoteVo noteVo) {
+        System.out.println(noteVo);
         noteService.noteWrite(noteVo);
     }
 
 //쪽지 읽기
-    @GetMapping("/noteRead")
-    public List<NoteVo> noteRead(@RequestParam int no){
+    @GetMapping("/note/{userId}/{no}")
+    public List<NoteVo> noteRead(@PathVariable int no){
         List<NoteVo> noteRead = noteService.noteRead(no);
         System.out.println(noteRead);
         noteService.noteReadCheck(no);
