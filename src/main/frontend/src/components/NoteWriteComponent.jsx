@@ -10,7 +10,8 @@ class NoteWriteComponent extends Component {
         super(props);
              
         this.state = {
-            send:''
+            userId:this.props.location.state.userId
+            ,send:''
             ,recept : ''
             ,title : ''
             ,content : ''
@@ -46,13 +47,13 @@ class NoteWriteComponent extends Component {
         };
         console.log("note = > "+JSON.stringify(note));
         NoteService.noteWrite(note).then(res => {
-            this.props.navigate('/note/'+this.props.location.state.userId);
+            this.props.navigate('/note/'+this.state.userId);
         });
     }
 
     cancel(send) {
         console.log(send)
-        this.props.navigate('/note/'+this.props.location.state.userId);
+        this.props.navigate('/note/'+this.state.userId);
     }
 
     render() {

@@ -26,19 +26,22 @@ class NoteListComponent extends Component {
     componentDidMount(userId) {
         userId=this.props.params.userId   
         // console.log(userId)
-        NoteService.getNoteList(userId).then((NoteData) => {
-            console.log(NoteData.data);
-            this.setState({note: NoteData.data});
+        NoteService.getNoteList(userId).then((res) => {
+            this.setState({note: res.data});
+            console.log(this.state.note);
         });
     }
     
     // 쓰기 페이지 이동
+    // history.push 사라지면서 navigate로 바뀜()
     noteWrite() {
         console.log(this.props.params.userId)
-        this.props.navigate('/noteWrite', {state:
-         { userId: this.props.params.userId }})
+        this.props.navigate('/noteWrite', {state: { userId: this.props.params.userId }})
     }
 
+    noteRead(no) {
+        this.props.navigate('/noteRead/'+no, {state: { userId: this.props.params.userId }})
+    }
 
     render() {
         return (
@@ -58,14 +61,14 @@ class NoteListComponent extends Component {
                                 <th> 수신확인</th>
                             </tr>
                         </thead>
-                            {/*  */}
                         <tbody>
+                            {/*반복되는 컴포넌트 렌더링 위해 map()사용  */}
                             {
                                 this.state.note.map(
                                     note =>
                                     <tr key = {note.no}>
                                         <td style= {{display :"none"}}>{note.no}</td>
-                                        <td>{note.title}</td>
+                                        <td> <a onClick = {() => this.noteRead(note.no)}>{note.title}</a></td>
                                         <td>{note.send}</td>
                                         <td>{note.time}</td>
                                         <td>{note.readCheck}</td>

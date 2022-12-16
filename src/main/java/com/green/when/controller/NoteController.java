@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@CrossOrigin(origins = "http://localhost:3000")
+//@CrossOrigin(origins = "http://localhost:3000")
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api")
@@ -27,15 +27,15 @@ public class NoteController {
 // 쪽지 쓰기
     @PostMapping("/noteWrite")
     public void noteWrite(@RequestBody NoteVo noteVo) {
-        System.out.println(noteVo);
+//        System.out.println("writingVo"+ noteVo);
         noteService.noteWrite(noteVo);
     }
 
 //쪽지 읽기
-    @GetMapping("/note/{userId}/{no}")
+    @GetMapping("/noteRead/{no}")
     public List<NoteVo> noteRead(@PathVariable int no){
         List<NoteVo> noteRead = noteService.noteRead(no);
-        System.out.println(noteRead);
+        System.out.println("read"+noteRead);
         noteService.noteReadCheck(no);
         return noteRead;
     }

@@ -6,13 +6,18 @@ class NoteService {
     getNoteList(userId) {
         //axios 데이터 res에 담기
         const result = axios.get(noteApiBaseUrl+"note/"+userId);
-        console.log(result);
         return result;
     }
 
     noteWrite(note) {
-        let result = axios.post(noteApiBaseUrl+"note/", note);
+        let result = axios.post(noteApiBaseUrl+"noteWrite/", note);
         return result;
+    }
+
+    noteRead(no) {
+        let res = axios.get(noteApiBaseUrl+"noteRead/"+no);
+        console.log(res.data);
+        return res;
     }
 }
 export default new NoteService();
