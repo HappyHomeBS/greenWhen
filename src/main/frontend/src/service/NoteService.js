@@ -19,5 +19,10 @@ class NoteService {
         console.log(res.data);
         return res;
     }
+
+    noteDelete(no) {
+        let res = axios.delete(noteApiBaseUrl+"noteDelete/"+no)
+        return res;
+    }
 }
 export default new NoteService();

@@ -40,8 +40,8 @@ public class NoteController {
         return noteRead;
     }
 //쪽지 삭제
-    @PostMapping("/noteDelete")
-    public void noteDelete(@RequestParam int no) {
+    @DeleteMapping("/noteDelete/{no}")
+    public void noteDelete(@PathVariable int no) {
         noteService.noteDelete(no);
     }
 }
