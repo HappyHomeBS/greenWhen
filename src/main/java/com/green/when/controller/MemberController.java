@@ -26,6 +26,7 @@ public class MemberController {
 
     @PostMapping("/nickname")
     public ResponseEntity<MemberResponseDto> setMemberNickname(@RequestBody MemberRequestDto request) {
+        System.out.println(request.toString());
         return ResponseEntity.ok(memberService.changeMemberNickname(request.getUserid(), request.getUsernickname()));
     }
 

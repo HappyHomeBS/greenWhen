@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useContext, useState } from "react";
 import MainNavigation from "../components/Layout/MainNavigation";
-
+import AuthContext from "../store/auth-context";
 
 const HomePage = () => {
-  return <div>Home</div>
+  
+  return <div></div>;
 };
 
 export default HomePage;

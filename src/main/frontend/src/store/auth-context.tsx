@@ -103,7 +103,7 @@ export const AuthContextProvider:React.FC<Props> = (props) => {
   const changeNicknameHandler = (usernickname:string) => {
     setIsSuccess(false);
 
-    const data = authAction.changeNicknameActionHandler(usernickname, token);
+    const data = authAction.changeNicknameActionHandler(usernickname, token); //userObj.userid 를 보내면 되는게 아닐까
     data.then((result) => {
       if (result !== null) {
         const userData:UserInfo = result.data;
