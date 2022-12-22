@@ -20,4 +20,6 @@ public interface NoteMapper {
     void noteReadCheck(int no);
     //삭제
     void noteDelete(int no);
+    //보낸쪽지함
+    List<NoteVo> noteSentList(String userId);
 }

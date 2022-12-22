@@ -9,6 +9,7 @@ import AuthContext from './store/auth-context';
 import NoteListComponent from './components/Note/NoteListComponent';
 import NoteReadComponent from './components/Note/NoteReadComponent';
 import NoteWriteComponent from './components/Note/NoteWriteComponent';
+import NoteSentListComponent from './components/Note/NoteSentListComponent';
 
 
 function App() {
@@ -28,6 +29,7 @@ function App() {
         <Route path="/note/:userId" element = {<NoteListComponent/>}></Route>
         <Route path="/noteWrite" element = {<NoteWriteComponent/>}></Route>
         <Route path="/noteRead/:no" element = {<NoteReadComponent/>}> </Route>
+        <Route path="/noteSentList/:userId" element = {<NoteSentListComponent/>}></Route>
       </Routes>
     </Layout>
   );

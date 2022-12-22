@@ -62,4 +62,16 @@ public class NoteService {
          }
     }
 
+    //보낸 쪽지함
+    public List<NoteVo> noteSentList(String userId) {
+        List<NoteVo> noteList;
+        try {
+           noteList= mapper.noteSentList(userId);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        }
+        return noteList;
+    }
+
 }

@@ -1,17 +1,8 @@
 import React, {Component } from 'react';
 import NoteService from '../../service/NoteService.js';
-import { useLocation, useParams, useNavigate} from 'react-router-dom'
+import { withRouter } from './NoteListComponent';
 
-// useParams 사용을 위해 함수 HOC 생성 
-export const withRouter = (WrappedComponent) => (props) => {
-    const params=useParams();
-    const navigate = useNavigate();
-    const location = useLocation();
-    return<WrappedComponent{...props} params={params} navigate = {navigate} location={location}/>;
-};
-
-
-class NoteListComponent extends Component {
+class NoteSentListComponent extends Component {
 //생성자로 초기화하기(note:에 데이터 들어감)
     constructor(props) {
         super(props)
@@ -20,16 +11,16 @@ class NoteListComponent extends Component {
             note: []
         };
         this.noteWrite = this.noteWrite.bind(this);
-        this.noteSentList = this.noteSentList.bind(this)
+        this.noteList = this.noteList.bind(this);
     }
 
     // 컴포넌트 생성시 실행(값 세팅)
     componentDidMount(userId) {
         userId=this.props.params.userId   
         // console.log(userId)
-        NoteService.getNoteList(userId).then((res) => {
-            console.log(res.data);
+        NoteService.noteSentList(userId).then((res) => {
             this.setState({note: res.data});
+            console.log(this.state.note);
         });
     }
     
@@ -43,23 +34,22 @@ class NoteListComponent extends Component {
     noteRead(no) {
         this.props.navigate('/noteRead/'+no, {state: { userId: this.props.params.userId }})
     }
-    noteSentList(){
+    noteList(){
         console.log(this.props.params.userId)
-        this.props.navigate('/noteSentList/'+this.state.userId, {state: {userId: this.props.params.userId}})
+        this.props.navigate('/note/'+this.state.userId, {state: {userId: this.props.params.userId}})
     }
     render() {
         return (
             <div>
-                <h2 className="text-center">받은 쪽지함</h2>
-               
+                <h2 className="text-center">보낸</h2>
                 <div className ="row">
                     <table className="table table-striped table-bordered">
                         <thead>
                             <tr>
                                 <th style= {{display :"none"}}> 번  호 </th>
                                 <th> 제  목 </th>
-                                <th> 보낸사람</th>
-                                <th> 받은날짜</th>
+                                <th> 받는사람</th>
+                                <th> 보낸날짜</th>
                                 <th> 수신확인</th>
                             </tr>
                         </thead>
@@ -71,7 +61,7 @@ class NoteListComponent extends Component {
                                     <tr key = {note.no}>
                                         <td style= {{display :"none"}}>{note.no}</td>
                                         <td> <a onClick = {() => this.noteRead(note.no)}>{note.title}</a></td>
-                                        <td>{note.send}</td>
+                                        <td>{note.recept}</td>
                                         <td>{note.time}</td>
                                         <td>{note.readCheck}</td>
                                     </tr>
@@ -82,10 +72,10 @@ class NoteListComponent extends Component {
                 </div>
                 <div style={{float:"right"}}>
                     <button className="btn btn-primary" onClick={this.noteWrite}>쪽지 보내기</button>
-                    <button className="btn btn-primary" onClick={this.noteSentList.bind(this)}>보낸쪽지함</button>
+                    <button className="btn btn-primary" onClick={this.noteList.bind(this)}>받은쪽지함</button>
                 </div>
             </div>
         );
     }
 }
-export default withRouter(NoteListComponent);
+export default withRouter(NoteSentListComponent);

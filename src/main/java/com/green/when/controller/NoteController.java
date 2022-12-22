@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.SQLOutput;
 import java.util.List;
 
 //@CrossOrigin(origins = "http://localhost:3000")
@@ -44,4 +45,13 @@ public class NoteController {
     public void noteDelete(@PathVariable int no) {
         noteService.noteDelete(no);
     }
+
+//보낸 쪽지함
+    @GetMapping("/noteSentList/{userId}")
+    public List<NoteVo> noteSentList(@PathVariable String userId) {
+        List<NoteVo> noteList = noteService.noteSentList(userId);
+        System.out.println("sentNote"+noteList);
+        return noteList;
+    }
+
 }

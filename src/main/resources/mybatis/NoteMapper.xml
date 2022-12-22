@@ -26,6 +26,12 @@
         WHERE no = #{no}
     </update>
 
+<!-- 보낸쪽지함 -->
+    <select id="noteSentList" parameterType="String" resultType="NoteVo">
+        SELECT *
+        FROM note_tb
+        WHERE send = #{userId}
+    </select>
 <!--쪽지삭제-->
     <delete id="noteDelete">
         DELETE FROM note_tb
