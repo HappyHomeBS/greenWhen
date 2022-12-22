@@ -12,6 +12,6 @@
 <c:forEach var="salaryList" items="${salaryList}">
     <p><c:out value="${salaryList.userid}" /></p>
 </c:forEach>
-<div><a href="/list">member</a></div>
+<div><a href="/list">member!!!</a></div>
 </body>
 </html>
