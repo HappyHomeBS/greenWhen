@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import NoteService from '../service/NoteService';
+import NoteService from '../../service/NoteService';
 import { withRouter } from './NoteListComponent';
    
 class NoteWriteComponent extends Component {

@@ -2,9 +2,9 @@ import React, {useEffect, useState} from 'react';
 import { Container } from 'react-bootstrap';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import './App.css'
-import NoteListComponent from './components/NoteListComponent';
-import NoteWriteComponent from './components/NoteWriteComponent';
-import NoteReadComponent from './components/NoteReadComponent';
+import NoteListComponent from './components/Note/NoteListComponent';
+import NoteWriteComponent from './components/Note/NoteWriteComponent';
+import NoteReadComponent from './components/Note/NoteReadComponent';
 
 function App() {
     return(

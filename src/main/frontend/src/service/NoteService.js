@@ -1,11 +1,11 @@
 import axios from 'axios';
-const noteApiBaseUrl = `http://localhost:8080/api/`;
+const noteApiBaseUrl = `http://localhost:8080/`;
 
 
 class NoteService {
     getNoteList(userId) {
         //axios 데이터 res에 담기
-        const result = axios.get(noteApiBaseUrl+"note/"+userId);
+        const result = axios.get("/api/note/"+userId);
         return result;
     }
 

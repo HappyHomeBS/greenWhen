@@ -1,5 +1,5 @@
 import React, {Component } from 'react';
-import NoteService from '../service/NoteService.js';
+import NoteService from '../../service/NoteService.js';
 import { useLocation, useParams, useNavigate} from 'react-router-dom'
 
 // useParams 사용을 위해 함수 HOC 생성 

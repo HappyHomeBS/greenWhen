@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import NoteService from '../service/NoteService';
+import NoteService from '../../service/NoteService';
 import { withRouter } from './NoteListComponent';
 
 class NoteReadComponent extends Component {
@@ -65,6 +65,7 @@ class NoteReadComponent extends Component {
             </div>
         )
     }
+    
 }
 
 export default withRouter(NoteReadComponent)
