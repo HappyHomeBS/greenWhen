@@ -18,7 +18,7 @@
         where userid = #{userid}
     </select>
 
-    <update id="changeUserNickname">
+    <update id="changeUserNickname"  parameterType="MemberVo">
         UPDATE member_tb
         SET    usernickname = #{usernickname}
         WHERE  userid  = #{userid}

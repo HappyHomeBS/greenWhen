@@ -2,16 +2,22 @@ import React, { useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import AuthContext from '../../store/auth-context';
+import SignUpModal from '../../modals/SignUpModal'
+import SignInModal from '../../modals/SignInModal'
+import { Button, Container, Nav, Navbar } from 'react-bootstrap';
 
 
-const MainNavigation = () =>{
+const MainNavigation = () => {
 
   const authCtx = useContext(AuthContext);
   const [usernickname, setUserNickname] = useState('');
   let isLogin = authCtx.isLoggedIn;
   let isGet = authCtx.isGetSuccess;
 
-  const callback = (str:string) => {
+  const [SignUpModalOn, setSignUpModalOn] = useState(false);
+  const [SignInModalOn, setSignInModalOn] = useState(false);
+
+  const callback = (str: string) => {
     setUserNickname(str);
   }
 
@@ -19,7 +25,8 @@ const MainNavigation = () =>{
     if (isLogin) {
       console.log('start');
       authCtx.getUser();
-    } 
+      setSignInModalOn(false);
+    }
   }, [isLogin]);
 
   useEffect(() => {
@@ -34,19 +41,48 @@ const MainNavigation = () =>{
     authCtx.logout();
   }
 
-  
-  return(
-    <header>
-      <Link to='/'><div >Home</div></Link>
-      <nav>
-        <ul>
-          <li>{!isLogin && <Link to='/login'>Login</Link>}</li>
-          <li>{!isLogin && <Link to='signup'>Sign-Up</Link>}</li>
-          <li>{isLogin && <Link to='/profile'>{usernickname}</Link>}</li>
-          <li>{isLogin && <button onClick={toggleLogoutHandler}>Logout</button>}</li>
-        </ul>
-      </nav>
-    </header>
+
+  return (
+    <>
+      <SignUpModal
+        show={SignUpModalOn}
+        onHide={() => setSignUpModalOn(false)} />
+      <SignInModal
+        show={SignInModalOn}
+        onHide={() => setSignInModalOn(false)} />
+      <header>
+        <Navbar bg="light" expand="lg">
+          <Container>
+            <Navbar.Brand href="#home"><Link to='/'><div>언제갈래?</div></Link></Navbar.Brand>
+            <Navbar.Toggle aria-controls="basic-navbar-nav" />
+            <Navbar.Collapse id="basic-navbar-nav">
+              <Nav className="ml-auto">
+                <Nav.Link>
+                  <Button
+                    variant="primary"
+                    onClick={() => setSignInModalOn(true)}
+                  >
+                    Sign In
+                  </Button>
+                </Nav.Link>
+                {!isLogin && <Nav.Link> <Button variant="outline-primary" onClick={() => setSignInModalOn(true)}>Login</Button></Nav.Link>}                
+                {!isLogin && <Nav.Link> <Button variant="outline-primary" onClick={() => setSignUpModalOn(true)}>Sign-Up</Button></Nav.Link>}
+                {isLogin && <Nav.Link> <Button variant="outline-primary"><Link to='/profile'>{usernickname}</Link></Button></Nav.Link>}
+                {isLogin && <Nav.Link> <Button variant="outline-primary" onClick={toggleLogoutHandler}>Logout</Button></Nav.Link>}
+                <Nav.Link>
+                  <Button
+                    variant="secondary"
+                    onClick={() => setSignUpModalOn(true)}
+                  >
+                    Sign Up
+                  </Button>
+                </Nav.Link>
+              </Nav>
+            </Navbar.Collapse>
+          </Container>
+        </Navbar>
+      </header>
+    </>
   );
 };
 

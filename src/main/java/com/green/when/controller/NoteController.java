@@ -30,6 +30,10 @@ public class NoteController {
 //        System.out.println("writingVo"+ noteVo);
         noteService.noteWrite(noteVo);
     }
+    @GetMapping("/noteWrite1")
+    public void te() {
+    }
+
 
 //쪽지 읽기
     @GetMapping("/noteRead/{no}")

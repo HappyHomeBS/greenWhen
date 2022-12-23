@@ -19,7 +19,6 @@ public class AuthController {
 
     private final AuthService authService;
 
-
     @PostMapping("/signup")
     public void signup(@RequestBody MemberRequestDto requestDto) {
         authService.signup(requestDto);
@@ -27,21 +26,8 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<TokenDto> login(@RequestBody MemberRequestDto requestDto) {
-        System.out.println(requestDto.toString());
+        System.out.println("로그인"+requestDto.toString());
         return ResponseEntity.ok(authService.login(requestDto));
     }
 
-    @RequestMapping("/signupup")
-    public ModelAndView signup() {
-        ModelAndView mv = new ModelAndView();
-        mv.setViewName("signupup");
-        return mv;
-    }
-
-    @RequestMapping("/signinin")
-    public ModelAndView signin() {
-        ModelAndView mv = new ModelAndView();
-        mv.setViewName("signinin");
-        return mv;
-    }
 }

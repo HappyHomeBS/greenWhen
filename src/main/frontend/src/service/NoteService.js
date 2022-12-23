@@ -1,6 +1,7 @@
 import axios from 'axios';
 
 class NoteService {
+    
     getNoteList(userId) {
         //axios 데이터 res에 담기
         const result = axios.get("/api/note/"+userId);

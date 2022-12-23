@@ -18,9 +18,8 @@ public interface UserMapper {
 
     Optional<MemberVo> findByUserid(String userid);
 
-    MemberVo changeUserNickname(MemberVo memberVo);
+    void changeUserNickname(MemberVo memberVo);
 
-    MemberVo changeUserPw(MemberVo memberVo);
-
+    void changeUserPw(MemberVo memberVo);
 
 }

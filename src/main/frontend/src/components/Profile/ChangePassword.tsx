@@ -38,21 +38,21 @@ const ChangePassword = () => {
         <input 
           type='password' 
           id='ex-password'
-          minLength={8} 
+          minLength={4} 
           ref={exPasswordInputRef} 
         />
         <label htmlFor='new-password'>New Password</label>
         <input 
           type='password' 
           id='new-password'
-          minLength={8} 
+          minLength={4} 
           ref={newPasswordInputRef}
         />
         <label htmlFor='new-password'>New Password Again</label>
         <input 
           type='password' 
           id='new-password'
-          minLength={8}
+          minLength={4}
           ref={newPasswordAgainInputRef} 
         />
       </div>

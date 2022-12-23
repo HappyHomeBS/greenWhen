@@ -25,20 +25,21 @@ public class MemberService {
     }
 
     @Transactional
-    public MemberResponseDto changeMemberNickname(String userid, String usernickname) {
+    public void changeMemberNickname(String userid, String usernickname) {
         MemberVo memberVo = userMapper.findByUserid(userid).orElseThrow(() -> new RuntimeException("로그인 유저 정보가 없습니다"));
         memberVo.setNickname(usernickname);
-        return MemberResponseDto.of(userMapper.changeUserNickname(memberVo));
+        memberVo.setUserid(userid);
+        userMapper.changeUserNickname(memberVo);
     }
 
     @Transactional
-    public MemberResponseDto changeMemberPassword(String exPassword, String newPassword) {
+    public void changeMemberPassword(String exPassword, String newPassword) {
         MemberVo memberVo = userMapper.findByUserid(SecurityUtil.getCurrentMemberId()).orElseThrow(() -> new RuntimeException("로그인 유저 정보가 없습니다"));
         if (!passwordEncoder.matches(exPassword, memberVo.getUserpw())) {
             throw new RuntimeException("비밀번호가 맞지 않습니다");
         }
         memberVo.setPassword(passwordEncoder.encode((newPassword)));
-        return MemberResponseDto.of(userMapper.changeUserPw(memberVo));
+        userMapper.changeUserPw(memberVo);
     }
 
 

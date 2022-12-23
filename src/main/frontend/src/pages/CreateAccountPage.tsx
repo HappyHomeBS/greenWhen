@@ -1,5 +1,5 @@
 import React from "react";
-import CreateAccountForm from "./CreateAccountForm";
+import CreateAccountForm from "../components/Auth/CreateAccountForm";
 
 const CreateAccountPage = () => {
   return <CreateAccountForm />
