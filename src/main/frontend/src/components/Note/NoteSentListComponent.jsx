@@ -60,10 +60,10 @@ class NoteSentListComponent extends Component {
                                     note =>
                                     <tr key = {note.no}>
                                         <td style= {{display :"none"}}>{note.no}</td>
-                                        <td> <a onClick = {() => this.noteRead(note.no)}>{note.title}</a></td>
+                                        <td>{note.title}</td>
                                         <td>{note.recept}</td>
                                         <td>{note.time}</td>
-                                        <td>{note.readCheck}</td>
+                                        <td>{note.readCheckString}</td>
                                     </tr>
                                 )
                             }

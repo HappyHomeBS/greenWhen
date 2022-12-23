@@ -1,15 +1,14 @@
 package com.green.when.vo;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
+
 // 데이터 없을 때 JSON 만들지 않는설정
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Getter
 @Setter
 @AllArgsConstructor
+@NoArgsConstructor
 @ToString
 public class NoteVo {
 
@@ -20,6 +19,6 @@ public class NoteVo {
     private String title;            //제목
     private String content;          //내용
     private int readCheck;           //수신확인
-
+    private String readCheckString;  //수신확인(문자변환)
 
 }

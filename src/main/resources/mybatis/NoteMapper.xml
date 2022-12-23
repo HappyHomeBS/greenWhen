@@ -4,7 +4,15 @@
 <mapper namespace="com.green.when.mapper.NoteMapper">
 <!--목록조회-->
     <select id="getNoteList" parameterType="String" resultType="NoteVo">
-        SELECT *
+        SELECT
+            no,
+            send,
+            recept,
+            title,
+            content,
+            time,
+            CASE WHEN readcheck = 0 THEN '미확인' WHEN  readcheck = 1 THEN '확인' ELSE '오류'
+            END AS readCheckString
         FROM note_tb
         WHERE recept = #{userId}
     </select>
@@ -28,7 +36,15 @@
 
 <!-- 보낸쪽지함 -->
     <select id="noteSentList" parameterType="String" resultType="NoteVo">
-        SELECT *
+        SELECT
+            no,
+            send,
+            recept,
+            title,
+            content,
+            time,
+            CASE readcheck WHEN 0 THEN '미확인' WHEN 1 THEN '확인' ELSE '오류'
+            END AS readCheckString
         FROM note_tb
         WHERE send = #{userId}
     </select>

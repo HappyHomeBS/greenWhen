@@ -17,7 +17,9 @@ class NoteListComponent extends Component {
         super(props)
         this.state = {
             userId: this.props.params.userId,
-            note: []
+            note: [],
+            p_num: 1,
+            paging: {}
         };
         this.noteWrite = this.noteWrite.bind(this);
         this.noteSentList = this.noteSentList.bind(this)
@@ -29,10 +31,77 @@ class NoteListComponent extends Component {
         // console.log(userId)
         NoteService.getNoteList(userId).then((res) => {
             console.log(res.data);
-            this.setState({note: res.data});
+            this.setState({
+                note: res.data,
+                p_num: res.data.pagingData.currentPageNum,
+                paging: res.data.pagingData,
+                notes: res.data.list
+            });
         });
     }
     
+    //페이징 포함 리스트 호출
+    
+    listNote(p_num){
+        console.log("pageNum : " + p_num);
+        NoteService.getNoteList(p_num).then((res) => {
+            console.log(res.data);
+            this.setState({
+                p_num: res.data.pagingData.currentPageNum,
+                paging: res.data.pagigngData,
+                notes: res.data.list
+            })
+        })
+    }
+    //페이징 목록
+    viewPaging() {
+        const pageNums = [];
+        for ( let i = this.state.paging.pageNumStart; i<= this.state.paging.pageNumEnd; i++) {
+            pageNums.navigate(i)
+        }
+        return (pageNums.map((page) => 
+        <li className="page-item" key={page.toString()}>
+            <a className="page-link" onClick= {() => this.listNote(page)}>{page}</a>
+        </li>
+        ));
+    }
+
+    isPagingPrev(){
+        if(this.state.paging.prev) {
+            return (
+                <li className="page-item">
+                    <a classname="page-link" onClick = { ()=> this.listNote((this.state.paging.currentPageNum - 1) )} tabindex="-1">이전</a>
+                </li>
+            );
+        }
+    }
+    isPagingNext(){
+        if (this.state.paging.next) {
+            return (
+                <li className="page-item">
+                    <a className="page-link" onClick = { ()=> this.noteList((this.state.paging.currentPageNum +1))} tabIndex="-1">다음</a>
+                </li>
+            )
+        }
+    }
+    isMoveToFirstPage() {
+        if (this.state.p_num !=1){
+            return ( 
+                <li classNmae="page-item">
+                    <a className="page-link" onClick = {() => this.listNote(1)} tabIndex="-1">첫 페이지로</a>
+                </li>
+            )
+        }
+    }
+    isMoveToLastPage() {
+        if(this.state.p_num != this.state.paging.pageNumCountTotal) {
+            return (
+                <li className="page-item">
+                    <a className = "page - link" onClick = {() => this.listBoard((this.state.paging.pageNumCountTotal))} tabIndex="-1"> LastPage({this.state.paging.pageNumCountTotal})</a>
+                </li>
+            )
+        }
+    }
     // 쓰기 페이지 이동
     // history.push 사라지면서 navigate로 바뀜()
     noteWrite() {
@@ -73,7 +142,7 @@ class NoteListComponent extends Component {
                                         <td> <a onClick = {() => this.noteRead(note.no)}>{note.title}</a></td>
                                         <td>{note.send}</td>
                                         <td>{note.time}</td>
-                                        <td>{note.readCheck}</td>
+                                        <td>{note.readCheckString}</td>
                                     </tr>
                                 )
                             }
