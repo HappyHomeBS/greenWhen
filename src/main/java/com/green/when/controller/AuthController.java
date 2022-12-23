@@ -1,13 +1,16 @@
 package com.green.when.controller;
 
-import com.green.when.vo.MemberRequestVo;
-import com.green.when.vo.TokenVo;
+import com.green.when.dto.MemberRequestDto;
+import com.green.when.dto.MemberResponseDto;
+import com.green.when.dto.TokenDto;
 import com.green.when.service.AuthService;
-import com.green.when.vo.MailVo;
-import com.green.when.vo.MemberVo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
 
 @RestController
 @RequestMapping("/auth")
@@ -16,55 +19,15 @@ public class AuthController {
 
     private final AuthService authService;
 
-    //회원가입
     @PostMapping("/signup")
-    public void signup(@RequestBody MemberRequestVo requestVo) {
-        authService.signup(requestVo);
+    public void signup(@RequestBody MemberRequestDto requestDto) {
+        authService.signup(requestDto);
     }
 
-    //로그인
     @PostMapping("/login")
-    public ResponseEntity<TokenVo> login(@RequestBody MemberRequestVo requestVo) {
-        return ResponseEntity.ok(authService.login(requestVo));
+    public ResponseEntity<TokenDto> login(@RequestBody MemberRequestDto requestDto) {
+        System.out.println("로그인"+requestDto.toString());
+        return ResponseEntity.ok(authService.login(requestDto));
     }
-
-    // ID 중복체크
-    @PostMapping("/userCheck")
-    public int userCheck(@RequestBody MemberRequestVo requestVo) {
-        int useridCheck = authService.useridCheck(requestVo.getUserid());
-        return useridCheck;
-
-    }
-
-    // 이메일 중복체크
-    @PostMapping("/emailCheck")
-    public int emailCheck(@RequestBody MemberRequestVo requestVo) {
-        int useremailCheck = authService.useremailCheck(requestVo.getUseremail());
-        return useremailCheck;
-    }
-
-    // 닉네임 중복체크
-    @PostMapping("/nicknameCheck")
-    public int nicknameCheck(@RequestBody MemberRequestVo requestVo) {
-        int usernicknameCheck = authService.usernicknameCheck(requestVo.getUsernickname());
-        return usernicknameCheck;
-    }
-    @PostMapping("/findid")
-    public String findId(@RequestBody MemberRequestVo requestVo){
-        String userid = authService.findId(requestVo.getUseremail());
-        return userid;
-    }
-
-    // 이메일로 임시비밀번호 보내기
-    @PostMapping("/sendEmail")
-    public void sendEmail(@RequestBody MemberVo memberVo){
-        System.out.println(memberVo.getUserid());
-        String userid = memberVo.getUserid();
-        System.out.println(userid);
-        MailVo mailVo = authService.createMailAndChangePassword(userid);
-        System.out.println(mailVo.toString());
-        authService.mailSend(mailVo);
-    }
-
 
 }

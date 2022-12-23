@@ -79,6 +79,10 @@ public class NoteController {
         noteService.noteWrite(noteVo);
         return new ResponseEntity(HttpStatus.OK);
     }
+    @GetMapping("/noteWrite1")
+    public void te() {
+    }
+
 
 //쪽지 읽기
     @GetMapping("/noteRead/{no}")

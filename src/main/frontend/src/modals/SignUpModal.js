@@ -1,7 +1,6 @@
-import React, { useState, useEffect, useCallback, useContext } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import { Modal, Button, Form, Container } from 'react-bootstrap'
 import axios from 'axios'
-import AuthContext from '../store/authContext'
 
 
 const SignUpModal = ({ show, onHide }) => {
@@ -21,7 +20,6 @@ const SignUpModal = ({ show, onHide }) => {
     const [nickcolor, setNickColor] = useState();
     const [pwcolor, setPwColor] = useState();
     const [pwcheckcolor, setPwCheckColor] = useState();
-    const authCtx = useContext(AuthContext);
 
 
 
@@ -46,15 +44,19 @@ const SignUpModal = ({ show, onHide }) => {
             console.log('오류' + idCheckMsg)
         } else {
             setIdCheckMsg("");
-            console.log('정상')            
-            axios.post('/auth/userCheck', {userid: userid})
+            console.log('정상')
+            axios.get('/userCheck', {
+                params: {
+                    userid: userid
+                }
+            })
                 .then((res) => {
                     const resMessge = res.data;
                     if (resMessge === 0) {
                         setIdCheckMsg("사용 가능한 아이디입니다.");
                         setIdColor({ color: "green" });
                         console.log('정상' + idCheckMsg)
-                    } else if (resMessge >= 1) {
+                    } else if (resMessge === 1) {
                         setIdCheckMsg("이미 사용중인 아이디입니다.");
                         setIdColor({ color: "red" });
                         console.log('오류' + idCheckMsg)
@@ -113,7 +115,11 @@ const SignUpModal = ({ show, onHide }) => {
         } else {
             setNickCheckMsg("");
             console.log('정상')
-            axios.post('/auth/nicknameCheck', { usernickname: usernickname })
+            axios.get('/nicknameCheck', {
+                params: {
+                    usernickname: usernickname
+                }
+            })
                 .then((res) => {
                     const resMessge = res.data;
                     if (resMessge === 0) {
@@ -145,7 +151,11 @@ const SignUpModal = ({ show, onHide }) => {
         } else {
             setEmailCheckMsg("");
             console.log('정상')
-            axios.post('/auth/emailCheck', { useremail: useremail })
+            axios.get('/emailCheck', {
+                params: {
+                    useremail: useremail
+                }
+            })
                 .then((res) => {
                     const resMessge = res.data;
                     if (resMessge === 0) {
@@ -204,12 +214,19 @@ const SignUpModal = ({ show, onHide }) => {
             return alert('이메일 형식이 올바르지 않습니다.');
         }
 
-        authCtx.signup(
-            userid,
-            userpw,
-            usernickname,
-            useremail
-          );
+        axios
+            .post("/signup", {
+                userid: userid,
+                userpw: userpw,
+                usernickname: usernickname,
+                useremail: useremail,
+            })
+            .then((response) => {
+                console.log(response.data);
+            })
+            .catch((error) => {
+                console.log(error);
+            });
     }
 
     return (
