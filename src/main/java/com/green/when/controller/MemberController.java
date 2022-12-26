@@ -21,7 +21,6 @@ public class MemberController {
     @GetMapping("/me")
     public ResponseEntity<MemberResponseDto> getMyMemberInfo() {
         MemberResponseDto myInfoBySecurity = memberService.getMyInfoBySecurity();
-        System.out.println(myInfoBySecurity.getUsernickname());
         return ResponseEntity.ok((myInfoBySecurity));
         // return ResponseEntity.ok(memberService.getMyInfoBySecurity());
     }
@@ -31,8 +30,6 @@ public class MemberController {
 //        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 //        String userid = authentication.getName();
         String userid = SecurityUtil.getCurrentMemberId();
-        System.out.println(userid);
-        System.out.println(request.toString());
         memberService.changeMemberNickname(userid, request.getUsernickname());
     }
 

@@ -56,15 +56,7 @@ const MainNavigation = () => {
             <Navbar.Brand href="#home"><Link to='/'><div>언제갈래?</div></Link></Navbar.Brand>
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
-              <Nav className="ml-auto">
-                <Nav.Link>
-                  <Button
-                    variant="primary"
-                    onClick={() => setSignInModalOn(true)}
-                  >
-                    Sign In
-                  </Button>
-                </Nav.Link>
+              <Nav className="ml-auto">     
                 {!isLogin && <Nav.Link> <Button variant="outline-primary" onClick={() => setSignInModalOn(true)}>Login</Button></Nav.Link>}                
                 {!isLogin && <Nav.Link> <Button variant="outline-primary" onClick={() => setSignUpModalOn(true)}>Sign-Up</Button></Nav.Link>}
                 {isLogin && <Nav.Link> <Button variant="outline-primary"><Link to='/profile'>{usernickname}</Link></Button></Nav.Link>}

@@ -30,5 +30,41 @@
         WHERE  userid  = #{userid}
     </update>
 
+    <select id="useridCheck" resultType="Integer">
+        SELECT count(*)
+        FROM   member_tb
+        WHERE  userid = #{userid}
+    </select>
+
+    <select id="usernicknameCheck" resultType="Integer">
+        SELECT count(*)
+        FROM   member_tb
+        WHERE  usernickname = #{usernickname}
+    </select>
+
+    <select id="useremailCheck" resultType="Integer">
+        SELECT count(*)
+        FROM   member_tb
+        WHERE  useremail = #{useremail}
+    </select>
+
+    <select id="findId" resultType="String">
+        SELECT userid
+        FROM   member_tb
+        WHERE  useremail = #{useremail}
+    </select>
+
+    <select id="findUseremail" resultType="String">
+        SELECT useremail
+        FROM   member_tb
+        WHERE  userid = #{userid}
+    </select>
+
+    <update id="updatePassword">
+        UPDATE member_tb
+        SET userpw = #{userpw}
+        WHERE useremail = #{useremail}
+    </update>
+
 
 </mapper>

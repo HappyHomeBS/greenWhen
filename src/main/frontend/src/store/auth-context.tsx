@@ -78,6 +78,22 @@ export const AuthContextProvider:React.FC<Props> = (props) => {
     })
   };
 
+  const fidnIdHandler = (useremail: string) => {
+    setIsSuccess(false);
+    console.log(isSuccess);
+
+    const data = authAction.findIdActionHandler(useremail);
+    data.then((result) => {
+      if (result !== null) {      
+        alert("아이디는 " + result + " 입니다.")
+        const userData:UserInfo = result.data;
+        setUserObj(userData);
+        setIsSuccess(true);   
+        console.log(isSuccess);
+      }
+    })
+  };
+
   const logoutHandler = useCallback(() => {
     setToken('');
     authAction.logoutActionHandler();
@@ -140,6 +156,7 @@ export const AuthContextProvider:React.FC<Props> = (props) => {
     isGetSuccess,
     signup: signupHandler,
     login: loginHandler,
+    findId: fidnIdHandler,
     logout: logoutHandler,
     getUser: getUserHandler,
     changeNickname: changeNicknameHandler,
