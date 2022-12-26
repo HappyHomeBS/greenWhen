@@ -3,21 +3,11 @@ import MainNavigation from "../components/Layout/MainNavigation";
 import AuthContext from "../store/auth-context";
 
 
+
 const HomePage = () => {
   const authCtx = useContext(AuthContext);
   const userid = authCtx.userObj.userid;
-  const usernickname = authCtx.userObj.usernickname;
-  const token = authCtx.token;
-
-  const createTokenHeader = (token:string) => {
-    return {
-      headers: {
-        'Authorization': 'Bearer ' + token        
-      }
-    }
-  }
-
-  const header = createTokenHeader(token)
+  const usernickname = authCtx.userObj.usernickname;  
 
   return (
     <div>

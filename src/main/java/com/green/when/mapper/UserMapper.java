@@ -4,7 +4,9 @@ package com.green.when.mapper;
 import com.green.when.vo.MemberVo;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
+import org.springframework.ui.Model;
 
+import java.util.HashMap;
 import java.util.Optional;
 
 //기존 DaoImpl 대신 mapper와 다이렉트 연결
@@ -22,4 +24,15 @@ public interface UserMapper {
 
     void changeUserPw(MemberVo memberVo);
 
+    int useridCheck(String userid);
+
+    int useremailCheck(String useremail);
+
+    int usernicknameCheck(String usernickname);
+
+    String findId(String useremail);
+
+    void updatePassword(HashMap map);
+
+    String findUseremail(String userid);
 }
