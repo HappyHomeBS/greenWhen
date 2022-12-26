@@ -57,6 +57,13 @@ export const loginActionHandler = (userid:string, userpw: string) => {
   return response;
 };
 
+export const findIdActionHandler = (useremail:string) => {
+  const URL = '/auth/findid';  
+  const response = GET(URL, useremail);
+
+  return response;
+};
+
 export const logoutActionHandler = () => {
   localStorage.removeItem('token');
   localStorage.removeItem('expirationTime');

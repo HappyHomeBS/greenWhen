@@ -1,6 +1,7 @@
-import React, { useState, useEffect, useCallback } from 'react'
+import React, { useState, useEffect, useCallback, useContext } from 'react'
 import { Modal, Button, Form, Container } from 'react-bootstrap'
 import axios from 'axios'
+import AuthContext from '../store/auth-context'
 
 
 const SignUpModal = ({ show, onHide }) => {
@@ -20,6 +21,7 @@ const SignUpModal = ({ show, onHide }) => {
     const [nickcolor, setNickColor] = useState();
     const [pwcolor, setPwColor] = useState();
     const [pwcheckcolor, setPwCheckColor] = useState();
+    const authCtx = useContext(AuthContext);
 
 
 
@@ -45,7 +47,7 @@ const SignUpModal = ({ show, onHide }) => {
         } else {
             setIdCheckMsg("");
             console.log('정상')
-            axios.get('/userCheck', {
+            axios.get('/auth/userCheck', {
                 params: {
                     userid: userid
                 }
@@ -115,7 +117,7 @@ const SignUpModal = ({ show, onHide }) => {
         } else {
             setNickCheckMsg("");
             console.log('정상')
-            axios.get('/nicknameCheck', {
+            axios.get('/auth/nicknameCheck', {
                 params: {
                     usernickname: usernickname
                 }
@@ -151,7 +153,7 @@ const SignUpModal = ({ show, onHide }) => {
         } else {
             setEmailCheckMsg("");
             console.log('정상')
-            axios.get('/emailCheck', {
+            axios.get('/auth/emailCheck', {
                 params: {
                     useremail: useremail
                 }
@@ -214,19 +216,12 @@ const SignUpModal = ({ show, onHide }) => {
             return alert('이메일 형식이 올바르지 않습니다.');
         }
 
-        axios
-            .post("/signup", {
-                userid: userid,
-                userpw: userpw,
-                usernickname: usernickname,
-                useremail: useremail,
-            })
-            .then((response) => {
-                console.log(response.data);
-            })
-            .catch((error) => {
-                console.log(error);
-            });
+        authCtx.signup(
+            userid,
+            userpw,
+            usernickname,
+            useremail
+          );
     }
 
     return (

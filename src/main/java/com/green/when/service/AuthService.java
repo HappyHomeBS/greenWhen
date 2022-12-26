@@ -1,12 +1,13 @@
 package com.green.when.service;
 
-import com.green.when.vo.MemberRequestVo;
-import com.green.when.vo.TokenVo;
+import com.green.when.dto.MemberRequestDto;
+import com.green.when.dto.TokenDto;
 import com.green.when.jwt.TokenProvider;
 import com.green.when.mapper.UserMapper;
 import com.green.when.vo.MailVo;
 import com.green.when.vo.MemberVo;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -15,8 +16,10 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.ui.Model;
 
 import java.util.HashMap;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -26,9 +29,10 @@ public class AuthService {
     private final AuthenticationManagerBuilder managerBuilder;
     private final PasswordEncoder passwordEncoder;
     private final TokenProvider tokenProvider;
-    private final MailSender mailSender;
+    @Autowired
+    private MailSender mailSender;
 
-    public void signup(MemberRequestVo requestDto) {
+    public void signup(MemberRequestDto requestDto) {
         if (userMapper.userCheck(requestDto.getUserid())) {
             throw new RuntimeException("이미 가입되어 있는 유저입니다");
         }
@@ -38,7 +42,7 @@ public class AuthService {
         userMapper.signup(memberVo);
     }
 
-    public TokenVo login(MemberRequestVo requestDto) {
+    public TokenDto login(MemberRequestDto requestDto) {
         UsernamePasswordAuthenticationToken authenticationToken = requestDto.toAuthentication();
         Authentication authentication = managerBuilder.getObject().authenticate(authenticationToken);
         System.out.println("로그인" + authentication);
@@ -46,24 +50,15 @@ public class AuthService {
     }
 
     public int useridCheck(String userid) {
-        int deleteUser = userMapper.deleteUserCheck(userid);
-        int newUserCheck = userMapper.useridCheck(userid);
-        int userIdCheck = deleteUser + newUserCheck;
-        return userIdCheck;
+        return userMapper.useridCheck(userid);
     }
 
     public int useremailCheck(String useremail) {
-        int deleteEmail = userMapper.deleteEmailCheck(useremail);
-        int newEmail = userMapper.newEmailCheck(useremail);
-        int emailCheck = deleteEmail + newEmail;
-        return emailCheck;
+        return userMapper.useremailCheck(useremail);
     }
 
     public int usernicknameCheck(String usernickname) {
-        int deleteNickname = userMapper.deleteNickname(usernickname);
-        int newNickname = userMapper.newNickname(usernickname);
-        int nicknameCheck = deleteNickname + newNickname;
-        return nicknameCheck;
+        return userMapper.usernicknameCheck(usernickname);
     }
 
     public String findId(String useremail) {
@@ -101,9 +96,8 @@ public class AuthService {
         String userpw = passwordEncoder.encode(pw);
         System.out.println(userpw);
         HashMap map = new HashMap<>();
-        map.put("userpw", userpw);
-        map.put("useremail", useremail);
-        System.out.println(map);
+        map.get(userpw);
+        map.get(useremail);
         userMapper.updatePassword(map);
         return mailVo;
     }
@@ -115,8 +109,8 @@ public class AuthService {
         message.setTo(mailVo.getAddress());
         message.setSubject(mailVo.getTitle());
         message.setText(mailVo.getMessage());
-        message.setFrom("greenwhen2@gmail.com");
-        message.setReplyTo("greenwhen2@gmail.com");
+        message.setFrom("보낸이@naver.com");
+        message.setReplyTo("보낸이@naver.com");
         System.out.println("message"+message);
         mailSender.send(message);
     }
