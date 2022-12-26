@@ -18,36 +18,40 @@ class NoteListComponent extends Component {
         this.state = {
             userId: this.props.params.userId,
             note: [],
-            p_num: 1,
+            num: 1,
             paging: {}
         };
         this.noteWrite = this.noteWrite.bind(this);
         this.noteSentList = this.noteSentList.bind(this)
+        console.log(this.state.num)
     }
 
     // 컴포넌트 생성시 실행(값 세팅)
     componentDidMount(userId) {
         userId=this.props.params.userId   
+        var num=this.state.num;
         // console.log(userId)
-        NoteService.getNoteList(userId).then((res) => {
+        NoteService.getNoteList(userId, num).then((res) => {
             console.log(res.data);
             this.setState({
-                note: res.data,
-                p_num: res.data.pagingData.currentPageNum,
+                note: res.data.noteList,
+                num: res.data.pagingData.num,
                 paging: res.data.pagingData,
-                notes: res.data.list
+                notes: res.data.noteList
             });
         });
     }
     
     //페이징 포함 리스트 호출
     
-    listNote(p_num){
-        console.log("pageNum : " + p_num);
-        NoteService.getNoteList(p_num).then((res) => {
+    listNote(page){
+        var userId=this.state.userId;
+        var num = page;
+        console.log("pageNum : " + num);
+        NoteService.getNoteList(userId, num).then((res) => {
             console.log(res.data);
             this.setState({
-                p_num: res.data.pagingData.currentPageNum,
+                num: res.data.pagingData.num,
                 paging: res.data.pagigngData,
                 notes: res.data.list
             })
@@ -56,8 +60,8 @@ class NoteListComponent extends Component {
     //페이징 목록
     viewPaging() {
         const pageNums = [];
-        for ( let i = this.state.paging.pageNumStart; i<= this.state.paging.pageNumEnd; i++) {
-            pageNums.navigate(i)
+        for ( let i = this.state.paging.startPageNum; i<= this.state.paging.endPageNum; i++) {
+            pageNums.push(i)
         }
         return (pageNums.map((page) => 
         <li className="page-item" key={page.toString()}>
@@ -70,7 +74,7 @@ class NoteListComponent extends Component {
         if(this.state.paging.prev) {
             return (
                 <li className="page-item">
-                    <a classname="page-link" onClick = { ()=> this.listNote((this.state.paging.currentPageNum - 1) )} tabindex="-1">이전</a>
+                    <a classname="page-link" onClick = { ()=> this.listNote((this.state.paging.num - 1) )} tabindex="-1">이전</a>
                 </li>
             );
         }
@@ -79,13 +83,13 @@ class NoteListComponent extends Component {
         if (this.state.paging.next) {
             return (
                 <li className="page-item">
-                    <a className="page-link" onClick = { ()=> this.noteList((this.state.paging.currentPageNum +1))} tabIndex="-1">다음</a>
+                    <a className="page-link" onClick = { ()=> this.noteList((this.state.paging.num +1))} tabIndex="-1">다음</a>
                 </li>
             )
         }
     }
     isMoveToFirstPage() {
-        if (this.state.p_num !=1){
+        if (this.state.num !==1){
             return ( 
                 <li classNmae="page-item">
                     <a className="page-link" onClick = {() => this.listNote(1)} tabIndex="-1">첫 페이지로</a>
@@ -94,10 +98,10 @@ class NoteListComponent extends Component {
         }
     }
     isMoveToLastPage() {
-        if(this.state.p_num != this.state.paging.pageNumCountTotal) {
+        if(this.state.paging.endPageNum !== this.state.paging.lastPage) {
             return (
                 <li className="page-item">
-                    <a className = "page - link" onClick = {() => this.listBoard((this.state.paging.pageNumCountTotal))} tabIndex="-1"> LastPage({this.state.paging.pageNumCountTotal})</a>
+                    <a className = "page - link" onClick = {() => this.listBoard((this.state.paging.lastPage))} tabIndex="-1"> 마지막페이지로({this.state.paging.lastPage})</a>
                 </li>
             )
         }
@@ -152,6 +156,27 @@ class NoteListComponent extends Component {
                 <div style={{float:"right"}}>
                     <button className="btn btn-primary" onClick={this.noteWrite}>쪽지 보내기</button>
                     <button className="btn btn-primary" onClick={this.noteSentList.bind(this)}>보낸쪽지함</button>
+                </div>
+                <div className="row">
+                    <nav aria-label="Page navigation example">
+                        <ul className="pagingation justify-content-center">
+                            {
+                                this.isMoveToFirstPage()
+                            }
+                            {
+                                this.isPagingPrev()
+                            }
+                            {
+                                this.viewPaging()
+                            }
+                            {
+                                this.isPagingNext()
+                            }
+                            {
+                                this.isMoveToLastPage()
+                            }
+                        </ul>
+                    </nav>
                 </div>
             </div>
         );

@@ -5,6 +5,7 @@ import com.green.when.vo.NoteVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
 
 @Service
@@ -21,6 +22,31 @@ public class NoteService {
              throw e;
          }
             return noteList;
+    }
+    public int noteCount(String userId){
+        try{
+            return mapper.noteCount(userId) ;
+        }catch(Exception e){
+            e.printStackTrace();
+            throw e;
+        }
+    }
+    //리스트 조회 페이징
+    public List<NoteVo> noteListPage(String userId, int displayPost, int postNum) {
+        HashMap data = new HashMap();
+
+        data.put("userId", userId);
+        data.put("displayPost", displayPost);
+        data.put("postNum", postNum);
+
+        List<NoteVo> noteList;
+        try{
+            noteList = mapper.noteListPage(data);
+        } catch(Exception e) {
+            e.printStackTrace();
+            throw e;
+        }
+        return noteList;
     }
     //쓰기
     public void noteWrite(NoteVo noteVo) {

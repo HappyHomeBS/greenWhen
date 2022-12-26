@@ -4,6 +4,7 @@ import com.green.when.vo.NoteVo;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
+import java.util.HashMap;
 import java.util.List;
 
 @Repository
@@ -12,6 +13,8 @@ import java.util.List;
 public interface NoteMapper {
     //리스트 조회
     List<NoteVo> getNoteList(String userId);
+    //페이징 리스트 조회
+    List<NoteVo> noteListPage(HashMap data);
     //쓰기
     void noteWrite(NoteVo noteVo);
     //읽기
@@ -22,4 +25,7 @@ public interface NoteMapper {
     void noteDelete(int no);
     //보낸쪽지함
     List<NoteVo> noteSentList(String userId);
+
+    int noteCount(String userId);
+
 }

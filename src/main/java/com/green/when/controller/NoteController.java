@@ -1,10 +1,16 @@
 package com.green.when.controller;
 import com.green.when.service.NoteService;
 import com.green.when.vo.NoteVo;
+import com.green.when.vo.PageVo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RequiredArgsConstructor
 @RestController
@@ -14,14 +20,29 @@ public class NoteController {
     NoteService noteService;
 //  쪽지 리스트 출력
     @GetMapping("/note/{userId}")
-    public List<NoteVo> noteList(@PathVariable String userId) {
+    public ResponseEntity<Map> noteList(@PathVariable String userId,@RequestParam(value = "num", required=false) int num) {
+
+        //페이징 계산
+        PageVo page = new PageVo();
+        page.setNum(num);
+        page.setCount(noteService.noteCount(userId));
+
         System.out.println("userid:"+userId);
         System.out.println("testing!");
-        List<NoteVo> noteList = noteService.getNoteList(userId);
-        System.out.println(noteList);
-        return noteList;
-    }
+        //쪽지 목록 가져오기
+        List<NoteVo>noteList = noteService.noteListPage(userId, page.getDisplayPost(), page.getPostNum());
 
+        //map에 전달
+        Map result = new HashMap<>();
+
+        result.put("pagingData", page);
+        result.put("noteList", noteList);
+
+        System.out.println(result);
+
+        return ResponseEntity.ok(result);
+    }
+// 쪽지 리스트 출력 ( 리스트 )
 // 쪽지 쓰기
     @PostMapping("/noteWrite")
     public void noteWrite(@RequestBody NoteVo noteVo) {
