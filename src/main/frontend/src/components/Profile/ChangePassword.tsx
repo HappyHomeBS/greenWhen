@@ -1,6 +1,6 @@
 import React, { useContext, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import AuthContext from '../../store/auth-context';
+import AuthContext from '../../store/authContext';
 
 
 const ChangePassword = () => {

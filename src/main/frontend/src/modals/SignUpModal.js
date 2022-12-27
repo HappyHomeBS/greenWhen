@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback, useContext } from 'react'
 import { Modal, Button, Form, Container } from 'react-bootstrap'
 import axios from 'axios'
-import AuthContext from '../store/auth-context'
+import AuthContext from '../store/authContext'
 
 
 const SignUpModal = ({ show, onHide }) => {

@@ -1,9 +1,10 @@
 package com.green.when.controller;
 
-import com.green.when.dto.MemberRequestDto;
-import com.green.when.dto.TokenDto;
+import com.green.when.vo.MemberRequestVo;
+import com.green.when.vo.TokenVo;
 import com.green.when.service.AuthService;
 import com.green.when.vo.MailVo;
+import com.green.when.vo.MemberVo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,13 +18,13 @@ public class AuthController {
 
     //회원가입
     @PostMapping("/signup")
-    public void signup(@RequestBody MemberRequestDto requestDto) {
+    public void signup(@RequestBody MemberRequestVo requestDto) {
         authService.signup(requestDto);
     }
 
     //로그인
     @PostMapping("/login")
-    public ResponseEntity<TokenDto> login(@RequestBody MemberRequestDto requestDto) {
+    public ResponseEntity<TokenVo> login(@RequestBody MemberRequestVo requestDto) {
         return ResponseEntity.ok(authService.login(requestDto));
     }
 
@@ -60,7 +61,9 @@ public class AuthController {
 
     // 이메일로 임시비밀번호 보내기
     @PostMapping("/sendEmail")
-    public void sendEmail(@RequestBody String userid){
+    public void sendEmail(@RequestBody MemberVo memberVo){
+        System.out.println(memberVo.getUserid());
+        String userid = memberVo.getUserid();
         System.out.println(userid);
         MailVo mailVo = authService.createMailAndChangePassword(userid);
         System.out.println(mailVo.toString());
