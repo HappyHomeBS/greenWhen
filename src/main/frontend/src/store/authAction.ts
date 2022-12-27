@@ -16,22 +16,22 @@ const calculateRemainingTime = (expirationTime:number) => {
 };
 
 export const loginTokenHandler = (token:string, expirationTime:number) => {
-  sessionStorage.setItem('token', token);
-  sessionStorage.setItem('expirationTime', String(expirationTime));
+  localStorage.setItem('token', token);
+  localStorage.setItem('expirationTime', String(expirationTime));
 
   const remainingTime = calculateRemainingTime(expirationTime);
   return remainingTime;
 }
 
 export const retrieveStoredToken = () => {
-  const storedToken = sessionStorage.getItem('token');
-  const storedExpirationDate = sessionStorage.getItem('expirationTime') || '0';
+  const storedToken = localStorage.getItem('token');
+  const storedExpirationDate = localStorage.getItem('expirationTime') || '0';
 
   const remaingTime = calculateRemainingTime(+ storedExpirationDate);
 
   if(remaingTime <= 1000) {
-    sessionStorage.removeItem('token');
-    sessionStorage.removeItem('expirationTime');
+    localStorage.removeItem('token');
+    localStorage.removeItem('expirationTime');
     return null
   }
 
@@ -65,8 +65,8 @@ export const findIdActionHandler = (useremail:string) => {
 };
 
 export const logoutActionHandler = () => {
-  sessionStorage.removeItem('token');
-  sessionStorage.removeItem('expirationTime');
+  localStorage.removeItem('token');
+  localStorage.removeItem('expirationTime');
 };
 
 export const getUserActionHandler = (token:string) => {
@@ -91,27 +91,5 @@ export const changePasswordActionHandler = (
   const URL = '/member/password';
   const changePasswordObj = { exPassword, newPassword }
   const response = POST(URL, changePasswordObj, createTokenHeader(token));
-  return response;
-}
-
-export const profileImgActionHandler = ( file:string, token: string) => {
-  const URL = '/member/profileImg';
-  const formData = new FormData();
-  formData.append('file', file);
-  const response = POST(URL, formData, createTokenHeader(token));
-  return response;
-}
-
-export const userDeleteActionHandler = ( userid:string, useremail:string, usernickname:string, token: string ) => {
-  const URL = '/admin/userDelete';
-  const userDeleteObj = { userid, useremail, usernickname }  
-  const response = POST(URL, userDeleteObj, createTokenHeader(token));
-  return response;
-}
-
-export const roleChangeActionHandler = ( role:string, userid:string, token: string ) => {
-  const URL = '/admin/roleChange';
-  const roleChangeObj = { role, userid }  
-  const response = POST(URL, roleChangeObj, createTokenHeader(token));
   return response;
 }
