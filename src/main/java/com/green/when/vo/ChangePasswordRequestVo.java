@@ -1,4 +1,4 @@
-package com.green.when.dto;
+package com.green.when.vo;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class ChangePasswordRequestDto {
+public class ChangePasswordRequestVo {
     private String email;
     private String exPassword;
     private String newPassword;

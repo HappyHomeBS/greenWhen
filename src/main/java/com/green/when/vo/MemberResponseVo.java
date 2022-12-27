@@ -1,6 +1,5 @@
-package com.green.when.dto;
+package com.green.when.vo;
 
-import com.green.when.vo.MemberVo;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -10,13 +9,13 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class MemberResponseDto {
+public class MemberResponseVo {
     private String userid;
     private String usernickname;
     private String useremail;
 
-    public static MemberResponseDto of(MemberVo memberVo) {
-        return MemberResponseDto.builder()
+    public static MemberResponseVo of(MemberVo memberVo) {
+        return MemberResponseVo.builder()
                 .userid(memberVo.getUserid())
                 .usernickname(memberVo.getUsernickname())
                 .useremail(memberVo.getUseremail())

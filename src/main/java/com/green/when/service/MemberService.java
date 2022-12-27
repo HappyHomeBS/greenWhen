@@ -1,7 +1,7 @@
 package com.green.when.service;
 
 import com.green.when.config.SecurityUtil;
-import com.green.when.dto.MemberResponseDto;
+import com.green.when.vo.MemberResponseVo;
 import com.green.when.vo.MemberVo;
 import com.green.when.mapper.UserMapper;
 import lombok.RequiredArgsConstructor;
@@ -18,9 +18,9 @@ public class MemberService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    public MemberResponseDto getMyInfoBySecurity() {
+    public MemberResponseVo getMyInfoBySecurity() {
         return userMapper.findByUserid(SecurityUtil.getCurrentMemberId())
-                .map(MemberResponseDto::of)
+                .map(MemberResponseVo::of)
                 .orElseThrow(() -> new RuntimeException("로그인 유저 정보가 없습니다"));
     }
 

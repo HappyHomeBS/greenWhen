@@ -1,34 +1,40 @@
 import React, { useRef, useState, useContext } from 'react'
 import { Modal, Button, Form, Container } from 'react-bootstrap'
 import { useNavigate } from 'react-router-dom';
-import AuthContext from '../store/auth-context';
+import AuthContext from '../store/authContext';
 import FindIdModal from './FindIdModal';
 import FindPwModal from './FindPwModal';
 
 
-const SignInModal = ({ show, onHide }: {
-    show: any;
-    onHide: any;
-}): JSX.Element => {
+const SignInModal = ({ show, onHide }) => {
 
-    const useridInputRef = useRef<HTMLInputElement>(null);
-    const userpwInputRef = useRef<HTMLInputElement>(null);
+
     const [FindIdModalOn, setFindIdModalOn] = useState(false);
     const [FindPwModalOn, setFindPwModalOn] = useState(false);
-
+    const [userid, setUserid] = useState(false);
+    const [userpw, setUserpw] = useState(false);
 
     let navigate = useNavigate();
     const [isLoading, setIsLoading] = useState(false);
     const authCtx = useContext(AuthContext);
 
-    const submitHandler = async (event: React.FormEvent) => {
+    const handleChange_userid = (e) => {
+      e.preventDefault();
+      setUserid(e.target.value);
+      console.log("오류" + userid);
+    }
+
+    const handleChange_userpw = (e) => {
+      e.preventDefault();
+      setUserpw(e.target.value);
+      console.log("오류" + userid);
+    }
+
+    const submitHandler = async (event) => {
         event.preventDefault();
 
-        const enteredUserid = useridInputRef.current!.value;
-        const enteredUserpw = userpwInputRef.current!.value;
-
         setIsLoading(true);
-        authCtx.login(enteredUserid, enteredUserpw);
+        authCtx.login(userid, userpw);
         setIsLoading(false);
 
         if (authCtx.isSuccess) {
@@ -61,12 +67,12 @@ const SignInModal = ({ show, onHide }: {
                         <Form onSubmit={submitHandler}>
                             <Form.Group className="my-3">
                                 <Form.Label>아이디</Form.Label>
-                                <Form.Control type="text" id='userid' required ref={useridInputRef} placeholder="아이디를 입력하세요" />
+                                <Form.Control type="text" id='userid' value={userid || ""} onChange={handleChange_userid} placeholder="아이디를 입력하세요" />
                             </Form.Group>
 
                             <Form.Group className="my-3">
                                 <Form.Label>비밀번호</Form.Label>
-                                <Form.Control type="password" id='userpw' required ref={userpwInputRef} placeholder="비밀번호를 입력하세요" />
+                                <Form.Control type="password" id='userpw' value={userpw || ""} onChange={handleChange_userpw} placeholder="비밀번호를 입력하세요" />
                             </Form.Group>
 
                             <Form.Group className="my-3">

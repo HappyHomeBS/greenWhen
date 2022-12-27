@@ -1,6 +1,6 @@
 package com.green.when.jwt;
 
-import com.green.when.dto.TokenDto;
+import com.green.when.vo.TokenVo;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
@@ -38,7 +38,7 @@ public class TokenProvider {
 
 
     // 토큰 생성
-    public TokenDto generateTokenDto(Authentication authentication) {
+    public TokenVo generateTokenDto(Authentication authentication) {
 
         String authorities = authentication.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
@@ -58,7 +58,7 @@ public class TokenProvider {
                 .signWith(key, SignatureAlgorithm.HS512)
                 .compact();
 
-        return TokenDto.builder()
+        return TokenVo.builder()
                 .grantType(BEARER_TYPE)
                 .accessToken(accessToken)
                 .tokenExpiresIn(tokenExpiresIn.getTime())

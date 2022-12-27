@@ -1,10 +1,11 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
-import AuthContext from '../../store/auth-context';
+import AuthContext from '../../store/authContext';
 import SignUpModal from '../../modals/SignUpModal'
-import SignInModal from '../../modals/SignInModal'
+
 import { Button, Container, Nav, Navbar } from 'react-bootstrap';
+import SignInModal from '../../modals/SignInModal';
 
 
 const MainNavigation = () => {
@@ -61,14 +62,6 @@ const MainNavigation = () => {
                 {!isLogin && <Nav.Link> <Button variant="outline-primary" onClick={() => setSignUpModalOn(true)}>Sign-Up</Button></Nav.Link>}
                 {isLogin && <Nav.Link> <Button variant="outline-primary"><Link to='/profile'>{usernickname}</Link></Button></Nav.Link>}
                 {isLogin && <Nav.Link> <Button variant="outline-primary" onClick={toggleLogoutHandler}>Logout</Button></Nav.Link>}
-                <Nav.Link>
-                  <Button
-                    variant="secondary"
-                    onClick={() => setSignUpModalOn(true)}
-                  >
-                    Sign Up
-                  </Button>
-                </Nav.Link>
               </Nav>
             </Navbar.Collapse>
           </Container>

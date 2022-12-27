@@ -1,7 +1,5 @@
-package com.green.when.dto;
+package com.green.when.vo;
 
-import com.green.when.vo.Authority;
-import com.green.when.vo.MemberVo;
 import lombok.*;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -12,7 +10,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @NoArgsConstructor
 @Builder
 @ToString
-public class MemberRequestDto {
+public class MemberRequestVo {
     private String userid;
     private String userpw;
     private String usernickname;

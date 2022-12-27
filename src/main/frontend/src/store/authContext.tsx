@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
-import * as authAction from './auth-action'; 
+import * as authAction from './authAction'; 
 
 let logoutTimer: NodeJS.Timeout;
 

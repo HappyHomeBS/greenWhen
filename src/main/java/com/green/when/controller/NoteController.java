@@ -1,4 +1,5 @@
 package com.green.when.controller;
+import com.green.when.config.SecurityUtil;
 import com.green.when.service.NoteService;
 import com.green.when.vo.NoteVo;
 import lombok.RequiredArgsConstructor;
@@ -15,12 +16,13 @@ public class NoteController {
     @Autowired
     NoteService noteService;
 //  쪽지 리스트 출력
-    @GetMapping("/note/{userId}")
-    public List<NoteVo> noteList(@PathVariable String userId) {
+    @GetMapping("/note")
+    public List<NoteVo> noteList() {
+        String userId = SecurityUtil.getCurrentMemberId();
         System.out.println("userid:"+userId);
         System.out.println("testing!");
         List<NoteVo> noteList = noteService.getNoteList(userId);
-        System.out.println(noteList);
+        System.out.println("없음" + noteList);
         return noteList;
     }
 

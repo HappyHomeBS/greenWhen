@@ -1,4 +1,4 @@
-package com.green.when.dto;
+package com.green.when.vo;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class TokenDto {
+public class TokenVo {
     private String grantType;
     private String accessToken;
     private Long tokenExpiresIn;
