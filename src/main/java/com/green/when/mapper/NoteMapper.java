@@ -24,8 +24,9 @@ public interface NoteMapper {
     //삭제
     void noteDelete(int no);
     //보낸쪽지함
-    List<NoteVo> noteSentList(String userId);
-
+    List<NoteVo> noteSentList(HashMap data);
+    //페이징을 위한 카운트
     int noteCount(String userId);
+    int noteSentCount(String userId);
 
 }

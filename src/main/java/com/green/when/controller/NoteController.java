@@ -66,10 +66,26 @@ public class NoteController {
 
 //보낸 쪽지함
     @GetMapping("/noteSentList/{userId}")
-    public List<NoteVo> noteSentList(@PathVariable String userId) {
-        List<NoteVo> noteList = noteService.noteSentList(userId);
-        System.out.println("sentNote"+noteList);
-        return noteList;
+    public ResponseEntity<Map> noteSentList(@PathVariable String userId,@RequestParam(value = "num", required=false) int num) {
+        //페이징 계산
+        PageVo page = new PageVo();
+        page.setNum(num);
+        page.setCount(noteService.noteSentCount(userId));
+
+        System.out.println("userid:"+userId);
+        System.out.println("testing!");
+        //쪽지 목록 가져오기
+        List<NoteVo>noteList = noteService.noteSentList(userId, page.getDisplayPost(), page.getPostNum());
+
+        //map에 전달
+        Map result = new HashMap<>();
+
+        result.put("pagingData", page);
+        result.put("noteList", noteList);
+
+        System.out.println(result);
+
+        return ResponseEntity.ok(result);
     }
 
 }

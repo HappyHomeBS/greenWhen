@@ -22,8 +22,8 @@ class NoteService {
         let res = axios.delete("/api/noteDelete/"+no)
         return res;
     }
-    noteSentList(userId) {
-        let res = axios.get("/api/noteSentList/"+userId)
+    noteSentList(userId, num) {
+        let res = axios.get("/api/noteSentList/"+userId+"?num="+num)
         console.log("응답")
         console.log(res.data)
         return res;

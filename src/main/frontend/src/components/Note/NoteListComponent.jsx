@@ -23,39 +23,39 @@ class NoteListComponent extends Component {
         };
         this.noteWrite = this.noteWrite.bind(this);
         this.noteSentList = this.noteSentList.bind(this)
-        console.log(this.state.num)
     }
 
     // 컴포넌트 생성시 실행(값 세팅)
-    componentDidMount(userId) {
-        userId=this.props.params.userId   
+    componentDidMount() {
+        var userId=this.props.params.userId   
         var num=this.state.num;
-        // console.log(userId)
         NoteService.getNoteList(userId, num).then((res) => {
             console.log(res.data);
             this.setState({
                 note: res.data.noteList,
                 num: res.data.pagingData.num,
                 paging: res.data.pagingData,
-                notes: res.data.noteList
+                note: res.data.noteList
             });
+            console.log("didmount")
         });
+        console.log(this.state)
     }
     
     //페이징 포함 리스트 호출
     
-    listNote(page){
+    listNote(num){
         var userId=this.state.userId;
-        var num = page;
         console.log("pageNum : " + num);
         NoteService.getNoteList(userId, num).then((res) => {
             console.log(res.data);
             this.setState({
                 num: res.data.pagingData.num,
-                paging: res.data.pagigngData,
-                notes: res.data.list
-            })
-        })
+                paging: res.data.pagingData,
+                note: res.data.noteList
+            });
+        });
+        console.log(this.state)
     }
     //페이징 목록
     viewPaging() {
@@ -74,7 +74,7 @@ class NoteListComponent extends Component {
         if(this.state.paging.prev) {
             return (
                 <li className="page-item">
-                    <a classname="page-link" onClick = { ()=> this.listNote((this.state.paging.num - 1) )} tabindex="-1">이전</a>
+                    <a className="page-link" onClick = { ()=> this.listNote((this.state.paging.num - 1) )} tabIndex="-1">이전</a>
                 </li>
             );
         }
@@ -83,7 +83,7 @@ class NoteListComponent extends Component {
         if (this.state.paging.next) {
             return (
                 <li className="page-item">
-                    <a className="page-link" onClick = { ()=> this.noteList((this.state.paging.num +1))} tabIndex="-1">다음</a>
+                    <a className="page-link" onClick = { ()=> this.listNote((this.state.paging.num +1))} tabIndex="-1">다음</a>
                 </li>
             )
         }
@@ -91,7 +91,7 @@ class NoteListComponent extends Component {
     isMoveToFirstPage() {
         if (this.state.num !==1){
             return ( 
-                <li classNmae="page-item">
+                <li className="page-item">
                     <a className="page-link" onClick = {() => this.listNote(1)} tabIndex="-1">첫 페이지로</a>
                 </li>
             )
@@ -101,7 +101,7 @@ class NoteListComponent extends Component {
         if(this.state.paging.endPageNum !== this.state.paging.lastPage) {
             return (
                 <li className="page-item">
-                    <a className = "page - link" onClick = {() => this.listBoard((this.state.paging.lastPage))} tabIndex="-1"> 마지막페이지로({this.state.paging.lastPage})</a>
+                    <a className = "page-link" onClick = {() => this.listNote((this.state.paging.lastPage))} tabIndex="-1"> 마지막페이지로({this.state.paging.lastPage})</a>
                 </li>
             )
         }
@@ -159,7 +159,7 @@ class NoteListComponent extends Component {
                 </div>
                 <div className="row">
                     <nav aria-label="Page navigation example">
-                        <ul className="pagingation justify-content-center">
+                         <ul className="pagination justify-content-center">
                             {
                                 this.isMoveToFirstPage()
                             }

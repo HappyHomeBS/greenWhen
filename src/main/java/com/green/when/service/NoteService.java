@@ -23,9 +23,18 @@ public class NoteService {
          }
             return noteList;
     }
+    //페이징을 위한 카운트
     public int noteCount(String userId){
         try{
             return mapper.noteCount(userId) ;
+        }catch(Exception e){
+            e.printStackTrace();
+            throw e;
+        }
+    }
+    public int noteSentCount(String userId){
+        try{
+            return mapper.noteSentCount(userId) ;
         }catch(Exception e){
             e.printStackTrace();
             throw e;
@@ -42,6 +51,21 @@ public class NoteService {
         List<NoteVo> noteList;
         try{
             noteList = mapper.noteListPage(data);
+        } catch(Exception e) {
+            e.printStackTrace();
+            throw e;
+        }
+        return noteList;
+    }
+    //보낸 쪽지함
+    public List<NoteVo> noteSentList(String userId, int displayPost, int postNum) {
+        HashMap data = new HashMap();
+        data.put("userId", userId);
+        data.put("displayPost", displayPost);
+        data.put("postNum", postNum);
+        List<NoteVo> noteList;
+        try{
+            noteList = mapper.noteSentList(data);
         } catch(Exception e) {
             e.printStackTrace();
             throw e;
@@ -88,16 +112,5 @@ public class NoteService {
          }
     }
 
-    //보낸 쪽지함
-    public List<NoteVo> noteSentList(String userId) {
-        List<NoteVo> noteList;
-        try {
-           noteList= mapper.noteSentList(userId);
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw e;
-        }
-        return noteList;
-    }
 
 }
