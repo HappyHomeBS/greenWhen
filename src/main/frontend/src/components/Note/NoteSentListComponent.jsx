@@ -106,7 +106,7 @@ constructor(props) {
     }
     render() {
         return (
-            <div>
+            <div clssName="noteList" style={{margin: "10%"}}>
                 <h2 className="text-center">보낸 쪽지함</h2>
                 <div className ="row">
                     <table className="table table-striped table-bordered">
@@ -127,7 +127,6 @@ constructor(props) {
                                     <tr key = {note.no}>
                                         <td style= {{display :"none"}}>{note.no}</td>
                                         <td> <a onClick = {() => this.noteRead(note.no)}>{note.title}</a></td>
-                                        <td>{note.title}</td>
                                         <td>{note.recept}</td>
                                         <td>{note.time}</td>
                                         <td>{note.readCheckString}</td>

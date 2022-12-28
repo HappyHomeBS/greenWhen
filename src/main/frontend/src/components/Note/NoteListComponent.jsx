@@ -2,7 +2,7 @@ import React, {useContext, Component} from 'react';
 import * as NoteService from '../../service/NoteService.js';
 import { useLocation, useParams, useNavigate} from 'react-router-dom'
 import AuthContext from '../../store/auth-context.tsx';
-
+import "../../css/Note.css"
 // useParams 사용을 위해 함수 HOC 생성 
 export const withRouter = (WrappedComponent) => (props) => {
     const params=useParams();
@@ -127,63 +127,62 @@ class NoteListComponent extends Component {
     }
     render() {
         return (
-            <div>
+            <div clssName="noteList" style={{margin: "10%"}}>
                 <h2 className="text-center">받은 쪽지함</h2>
-               
-                <div className ="row">
-                    <table className="table table-striped table-bordered">
-                        <thead>
-                            <tr>
-                                <th style= {{display :"none"}}> 번  호 </th>
-                                <th> 제  목 </th>
-                                <th> 보낸사람</th>
-                                <th> 받은날짜</th>
-                                <th> 수신확인</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {/*반복되는 컴포넌트 렌더링 위해 map()사용  */}
-                            {
-                                this.state.note.map(
-                                    note =>
-                                    <tr key = {note.no}>
-                                        <td style= {{display :"none"}}>{note.no}</td>
-                                        <td> <a onClick = {() => this.noteRead(note.no)}>{note.title}</a></td>
-                                        <td>{note.send}</td>
-                                        <td>{note.time}</td>
-                                        <td>{note.readCheckString}</td>
-                                    </tr>
-                                )
-                            }
-                        </tbody>
-                    </table>
+                    <div className ="row">
+                        <table className="table table-striped table-bordered">
+                            <thead>
+                                <tr>
+                                    <th style= {{display :"none"}}> 번  호 </th>
+                                    <th> 제  목 </th>
+                                    <th> 보낸사람</th>
+                                    <th> 받은날짜</th>
+                                    <th> 수신확인</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {/*반복되는 컴포넌트 렌더링 위해 map()사용  */}
+                                {
+                                    this.state.note.map(
+                                        note =>
+                                        <tr key = {note.no}>
+                                            <td style= {{display :"none"}}>{note.no}</td>
+                                            <td> <a onClick = {() => this.noteRead(note.no)}>{note.title}</a></td>
+                                            <td>{note.send}</td>
+                                            <td>{note.time}</td>
+                                            <td>{note.readCheckString}</td>
+                                        </tr>
+                                    )
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                    <div style={{float:"right"}}>
+                        <button className="btn btn-primary" onClick={this.noteWrite}>쪽지 보내기</button>
+                        <button className="btn btn-primary" onClick={this.noteSentList.bind(this)}>보낸쪽지함</button>
+                    </div>
+                    <div className="row">
+                        <nav aria-label="Page navigation example">
+                            <ul className="pagination justify-content-center">
+                                {
+                                    this.isMoveToFirstPage()
+                                }
+                                {
+                                    this.isPagingPrev()
+                                }
+                                {
+                                    this.viewPaging()
+                                }
+                                {
+                                    this.isPagingNext()
+                                }
+                                {
+                                    this.isMoveToLastPage()
+                                }
+                            </ul>
+                        </nav>
+                    </div>
                 </div>
-                <div style={{float:"right"}}>
-                    <button className="btn btn-primary" onClick={this.noteWrite}>쪽지 보내기</button>
-                    <button className="btn btn-primary" onClick={this.noteSentList.bind(this)}>보낸쪽지함</button>
-                </div>
-                <div className="row">
-                    <nav aria-label="Page navigation example">
-                         <ul className="pagination justify-content-center">
-                            {
-                                this.isMoveToFirstPage()
-                            }
-                            {
-                                this.isPagingPrev()
-                            }
-                            {
-                                this.viewPaging()
-                            }
-                            {
-                                this.isPagingNext()
-                            }
-                            {
-                                this.isMoveToLastPage()
-                            }
-                        </ul>
-                    </nav>
-                </div>
-            </div>
         );
     }
 }

@@ -55,9 +55,11 @@ class NoteReadComponent extends Component {
                         </div>
                         {/* <div>
                             {this.note.time}
-                        </div> */}
+                        </div> */} 
                         <button className="btn btn-primary" onClick={this.goToList.bind(this)} style={{marginLeft:"10px"}}>쪽지목록으로 이동</button>
+                         {this.props.userId == this.state.note.recept && 
                         <button className="btn btn-primary" onClick={()=>this.noteDelete()} style={{marginLeft:"10px"}}>쪽지삭제</button>
+                         }
                     </div>
                 </div>
                 
