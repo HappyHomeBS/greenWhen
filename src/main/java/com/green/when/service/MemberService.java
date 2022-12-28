@@ -42,5 +42,13 @@ public class MemberService {
         userMapper.changeUserPw(memberVo);
     }
 
+    @Transactional
+    public void profileImg(MemberVo memberVo) {
+        userMapper.profileImg(memberVo);
+    }
 
+    public MemberVo callProfile(String userid) {
+        MemberVo memberVo = userMapper.callProfile(userid);
+        return memberVo;
+    }
 }

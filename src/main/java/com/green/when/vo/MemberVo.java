@@ -13,7 +13,7 @@ public class MemberVo {
     private String usernickname;
     private String userpw;
     private String useremail;
-    private String profiledata;
+    private byte[] profileData;
     private Authority role;
     private String time;
 

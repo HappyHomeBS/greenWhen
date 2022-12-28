@@ -1,18 +1,15 @@
 package com.green.when.controller;
 
 import com.green.when.config.SecurityUtil;
+import com.green.when.service.MemberService;
 import com.green.when.vo.ChangePasswordRequestVo;
-import com.green.when.vo.FileVo;
 import com.green.when.vo.MemberRequestVo;
 import com.green.when.vo.MemberResponseVo;
-import com.green.when.service.MemberService;
+import com.green.when.vo.MemberVo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.io.File;
-import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
@@ -42,20 +39,25 @@ public class MemberController {
     }
 
     @PostMapping("/profileImg")
-    public void profileImg(@RequestBody MultipartFile file) {
-        FileVo fileVo = new FileVo();
-        String userid = SecurityUtil.getCurrentMemberId();
-        String projectPath = /*System.getProperty("user.dir") +*/  "C:\\Users\\GGG\\Desktop\\aaa\\green-spring2\\src\\main\\webapp\\WEB-INF\\resources\\files\\";
-        UUID uuid = UUID.randomUUID();
-        String fileName = uuid + "_" + file.getOriginalFilename();
-        File saveFile = new File(projectPath, fileName);
-        //file.transferTo(saveFile);
-        fileVo.setFilename(fileName);
-        fileVo.setFilepath("/files/" + fileName);
-        fileVo.setUserid(userid);
-       // memberService.writeFile(fileVo);
+    public void profileImg(@RequestParam MultipartFile file) {
+        try {
+            String userid = SecurityUtil.getCurrentMemberId();
+            MemberVo memberVo = new MemberVo();
+            memberVo.setUserid(userid);
+            memberVo.setProfileData(file.getBytes());
+            memberService.profileImg(memberVo);
+        } catch (Exception exception) {
+            System.out.println("create_board/exception = " + exception);
+        }
     }
 
+    @GetMapping("/callProfile")
+    public MemberVo callProfile() {
+        String userid = SecurityUtil.getCurrentMemberId();
+        MemberVo memberVo = memberService.callProfile(userid);
+        System.out.println(memberVo.toString());
+        return memberVo;
+    }
 
 
 }

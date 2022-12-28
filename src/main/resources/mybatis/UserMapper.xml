@@ -66,5 +66,17 @@
         WHERE useremail = #{useremail}
     </update>
 
+    <update id="profileImg">
+        UPDATE member_tb
+        SET   profiledata = #{profileData}
+        WHERE userid = #{userid}
+    </update>
+
+    <select id="callProfile" resultType="MemberVo">
+        SELECT profiledata
+        FROM   member_tb
+        WHERE  userid = #{userid}
+    </select>
+
 
 </mapper>

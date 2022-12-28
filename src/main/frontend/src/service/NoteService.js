@@ -2,9 +2,18 @@ import axios from 'axios';
 
 class NoteService {
     
-    getNoteList(userId) {
+    createTokenHeader = (token) => {
+        return {
+          headers: {
+            'Authorization': 'Bearer ' + token
+          }
+        }
+      }
+      
+    
+    getNoteList(token) {
         //axios 데이터 res에 담기
-        const result = axios.get("/api/note/"+userId);
+        const result = axios.get("/api/note/");
         return result;
     }
 
