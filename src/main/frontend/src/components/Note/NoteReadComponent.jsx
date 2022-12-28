@@ -1,13 +1,12 @@
 import React, { Component } from 'react'
-import NoteService from '../../service/NoteService.js';
+import * as NoteService from '../../service/NoteService.js';
 import { withRouter } from './NoteListComponent';
 
 class NoteReadComponent extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            userId: this.props.location.state.userId
-            ,no: this.props.params.no
+            no: this.props.params.no
             ,note: {}
         }
     }
@@ -23,7 +22,7 @@ class NoteReadComponent extends Component {
     }
 
     goToList() {
-        this.props.navigate('/note/'+this.state.userId)
+        this.props.navigate('/note')
     }
 
     noteDelete = async function() {
@@ -31,7 +30,7 @@ class NoteReadComponent extends Component {
             NoteService.noteDelete(this.state.no).then(res => {
                 console.log("result => " + JSON.stringify(res));
                 if (res.status == 200) {
-                    this.props.navigate('/note/'+this.state.userId);
+                    this.props.navigate('/note');
                 } else {
                     alert("실패!")
                 }

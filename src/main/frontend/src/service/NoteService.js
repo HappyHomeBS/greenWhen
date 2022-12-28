@@ -1,32 +1,37 @@
 import axios from 'axios';
 
-class NoteService {
-    getNoteList(userId, num) {
-        //axios 데이터 res에 담기
-        const result = axios.get("/api/note/"+userId+"?num="+num);
+    const header = (token) => {
+        return {headers: {
+            'Authorization': 'Bearer ' + token
+        }}
+    }
+
+    export const GetNoteList = (num, token)=>{
+    //axios 데이터 res에 담기
+        console.log(header(token));
+        const result = axios.get("/api/note?num="+num, header(token))
         return result;
     }
 
-    noteWrite(note) {
-        let result = axios.post("/api/noteWrite/", note);
+    export const noteWrite = (note, token)=>{
+        console.log(header(token));
+        let result = axios.post("/api/noteWrite/", note, header(token));
         return result;
     }
 
-    noteRead(no) {
-        let res = axios.get("/api/noteRead/"+no);
+    export const noteRead = (no, token) =>{
+        let res = axios.get("/api/noteRead/"+no, header(token) );
         console.log(res.data);
         return res;
     }
 
-    noteDelete(no) {
-        let res = axios.delete("/api/noteDelete/"+no)
+    export const noteDelete = (no, token)=>{
+        let res = axios.delete("/api/noteDelete/"+no, header(token));
         return res;
     }
-    noteSentList(userId, num) {
-        let res = axios.get("/api/noteSentList/"+userId+"?num="+num)
+    export const noteSentList = (num, token) =>{
+        let res = axios.get("/api/noteSentList?num="+num, header(token))
         console.log("응답")
-        console.log(res.data)
+        console.log(token)
         return res;
     }
-}
-export default new NoteService();

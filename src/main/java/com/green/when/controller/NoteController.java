@@ -1,4 +1,5 @@
 package com.green.when.controller;
+import com.green.when.config.SecurityUtil;
 import com.green.when.service.NoteService;
 import com.green.when.vo.NoteVo;
 import com.green.when.vo.PageVo;
@@ -19,9 +20,11 @@ public class NoteController {
     @Autowired
     NoteService noteService;
 //  쪽지 리스트 출력
-    @GetMapping("/note/{userId}")
-    public ResponseEntity<Map> noteList(@PathVariable String userId,@RequestParam(value = "num", required=false) int num) {
-
+    @GetMapping("/note")
+    public ResponseEntity<Map> noteList(@RequestParam(value = "num", required=false) Integer num) {
+//        if(num==null) {num=1;}
+        String userId = SecurityUtil.getCurrentMemberId();
+        System.out.println("userId"+userId);
         //페이징 계산
         PageVo page = new PageVo();
         page.setNum(num);
@@ -42,11 +45,10 @@ public class NoteController {
 
         return ResponseEntity.ok(result);
     }
-// 쪽지 리스트 출력 ( 리스트 )
 // 쪽지 쓰기
     @PostMapping("/noteWrite")
     public void noteWrite(@RequestBody NoteVo noteVo) {
-//        System.out.println("writingVo"+ noteVo);
+        System.out.println("writingVo"+ noteVo);
         noteService.noteWrite(noteVo);
     }
 
@@ -62,11 +64,14 @@ public class NoteController {
     @DeleteMapping("/noteDelete/{no}")
     public void noteDelete(@PathVariable int no) {
         noteService.noteDelete(no);
+        System.out.println("noteDelete"+no);
     }
 
 //보낸 쪽지함
-    @GetMapping("/noteSentList/{userId}")
-    public ResponseEntity<Map> noteSentList(@PathVariable String userId,@RequestParam(value = "num", required=false) int num) {
+    @GetMapping("/noteSentList")
+    public ResponseEntity<Map> noteSentList(@RequestParam(value = "num", required=false) int num) {
+        String userId = SecurityUtil.getCurrentMemberId();
+
         //페이징 계산
         PageVo page = new PageVo();
         page.setNum(num);

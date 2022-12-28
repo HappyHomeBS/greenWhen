@@ -11,7 +11,6 @@ import NoteReadComponent from './components/Note/NoteReadComponent';
 import NoteWriteComponent from './components/Note/NoteWriteComponent';
 import NoteSentListComponent from './components/Note/NoteSentListComponent';
 
-
 function App() {
 
   const authCtx = useContext(AuthContext);
@@ -26,10 +25,10 @@ function App() {
         />
         <Route path="/profile/" element={!authCtx.isLoggedIn ? <Navigate to='/' /> : <ProfilePage />} />
         {/* 업데이트 되면서 component ={} -> element{<>/}로 사용*/}
-        <Route path="/note/:userId" element = {<NoteListComponent/>}></Route>
+        <Route path="/note" element = {<NoteListComponent/>}></Route>
         <Route path="/noteWrite" element = {<NoteWriteComponent/>}></Route>
         <Route path="/noteRead/:no" element = {<NoteReadComponent/>}> </Route>
-        <Route path="/noteSentList/:userId" element = {<NoteSentListComponent/>}></Route>
+        <Route path="/noteSentList" element = {<NoteSentListComponent/>}></Route>
       </Routes>
     </Layout>
   );

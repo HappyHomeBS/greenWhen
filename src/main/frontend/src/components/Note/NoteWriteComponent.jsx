@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import NoteService from '../../service/NoteService.js';
+import * as NoteService from '../../service/NoteService.js';
 import { withRouter } from './NoteListComponent';
    
 class NoteWriteComponent extends Component {
@@ -10,8 +10,7 @@ class NoteWriteComponent extends Component {
         super(props);
              
         this.state = {
-            userId:this.props.location.state.userId
-            ,send:''
+            send : ''
             ,recept : ''
             ,title : ''
             ,content : ''
@@ -40,20 +39,20 @@ class NoteWriteComponent extends Component {
     noteWrite = (event) => {
         event.preventDefault();
         let note = {
-             send : this.props.location.state.userId
+             send: this.props.userId
             ,recept : this.state.recept
             ,title : this.state.title
             ,content : this.state.content
         };
         console.log("note = > "+JSON.stringify(note));
         NoteService.noteWrite(note).then(res => {
-            this.props.navigate('/note/'+this.state.userId);
+            this.props.navigate('/note');
         });
     }
 
     cancel(send) {
         console.log(send)
-        this.props.navigate('/note/'+this.state.userId);
+        this.props.navigate('/note');
     }
 
     render() {

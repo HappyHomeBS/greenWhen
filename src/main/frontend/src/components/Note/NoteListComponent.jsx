@@ -1,41 +1,48 @@
-import React, {Component } from 'react';
-import NoteService from '../../service/NoteService.js';
+import React, {useContext, Component} from 'react';
+import * as NoteService from '../../service/NoteService.js';
 import { useLocation, useParams, useNavigate} from 'react-router-dom'
+import AuthContext from '../../store/auth-context.tsx';
 
 // useParams 사용을 위해 함수 HOC 생성 
 export const withRouter = (WrappedComponent) => (props) => {
     const params=useParams();
     const navigate = useNavigate();
     const location = useLocation();
-    return<WrappedComponent{...props} params={params} navigate = {navigate} location={location}/>;
+    
+    const authCtx = useContext(AuthContext);
+ 
+    var userId = authCtx.userObj.userid;
+    var userNickName = authCtx.userObj.usernickname;
+    var token = authCtx.token;
+    return<WrappedComponent{...props} userId={userId} token = {token} params={params} navigate = {navigate} location={location}/>;
 };
 
 
 class NoteListComponent extends Component {
+      
 //생성자로 초기화하기(note:에 데이터 들어감)
     constructor(props) {
         super(props)
         this.state = {
-            userId: this.props.params.userId,
             note: [],
             num: 1,
-            paging: {}
+            paging: {},
+            token:0
         };
         this.noteWrite = this.noteWrite.bind(this);
         this.noteSentList = this.noteSentList.bind(this)
     }
 
     // 컴포넌트 생성시 실행(값 세팅)
-    componentDidMount() {
-        var userId=this.props.params.userId   
+    componentDidMount(token) {
         var num=this.state.num;
-        NoteService.getNoteList(userId, num).then((res) => {
+        token = this.props.token;
+        NoteService.GetNoteList(num, token).then((res) => {
             console.log(res.data);
             this.setState({
                 note: res.data.noteList,
                 num: res.data.pagingData.num,
                 paging: res.data.pagingData,
-                note: res.data.noteList
             });
             console.log("didmount")
         });
@@ -45,9 +52,9 @@ class NoteListComponent extends Component {
     //페이징 포함 리스트 호출
     
     listNote(num){
-        var userId=this.state.userId;
         console.log("pageNum : " + num);
-        NoteService.getNoteList(userId, num).then((res) => {
+        var token = this.props.token;
+        NoteService.GetNoteList(num, token).then((res) => {
             console.log(res.data);
             this.setState({
                 num: res.data.pagingData.num,
@@ -109,16 +116,14 @@ class NoteListComponent extends Component {
     // 쓰기 페이지 이동
     // history.push 사라지면서 navigate로 바뀜()
     noteWrite() {
-        console.log(this.props.params.userId)
-        this.props.navigate('/noteWrite', {state: { userId: this.props.params.userId }})
+        this.props.navigate('/noteWrite')
     }
 
     noteRead(no) {
-        this.props.navigate('/noteRead/'+no, {state: { userId: this.props.params.userId }})
+        this.props.navigate('/noteRead/'+no)
     }
     noteSentList(){
-        console.log(this.props.params.userId)
-        this.props.navigate('/noteSentList/'+this.state.userId, {state: {userId: this.props.params.userId}})
+        this.props.navigate('/noteSentList/')
     }
     render() {
         return (

@@ -1,5 +1,5 @@
 import React, {Component } from 'react';
-import NoteService from '../../service/NoteService.js';
+import * as NoteService from '../../service/NoteService.js';
 import { withRouter } from './NoteListComponent';
 
 class NoteSentListComponent extends Component {
@@ -7,7 +7,6 @@ class NoteSentListComponent extends Component {
 constructor(props) {
     super(props)
     this.state = {
-        userId: this.props.params.userId,
         note: [],
         num: 1,
         paging: {}
@@ -17,10 +16,10 @@ constructor(props) {
 }
 
     // 컴포넌트 생성시 실행(값 세팅)
-    componentDidMount() {
-        var userId=this.props.params.userId   
+    componentDidMount(token) {
         var num=this.state.num;
-        NoteService.noteSentList(userId, num).then((res) => {
+        token = this.props.token;
+        NoteService.noteSentList(num, token).then((res) => {
             console.log(res.data);
             this.setState({
                 note: res.data.noteList,
@@ -33,9 +32,9 @@ constructor(props) {
     }
     
     listNote(num){
-        var userId=this.state.userId;
         console.log("pageNum : " + num);
-        NoteService.noteSentList(userId, num).then((res) => {
+        var token = this.props.token;
+        NoteService.noteSentList(num, token).then((res) => {
             console.log(res.data);
             this.setState({
                 num: res.data.pagingData.num,
@@ -48,16 +47,14 @@ constructor(props) {
     // 쓰기 페이지 이동
     // history.push 사라지면서 navigate로 바뀜()
     noteWrite() {
-        console.log(this.props.params.userId)
-        this.props.navigate('/noteWrite', {state: { userId: this.props.params.userId }})
+        this.props.navigate('/noteWrite')
     }
 
     noteRead(no) {
-        this.props.navigate('/noteRead/'+no, {state: { userId: this.props.params.userId }})
+        this.props.navigate('/noteRead/'+no)
     }
     noteList(){
-        console.log(this.props.params.userId)
-        this.props.navigate('/note/'+this.state.userId, {state: {userId: this.props.params.userId}})
+        this.props.navigate('/note')
     }
     viewPaging() {
         const pageNums = [];
@@ -129,6 +126,7 @@ constructor(props) {
                                     note =>
                                     <tr key = {note.no}>
                                         <td style= {{display :"none"}}>{note.no}</td>
+                                        <td> <a onClick = {() => this.noteRead(note.no)}>{note.title}</a></td>
                                         <td>{note.title}</td>
                                         <td>{note.recept}</td>
                                         <td>{note.time}</td>
