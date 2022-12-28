@@ -93,3 +93,13 @@ export const changePasswordActionHandler = (
   const response = POST(URL, changePasswordObj, createTokenHeader(token));
   return response;
 }
+
+export const profileImgActionHandler = ( file:string, token: string) => {
+  const URL = '/member/profileImg';
+  const progileImgObj = { file };
+  const headers =  {'Content-Type': 'multipart/form-data',
+                    'header'      : createTokenHeader(token)  };
+  const response = POST(URL, progileImgObj, headers);
+
+  return response;
+}

@@ -47,36 +47,8 @@ public class MemberService {
         userMapper.profileImg(memberVo);
     }
 
-    @Transactional
-    public MemberVo callProfileImg(String userid) {
-        MemberVo memberVo = userMapper.callProfileImg(userid);
+    public MemberVo callProfile(String userid) {
+        MemberVo memberVo = userMapper.callProfile(userid);
         return memberVo;
-    }
-
-    @Transactional
-    public void profileImgUpload(MemberVo memberVo) {
-        userMapper.profileImgUpload(memberVo);
-    }
-
-    @Transactional
-    public int nicknameCheck(String userNickname) {
-        int deleteNickname = userMapper.deleteNickname(userNickname);
-        int newNickname = userMapper.newNickname(userNickname);
-        int nicknameCheck = deleteNickname + newNickname;
-        return nicknameCheck;
-
-    }
-
-    @Transactional
-    public int passwordCheck(String exPassword) {
-        MemberVo memberVo = userMapper.findByUserid(SecurityUtil.getCurrentMemberId()).orElseThrow(() -> new RuntimeException("로그인 유저 정보가 없습니다"));
-        int passwordCheck = 0;
-
-        if (!passwordEncoder.matches(exPassword, memberVo.getUserpw())) {
-            passwordCheck = 1;
-        } else {
-            passwordCheck = 0;
-        }
-        return passwordCheck;
     }
 }

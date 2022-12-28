@@ -4,7 +4,6 @@ package com.green.when.mapper;
 import com.green.when.vo.MemberVo;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
-import org.springframework.ui.Model;
 
 import java.util.HashMap;
 import java.util.Optional;
@@ -35,4 +34,8 @@ public interface UserMapper {
     void updatePassword(HashMap map);
 
     String findUseremail(String userid);
+
+    void profileImg(MemberVo memberVo);
+
+    MemberVo callProfile(String userid);
 }

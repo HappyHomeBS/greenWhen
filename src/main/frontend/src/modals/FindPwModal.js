@@ -19,7 +19,7 @@ const SignUpModal = ({ show, onHide }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const data = { 'userid': userid}
+    const data = { 'userid': userid };
 
     console.log("submit:" + userid);
     axios.post('/auth/sendEmail', data).then((res) => {
