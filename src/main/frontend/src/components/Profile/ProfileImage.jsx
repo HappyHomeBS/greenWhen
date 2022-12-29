@@ -1,5 +1,5 @@
 import axios from 'axios'
-import React, { useRef, useState, useContext, useCallback } from 'react'
+import React, { useRef, useState, useContext, useCallback, useEffect, componentDidMount } from 'react'
 import '../../ProfileImagecss.css'
 import AuthContext from '../../store/authContext';
 
@@ -10,6 +10,24 @@ const ProfileImage = () => {
   const [file, setFile] = useState('');
   const authCtx = useContext(AuthContext);
   const token = authCtx.token;
+  const [imageUrl, setImageUrl] = useState('/profileImg/')
+
+  useEffect(() => {
+
+    axios.get('/member/callProfile', {
+      headers: {
+        'Authorization': 'Bearer ' + token
+      }
+    })
+      .then((res) => {
+        const data = res.data;
+        const URL = imageUrl + data.filename
+        setImage(URL)
+        console.log("주소", Image)
+
+      });
+  }, []);
+
 
 
   const handleSubmit = useCallback(async () => {
@@ -32,10 +50,10 @@ const ProfileImage = () => {
   }, [file]);
 
   const handleChange = useCallback((e) => {
-    if (e.target.files === null) return;
-
     if (e.target.files[0]) {
       setFile(e.target.files[0]);
+    } else { //업로드 취소할 시
+      setImage("https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png")
     }
     //화면에 프로필 사진 표시
     const reader = new FileReader();
@@ -47,30 +65,12 @@ const ProfileImage = () => {
     reader.readAsDataURL(e.target.files[0])
   }, []);
 
-  const callProfile = (e) => {
-    e.preventDefault();    
-    axios.get('/member/callProfile', {
-      headers: {
-        'Authorization': 'Bearer ' + token
-      }
-    })
-      .then((res) => {
-        const data = res.data;         
-        setImage(data.profileData)
-        console.log("이미지", data.profileData)
-
-      });
-
-  }
-
-
   return (
     < div >
       <img src={Image} className="image" alt="" onClick={() => { fileInput.current.click() }} />
       <form onSubmit={handleSubmit}>
-        <input type="file" onChange={handleChange} ref={fileInput} name="file" />
-        <button type="submit">Upload</button>
-        <button onClick={callProfile}>확인</button>
+        <input type="file" style={{ display: 'none' }} accept='image/jpg,impge/png,image/jpeg' onChange={handleChange} ref={fileInput} name="file" />
+        <button type="submit">등록</button>
       </form>
     </div>
   )

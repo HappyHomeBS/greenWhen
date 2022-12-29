@@ -47,8 +47,14 @@ public class MemberService {
         userMapper.profileImg(memberVo);
     }
 
-    public MemberVo callProfile(String userid) {
-        MemberVo memberVo = userMapper.callProfile(userid);
+    @Transactional
+    public MemberVo callProfileImg(String userid) {
+        MemberVo memberVo = userMapper.callProfileImg(userid);
         return memberVo;
+    }
+
+    @Transactional
+    public void profileImgUpload(MemberVo memberVo) {
+        userMapper.profileImgUpload(memberVo);
     }
 }

@@ -34,24 +34,24 @@ const ChangePassword = () => {
   return (
     <form  onSubmit={submitHandler}>
       <div>
-      <label htmlFor='ex-password'>Old Password</label>
+      <label htmlFor='exPassword'>Old Password</label>
         <input 
           type='password' 
-          id='ex-password'
+          id='exPassword'
           minLength={4} 
           ref={exPasswordInputRef} 
         />
-        <label htmlFor='new-password'>New Password</label>
+        <label htmlFor='newPassword'>New Password</label>
         <input 
           type='password' 
-          id='new-password'
+          id='newPassword'
           minLength={4} 
           ref={newPasswordInputRef}
         />
-        <label htmlFor='new-password'>New Password Again</label>
+        <label htmlFor='newPassword'>New Password Again</label>
         <input 
           type='password' 
-          id='new-password'
+          id='newPasswordAgain'
           minLength={4}
           ref={newPasswordAgainInputRef} 
         />

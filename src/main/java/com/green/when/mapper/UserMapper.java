@@ -37,5 +37,7 @@ public interface UserMapper {
 
     void profileImg(MemberVo memberVo);
 
-    MemberVo callProfile(String userid);
+    MemberVo callProfileImg(String userid);
+
+    void profileImgUpload(MemberVo memberVo);
 }
