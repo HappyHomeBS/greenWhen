@@ -27,7 +27,10 @@ class NoteListComponent extends Component {
             note: [],
             num: 1,
             paging: {},
-            token:0
+            token:0,
+            checkList:[],
+            allCheck:false,
+            checked:false
         };
         this.noteWrite = this.noteWrite.bind(this);
         this.noteSentList = this.noteSentList.bind(this)
@@ -43,12 +46,56 @@ class NoteListComponent extends Component {
                 note: res.data.noteList,
                 num: res.data.pagingData.num,
                 paging: res.data.pagingData,
+             
             });
             console.log("didmount")
         });
         console.log(this.state)
     }
-    
+    //체크박스 
+
+    checkBoxHandler(id, isChecked){ 
+        var newList = [...this.state.checkList];
+        if (isChecked) {
+            newList.push(id);
+            this.setState({
+                checkList: newList
+            })
+        } else if (!isChecked && newList.includes(id)) {
+            newList=newList.filter((element) => element !==id);
+            this.setState({
+                checkList: newList
+            })
+        }
+        // console.log(newList)
+    }
+    checkHandler(target){
+       this.setState({
+        checked:true
+       }) 
+       this.checkBoxHandler(target.id, target.checked)
+    };
+
+    allCheckHandler(isChecked){
+        const numbers = []
+        this.state.note.map(
+            note => numbers.push(note.no)
+        )
+        // console.log(numbers)
+        if (isChecked) {
+            this.setState({
+                checkList: numbers,
+                allCheck : true
+            })
+        } else {
+            this.setState({
+                checkList: [],
+                allCheck: false
+            })
+        }
+        const log = [...this.state.checkList]
+        console.log(log)
+    }
     //페이징 포함 리스트 호출
     
     listNote(num){
@@ -64,7 +111,21 @@ class NoteListComponent extends Component {
         });
         console.log(this.state)
     }
-    //페이징 목록
+    
+    // 쓰기 페이지 이동
+    // history.push 사라지면서 navigate로 바뀜(hook이기 때문에 클래스에서 사용하려면 래퍼 필요)
+    noteWrite() {
+        this.props.navigate('/noteWrite')
+    }
+
+    noteRead(no) {
+        this.props.navigate('/noteRead/'+no)
+    }
+    noteSentList(){
+        this.props.navigate('/noteSentList/')
+    }
+    //이하
+    //페이징 
     viewPaging() {
         const pageNums = [];
         for ( let i = this.state.paging.startPageNum; i<= this.state.paging.endPageNum; i++) {
@@ -113,26 +174,18 @@ class NoteListComponent extends Component {
             )
         }
     }
-    // 쓰기 페이지 이동
-    // history.push 사라지면서 navigate로 바뀜()
-    noteWrite() {
-        this.props.navigate('/noteWrite')
-    }
-
-    noteRead(no) {
-        this.props.navigate('/noteRead/'+no)
-    }
-    noteSentList(){
-        this.props.navigate('/noteSentList/')
-    }
+  
     render() {
         return (
-            <div clssName="noteList" style={{margin: "10%"}}>
+            <div clssName="note_list">
                 <h2 className="text-center">받은 쪽지함</h2>
                     <div className ="row">
                         <table className="table table-striped table-bordered">
                             <thead>
                                 <tr>
+                                    <th><input type="checkbox" className="note_checkbox" id="all_checkbox" onChange={(e)=>this.allCheckHandler(e.target.checked)}
+                                    checked={this.state.checkList.length === this.state.note.length ? true : false}
+                                    /> </th>
                                     <th style= {{display :"none"}}> 번  호 </th>
                                     <th> 제  목 </th>
                                     <th> 보낸사람</th>
@@ -146,6 +199,9 @@ class NoteListComponent extends Component {
                                     this.state.note.map(
                                         note =>
                                         <tr key = {note.no}>
+                                            <td><input type="checkbox" id={note.no} className="note_checkbox" onChange={(e)=> this.checkBoxHandler(e.target.id, e.target.checked)}
+                                            checked={this.state.checkList.includes(note.no)? true : false}
+                                            /></td>
                                             <td style= {{display :"none"}}>{note.no}</td>
                                             <td> <a onClick = {() => this.noteRead(note.no)}>{note.title}</a></td>
                                             <td>{note.send}</td>
@@ -159,7 +215,7 @@ class NoteListComponent extends Component {
                     </div>
                     <div style={{float:"right"}}>
                         <button className="btn btn-primary" onClick={this.noteWrite}>쪽지 보내기</button>
-                        <button className="btn btn-primary" onClick={this.noteSentList.bind(this)}>보낸쪽지함</button>
+                        <button className="btn btn-primary" onClick={this.noteSentList.bind(this)} style={{marginLeft: "5px"}}>보낸쪽지함</button>
                     </div>
                     <div className="row">
                         <nav aria-label="Page navigation example">

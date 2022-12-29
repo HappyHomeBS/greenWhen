@@ -68,6 +68,7 @@ constructor(props) {
         ));
     }
 
+   
     isPagingPrev(){
         if(this.state.paging.prev) {
             return (
@@ -112,11 +113,11 @@ constructor(props) {
                     <table className="table table-striped table-bordered">
                         <thead>
                             <tr>
-                                <th style= {{display :"none"}}> 번  호 </th>
-                                <th> 제  목 </th>
-                                <th> 받는사람</th>
-                                <th> 보낸날짜</th>
-                                <th> 수신확인</th>
+                                <th style = {{display :"none"}}> 번  호 </th>
+                                <th style = {{width : "50%", textAlign:"center"}}> 제  목 </th>
+                                <th style = {{width : "10%", textAlign:"center"}}> 받는사람</th>
+                                <th style = {{width : "20%", textAlign:"center"}}> 보낸날짜</th>
+                                <th style = {{width : "10%", textAlign:"center"}}> 수신확인</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -138,7 +139,7 @@ constructor(props) {
                 </div>
                 <div style={{float:"right"}}>
                     <button className="btn btn-primary" onClick={this.noteWrite}>쪽지 보내기</button>
-                    <button className="btn btn-primary" onClick={this.noteList.bind(this)}>받은쪽지함</button>
+                    <button className="btn btn-primary" onClick={this.noteList.bind(this)} style={{marginLeft: "5px"}}>받은쪽지함</button>
                 </div>
                 <div className="row">
                     <nav aria-label="Page navigation example">

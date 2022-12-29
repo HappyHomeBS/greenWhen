@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import CreateAccountPage from './components/Auth/CreateAccountPage';
 import Layout from './components/Layout/Layout';
+import './css/Note.css';
 import AuthPage from './pages/AuthPage';
 import HomePage from './pages/HomePage';
 import ProfilePage from './pages/ProfilePage';

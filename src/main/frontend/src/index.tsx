@@ -5,6 +5,7 @@ import App from './App';
 import './index.css';
 import { AuthContextProvider } from './store/auth-context';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import './css/Note.css'
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
