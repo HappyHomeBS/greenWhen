@@ -7,9 +7,13 @@ import com.green.when.vo.MemberRequestVo;
 import com.green.when.vo.MemberResponseVo;
 import com.green.when.vo.MemberVo;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.io.File;
+import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
@@ -37,11 +41,12 @@ public class MemberController {
     public void setMemberPassword(@RequestBody ChangePasswordRequestVo request) {
         memberService.changeMemberPassword(request.getExPassword(), request.getNewPassword());
     }
-
+/*
     @PostMapping("/profileImg")
     public void profileImg(@RequestParam MultipartFile file) {
         try {
             String userid = SecurityUtil.getCurrentMemberId();
+            System.out.println(file);
             MemberVo memberVo = new MemberVo();
             memberVo.setUserid(userid);
             memberVo.setProfileData(file.getBytes());
@@ -50,11 +55,33 @@ public class MemberController {
             System.out.println("create_board/exception = " + exception);
         }
     }
+*/
+    @SneakyThrows
+    @PostMapping("/profileImg")
+    public void profileImg(@RequestParam MultipartFile file) {
+        try {
+            String userid = SecurityUtil.getCurrentMemberId();
+            System.out.println(userid);
+            MemberVo memberVo = new MemberVo();
+            String projectPath = /*System.getProperty("user.dir") +*/  "D:\\ws\\boot\\greenWhen\\src\\main\\frontend\\public\\profileImg\\";
+            UUID uuid = UUID.randomUUID();
+            String fileName = uuid + "_";
+            File saveFile = new File(projectPath + fileName);
+            memberVo.setFilename(fileName);
+            memberVo.setFilepath(projectPath);
+            memberVo.setUserid(userid);
+            System.out.println(memberVo.toString());
+            memberService.profileImgUpload(memberVo);
+            file.transferTo(saveFile);
+        } catch (Exception exception) {
+            System.out.println("create_board/exception = " + exception);
+        }
+    }
 
     @GetMapping("/callProfile")
     public MemberVo callProfile() {
         String userid = SecurityUtil.getCurrentMemberId();
-        MemberVo memberVo = memberService.callProfile(userid);
+        MemberVo memberVo = memberService.callProfileImg(userid);
         System.out.println(memberVo.toString());
         return memberVo;
     }
