@@ -1,46 +1,27 @@
-import React from "react";
 import { Fragment, useContext, useState } from "react";
+import { ChangeUsername } from "../components/Profile/ChangeUsername";
+import { ChangePassword } from "../components/Profile/ChangePassword";
+import { ProfileImage } from "../components/Profile/ProfileImage";
+import React from "react";
+import AuthContext from "../store/authContext";
 import { Member } from "../components/Admin/Member";
-import { Group } from "../components/Admin/Group";
-import { Note } from "../components/Admin/Note";
 
 const ProfilePage = () => {
-  const [member, setMember] = useState(true);
-  const [group, setGroup] = useState(false);
-  const [note, setNote] = useState(false);
+  const authCtx = useContext(AuthContext);
+  const userid = authCtx.userObj.userid;
+  const usernickname = authCtx.userObj.usernickname;  
+  const useremail = authCtx.userObj.useremail;  
+  const role = authCtx.userObj.role;  
+
+  const [member, setMember] = useState(false);
 
   return (
     <Fragment>
-      <button
-        onClick={() => {
-          setMember(false);
-          setGroup(true);
-          setNote(false);
-        }}
-      >
-        소모임
-      </button>
-      <button
-        onClick={() => {
-          setMember(true);
-          setGroup(false);
-          setNote(false);
-        }}
-      >
-        회원
-      </button>
-      <button
-        onClick={() => {
-          setMember(false);
-          setGroup(false);
-          setNote(true);
-        }}
-      >
-        1:1문의
-      </button>
+      <button>소모임</button>
+      <button onClick={() => setMember(true)}>회원</button>
+      <button>1:1문의</button>
       {member && <Member />}
-      {group && <Group />}
-      {note && <Note />}
+      
     </Fragment>
   );
 };

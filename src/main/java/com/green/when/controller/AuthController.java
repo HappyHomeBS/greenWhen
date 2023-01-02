@@ -28,6 +28,7 @@ public class AuthController {
         return ResponseEntity.ok(authService.login(requestDto));
     }
 
+    // ID 중복체크
     @GetMapping("/userCheck")
     public int userCheck(@RequestParam String userid) {        
         int useridCheck = authService.useridCheck(userid);

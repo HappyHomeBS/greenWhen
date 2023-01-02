@@ -31,9 +31,4 @@ public class AdminService {
         userMapper.userDelete(memberVo);
         userMapper.foreignKeyCheck();
     }
-
-    @Transactional
-    public void roleChange(MemberVo memberVo) {
-        userMapper.roleChange(memberVo);
-    }
 }

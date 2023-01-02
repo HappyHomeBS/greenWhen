@@ -41,21 +41,7 @@ public class MemberController {
     public void setMemberPassword(@RequestBody ChangePasswordRequestVo request) {
         memberService.changeMemberPassword(request.getExPassword(), request.getNewPassword());
     }
-/*
-    @PostMapping("/profileImg")
-    public void profileImg(@RequestParam MultipartFile file) {
-        try {
-            String userid = SecurityUtil.getCurrentMemberId();
-            System.out.println(file);
-            MemberVo memberVo = new MemberVo();
-            memberVo.setUserid(userid);
-            memberVo.setProfileData(file.getBytes());
-            memberService.profileImg(memberVo);
-        } catch (Exception exception) {
-            System.out.println("create_board/exception = " + exception);
-        }
-    }
-*/
+
     @SneakyThrows
     @PostMapping("/profileImg")
     public void profileImg(@RequestParam MultipartFile file) {
@@ -68,7 +54,7 @@ public class MemberController {
             String fileName = uuid + "_";
             File saveFile = new File(projectPath + fileName);
             memberVo.setFilename(fileName);
-            memberVo.setFilepath(projectPath);
+            memberVo.setFilepath("/profileImg/" +fileName);
             memberVo.setUserid(userid);
             System.out.println(memberVo.toString());
             memberService.profileImgUpload(memberVo);

@@ -13,7 +13,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.Console;
 import java.io.File;
 import java.util.List;
 import java.util.UUID;
@@ -37,18 +36,6 @@ public class AdminController {
     public void userDelete(@RequestBody MemberVo memberVo) {
         System.out.println(memberVo.toString());
         adminService.userDelete(memberVo);
-    }
-
-    @PostMapping("/roleChange")
-    public void roleChange(@RequestBody MemberVo memberVo) {
-        String userid = SecurityUtil.getCurrentMemberId();
-        String inputId = memberVo.getUserid();
-        if (userid.equals(inputId)){
-            System.out.println("오류: 같은아이디 입니다.");
-        } else {
-            adminService.roleChange(memberVo);
-        }
-
     }
 
 }

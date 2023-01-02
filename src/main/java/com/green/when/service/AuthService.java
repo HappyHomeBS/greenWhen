@@ -46,15 +46,24 @@ public class AuthService {
     }
 
     public int useridCheck(String userid) {
-        return userMapper.useridCheck(userid);
+        int deleteUser = userMapper.deleteUserCheck(userid);
+        int newUserCheck = userMapper.useridCheck(userid);
+        int userIdCheck = deleteUser + newUserCheck;
+        return userIdCheck;
     }
 
     public int useremailCheck(String useremail) {
-        return userMapper.useremailCheck(useremail);
+        int deleteEmail = userMapper.deleteEmailCheck(useremail);
+        int newEmail = userMapper.newEmailCheck(useremail);
+        int emailCheck = deleteEmail + newEmail;
+        return emailCheck;
     }
 
     public int usernicknameCheck(String usernickname) {
-        return userMapper.usernicknameCheck(usernickname);
+        int deleteNickname = userMapper.deleteNickname(usernickname);
+        int newNickname = userMapper.newNickname(usernickname);
+        int nicknameCheck = deleteNickname + newNickname;
+        return nicknameCheck;
     }
 
     public String findId(String useremail) {

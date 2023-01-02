@@ -18,6 +18,7 @@ const MainNavigation = () => {
   const token = authCtx.token;
   let isLogin = authCtx.isLoggedIn;
   let isGet = authCtx.isGetSuccess;
+  const role = authCtx.userObj.role;
 
 
   const [SignUpModalOn, setSignUpModalOn] = useState(false);
@@ -61,6 +62,7 @@ const MainNavigation = () => {
 
   const toggleLogoutHandler = () => {
     authCtx.logout();
+    window.location.reload();
   }
 
 
@@ -85,6 +87,7 @@ const MainNavigation = () => {
                 {isLogin && <Link to='/profile'><img src={Image} className="navImage" alt="" /></Link>}
                 {isLogin && <Navbar> &nbsp; {usernickname}님 환영합니다! </Navbar>}
                 {isLogin && <Nav.Link> <Button variant="outline-primary" onClick={toggleLogoutHandler}>Logout</Button></Nav.Link>}
+                {isLogin && role ==='ROLE_ADMIN' &&  <Nav.Link><Link to='/admin'> <Button variant="outline-primary">관리자 페이지</Button></Link></Nav.Link>}
               </Nav>
             </Navbar.Collapse>
           </Container>
