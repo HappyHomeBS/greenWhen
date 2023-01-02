@@ -45,7 +45,9 @@ public class WebSecurityConfig {
                 .and()
                 .authorizeRequests()
                 .antMatchers("/auth/**").permitAll()
-                .antMatchers("/api/**").permitAll()
+                //.antMatchers("/api/**").hasAnyRole("ROLE_USER", "ROLE_ADMIN")
+                //.antMatchers("/admin/**").hasRole("ROLE_ADMIN")
+                .antMatchers("/admin/**").access("hasRole('ROLE_ADMIN')")
                 .anyRequest().authenticated()
 
                 .and()

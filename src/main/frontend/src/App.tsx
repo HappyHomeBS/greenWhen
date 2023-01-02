@@ -5,6 +5,7 @@ import Layout from './components/Layout/Layout';
 import HomePage from './pages/HomePage';
 import ProfilePage from './pages/ProfilePage';
 import AuthContext from './store/authContext';
+import AdminPage from './pages/AdminPage'
 // import NoteListComponent from './components/Note/NoteListComponent';
 // import NoteReadComponent from './components/Note/NoteReadComponent';
 // import NoteWriteComponent from './components/Note/NoteWriteComponent';
@@ -20,6 +21,7 @@ function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/signup/" element={authCtx.isLoggedIn ? <Navigate to='/' /> : <CreateAccountPage />} />        
         <Route path="/profile/" element={!authCtx.isLoggedIn ? <Navigate to='/' /> : <ProfilePage />} />
+        <Route path="/admin/" element={!authCtx.isLoggedIn ? <Navigate to='/' /> : <AdminPage />} />
         {/* 업데이트 되면서 component ={} -> element{<>/}로 사용*/}
         {/* <Route path="/note/:userId" element = {<NoteListComponent/>}></Route>
         <Route path="/noteWrite" element = {<NoteWriteComponent/>}></Route>

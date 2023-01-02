@@ -9,8 +9,7 @@ const ProfileImage = () => {
   const fileInput = useRef(null)
   const [file, setFile] = useState('');
   const authCtx = useContext(AuthContext);
-  const token = authCtx.token;
-  const [imageUrl, setImageUrl] = useState('/profileImg/')
+  const token = authCtx.token;  
 
   useEffect(() => {
 
@@ -21,7 +20,7 @@ const ProfileImage = () => {
     })
       .then((res) => {
         const data = res.data;
-        const URL = imageUrl + data.filename
+        const URL = data.filepath
         setImage(URL)
         console.log("주소", Image)
 

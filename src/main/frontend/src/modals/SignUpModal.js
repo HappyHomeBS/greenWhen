@@ -58,7 +58,7 @@ const SignUpModal = ({ show, onHide }) => {
                         setIdCheckMsg("사용 가능한 아이디입니다.");
                         setIdColor({ color: "green" });
                         console.log('정상' + idCheckMsg)
-                    } else if (resMessge === 1) {
+                    } else if (resMessge >= 1) {
                         setIdCheckMsg("이미 사용중인 아이디입니다.");
                         setIdColor({ color: "red" });
                         console.log('오류' + idCheckMsg)
