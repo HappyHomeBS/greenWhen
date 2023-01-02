@@ -82,15 +82,15 @@ public class NoteService {
         }
     }
     //읽기
-    public List<NoteVo> noteRead(int no) {
-        List<NoteVo> note;
+    public NoteVo noteRead(int no) {
+        NoteVo noteVo;
         try {
-            note = mapper.noteRead(no);
+            noteVo = mapper.noteRead(no);
         } catch (Exception e) {
             e.printStackTrace();
             throw e;
         }
-        return note;
+        return noteVo;
     }
 
     //수신확인

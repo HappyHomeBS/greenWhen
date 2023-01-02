@@ -23,7 +23,9 @@ import axios from 'axios';
     }
 
     export const noteDelete = (no, token)=>{
-        let res = axios.delete("/api/noteDelete/"+no, header(token));
+        let res = axios.post("/api/noteDelete", {
+            nos: no
+        }, header(token));
         return res;
     }
     export const noteSentList = (num, token) =>{

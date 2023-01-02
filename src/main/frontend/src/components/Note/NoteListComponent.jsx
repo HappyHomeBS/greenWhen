@@ -27,10 +27,9 @@ class NoteListComponent extends Component {
             note: [],
             num: 1,
             paging: {},
-            token:0,
             checkList:[],
             allCheck:false,
-            checked:false
+           
         };
         this.noteWrite = this.noteWrite.bind(this);
         this.noteSentList = this.noteSentList.bind(this)
@@ -43,12 +42,12 @@ class NoteListComponent extends Component {
         NoteService.GetNoteList(num, token).then((res) => {
             console.log(res.data);
             this.setState({
-                note: res.data.noteList,
-                num: res.data.pagingData.num,
-                paging: res.data.pagingData,
-             
+                 note: res.data.noteList
+                ,num: res.data.pagingData.num
+                ,paging: res.data.pagingData
+                ,sentList: false
             });
-            console.log("didmount")
+           
         });
         console.log(this.state)
     }
@@ -56,6 +55,8 @@ class NoteListComponent extends Component {
 
     checkBoxHandler(id, isChecked){ 
         var newList = [...this.state.checkList];
+        id=1*id;
+        
         if (isChecked) {
             newList.push(id);
             this.setState({
@@ -66,15 +67,18 @@ class NoteListComponent extends Component {
             this.setState({
                 checkList: newList
             })
+        console.log("click!")
+        console.log(this.state.checkList)
+        console.log(this.state.checkList.includes(id))
         }
         // console.log(newList)
     }
-    checkHandler(target){
-       this.setState({
-        checked:true
-       }) 
-       this.checkBoxHandler(target.id, target.checked)
-    };
+    // checkHandler(target){
+    //    this.setState({
+    //     checked:true
+    //    }) 
+    //    this.checkBoxHandler(target.id, target.checked)
+    // };
 
     allCheckHandler(isChecked){
         const numbers = []
@@ -109,7 +113,8 @@ class NoteListComponent extends Component {
                 note: res.data.noteList
             });
         });
-        console.log(this.state)
+        console.log("length")
+        console.log(this.state.note.length)
     }
     
     // 쓰기 페이지 이동
@@ -118,8 +123,21 @@ class NoteListComponent extends Component {
         this.props.navigate('/noteWrite')
     }
 
+    //상세보기
     noteRead(no) {
         this.props.navigate('/noteRead/'+no)
+    }
+    //삭제
+    noteDelete = async function() {
+        var token = this.props.token;
+        NoteService.noteDelete(this.state.checkList, token).then(res => {
+            console.log(res);
+            if(res.status == 200) {
+                this.listNote(1);
+            }else{
+                alert("실패!");
+            }
+        });
     }
     noteSentList(){
         this.props.navigate('/noteSentList/')
@@ -174,6 +192,7 @@ class NoteListComponent extends Component {
             )
         }
     }
+
   
     render() {
         return (
@@ -199,7 +218,7 @@ class NoteListComponent extends Component {
                                     this.state.note.map(
                                         note =>
                                         <tr key = {note.no}>
-                                            <td><input type="checkbox" id={note.no} className="note_checkbox" onChange={(e)=> this.checkBoxHandler(e.target.id, e.target.checked)}
+                                            <td><input type="checkbox" id={note.no} classame="note_checkbox" onChange={(e)=> this.checkBoxHandler(e.target.id, e.target.checked)}
                                             checked={this.state.checkList.includes(note.no)? true : false}
                                             /></td>
                                             <td style= {{display :"none"}}>{note.no}</td>
@@ -216,6 +235,7 @@ class NoteListComponent extends Component {
                     <div style={{float:"right"}}>
                         <button className="btn btn-primary" onClick={this.noteWrite}>쪽지 보내기</button>
                         <button className="btn btn-primary" onClick={this.noteSentList.bind(this)} style={{marginLeft: "5px"}}>보낸쪽지함</button>
+                        <button className="btn btn-primary" onClick={()=>this.noteDelete()} style={{marginLeft:"10px"}}>쪽지삭제</button>
                     </div>
                     <div className="row">
                         <nav aria-label="Page navigation example">

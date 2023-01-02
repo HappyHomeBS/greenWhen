@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -34,10 +35,8 @@ public class NoteController {
         System.out.println("testing!");
         //쪽지 목록 가져오기
         List<NoteVo>noteList = noteService.noteListPage(userId, page.getDisplayPost(), page.getPostNum());
-
         //map에 전달
         Map result = new HashMap<>();
-
         result.put("pagingData", page);
         result.put("noteList", noteList);
 
@@ -54,17 +53,29 @@ public class NoteController {
 
 //쪽지 읽기
     @GetMapping("/noteRead/{no}")
-    public List<NoteVo> noteRead(@PathVariable int no){
-        List<NoteVo> noteRead = noteService.noteRead(no);
-        System.out.println("read"+noteRead);
+    public NoteVo noteRead(@PathVariable int no){
+        String userId = SecurityUtil.getCurrentMemberId();
+        NoteVo noteVo = noteService.noteRead(no);
+        String recept = noteVo.getRecept();
+        if (userId == recept){
         noteService.noteReadCheck(no);
-        return noteRead;
+        }
+
+        System.out.println("read"+noteVo);
+        return noteVo;
     }
 //쪽지 삭제
-    @DeleteMapping("/noteDelete/{no}")
-    public void noteDelete(@PathVariable int no) {
-        noteService.noteDelete(no);
-        System.out.println("noteDelete"+no);
+    @PostMapping("/noteDelete")
+    public void noteDelete(@RequestBody NoteVo noteVo) {
+
+        int[] nos = noteVo.getNos();
+        int size = nos.length;
+        System.out.println("nos"+ noteVo.getNos());
+        for (int i=0; i<size; i++){
+            noteService.noteDelete(nos[i]);
+
+        }
+
     }
 
 //보낸 쪽지함

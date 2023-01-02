@@ -11,23 +11,30 @@ class NoteReadComponent extends Component {
         }
     }
 
-    componentDidMount(no) {
+    componentDidMount(no, token) {
         no=this.state.no
-        NoteService.noteRead(no).then((res) => {
+        token = this.props.token;
+        console.log(token)
+        NoteService.noteRead(no, token).then((res) => {
         console.log(res.data);
-        this.setState({note: res.data[0]});
-        console.log(this.state.note)
+        this.setState({note: res.data});
         
         });
     }
 
     goToList() {
+        if (this.state.sentList === true){
+        this.props.navigate('/noteSentList')
+    } else{
         this.props.navigate('/note')
     }
-
+}
     noteDelete = async function() {
         if(window.confirm("삭제하시겠습니까?")){
-            NoteService.noteDelete(this.state.no).then(res => {
+            var no = [this.state.no];
+            var token = this.props.token;
+            
+            NoteService.noteDelete(no, token).then(res => {
                 console.log("result => " + JSON.stringify(res));
                 if (res.status == 200) {
                     this.props.navigate('/note');
@@ -44,13 +51,17 @@ class NoteReadComponent extends Component {
         return (
             <div>
                 <div className = "card col-md-6 offset-md-3">
-                    <h3 className = "text-center"> Read Detail </h3>
+                    <h3 className = "text-center"> 상세보기 </h3>
                     <div className = "card-body">
                         <div className="row">
-                            <label> Title </label> : {this.state.note.title}
+                                   <label> 보낸사람 : {this.state.note.send}</label>
+                                   <label> 받은시간  : {this.state.note.time}</label>
+                                   <label> 제    목  : {this.state.note.title}</label>
+                                   <br></br>
+                                   <br></br>
                         </div>
                         <div className = "row">
-                            <label> Contents </label> : <br></br>
+                            <label> 내 용 </label><br></br>
                             <textarea value={this.state.note.content} readOnly/>
                         </div>
                         {/* <div>

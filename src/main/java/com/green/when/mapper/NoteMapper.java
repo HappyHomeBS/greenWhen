@@ -18,7 +18,7 @@ public interface NoteMapper {
     //쓰기
     void noteWrite(NoteVo noteVo);
     //읽기
-    List<NoteVo> noteRead(int no);
+    NoteVo noteRead(int no);
     //수신확인
     void noteReadCheck(int no);
     //삭제

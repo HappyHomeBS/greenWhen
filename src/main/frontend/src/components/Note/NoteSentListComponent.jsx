@@ -19,12 +19,14 @@ constructor(props) {
     componentDidMount(token) {
         var num=this.state.num;
         token = this.props.token;
+        console.log(token);
         NoteService.noteSentList(num, token).then((res) => {
             console.log(res.data);
             this.setState({
-                note: res.data.noteList,
-                num: res.data.pagingData.num,
-                paging: res.data.pagingData,
+                note: res.data.noteList
+                ,num: res.data.pagingData.num
+                ,paging: res.data.pagingData
+                ,sentList: true
             });
             console.log("didmount")
         });

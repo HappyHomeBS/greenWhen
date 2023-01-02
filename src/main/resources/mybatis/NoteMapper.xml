@@ -14,14 +14,14 @@
             CASE WHEN readcheck = 0 THEN '미확인' WHEN  readcheck = 1 THEN '확인' ELSE '오류'
             END AS readCheckString
         FROM note_tb
-        WHERE recept = #{userId}
+        WHERE recept = #{userId} AND deleted = 0
     </select>
 <!--페이징을 위한 카운트 -->
     <select id="noteCount" resultType="int">
-        select count(no) from note_tb
-        where recept= #{userId}
+        SELECT count(no) FROM note_tb
+        WHERE recept= #{userId} AND deleted = 0
     </select>
-<!--보낸쪽지함 카운트 -->
+<!--보낸쪽지함 페이징 카운트 -->
     <select id="noteSentCount" resultType="int">
         select count(no) from note_tb
         where send= #{userId}
@@ -38,7 +38,7 @@
             CASE WHEN readcheck = 0 THEN '미확인' WHEN  readcheck = 1 THEN '확인' ELSE '오류'
         END AS readCheckString
         FROM note_tb
-        WHERE recept = #{userId}
+        WHERE recept = #{userId} AND deleted = 0
         ORDER BY no desc
         LIMIT #{displayPost}, #{postNum}
     </select>
@@ -77,9 +77,10 @@
     </update>
 
 
-<!--쪽지삭제-->
-    <delete id="noteDelete">
-        DELETE FROM note_tb
+<!--쪽지삭제 : 보낸쪽지함이 있기에 원본은 db에 보존하되 삭제체크만 하여 조회하지 않도록-->
+    <update id="noteDelete">
+        UPDATE note_tb
+        SET deleted = 1
         WHERE no= #{no}
-    </delete>
+    </update>
 </mapper>

@@ -21,6 +21,7 @@ class NoteWriteComponent extends Component {
         this.changeTitleHandler = this.changeTitleHandler.bind(this);
         this.changeContentHandler = this.changeContentHandler.bind(this);
         this.noteWrite= this.noteWrite.bind(this);
+
         }
         
     changeSendHandler = (event) => {
@@ -37,6 +38,7 @@ class NoteWriteComponent extends Component {
     }
     
     noteWrite = (event) => {
+        var token = this.props.token
         event.preventDefault();
         let note = {
              send: this.props.userId
@@ -45,7 +47,7 @@ class NoteWriteComponent extends Component {
             ,content : this.state.content
         };
         console.log("note = > "+JSON.stringify(note));
-        NoteService.noteWrite(note).then(res => {
+        NoteService.noteWrite(note, token).then(res => {
             this.props.navigate('/note');
         });
     }

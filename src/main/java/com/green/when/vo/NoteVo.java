@@ -3,6 +3,9 @@ package com.green.when.vo;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
 
+import java.lang.reflect.Array;
+import java.util.List;
+
 // 데이터 없을 때 JSON 만들지 않는설정
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Getter
@@ -20,5 +23,5 @@ public class NoteVo {
     private String content;          //내용
     private int readCheck;           //수신확인
     private String readCheckString;  //수신확인(문자변환)
-
+    private int[] nos; // 다중선택에 쓰는 리스트
 }
