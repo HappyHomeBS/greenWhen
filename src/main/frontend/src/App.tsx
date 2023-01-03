@@ -1,31 +1,25 @@
 import React, { useContext } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
-import CreateAccountPage from './pages/CreateAccountPage';
 import Layout from './components/Layout/Layout';
 import HomePage from './pages/HomePage';
 import ProfilePage from './pages/ProfilePage';
 import AuthContext from './store/authContext';
 import AdminPage from './pages/AdminPage'
-// import NoteListComponent from './components/Note/NoteListComponent';
-// import NoteReadComponent from './components/Note/NoteReadComponent';
-// import NoteWriteComponent from './components/Note/NoteWriteComponent';
+import CalendarPage from './pages/CalendarPage';
 
 
 function App() {
 
-  const authCtx = useContext(AuthContext);
+  const authCtx = useContext(AuthContext);    
 
   return (
     <Layout>
       <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/signup/" element={authCtx.isLoggedIn ? <Navigate to='/' /> : <CreateAccountPage />} />        
+        {/*로그인 여부, 유저권한에 따라서 조건에 부합하지 않을경우 홈으로 이동 */}
+        <Route path="/" element={<HomePage />} />                
         <Route path="/profile/" element={!authCtx.isLoggedIn ? <Navigate to='/' /> : <ProfilePage />} />
-        <Route path="/admin/" element={!authCtx.isLoggedIn ? <Navigate to='/' /> : <AdminPage />} />
-        {/* 업데이트 되면서 component ={} -> element{<>/}로 사용*/}
-        {/* <Route path="/note/:userId" element = {<NoteListComponent/>}></Route>
-        <Route path="/noteWrite" element = {<NoteWriteComponent/>}></Route>
-        <Route path="/noteRead/:no" element = {<NoteReadComponent/>}> </Route> */}
+        <Route path="/admin/" element={!authCtx.isLoggedIn || authCtx.userObj.role !== 'ROLE_ADMIN' ? <Navigate to='/' /> : <AdminPage />} />
+        <Route path="/calendar/" element= {<CalendarPage />}/>
       </Routes>
     </Layout>
   );

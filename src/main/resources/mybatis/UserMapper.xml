@@ -116,7 +116,7 @@
     <select id="userList" resultType="MemberResponseVo">
         SELECT *
         FROM   member_tb
-        ORDER BY time ASC
+        ORDER BY time DESC
     </select>
 
     <!-- 회원탈퇴시 외래키 해제 -->
@@ -139,6 +139,12 @@
         INSERT INTO deleteUser(userid, usernickname, useremail)
         VALUES (#{userid}, #{usernickname}, #{useremail})
     </insert>
+
+    <update id="roleChange">
+        UPDATE member_tb
+        SET   role = #{role}
+        WHERE userid = #{userid}
+    </update>
 
 
 </mapper>

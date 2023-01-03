@@ -96,10 +96,22 @@ export const changePasswordActionHandler = (
 
 export const profileImgActionHandler = ( file:string, token: string) => {
   const URL = '/member/profileImg';
-  const progileImgObj = { file };
-  const headers =  {'Content-Type': 'multipart/form-data',
-                    'header'      : createTokenHeader(token)  };
-  const response = POST(URL, progileImgObj, headers);
+  const formData = new FormData();
+  formData.append('file', file);
+  const response = POST(URL, formData, createTokenHeader(token));
+  return response;
+}
 
+export const userDeleteActionHandler = ( userid:string, useremail:string, usernickname:string, token: string ) => {
+  const URL = '/admin/userDelete';
+  const userDeleteObj = { userid, useremail, usernickname }  
+  const response = POST(URL, userDeleteObj, createTokenHeader(token));
+  return response;
+}
+
+export const roleChangeActionHandler = ( role:string, userid:string, token: string ) => {
+  const URL = '/admin/roleChange';
+  const roleChangeObj = { role, userid }  
+  const response = POST(URL, roleChangeObj, createTokenHeader(token));
   return response;
 }

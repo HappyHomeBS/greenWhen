@@ -16,13 +16,17 @@ const AuthContext = React.createContext({
   userObj: { userid: '', usernickname: '', useremail: '', role: '' },
   isLoggedIn: false,
   isSuccess: false,
-  isGetSuccess: false,
+  isGetSuccess: false,  
   signup: (userid: string, userpw: string, usernickname: string, useremail: string) => { },
   login: (userid: string, userpw: string) => { },
   logout: () => { },
   getUser: () => { },
   changeNickname: (usernickname: string) => { },
-  changePassword: (exPassword: string, newPassword: string) => { }
+  changePassword: (exPassword: string, newPassword: string) => { },
+  profileImg: (file: string) => { },
+  userDelete: (userid: string, useremail: string, usernickname: string ) => { },
+  roleChange: (role: string, userid: string) => { }
+  
 });
 
 
@@ -151,7 +155,26 @@ export const AuthContextProvider: React.FC<Props> = (props) => {
       }
     })
   };
-
+  
+  const userDeleteHandler = (userid:string, useremail:string, usernickname:string) => {
+    setIsSuccess(false);
+    const data = authAction.userDeleteActionHandler(userid, useremail, usernickname, token);
+    data.then((result) => {
+      if (result !== null) {        
+        setIsSuccess(true);
+      }
+    })
+  };
+  
+  const roleChangeHandler = (role:string, userid:string) => {
+    setIsSuccess(false);
+    const data = authAction.roleChangeActionHandler(role, userid, token);
+    data.then((result) => {
+      if (result !== null) {        
+        setIsSuccess(true);
+      }
+    })
+  };
 
   useEffect(() => {
     if (tokenData) {
@@ -174,7 +197,9 @@ export const AuthContextProvider: React.FC<Props> = (props) => {
     getUser: getUserHandler,
     changeNickname: changeNicknameHandler,
     changePassword: changePaswordHandler,
-    profileImg: profileImgHandler
+    profileImg: profileImgHandler,
+    userDelete: userDeleteHandler,
+    roleChange: roleChangeHandler
   }
 
   return (

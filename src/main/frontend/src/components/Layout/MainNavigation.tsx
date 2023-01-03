@@ -39,6 +39,7 @@ const MainNavigation = () => {
     }
   }, [isLogin]);
 
+  
   useEffect(() => {
     if (isGet) {
       console.log('get start');
@@ -55,7 +56,6 @@ const MainNavigation = () => {
         const URL = imageUrl + data.filename
         setImage(URL)
         console.log("주소", Image)
-
       });
   }, [isGet]);
 
@@ -78,16 +78,17 @@ const MainNavigation = () => {
       <header>
         <Navbar bg="light" expand="lg">
           <Container>
-            <Navbar.Brand href="#home"><Link to='/'><div>언제갈래?</div></Link></Navbar.Brand>
+            <Navbar.Brand><Link to='/'>언제갈래?</Link></Navbar.Brand>
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
               <Nav className="ml-auto">
-                {!isLogin && <Nav.Link> <Button variant="outline-primary" onClick={() => setSignInModalOn(true)}>Login</Button></Nav.Link>}
-                {!isLogin && <Nav.Link> <Button variant="outline-primary" onClick={() => setSignUpModalOn(true)}>Sign-Up</Button></Nav.Link>}
+                {!isLogin && <Navbar><Button variant="outline-primary" onClick={() => setSignInModalOn(true)}>Login</Button>&nbsp;</Navbar>}
+                {!isLogin && <Navbar><Button variant="outline-primary" onClick={() => setSignUpModalOn(true)}>Sign-Up</Button>&nbsp;</Navbar>}
                 {isLogin && <Link to='/profile'><img src={Image} className="navImage" alt="" /></Link>}
-                {isLogin && <Navbar> &nbsp; {usernickname}님 환영합니다! </Navbar>}
-                {isLogin && <Nav.Link> <Button variant="outline-primary" onClick={toggleLogoutHandler}>Logout</Button></Nav.Link>}
-                {isLogin && role ==='ROLE_ADMIN' &&  <Nav.Link><Link to='/admin'> <Button variant="outline-primary">관리자 페이지</Button></Link></Nav.Link>}
+                {isLogin && <Navbar> &nbsp; {usernickname}님 환영합니다! &nbsp; </Navbar>}
+                {isLogin && <Navbar> <Button variant="outline-primary" onClick={toggleLogoutHandler}>Logout</Button>&nbsp;</Navbar>}
+                {isLogin && role ==='ROLE_ADMIN' &&  <Navbar><Link to='/admin'> <Button variant="outline-primary">관리자 페이지</Button></Link>&nbsp;</Navbar>}
+                <Navbar><Link to='/calendar'><Button variant="outline-primary">달력</Button></Link></Navbar>
               </Nav>
             </Navbar.Collapse>
           </Container>
