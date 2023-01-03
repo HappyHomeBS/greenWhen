@@ -1,20 +1,24 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
+
 import React, {useContext, Component} from 'react';
 import * as NoteService from '../../service/NoteService.js';
 import { useLocation, useParams, useNavigate} from 'react-router-dom'
 import AuthContext from '../../store/auth-context.tsx';
 import "../../css/Note.css"
+import NoteSearchComponent from './NoteSearchComponent.jsx'
+import queryString from 'query-string'
 // useParams 사용을 위해 함수 HOC 생성 
 export const withRouter = (WrappedComponent) => (props) => {
-    const params=useParams();
+    const params = useParams();
     const navigate = useNavigate();
     const location = useLocation();
-    
     const authCtx = useContext(AuthContext);
- 
+    const sentList = false;
+
     var userId = authCtx.userObj.userid;
     var userNickName = authCtx.userObj.usernickname;
     var token = authCtx.token;
-    return<WrappedComponent{...props} userId={userId} token = {token} params={params} navigate = {navigate} location={location}/>;
+    return<WrappedComponent{...props} sentList={sentList} userId={userId} token = {token} params={params} navigate = {navigate} location={location}/>;
 };
 
 
@@ -24,32 +28,47 @@ class NoteListComponent extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            note: [],
-            num: 1,
-            paging: {},
-            checkList:[],
-            allCheck:false,
-           
+            note: []
+            ,num: 1
+            ,paging: {}
+            ,checkList:[]
+            ,allCheck:false
+            ,search:null
         };
         this.noteWrite = this.noteWrite.bind(this);
         this.noteSentList = this.noteSentList.bind(this)
     }
 
-    // 컴포넌트 생성시 실행(값 세팅)
-    componentDidMount(token) {
+    // 컴포넌트 생성시 실행(값 세팅)a
+    componentDidMount() {
+        
         var num=this.state.num;
-        token = this.props.token;
-        NoteService.GetNoteList(num, token).then((res) => {
+        var token = this.props.token;
+        let inputOption = queryString.parse(this.props.location.search).option
+        let inputSearch = queryString.parse(this.props.location.search).search
+        let searchData = {}
+        if (inputSearch !== undefined) {
+            if (inputOption !== undefined) {
+                this.setState({
+                    search: ['search:'+ inputSearch, 'option:'+ inputOption ]
+                })
+                 searchData= { search: ['search:'+ inputSearch, 'option:'+ inputOption ]}
+            }
+        } else {
+          console.log("검색없음")
+        }
+
+        NoteService.getNoteList(num, token).then((res) => {
             console.log(res.data);
             this.setState({
                  note: res.data.noteList
                 ,num: res.data.pagingData.num
                 ,paging: res.data.pagingData
-                ,sentList: false
             });
-           
         });
+        console.log("state:")
         console.log(this.state)
+
     }
     //체크박스 
 
@@ -73,12 +92,7 @@ class NoteListComponent extends Component {
         }
         // console.log(newList)
     }
-    // checkHandler(target){
-    //    this.setState({
-    //     checked:true
-    //    }) 
-    //    this.checkBoxHandler(target.id, target.checked)
-    // };
+  
 
     allCheckHandler(isChecked){
         const numbers = []
@@ -103,9 +117,23 @@ class NoteListComponent extends Component {
     //페이징 포함 리스트 호출
     
     listNote(num){
-        console.log("pageNum : " + num);
+        console.log("pageNum : ");
         var token = this.props.token;
-        NoteService.GetNoteList(num, token).then((res) => {
+        let inputOption = queryString.parse(this.props.location.search).option
+        let inputSearch = queryString.parse(this.props.location.search).search
+        let searchData = {}
+
+        if (inputSearch !== undefined) {
+            if (inputOption !== undefined) {
+                this.setState({
+                    search: ['search:'+ inputSearch, 'option:'+ inputOption ]
+                })
+                 searchData= { search: ['search:'+ inputSearch, 'option:'+ inputOption ]}
+            }
+        } else {
+          console.log("검색없음")
+        }
+        NoteService.getNoteList(num, token).then((res) => {
             console.log(res.data);
             this.setState({
                 num: res.data.pagingData.num,
@@ -113,6 +141,8 @@ class NoteListComponent extends Component {
                 note: res.data.noteList
             });
         });
+        console.log(this.state)
+
         console.log("length")
         console.log(this.state.note.length)
     }
@@ -151,7 +181,7 @@ class NoteListComponent extends Component {
         }
         return (pageNums.map((page) => 
         <li className="page-item" key={page.toString()}>
-            <a className="page-link" onClick= {() => this.listNote(page)}>{page}</a>
+            <a className="page-link" onClick = {() => this.listNote(page)}>{page}</a>
         </li>
         ));
     }
@@ -258,6 +288,9 @@ class NoteListComponent extends Component {
                             </ul>
                         </nav>
                     </div>
+                <div>
+                    <NoteSearchComponent/>
+                </div>
                 </div>
         );
     }

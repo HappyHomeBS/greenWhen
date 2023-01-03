@@ -22,10 +22,10 @@ public class NoteController {
     NoteService noteService;
 //  쪽지 리스트 출력
     @GetMapping("/note")
-    public ResponseEntity<Map> noteList(@RequestParam(value = "num", required=false) Integer num) {
+    public ResponseEntity<Map> noteList(@RequestParam(value = "num", required=false) Integer num){
 //        if(num==null) {num=1;}
         String userId = SecurityUtil.getCurrentMemberId();
-        System.out.println("userId"+userId);
+
         //페이징 계산
         PageVo page = new PageVo();
         page.setNum(num);
@@ -57,10 +57,10 @@ public class NoteController {
         String userId = SecurityUtil.getCurrentMemberId();
         NoteVo noteVo = noteService.noteRead(no);
         String recept = noteVo.getRecept();
-        if (userId == recept){
+        System.out.println(recept);
+        if (userId.equals(recept)){
         noteService.noteReadCheck(no);
         }
-
         System.out.println("read"+noteVo);
         return noteVo;
     }

@@ -14,36 +14,30 @@ class NoteReadComponent extends Component {
     componentDidMount(no, token) {
         no=this.state.no
         token = this.props.token;
-        console.log(token)
         NoteService.noteRead(no, token).then((res) => {
         console.log(res.data);
         this.setState({note: res.data});
+        
         
         });
     }
 
     goToList() {
-        if (this.state.sentList === true){
-        this.props.navigate('/noteSentList')
-    } else{
-        this.props.navigate('/note')
-    }
+       this.props.navigate(-1)
 }
     noteDelete = async function() {
         if(window.confirm("삭제하시겠습니까?")){
             var no = [this.state.no];
             var token = this.props.token;
-            
             NoteService.noteDelete(no, token).then(res => {
                 console.log("result => " + JSON.stringify(res));
-                if (res.status == 200) {
+                if (res.status === 200) {
                     this.props.navigate('/note');
                 } else {
                     alert("실패!")
                 }
             });
         }
-
     }
 
     render() {
@@ -68,7 +62,7 @@ class NoteReadComponent extends Component {
                             {this.note.time}
                         </div> */} 
                         <button className="btn btn-primary" onClick={this.goToList.bind(this)} style={{marginLeft:"10px"}}>쪽지목록으로 이동</button>
-                         {this.props.userId == this.state.note.recept && 
+                         {this.props.userId === this.state.note.recept && 
                         <button className="btn btn-primary" onClick={()=>this.noteDelete()} style={{marginLeft:"10px"}}>쪽지삭제</button>
                          }
                     </div>

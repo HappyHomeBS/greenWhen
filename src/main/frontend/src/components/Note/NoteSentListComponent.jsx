@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import React, {Component } from 'react';
 import * as NoteService from '../../service/NoteService.js';
 import { withRouter } from './NoteListComponent';
@@ -7,9 +8,9 @@ class NoteSentListComponent extends Component {
 constructor(props) {
     super(props)
     this.state = {
-        note: [],
-        num: 1,
-        paging: {}
+        note: []
+        ,num: 1
+        ,paging: {}
     };
     this.noteWrite = this.noteWrite.bind(this);
     this.noteList = this.noteList.bind(this)
@@ -20,6 +21,8 @@ constructor(props) {
         var num=this.state.num;
         token = this.props.token;
         console.log(token);
+        this.props.params.sentList = true;
+        console.log(this.props.params.sentList)
         NoteService.noteSentList(num, token).then((res) => {
             console.log(res.data);
             this.setState({
@@ -53,7 +56,7 @@ constructor(props) {
     }
 
     noteRead(no) {
-        this.props.navigate('/noteRead/'+no)
+        this.props.navigate('/noteRead/'+no, {sentList:true})
     }
     noteList(){
         this.props.navigate('/note')

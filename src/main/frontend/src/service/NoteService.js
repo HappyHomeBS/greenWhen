@@ -6,9 +6,9 @@ import axios from 'axios';
         }}
     }
 
-    export const GetNoteList = (num, token)=>{
+    export const getNoteList = (num, token)=>{
     //axios 데이터 res에 담기
-        const result = axios.get("/api/note?num="+num, header(token))
+        const result = axios.get("/api/note?num="+num, header(token));
         return result;
     }
 
