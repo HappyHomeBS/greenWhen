@@ -9,10 +9,9 @@ const ProfileImage = () => {
   const fileInput = useRef(null)
   const [file, setFile] = useState('');
   const authCtx = useContext(AuthContext);
-  const token = authCtx.token;  
+  const token = authCtx.token;
 
   useEffect(() => {
-
     axios.get('/member/callProfile', {
       headers: {
         'Authorization': 'Bearer ' + token
@@ -23,7 +22,6 @@ const ProfileImage = () => {
         const URL = data.filepath
         setImage(URL)
         console.log("주소", Image)
-
       });
   }, []);
 
@@ -31,21 +29,10 @@ const ProfileImage = () => {
 
   const handleSubmit = useCallback(async () => {
     if (!file) return;
-
-    const formData = new FormData();
-    formData.append('file', file);
-
-    const res = await axios.post(
-      '/member/profileImg',
-      formData,
-      {
-        headers: {
-          'Authorization': 'Bearer ' + token,
-          'Content-Type': 'multipart/form-data'
-        }
-      }
-    );
-    if (res.status === 201) console.log(res.data);
+    authCtx.profileImg(file);
+    if (authCtx.isSuccess) {
+      alert("변경 되었습니다.");      
+    }
   }, [file]);
 
   const handleChange = useCallback((e) => {
