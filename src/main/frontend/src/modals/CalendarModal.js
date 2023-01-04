@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback, useContext } from 'react'
 import { Modal, Button, Form, Container } from 'react-bootstrap'
 import axios from 'axios'
 
-const SignUpModal = ({ show, onHide }) => {
+const CalendarModal = ({ show, onHide }) => {
     
     const [useremail, setUseremail] = useState('');
     
@@ -19,13 +19,17 @@ const SignUpModal = ({ show, onHide }) => {
     const handleSubmit = (e) => {       
         e.preventDefault();
         console.log('submit:'+useremail)
-        axios.post('/auth/findid', { useremail: useremail })
+        axios.get('/auth/findid', {
+            params: {
+                useremail: useremail
+            }
+        })
             .then((res) => {
                 const data = res.data;
-                if (data !== '') {
+                if (data !== null) {
                     alert("아이디는 " + data + " 입니다.")                    
                     console.log('정상:' + data)                    
-                } else if (data == '') {
+                } else if (data == null) {
                     alert("이메일을 다시 입력해 주세요")                                        
                 }
             });         
@@ -62,4 +66,4 @@ const SignUpModal = ({ show, onHide }) => {
     )
 }
 
-export default SignUpModal
+export default CalendarModal

@@ -18,45 +18,40 @@ public class AuthController {
 
     //회원가입
     @PostMapping("/signup")
-    public void signup(@RequestBody MemberRequestVo requestDto) {
-        authService.signup(requestDto);
+    public void signup(@RequestBody MemberRequestVo requestVo) {
+        authService.signup(requestVo);
     }
 
     //로그인
     @PostMapping("/login")
-    public ResponseEntity<TokenVo> login(@RequestBody MemberRequestVo requestDto) {
-        return ResponseEntity.ok(authService.login(requestDto));
+    public ResponseEntity<TokenVo> login(@RequestBody MemberRequestVo requestVo) {
+        return ResponseEntity.ok(authService.login(requestVo));
     }
 
     // ID 중복체크
-    @GetMapping("/userCheck")
-    public int userCheck(@RequestParam String userid) {        
-        int useridCheck = authService.useridCheck(userid);
+    @PostMapping("/userCheck")
+    public int userCheck(@RequestBody MemberRequestVo requestVo) {
+        int useridCheck = authService.useridCheck(requestVo.getUserid());
         return useridCheck;
 
     }
 
     // 이메일 중복체크
-    @GetMapping("/emailCheck")
-    public int emailCheck(@RequestParam String useremail) {
-        System.out.println(useremail);
-        int useremailCheck = authService.useremailCheck(useremail);
-        System.out.println(useremailCheck);
+    @PostMapping("/emailCheck")
+    public int emailCheck(@RequestBody MemberRequestVo requestVo) {
+        int useremailCheck = authService.useremailCheck(requestVo.getUseremail());
         return useremailCheck;
     }
 
     // 닉네임 중복체크
-    @GetMapping("/nicknameCheck")
-    public int nicknameCheck(@RequestParam String usernickname) {
-        System.out.println(usernickname);
-        int usernicknameCheck = authService.usernicknameCheck(usernickname);
-        System.out.println(usernicknameCheck);
+    @PostMapping("/nicknameCheck")
+    public int nicknameCheck(@RequestBody MemberRequestVo requestVo) {
+        int usernicknameCheck = authService.usernicknameCheck(requestVo.getUsernickname());
         return usernicknameCheck;
     }
-    @GetMapping("/findid")
-    public String findId(@RequestParam String useremail){
-        System.out.println("아이디찾기:"+useremail);
-        String userid = authService.findId(useremail);
+    @PostMapping("/findid")
+    public String findId(@RequestBody MemberRequestVo requestVo){
+        String userid = authService.findId(requestVo.getUseremail());
         return userid;
     }
 

@@ -16,7 +16,7 @@ const Member = () => {
   }]);
 
   useEffect(() => {
-    
+
     axios.get('/admin/userList', {
       headers: {
         'Authorization': 'Bearer ' + token
@@ -26,14 +26,14 @@ const Member = () => {
         console.log('유저정보:', res.data);
         setUsers(res.data);
       });
-    
+
   }, []);
 
   const userDelete = (user: any) => {
     console.log('정보:', user)
     const userid = user.userid
-    const useremail = user.useremail 
-    const usernickname = user.usernickname      
+    const useremail = user.useremail
+    const usernickname = user.usernickname
     authCtx.userDelete(userid, useremail, usernickname);
   }
 
@@ -68,29 +68,27 @@ const Member = () => {
       </div>
       <div>
         {/*반복되는 컴포넌트 렌더링 위해 map()사용  */}
-        <div>
-          {users.map(user => {
-            return (
-              <div key={user.userid}>
-                <form onSubmit={(event) => submitHandler(event, user.userid)}>
-                  <span>{user.userid}</span>
-                  <span>{user.usernickname}</span>
-                  {user.role === 'ROLE_ADMIN' && <span>관리자</span>}
-                  {user.role === 'ROLE_USER' && <span>일반유저</span>}
-                  <span>{user.time}</span>
-                  <select className="grade" onChange={handleChange} value={selected}>
-                    <option>관리등급</option>
-                    <option value="ROLE_ADMIN">관리자</option>
-                    <option value="ROLE_USER">일반유저</option>
-                  </select>
-                  <button type='submit'>등급 변경</button>
-                </form>
-                <button>쪽지</button>
-                <button onClick={() => userDelete(user)}>탈퇴</button>
-              </div>
-            )
-          })}
-        </div>
+        {users.map(user => {
+          return (
+            <div key={user.userid}>
+              <form onSubmit={(event) => submitHandler(event, user.userid)}>
+                <span>{user.userid}</span>
+                <span>{user.usernickname}</span>
+                {user.role === 'ROLE_ADMIN' && <span>관리자</span>}
+                {user.role === 'ROLE_USER' && <span>일반유저</span>}
+                <span>{user.time}</span>
+                <select className="grade" onChange={handleChange} value={selected}>
+                  <option>관리등급</option>
+                  <option value="ROLE_ADMIN">관리자</option>
+                  <option value="ROLE_USER">일반유저</option>
+                </select>
+                <button type='submit'>등급 변경</button>
+              </form>
+              <button>쪽지</button>
+              <button onClick={() => userDelete(user)}>탈퇴</button>
+            </div>
+          )
+        })}
       </div>
     </div>
   );

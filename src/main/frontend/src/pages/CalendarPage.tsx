@@ -1,5 +1,5 @@
 import React, { Fragment, useContext, useState } from "react";
-import { Calendar } from "../components/Calendar/Calendar";
+import { CalendarComponent } from "../components/Calendar/CalendarComponent";
 import MainNavigation from "../components/Layout/MainNavigation";
 import AuthContext from "../store/authContext";
 
@@ -16,7 +16,7 @@ const CalendarPage = () => {
 
   return (
     <Fragment>
-      <Calendar />      
+      <CalendarComponent />      
     </Fragment>
   );
 };

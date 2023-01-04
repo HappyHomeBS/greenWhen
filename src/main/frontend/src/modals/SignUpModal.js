@@ -46,12 +46,8 @@ const SignUpModal = ({ show, onHide }) => {
             console.log('오류' + idCheckMsg)
         } else {
             setIdCheckMsg("");
-            console.log('정상')
-            axios.get('/auth/userCheck', {
-                params: {
-                    userid: userid
-                }
-            })
+            console.log('정상')            
+            axios.post('/auth/userCheck', {userid: userid})
                 .then((res) => {
                     const resMessge = res.data;
                     if (resMessge === 0) {
@@ -117,11 +113,7 @@ const SignUpModal = ({ show, onHide }) => {
         } else {
             setNickCheckMsg("");
             console.log('정상')
-            axios.get('/auth/nicknameCheck', {
-                params: {
-                    usernickname: usernickname
-                }
-            })
+            axios.post('/auth/nicknameCheck', { usernickname: usernickname })
                 .then((res) => {
                     const resMessge = res.data;
                     if (resMessge === 0) {
@@ -153,11 +145,7 @@ const SignUpModal = ({ show, onHide }) => {
         } else {
             setEmailCheckMsg("");
             console.log('정상')
-            axios.get('/auth/emailCheck', {
-                params: {
-                    useremail: useremail
-                }
-            })
+            axios.post('/auth/emailCheck', { useremail: useremail })
                 .then((res) => {
                     const resMessge = res.data;
                     if (resMessge === 0) {
