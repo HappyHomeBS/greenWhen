@@ -36,6 +36,18 @@ const MainNavigation = () => {
       console.log('start');
       authCtx.getUser();
       setSignInModalOn(false);      
+
+      axios.get('/member/callProfile', {
+        headers: {
+          'Authorization': 'Bearer ' + token
+        }
+      })
+        .then((res) => {
+          const data = res.data;
+          const URL = imageUrl + data.filename
+          setImage(URL)
+          console.log("주소", Image)
+        });
     }
   }, [isLogin]);
 
@@ -45,18 +57,7 @@ const MainNavigation = () => {
       console.log('get start');
       callback(authCtx.userObj.usernickname);
     }
-
-    axios.get('/member/callProfile', {
-      headers: {
-        'Authorization': 'Bearer ' + token
-      }
-    })
-      .then((res) => {
-        const data = res.data;
-        const URL = imageUrl + data.filename
-        setImage(URL)
-        console.log("주소", Image)
-      });
+    
   }, [isGet]);
 
 
@@ -74,7 +75,7 @@ const MainNavigation = () => {
         onHide={() => setSignUpModalOn(false)} />
       <SignInModal
         show={SignInModalOn}
-        onHide={() => setSignInModalOn(false)} />
+        onHide={() => setSignInModalOn(false)} /> 
       <header>
         <Navbar bg="light" expand="lg">
           <Container>

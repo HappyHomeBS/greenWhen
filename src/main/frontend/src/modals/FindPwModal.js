@@ -24,10 +24,10 @@ const SignUpModal = ({ show, onHide }) => {
     console.log("submit:" + userid);
     axios.post('/auth/sendEmail', data).then((res) => {
       const data = res.data;
-      if (data !== null) {
+      if (data !== '') {
         alert("이메일을 확인해 주세요");
         console.log("정상:" + data);
-      }
+      } 
     });
   };
 

@@ -19,17 +19,13 @@ const SignUpModal = ({ show, onHide }) => {
     const handleSubmit = (e) => {       
         e.preventDefault();
         console.log('submit:'+useremail)
-        axios.get('/auth/findid', {
-            params: {
-                useremail: useremail
-            }
-        })
+        axios.post('/auth/findid', { useremail: useremail })
             .then((res) => {
                 const data = res.data;
-                if (data !== null) {
+                if (data !== '') {
                     alert("아이디는 " + data + " 입니다.")                    
                     console.log('정상:' + data)                    
-                } else if (data == null) {
+                } else if (data == '') {
                     alert("이메일을 다시 입력해 주세요")                                        
                 }
             });         
