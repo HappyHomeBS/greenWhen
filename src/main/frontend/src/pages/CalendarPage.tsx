@@ -1,8 +1,10 @@
 import React, { Fragment, useContext, useState } from "react";
-import { CalendarComponent } from "../components/Calendar/CalendarComponent";
-import MainNavigation from "../components/Layout/MainNavigation";
+import Calendar from "../components/Calendar/containers/Calendar";
 import AuthContext from "../store/authContext";
 
+import "../components/Calendar/style/calendar.css";
+import "../components/Calendar/style/table.css";
+import "../components/Calendar/style/calendarModal.css"
 
 
 const CalendarPage = () => {
@@ -14,9 +16,9 @@ const CalendarPage = () => {
   console.log('권한:', userRole)
   
 
-  return (
+  return (    
     <Fragment>
-      <CalendarComponent />      
+      <Calendar />      
     </Fragment>
   );
 };

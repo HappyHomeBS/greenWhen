@@ -10,7 +10,7 @@ import { useNavigate } from "react-router-dom";
 import AuthContext from "../../store/authContext";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
-import CalendarModal from "../../modals/CalendarModal";
+import CalendarModal from "../../modals/CalendarModalDEL";
 import { Button } from "react-bootstrap";
 
 const CalendarComponent = () => {
