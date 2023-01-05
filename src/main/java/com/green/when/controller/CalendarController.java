@@ -23,8 +23,8 @@ public class CalendarController {
     private final AdminService adminService;
 
     @PostMapping("/schedule")
-    public void  patch(@RequestBody Map<Objects, String> schedule ) {
-        System.out.println(schedule);
+    public void  patch(@RequestBody ScheduleVo scheduleVo ) {
+        System.out.println(scheduleVo);
     }
 
 
