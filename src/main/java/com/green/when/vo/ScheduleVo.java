@@ -9,11 +9,7 @@ import lombok.*;
 @Getter
 @ToString
 public class ScheduleVo {
-    private String userid;
-    private String targetdate;
-    private String memo;
+    private String index;
+    private String todo;
     private String color;
-    private String groupname;
-    private int    region;
-
 }

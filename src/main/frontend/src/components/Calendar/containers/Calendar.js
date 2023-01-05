@@ -80,20 +80,7 @@ const Calendar = () => {
         }
         else {
             // 일정이 하루만 입력된 경우
-            const schedule = [];
-            schedule.push({index: index, todo:todo, color: color});
             dispatch({type: 'INSERT', index: index, todo: todo, color: color})
-            axios.post('/calendar/schedule', schedule, { headers: {
-                'Authorization': 'Bearer ' + token
-              } 
-            })
-            .then((res) => {
-                const data = res.data;
-                data.map((item) => {                                                        
-                    dispatch({type: 'INSERT', data}) 
-                })
-            });     
-            console.log(schedule)
         }
         dispatch({ type: "MODAL"})
     }

@@ -1,12 +1,12 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
 import axios from 'axios'
+import { Link } from 'react-router-dom';
+import { Button, Container, Nav, Navbar } from 'react-bootstrap';
 
 import AuthContext from '../../store/authContext';
 import SignUpModal from '../../modals/SignUpModal'
-
-import { Button, Container, Nav, Navbar } from 'react-bootstrap';
 import SignInModal from '../../modals/SignInModal';
+
 import '../../ProfileImagecss.css'
 import { Modal } from 'react-bootstrap';
 
@@ -24,8 +24,7 @@ const MainNavigation = () => {
   const [SignUpModalOn, setSignUpModalOn] = useState(false);
   const [SignInModalOn, setSignInModalOn] = useState(false);
 
-  const [Image, setImage] = useState("https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png")
-  const [imageUrl, setImageUrl] = useState('/profileImg/')
+  const [Image, setImage] = useState("https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png")  
 
   const callback = (str: string) => {
     setUserNickname(str);
@@ -44,7 +43,7 @@ const MainNavigation = () => {
       })
         .then((res) => {
           const data = res.data;
-          const URL = imageUrl + data.filename
+          const URL = data.filepath
           setImage(URL)
           console.log("주소", Image)
         });
@@ -65,8 +64,6 @@ const MainNavigation = () => {
     authCtx.logout();
     window.location.reload();
   }
-
-
 
   return (
     <>

@@ -6,7 +6,7 @@ import Style from "../module/Style";
 import ModalReducer from "./reducer/ModalReducer";
 import CalcDate from '../module/CalcDate';
 
-const CalendarModal = ({ targetdate, visible, onConfirm, onCancel }) => {    
+const CalendarModal = ({ index, visible, onConfirm, onCancel }) => {
     const initialState = {
         color: '',
         todo: '',
@@ -27,7 +27,7 @@ const CalendarModal = ({ targetdate, visible, onConfirm, onCancel }) => {
 
     const onKeyPress = (e) => {
         if (e.key == 'Enter') {
-            onConfirm({targetdate, todo})
+            onConfirm({index, todo})
             dispatch({type: 'CHANGE', value: ''})
         }
     }
@@ -65,8 +65,8 @@ const CalendarModal = ({ targetdate, visible, onConfirm, onCancel }) => {
     
     // 입력
     const confirm = () => {
-        const todos = CalcDate(targetdate, end)
-        onConfirm({targetdate, todo, color, todos})
+        const todos = CalcDate(index, end)
+        onConfirm({index, todo, color, todos})
         Initialization()
         changeColor('')
     }
@@ -84,24 +84,26 @@ const CalendarModal = ({ targetdate, visible, onConfirm, onCancel }) => {
             <Container>
                 <Modal.Header closeButton>
                     <Modal.Title id="contained-modal-title-vcenter">
-                    {targetdate}                        
+                    {index}                        
                     </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <div>
-                        <input className="input" placeholder="일정" value={todo} onChange={onChange} onKeyPress={onKeyPress}></input>                    
+                    <div className="input">
+                        <input placeholder="일정" value={todo} onChange={onChange} onKeyPress={onKeyPress}></input>                    
                         {color !== '' && <div className="custom-check-box"
                                      style={Style(color)}/>}
                     </div>
                     <div className="end">
                         <p>종료일 설정</p>
-                        <input className="input" type = 'checkbox' onClick = {onCheck} />
+                        <input type = 'checkbox' onClick = {onCheck} />
                     </div>
                     <div className="choice-day">
-                        { check === true &&                        
+                        { check === true &&
+                        <div className="day">
                             <div className="end-day">
-                                <input className="input" type="text" onChange={onTodos} placeholder={targetdate} />
-                            </div>                        
+                                <input type="text" onChange={onTodos} placeholder="2021.10.13"/>
+                            </div>
+                        </div>
                         }   
                     </div>
                     <Picker changeColor = {changeColor}/>                    
