@@ -1,7 +1,10 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, {Component } from 'react';
 import * as NoteService from '../../service/NoteService.js';
-import { withRouter } from './NoteListComponent';
+import * as NoteListComponent from './NoteListComponent';
+import queryString from 'query-string'
+import NoteSearchComponent from './NoteSearchComponent.jsx';
+import NotePagingComponent from'./NotePaging';
 
 class NoteSentListComponent extends Component {
 //생성자로 초기화하기(note:에 데이터 들어감)
@@ -11,41 +14,37 @@ constructor(props) {
         note: []
         ,num: 1
         ,paging: {}
+        ,checkList:[]
+        ,allCheck:false
+        ,search:null
+        ,option:null
     };
     this.noteWrite = this.noteWrite.bind(this);
     this.noteList = this.noteList.bind(this)
 }
 
     // 컴포넌트 생성시 실행(값 세팅)
-    componentDidMount(token) {
-        var num=this.state.num;
-        token = this.props.token;
-        console.log(token);
-        this.props.params.sentList = true;
-        console.log(this.props.params.sentList)
-        NoteService.noteSentList(num, token).then((res) => {
-            console.log(res.data);
-            this.setState({
-                note: res.data.noteList
-                ,num: res.data.pagingData.num
-                ,paging: res.data.pagingData
-                ,sentList: true
-            });
-            console.log("didmount")
-        });
-        console.log(this.state)
+    componentDidMount() {
+         this.listNote(1)
     }
     
     listNote(num){
-        console.log("pageNum : " + num);
         var token = this.props.token;
-        NoteService.noteSentList(num, token).then((res) => {
+        let option = queryString.parse(this.props.location.search).option
+        let search = queryString.parse(this.props.location.search).search
+
+        NoteService.noteSentList(num, option, search, token).then((res) => {
             console.log(res.data);
             this.setState({
-                num: res.data.pagingData.num,
-                paging: res.data.pagingData,
-                note: res.data.noteList
+                num: res.data.pagingData.num
+                ,paging: res.data.pagingData
+                ,note: res.data.noteList
             });
+        const pagingData = {num: res.data.PagingData.num
+                          ,paging: res.data.pagingdata
+                        }
+        NotePagingComponent(pagingData);
+
         });
         console.log(this.state)
     }
@@ -54,7 +53,6 @@ constructor(props) {
     noteWrite() {
         this.props.navigate('/noteWrite')
     }
-
     noteRead(no) {
         this.props.navigate('/noteRead/'+no, {sentList:true})
     }
@@ -146,29 +144,15 @@ constructor(props) {
                     <button className="btn btn-primary" onClick={this.noteWrite}>쪽지 보내기</button>
                     <button className="btn btn-primary" onClick={this.noteList.bind(this)} style={{marginLeft: "5px"}}>받은쪽지함</button>
                 </div>
-                <div className="row">
-                    <nav aria-label="Page navigation example">
-                         <ul className="pagination justify-content-center">
-                            {
-                                this.isMoveToFirstPage()
-                            }
-                            {
-                                this.isPagingPrev()
-                            }
-                            {
-                                this.viewPaging()
-                            }
-                            {
-                                this.isPagingNext()
-                            }
-                            {
-                                this.isMoveToLastPage()
-                            }
-                        </ul>
-                    </nav>
+                    <NotePagingComponent
+                    num={this.state.num}
+                    paging={this.state.paging}
+                    />
+                <div>
+                    <NoteSearchComponent/>
                 </div>
             </div>
         );
     }
 }
-export default withRouter(NoteSentListComponent);
+export default NoteListComponent.withRouter(NoteSentListComponent);

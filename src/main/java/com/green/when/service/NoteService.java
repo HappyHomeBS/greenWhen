@@ -2,6 +2,7 @@ package com.green.when.service;
 
 import com.green.when.mapper.NoteMapper;
 import com.green.when.vo.NoteVo;
+import com.green.when.vo.PageVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,33 +25,28 @@ public class NoteService {
             return noteList;
     }
     //페이징을 위한 카운트
-    public int noteCount(String userId){
+    public int noteCount(PageVo page){
         try{
-            return mapper.noteCount(userId) ;
+            return mapper.noteCount(page) ;
         }catch(Exception e){
             e.printStackTrace();
             throw e;
         }
     }
-    public int noteSentCount(String userId){
+    public int noteSentCount(PageVo page){
         try{
-            return mapper.noteSentCount(userId) ;
+            return mapper.noteSentCount(page) ;
         }catch(Exception e){
             e.printStackTrace();
             throw e;
         }
     }
     //리스트 조회 페이징
-    public List<NoteVo> noteListPage(String userId, int displayPost, int postNum) {
-        HashMap data = new HashMap();
-
-        data.put("userId", userId);
-        data.put("displayPost", displayPost);
-        data.put("postNum", postNum);
+    public List<NoteVo> noteListPage(PageVo page) {
 
         List<NoteVo> noteList;
         try{
-            noteList = mapper.noteListPage(data);
+            noteList = mapper.noteListPage(page);
         } catch(Exception e) {
             e.printStackTrace();
             throw e;
@@ -58,14 +54,11 @@ public class NoteService {
         return noteList;
     }
     //보낸 쪽지함
-    public List<NoteVo> noteSentList(String userId, int displayPost, int postNum) {
-        HashMap data = new HashMap();
-        data.put("userId", userId);
-        data.put("displayPost", displayPost);
-        data.put("postNum", postNum);
+    public List<NoteVo> noteSentList(PageVo page) {
+
         List<NoteVo> noteList;
         try{
-            noteList = mapper.noteSentList(data);
+            noteList = mapper.noteSentList(page);
         } catch(Exception e) {
             e.printStackTrace();
             throw e;

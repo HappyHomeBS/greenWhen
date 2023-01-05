@@ -6,10 +6,14 @@ import axios from 'axios';
         }}
     }
 
-    export const getNoteList = (num, token)=>{
+    export const getNoteList = (num, option, search, token)=>{
     //axios 데이터 res에 담기
-        const result = axios.get("/api/note?num="+num, header(token));
+        const result = axios.get("/api/note?num="+num+'&option='+option+'&search='+search, header(token));
         return result;
+    }
+    export const noteSentList = (num, option, search, token) =>{
+        let res = axios.get("/api/noteSentList?num="+num+'&option='+option+'&search='+search, header(token))
+        return res;
     }
 
     export const noteWrite = (note, token)=>{
@@ -26,9 +30,5 @@ import axios from 'axios';
         let res = axios.post("/api/noteDelete", {
             nos: no
         }, header(token));
-        return res;
-    }
-    export const noteSentList = (num, token) =>{
-        let res = axios.get("/api/noteSentList?num="+num, header(token))
         return res;
     }

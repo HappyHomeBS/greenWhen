@@ -15,7 +15,6 @@ class NoteSearchComponent extends Component{
             <div>
                 <form>
                     <select name = "option" >
-                        <option value="all"> 전체검색 </option>
                         <option value="send"> 보낸사람 </option>
                         <option value="title"> 제   목 </option>
                         <option value="content"> 내   용 </option>

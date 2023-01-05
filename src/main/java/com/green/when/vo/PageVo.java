@@ -18,9 +18,27 @@ public class PageVo {
     private int endPageNum;
     private int startPageNum;
 
+
     private int lastPage;
     private boolean prev;
     private boolean next;
+
+    //검색옵션
+    private String option;
+    private String search;
+    private String userId;
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public void setOption(String option) {
+        this.option = option;
+    }
+
+    public void setSearch(String search) {
+        this.search = search;
+    }
 
     public void setNum(int num) {
         this.num = num;

@@ -17,17 +17,39 @@
         WHERE recept = #{userId} AND deleted = 0
     </select>
 <!--페이징을 위한 카운트 -->
-    <select id="noteCount" resultType="int">
+    <select id="noteCount" parameterType="PageVo" resultType="int">
         SELECT count(no) FROM note_tb
         WHERE recept= #{userId} AND deleted = 0
+        <choose>
+            <when test= "option.equals('title') and search !=null" >
+            AND title LIKE CONCAT('%', #{search}, '%')
+            </when>
+            <when test= "option.equals('send') and search !=null" >
+            AND send LIKE CONCAT('%', #{search}, '%')
+            </when>
+            <when test= "option.equals('content') and search !=null" >
+            AND content LIKE CONCAT ('%', #{search}, '%')
+            </when>
+        </choose>
     </select>
 <!--보낸쪽지함 페이징 카운트 -->
-    <select id="noteSentCount" resultType="int">
+    <select id="noteSentCount" parameterType="PageVo" resultType="int">
         select count(no) from note_tb
         where send= #{userId}
+        <choose>
+            <when test= "option.equals('title') and search !=null" >
+                AND title LIKE CONCAT('%', #{search}, '%')
+            </when>
+            <when test= "option.equals('send') and search !=null" >
+                AND send LIKE CONCAT('%', #{search}, '%')
+            </when>
+            <when test= "option.equals('content') and search !=null" >
+                AND content LIKE CONCAT ('%', #{search}, '%')
+            </when>
+        </choose>
     </select>
 <!--페이징 적용된 목록조회-->
-    <select id="noteListPage" parameterType="hashMap" resultType="NoteVo">
+    <select id="noteListPage" parameterType="PageVo" resultType="NoteVo">
         SELECT
             no,
             send,
@@ -39,11 +61,22 @@
         END AS readCheckString
         FROM note_tb
         WHERE recept = #{userId} AND deleted = 0
+        <choose>
+            <when test= "option.equals('title') and search !=null" >
+                AND title LIKE CONCAT('%', #{search}, '%')
+            </when>
+            <when test= "option.equals('send') and search !=null" >
+                AND send LIKE CONCAT('%', #{search}, '%')
+            </when>
+            <when test= "option.equals('content') and search !=null" >
+                AND content LIKE CONCAT ('%', #{search}, '%')
+            </when>
+        </choose>
         ORDER BY no desc
         LIMIT #{displayPost}, #{postNum}
     </select>
     <!-- 보낸쪽지함 -->
-    <select id="noteSentList" parameterType="hashMap" resultType="NoteVo">
+    <select id="noteSentList" parameterType="PageVo" resultType="NoteVo">
         SELECT
             no,
             send,
@@ -55,6 +88,17 @@
         END AS readCheckString
         FROM note_tb
         WHERE send = #{userId}
+        <choose>
+            <when test= "option.equals('title') and search !=null" >
+                AND title LIKE CONCAT('%', #{search}, '%')
+            </when>
+            <when test= "option.equals('send') and search !=null" >
+                AND recept LIKE CONCAT('%', #{search}, '%')
+            </when>
+            <when test= "option.equals('content') and search !=null" >
+                AND content LIKE CONCAT ('%', #{search}, '%')
+            </when>
+        </choose>
         ORDER BY no desc
         LIMIT #{displayPost}, #{postNum}
     </select>

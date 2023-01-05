@@ -34,42 +34,49 @@ class NoteListComponent extends Component {
             ,checkList:[]
             ,allCheck:false
             ,search:null
+            ,option:null
         };
         this.noteWrite = this.noteWrite.bind(this);
-        this.noteSentList = this.noteSentList.bind(this)
+        this.noteSentList = this.noteSentList.bind(this);
     }
 
     // 컴포넌트 생성시 실행(값 세팅)a
     componentDidMount() {
-        
-        var num=this.state.num;
+        this.listNote(1);
+    }
+    //페이징 포함 리스트 호출
+    
+    listNote(num){
+        console.log("pageNum : ");
         var token = this.props.token;
-        let inputOption = queryString.parse(this.props.location.search).option
-        let inputSearch = queryString.parse(this.props.location.search).search
-        let searchData = {}
-        if (inputSearch !== undefined) {
-            if (inputOption !== undefined) {
+        let option = queryString.parse(this.props.location.search).option
+        let search = queryString.parse(this.props.location.search).search
+        let data = { withCredentials: true }
+        
+        if (search !== undefined) {
+            if (option !== undefined) {
                 this.setState({
-                    search: ['search:'+ inputSearch, 'option:'+ inputOption ]
+                    search: search
+                    ,option: option 
                 })
-                 searchData= { search: ['search:'+ inputSearch, 'option:'+ inputOption ]}
             }
         } else {
           console.log("검색없음")
         }
-
-        NoteService.getNoteList(num, token).then((res) => {
-            console.log(res.data);
-            this.setState({
-                 note: res.data.noteList
-                ,num: res.data.pagingData.num
-                ,paging: res.data.pagingData
+        
+        NoteService.getNoteList(num, option, search, token).then((res) => {
+        console.log(res.data);
+        this.setState({
+            num: res.data.pagingData.num,
+            paging: res.data.pagingData,
+            note: res.data.noteList
             });
         });
+        console.log("lisNote 호출됨")
         console.log("state:")
         console.log(this.state)
-
     }
+    
     //체크박스 
 
     checkBoxHandler(id, isChecked){ 
@@ -113,38 +120,6 @@ class NoteListComponent extends Component {
         }
         const log = [...this.state.checkList]
         console.log(log)
-    }
-    //페이징 포함 리스트 호출
-    
-    listNote(num){
-        console.log("pageNum : ");
-        var token = this.props.token;
-        let inputOption = queryString.parse(this.props.location.search).option
-        let inputSearch = queryString.parse(this.props.location.search).search
-        let searchData = {}
-
-        if (inputSearch !== undefined) {
-            if (inputOption !== undefined) {
-                this.setState({
-                    search: ['search:'+ inputSearch, 'option:'+ inputOption ]
-                })
-                 searchData= { search: ['search:'+ inputSearch, 'option:'+ inputOption ]}
-            }
-        } else {
-          console.log("검색없음")
-        }
-        NoteService.getNoteList(num, token).then((res) => {
-            console.log(res.data);
-            this.setState({
-                num: res.data.pagingData.num,
-                paging: res.data.pagingData,
-                note: res.data.noteList
-            });
-        });
-        console.log(this.state)
-
-        console.log("length")
-        console.log(this.state.note.length)
     }
     
     // 쓰기 페이지 이동
