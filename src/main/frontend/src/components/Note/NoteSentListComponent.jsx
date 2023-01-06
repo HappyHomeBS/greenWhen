@@ -6,7 +6,7 @@ import queryString from 'query-string'
 import NoteSearchComponent from './NoteSearchComponent.jsx';
 import NotePagingComponent from'./NotePagingComponent';
 
-class NoteSentListComponent extends NotePagingComponent {
+class NoteSentListComponent extends Component {
 //생성자로 초기화하기(note:에 데이터 들어감)
 constructor(props) {
     super(props)
@@ -37,14 +37,19 @@ constructor(props) {
         NoteService.noteSentList(num, option, search, token).then((res) => {
             console.log(res.data);
             this.setState({
-                num: res.data.pagingData.num
-                ,paging: res.data.pagingData
+                paging: res.data.pagingData
                 ,note: res.data.noteList
                 ,paged: true
             });
         });
-        console.log(this.state)
     }
+    pagi = (number) => {
+        this.setState({
+            ...this.state,
+            num: number
+        })
+        this.listNote(number);
+    };
     // 쓰기 페이지 이동
     // history.push 사라지면서 navigate로 바뀜()
     noteWrite() {
@@ -147,9 +152,11 @@ constructor(props) {
                 <button className="btn btn-primary" onClick={this.noteWrite}>쪽지 보내기</button>
                 <button className="btn btn-primary" onClick={this.noteList.bind(this)} style={{marginLeft: "5px"}}>받은쪽지함</button>
             </div>
-                <NotePagingComponent 
+                <NotePagingComponent
                 num={num}
                 paging={paging}
+                token={this.props.token}
+                pagi={this.pagi}
                 />
             <div>
                 <NoteSearchComponent/>
