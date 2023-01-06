@@ -6,7 +6,7 @@ import Style from "../module/Style";
 import ModalReducer from "./reducer/ModalReducer";
 import CalcDate from '../module/CalcDate';
 
-const CalendarModal = ({ index, visible, onConfirm, onCancel }) => {
+const CalendarModal = ({ targetdate, visible, onConfirm, onCancel }) => {
     const initialState = {
         color: '',
         todo: '',
@@ -27,7 +27,7 @@ const CalendarModal = ({ index, visible, onConfirm, onCancel }) => {
 
     const onKeyPress = (e) => {
         if (e.key == 'Enter') {
-            onConfirm({index, todo})
+            onConfirm({targetdate, todo})
             dispatch({type: 'CHANGE', value: ''})
         }
     }
@@ -65,8 +65,8 @@ const CalendarModal = ({ index, visible, onConfirm, onCancel }) => {
     
     // 입력
     const confirm = () => {
-        const todos = CalcDate(index, end)
-        onConfirm({index, todo, color, todos})
+        const todos = CalcDate(targetdate, end)
+        onConfirm({targetdate, todo, color, todos})
         Initialization()
         changeColor('')
     }
@@ -84,7 +84,7 @@ const CalendarModal = ({ index, visible, onConfirm, onCancel }) => {
             <Container>
                 <Modal.Header closeButton>
                     <Modal.Title id="contained-modal-title-vcenter">
-                    {index}                        
+                    {targetdate}                        
                     </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
@@ -101,7 +101,7 @@ const CalendarModal = ({ index, visible, onConfirm, onCancel }) => {
                         { check === true &&
                         <div className="day">
                             <div className="end-day">
-                                <input type="text" onChange={onTodos} placeholder="2021.10.13"/>
+                                <input type="text" onChange={onTodos} placeholder={targetdate} />
                             </div>
                         </div>
                         }   

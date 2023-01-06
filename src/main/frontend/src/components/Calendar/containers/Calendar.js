@@ -1,9 +1,10 @@
-import React, {useReducer, useContext} from 'react';
+import React, {useReducer, useContext, useEffect} from 'react';
 import CalendarModal from "./CalendarModal";
 import calendarReducer from "./reducer/CalendarReducer";
 import MakeCalendar from "../module/MakeCalendar";
 import axios from 'axios';
 import AuthContext from '../../../store/authContext';
+
 
 
 const today = new Date()
@@ -14,9 +15,9 @@ const initialState = {
      month: today.getMonth(),
      modal: {
          visible: false,
-         index: '',
+         targetdate: '',
      },
-     schedule: []
+     schedule: []     
  };
 
 
@@ -38,8 +39,23 @@ const Calendar = () => {
 
     // Modal
     const visible = state.modal.visible
-    const index = state.modal.index
+    const targetdate = state.modal.index
 
+    useEffect(() => {
+        axios.get('/calendar/getSchedule', {
+          headers: {
+            'Authorization': 'Bearer ' + token
+          }
+        })
+        .then((res) => {
+            const data = res.data;
+            console.log("메모", data)
+            data.map((item) => {  
+                console.log('아이템', item)                                                      
+                dispatch({type: 'INSERT', index: item.targetdate, todo:item.memo, color: item.color}) 
+            })
+        });          
+      }, []);
 
     // Month 감소
     const onDecreases = () => {
@@ -57,46 +73,49 @@ const Calendar = () => {
     }
 
     // 일정 입력
-    const onConfirm = ({index, todo, color, todos}) => {
-        // 종료일정이 있는경우
-        if (todos.length != 0) {                      
+    const onConfirm = ({targetdate, todo, color, todos}) => {     
+        console.log('날짜',targetdate) 
+        console.log('일정',todo) 
+        console.log('컬러',color) 
+        
+        if (todos.length != 0) {             
             const schedules = [];
+
             todos.map((item) => {                                    
-                // index: 날짜(시작일 ~ 종료일), todo: 일정, color: 표시color
-                schedules.push({ index: item, todo:todo, color: color });
-                dispatch({type: 'INSERT', index: item, todo:todo, color: color}) 
+                // targetdate: 날짜(시작일 ~ 종료일), todo: 일정, color: 표시color
+                schedules.push({ targetdate: item, memo:todo, color: color });              
             })
-            axios.post('/calendar/schedule', schedules, { headers: {
+
+            axios.post('/calendar/saveSchedule', schedules, { headers: {
                 'Authorization': 'Bearer ' + token
               } 
             })
             .then((res) => {
                 const data = res.data;
-                data.map((item) => {                                                        
-                    dispatch({type: 'INSERT', data}) 
-                })
+                console.log("메모", data)
             });     
-            console.log(schedules)
-        }
-        else {
+
+        console.log(schedules)       
+        } else {
             // 일정이 하루만 입력된 경우
             const schedule = [];
-            schedule.push({index: index, todo:todo, color: color});
-            dispatch({type: 'INSERT', index: index, todo: todo, color: color})
-            axios.post('/calendar/schedule', schedule, { headers: {
+            schedule.push({ targetdate: targetdate, memo:todo, color: color });
+            
+            axios.post('/calendar/saveSchedule', schedule, { headers: {
                 'Authorization': 'Bearer ' + token
               } 
             })
-            .then((res) => {
-                const data = res.data;
-                data.map((item) => {                                                        
-                    dispatch({type: 'INSERT', data}) 
-                })
-            });     
+            .then((res) => {         
+                console.log(res.data)
+            });   
+
             console.log(schedule)
-        }
+        }         
+        window.location.reload();
         dispatch({ type: "MODAL"})
     }
+    
+
 
     // 일정 입력 취소
     const onCancel = () => {
@@ -112,7 +131,7 @@ const Calendar = () => {
                     <p>{yearMonth}</p>
                     <button className="move" onClick={onIncreases}>&gt;</button>
                 </div>
-                <table>
+                <table className='table'>
                 <thead>
                     <tr>
                         <td>Sun</td>
@@ -128,10 +147,10 @@ const Calendar = () => {
                     {MakeCalendar({year, month ,firstDay, lastDate, changeVisible, todo, })}
                     </tbody>
                 </table>                
-                <CalendarModal index= {index} visible={visible} onConfirm={onConfirm} onCancel={onCancel}/>
+                <CalendarModal targetdate= {targetdate} visible={visible} onConfirm={onConfirm} onCancel={onCancel}/>
             </div>
         </>
     )
-}
+    }
 
 export default React.memo(Calendar);

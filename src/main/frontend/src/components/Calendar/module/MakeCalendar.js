@@ -1,6 +1,7 @@
 import React from 'react';
 import Schedule from "./Schedule";
 import { transString } from "./CalcDate";
+import { Link } from 'react-router-dom';
 
 /*
  * 현재 날짜를 key값 형식으로 변환
@@ -61,7 +62,7 @@ const MakeCalendar = ({year, month ,firstDay, lastDate, changeVisible, todo, }) 
                         <td onClick={() => changeVisible(idx)} key={idx}>
                             {now}
                         <div className="todo">
-                            {Schedule(idx, todo)}
+                        <Link to="/" >{Schedule(idx, todo)}</Link>
                         </div>
                         </td>)
                 }
@@ -79,7 +80,7 @@ const MakeCalendar = ({year, month ,firstDay, lastDate, changeVisible, todo, }) 
                         <td onClick={() => changeVisible(idx)} key={idx} >
                             {now}
                         <div className="todo">
-                            {Schedule(idx, todo)}
+                            <Link to="/" >{Schedule(idx, todo)}</Link>
                         </div>
                     </td>)
                 }

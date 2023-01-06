@@ -2,48 +2,51 @@ package com.green.when.controller;
 
 import com.green.when.config.SecurityUtil;
 import com.green.when.service.AdminService;
+import com.green.when.service.CalendarService;
 import com.green.when.vo.MemberResponseVo;
 import com.green.when.vo.MemberVo;
 import com.green.when.vo.ScheduleVo;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/calendar")
 public class CalendarController {
 
-    private final AdminService adminService;
+    @Autowired
+    private CalendarService calendarService;
 
-    @PostMapping("/schedule")
-    public void  patch(@RequestBody ScheduleVo scheduleVo ) {
-        System.out.println(scheduleVo);
-    }
-
-
-    @PostMapping("/userDelete")
-    public void userDelete(@RequestBody MemberVo memberVo) {
-        System.out.println(memberVo.toString());
-        adminService.userDelete(memberVo);
-    }
-
-    @PostMapping("/roleChange")
-    public void roleChange(@RequestBody MemberVo memberVo) {
+    @PostMapping("/saveSchedule")
+    public void saveSchedules(@RequestBody List<ScheduleVo> schedules) {
         String userid = SecurityUtil.getCurrentMemberId();
-        String inputId = memberVo.getUserid();
-        if (userid.equals(inputId)){
-            System.out.println("오류: 같은아이디 입니다.");
-        } else {
-            adminService.roleChange(memberVo);
+
+        for (ScheduleVo schedule : schedules) {
+            schedule.setUserid(userid);
+            calendarService.insertSchedule(schedule);
+        }
+    }
+
+    @GetMapping("/getSchedule")
+    public List<ScheduleVo> getSchedules() {
+        String userid = SecurityUtil.getCurrentMemberId();
+        List<ScheduleVo> savedSchedules = new ArrayList<>();
+
+        List<ScheduleVo> getSchedules = calendarService.getSchedule(userid);
+        for (ScheduleVo vo : getSchedules) {
+            savedSchedules.add(vo);
         }
 
+        System.out.println(savedSchedules);
+
+        return savedSchedules;
     }
+
+
 
 }
