@@ -44,7 +44,7 @@ export class NotePagingComponent extends Component{
 
     viewPaging() {
         const pageNums = [];
-        for ( let i = this.state.paging.startPageNum; i<= this.state.paging.endPageNum; i++) {
+        for ( let i = this.props.paging.startPageNum; i<= this.props.paging.endPageNum; i++) {
             pageNums.push(i)
         }
         return (pageNums.map((page) => 
@@ -54,7 +54,7 @@ export class NotePagingComponent extends Component{
         ));
     }
     isPagingPrev(){
-        if(this.state.paging.prev) {
+        if(this.props.paging.prev) {
             return (
                 <li className="page-item">
                     <a className="page-link" onClick = { ()=> this.goPage(this.props.num-1)} tabIndex="-1">이전</a>
@@ -64,7 +64,7 @@ export class NotePagingComponent extends Component{
     }
     
     isPagingNext(){
-        if (this.state.paging.next) {
+        if (this.props.paging.next) {
             return (
                 <li className="page-item">
                     <a className="page-link" onClick = { ()=> this.goPage(this.props.num+1)} tabIndex="-1">다음</a>
@@ -73,7 +73,7 @@ export class NotePagingComponent extends Component{
         }
     }
     isMoveToFirstPage() {
-        if (this.state.num !==1){
+        if (this.props.num !==1){
             return ( 
                 <li className="page-item">
                     <a className="page-link" onClick = {() => this.goPage(1)} tabIndex="-1">첫 페이지로</a>
@@ -82,7 +82,7 @@ export class NotePagingComponent extends Component{
         }
     }
     isMoveToLastPage() {
-        if(this.state.paging.endPageNum !== this.state.paging.lastPage) {
+        if(this.props.paging.endPageNum !== this.props.paging.lastPage) {
             return (
                 <li className="page-item">
                     <a className = "page-link" onClick = {() => this.goPage(this.props.paging.lastPage)} tabIndex="-1"> 마지막페이지로({this.props.paging.lastPage})</a>
