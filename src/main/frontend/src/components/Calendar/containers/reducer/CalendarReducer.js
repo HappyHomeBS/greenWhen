@@ -2,6 +2,7 @@ import React from 'react';
 
 function calendarReducer(state, action) {
 
+    // eslint-disable-next-line default-case
     switch (action.type) {
         case 'INCREMENT':
             if (state.month < 11) {

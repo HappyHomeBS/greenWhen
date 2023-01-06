@@ -6,7 +6,6 @@ import axios from 'axios';
 import AuthContext from '../../../store/authContext';
 
 
-
 const today = new Date()
 
 // 초기 상태
@@ -41,21 +40,19 @@ const Calendar = () => {
     const visible = state.modal.visible
     const targetdate = state.modal.index
 
-    useEffect(() => {
-        axios.get('/calendar/getSchedule', {
-          headers: {
-            'Authorization': 'Bearer ' + token
-          }
-        })
-        .then((res) => {
-            const data = res.data;
-            console.log("메모", data)
-            data.map((item) => {  
-                console.log('아이템', item)                                                      
-                dispatch({type: 'INSERT', index: item.targetdate, todo:item.memo, color: item.color}) 
-            })
-        });          
-      }, []);
+    // useEffect(() => {
+    //     axios.get('/member/callProfile', {
+    //       headers: {
+    //         'Authorization': 'Bearer ' + token
+    //       }
+    //     })
+    //       .then((res) => {
+    //         const data = res.data;
+    //         const URL = data.filepath
+            
+    //         console.log("주소", Image)
+    //       });
+    //   }, []);
 
     // Month 감소
     const onDecreases = () => {
@@ -73,49 +70,46 @@ const Calendar = () => {
     }
 
     // 일정 입력
-    const onConfirm = ({targetdate, todo, color, todos}) => {     
-        console.log('날짜',targetdate) 
-        console.log('일정',todo) 
-        console.log('컬러',color) 
-        
-        if (todos.length != 0) {             
+    const onConfirm = ({targetdate, todo, color, todos}) => {
+        // 종료일정이 있는경우
+        if (todos.length != 0) {                      
             const schedules = [];
-
             todos.map((item) => {                                    
                 // targetdate: 날짜(시작일 ~ 종료일), todo: 일정, color: 표시color
-                schedules.push({ targetdate: item, memo:todo, color: color });              
+                schedules.push({ targetdate: item, memo:todo, color: color });
+                console.log('아이템', item)                
+                dispatch({type: 'INSERT', index: item, todo:todo, color: color}) 
             })
-
-            axios.post('/calendar/saveSchedule', schedules, { headers: {
+            axios.post('/calendar/schedule', schedules, { headers: {
                 'Authorization': 'Bearer ' + token
               } 
             })
             .then((res) => {
                 const data = res.data;
                 console.log("메모", data)
+                data.map((item) => {  
+                    console.log('아이템', item)                                                      
+                    dispatch({type: 'INSERT', index: item.targetdate, todo:item.memo, color: item.color}) 
+                })
             });     
-
-        console.log(schedules)       
-        } else {
+            console.log(schedules)
+        }
+        else {
             // 일정이 하루만 입력된 경우
             const schedule = [];
             schedule.push({ targetdate: targetdate, memo:todo, color: color });
             
-            axios.post('/calendar/saveSchedule', schedule, { headers: {
+            axios.post('/calendar/schedule', schedule, { headers: {
                 'Authorization': 'Bearer ' + token
               } 
             })
             .then((res) => {         
                 console.log(res.data)
-            });   
-
+            });     
             console.log(schedule)
-        }         
-        window.location.reload();
+        }
         dispatch({ type: "MODAL"})
     }
-    
-
 
     // 일정 입력 취소
     const onCancel = () => {
@@ -151,6 +145,6 @@ const Calendar = () => {
             </div>
         </>
     )
-    }
+}
 
 export default React.memo(Calendar);
