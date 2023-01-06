@@ -1,24 +1,20 @@
 import React, {Component} from 'react';
+import NoteSentListComponent from './NoteSentListComponent';
 
 export class NotePagingComponent extends Component{
 
     constructor(props) {
         super(props)
-        
         this.state = {
-            paging: {}
-            ,num:1
-        };
-    }
-    componentDidMount(){
-        this.setState = {
-            paging: this.props.pagigng
-            ,num: this.props.num
+            num:this.props.num 
+            ,paging:this.props.paging
         }
-        console.log(".................")
-        console.log(this.props)
-        console.log(this.props.num)
-        console.log(this.props.paging)
+    }
+    componentDidMount (){
+        this.setState = {
+                num: this.props.num
+                ,paging: this.props.paging
+        }
     }
     viewPaging() {
         const pageNums = [];
@@ -27,7 +23,7 @@ export class NotePagingComponent extends Component{
         }
         return (pageNums.map((page) => 
         <li className="page-item" key={page.toString()}>
-            <a className="page-link" onClick= {() => this.listNote(page)}>{page}</a>
+            <a className="page-link" onClick= {() => NoteSentListComponent.listNote(page)}>{page}</a>
         </li>
         ));
     }
@@ -35,7 +31,7 @@ export class NotePagingComponent extends Component{
         if(this.state.paging.prev) {
             return (
                 <li className="page-item">
-                    <a className="page-link" onClick = { ()=> this.listNote((this.state.paging.num - 1) )} tabIndex="-1">이전</a>
+                    <a className="page-link" onClick = { ()=> NoteSentListComponent.listNote((this.state.paging.num - 1) )} tabIndex="-1">이전</a>
                 </li>
             );
         }
@@ -45,7 +41,7 @@ export class NotePagingComponent extends Component{
         if (this.state.paging.next) {
             return (
                 <li className="page-item">
-                    <a className="page-link" onClick = { ()=> this.listNote((this.state.paging.num +1))} tabIndex="-1">다음</a>
+                    <a className="page-link" onClick = { ()=> NoteSentListComponent.listNote((this.state.paging.num +1))} tabIndex="-1">다음</a>
                 </li>
             )
         }
@@ -54,7 +50,7 @@ export class NotePagingComponent extends Component{
         if (this.state.num !==1){
             return ( 
                 <li className="page-item">
-                    <a className="page-link" onClick = {() => this.listNote(1)} tabIndex="-1">첫 페이지로</a>
+                    <a className="page-link" onClick = {() => NoteSentListComponent.listNote(1)} tabIndex="-1">첫 페이지로</a>
                 </li>
             )
         }
@@ -68,9 +64,8 @@ export class NotePagingComponent extends Component{
             )
         }
     }
-
     render(){
-        return (
+            return(
             <div>
                 <div className="row">
                 <nav aria-label="Page navigation example">
@@ -92,9 +87,9 @@ export class NotePagingComponent extends Component{
                         }
                     </ul>
                 </nav>
-            </div> 
-        </div>
-            );
+                </div> 
+            </div>
+            )
     }
 }
 
