@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.green.when.mapper.CalendarMapper">
+    <!-- 달력 메모 등록 -->
+    <insert id="insertSchedule">
+        INSERT INTO memo_tb(userid, groupname, memo, region, targetdate, color)
+        VALUES (#{userid}, #{groupname}, #{memo}, #{region}, #{targetdate}, #{color})
+    </insert>
+
+    <!-- 달력 메모 불러오기 -->
+    <select id="getSchedule" resultType="ScheduleVo">
+        SELECT userid, groupname, memo, region, DATE_FORMAT(targetdate, '%Y.%c.%e') as targetdate, color
+        FROM memo_tb
+        where userid = #{userid}
+    </select>
+
+
+
+
+</mapper>

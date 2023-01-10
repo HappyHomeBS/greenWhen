@@ -2,6 +2,7 @@ package com.green.when.service;
 
 import com.green.when.mapper.NoteMapper;
 import com.green.when.vo.NoteVo;
+import com.green.when.vo.PageVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +23,47 @@ public class NoteService {
          }
             return noteList;
     }
+    //페이징을 위한 카운트
+    public int noteCount(PageVo page){
+        try{
+            return mapper.noteCount(page) ;
+        }catch(Exception e){
+            e.printStackTrace();
+            throw e;
+        }
+    }
+    public int noteSentCount(PageVo page){
+        try{
+            return mapper.noteSentCount(page) ;
+        }catch(Exception e){
+            e.printStackTrace();
+            throw e;
+        }
+    }
+    //리스트 조회 페이징
+    public List<NoteVo> noteListPage(PageVo page) {
+
+        List<NoteVo> noteList;
+        try{
+            noteList = mapper.noteListPage(page);
+        } catch(Exception e) {
+            e.printStackTrace();
+            throw e;
+        }
+        return noteList;
+    }
+    //보낸 쪽지함
+    public List<NoteVo> noteSentList(PageVo page) {
+
+        List<NoteVo> noteList;
+        try{
+            noteList = mapper.noteSentList(page);
+        } catch(Exception e) {
+            e.printStackTrace();
+            throw e;
+        }
+        return noteList;
+    }
     //쓰기
     public void noteWrite(NoteVo noteVo) {
         try {
@@ -32,15 +74,15 @@ public class NoteService {
         }
     }
     //읽기
-    public List<NoteVo> noteRead(int no) {
-        List<NoteVo> note;
+    public NoteVo noteRead(int no) {
+        NoteVo noteVo;
         try {
-            note = mapper.noteRead(no);
+            noteVo = mapper.noteRead(no);
         } catch (Exception e) {
             e.printStackTrace();
             throw e;
         }
-        return note;
+        return noteVo;
     }
 
     //수신확인
@@ -61,5 +103,6 @@ public class NoteService {
              throw e;
          }
     }
+
 
 }

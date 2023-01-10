@@ -44,8 +44,11 @@ public class WebSecurityConfig {
 
                 .and()
                 .authorizeRequests()
-                .antMatchers("/auth/**").permitAll()
-                .antMatchers("/api/**").permitAll()
+                //로그인 여부 상관없이 사용가능
+                .antMatchers("/auth/**", "/calendar/**", "/api/**").permitAll()
+                //로그인 여부, 권한 여부에 따라 사용가능
+                //.antMatchers("/api/**").hasAnyRole("ROLE_USER", "ROLE_ADMIN")
+                .antMatchers("/admin/**").access("hasRole('ROLE_ADMIN')")
                 .anyRequest().authenticated()
 
                 .and()
