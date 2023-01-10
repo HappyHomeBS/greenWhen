@@ -60,4 +60,5 @@ public interface UserMapper {
     int newNickname(String usernickname);
 
     void roleChange(MemberVo memberVo);
+
 }

@@ -1,7 +1,9 @@
-import React from 'react';
+import React,{ useState } from 'react';
 import Schedule from "./Schedule";
+import ScheduleData from "./ScheduleData";
 import { transString } from "./CalcDate";
 import { Link } from 'react-router-dom';
+import MakeCalendarModal from '../containers/MakeCalendarModal'
 
 /*
  * 현재 날짜를 key값 형식으로 변환
@@ -31,11 +33,13 @@ const returnIdx = (order ,year, month, day) => {
 
 
 
-const MakeCalendar = ({year, month ,firstDay, lastDate, changeVisible, todo, }) => {
+const MakeCalendar = ({year, month ,firstDay, lastDate, changeVisible, todo }) => {
+    console.log('MakeCalendar:', 'todo:', todo) // todo 데이터를 쪼개서 idx랑 비교 후 같은 날짜면 일정 modal로 넘겨서 수정 or 삭제할 수 있도록
     const result = []
+    const [makeCalendarModalOn, setMakeCalendarModalOn] = useState(false);       
 
     const makeDay = (week) => {
-        const result = []
+        const result = []           
         // 첫 주 
         if (week == 1) {
             const prevLastDate = parseInt(new Date(year, month,0).getDate());
@@ -49,22 +53,29 @@ const MakeCalendar = ({year, month ,firstDay, lastDate, changeVisible, todo, }) 
                         <td className="diff" onClick={() => changeVisible(idx)} key={idx}>
                             {now}
                     <div className="todo">
-                        {Schedule(idx, todo)}
+                    <td onClick={() => setMakeCalendarModalOn(true)}>{Schedule(idx, todo)}</td>
                     </div>
+                    <MakeCalendarModal show={makeCalendarModalOn} onHide={() => setMakeCalendarModalOn(false)} Schedule= {Schedule(idx, todo)}/>
                     </td>)
                 }
                 // 현재 달 날짜
                 else {
                     const now = i - firstDay
                     const idx = returnIdx('', year, month, now)
-
                     result.push(
+                        <td>
                         <td onClick={() => changeVisible(idx)} key={idx}>
-                            {now}
+                            {now}                            
                         <div className="todo">
-                        <Link to="/" >{Schedule(idx, todo)}</Link>
                         </div>
-                        </td>)
+                        </td>
+                        <li onClick={() => setMakeCalendarModalOn(true)}>{Schedule(idx, todo)}</li>
+                        <MakeCalendarModal  
+                            visible={makeCalendarModalOn} 
+                            onCancel={() => setMakeCalendarModalOn(false)} 
+                            Schedule= {ScheduleData(idx, todo)}/>
+                        </td>
+                        )
                 }
             }
         }
@@ -80,7 +91,7 @@ const MakeCalendar = ({year, month ,firstDay, lastDate, changeVisible, todo, }) 
                         <td onClick={() => changeVisible(idx)} key={idx} >
                             {now}
                         <div className="todo">
-                            <Link to="/" >{Schedule(idx, todo)}</Link>
+                            <div>{Schedule(idx, todo)}</div>
                         </div>
                     </td>)
                 }
@@ -93,8 +104,8 @@ const MakeCalendar = ({year, month ,firstDay, lastDate, changeVisible, todo, }) 
                         <td className="diff" onClick={() => changeVisible(idx)} key={idx}>
                             {now}
                         <div className="todo">
-                            {Schedule(idx, todo)
-                            }</div>
+                            {Schedule(idx, todo)}
+                        </div>
                     </td>)
                 }
             }
@@ -113,3 +124,4 @@ const MakeCalendar = ({year, month ,firstDay, lastDate, changeVisible, todo, }) 
 };
 
 export default MakeCalendar
+

@@ -37,9 +37,23 @@ public class MemberController {
         memberService.changeMemberNickname(userid, request.getUsernickname());
     }
 
+    @PostMapping("/nicknameCheck")
+    public int nicknameCheck(@RequestBody MemberVo memberVo) {
+        int nicknameCheck = memberService.nicknameCheck(memberVo.getUsernickname());
+
+        return nicknameCheck;
+    }
+
+
     @PostMapping("/password")
     public void setMemberPassword(@RequestBody ChangePasswordRequestVo request) {
         memberService.changeMemberPassword(request.getExPassword(), request.getNewPassword());
+    }
+
+    @PostMapping("/exPasswordCheck")
+    public int passwordCheck(@RequestBody MemberVo memberVo) {
+        int passwordCheck = memberService.passwordCheck(memberVo.getUserpw());
+        return passwordCheck;
     }
 
     @SneakyThrows
