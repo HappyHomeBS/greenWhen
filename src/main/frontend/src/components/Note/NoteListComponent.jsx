@@ -3,7 +3,7 @@
 import React, {useContext, Component} from 'react';
 import * as NoteService from '../../service/NoteService.js';
 import { useLocation, useParams, useNavigate} from 'react-router-dom'
-import AuthContext from '../../store/auth-context.tsx';
+import AuthContext from '../../store/authContext';
 import "../../css/Note.css"
 import NoteSearchComponent from './NoteSearchComponent.jsx'
 import queryString from 'query-string'
