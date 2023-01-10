@@ -15,6 +15,15 @@
         where userid = #{userid}
     </select>
 
+    <!-- 일정 삭제 -->
+    <delete id="deleteSchedule">
+        DELETE FROM memo_tb
+        WHERE userid = #{userid}
+        AND   memo   = #{memo}
+        AND   color  = #{color}
+        AND   targetdate = #{targetdate}
+    </delete>
+
 
 
 

@@ -31,7 +31,7 @@ const returnIdx = (order ,year, month, day) => {
 
 
 
-const MakeCalendar = ({year, month ,firstDay, lastDate, changeVisible, todo }) => {
+const MakeCalendar = ({year, month ,firstDay, lastDate, changeVisible, todo, setMakeCalendarModalOn }) => {
     console.log("MakeCalendar:", todo)
     const result = []
     const makeDay = (week) => {
@@ -49,7 +49,7 @@ const MakeCalendar = ({year, month ,firstDay, lastDate, changeVisible, todo }) =
                         <td className="diff" onClick={() => changeVisible(idx)} key={idx}>
                             {now}
                     <div className="todo">
-                      {Schedule(idx, todo)}
+                      <div onClick={() => setMakeCalendarModalOn(true) } >{Schedule(idx, todo)}</div>
                     </div>
                     </td>)
                 }

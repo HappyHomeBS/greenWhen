@@ -1,21 +1,22 @@
-import React, { useState, useEffect, useCallback, useReducer } from 'react'
+import React, { useState, useEffect, useCallback, useReducer, useContext } from 'react'
 import { Modal, Container } from 'react-bootstrap'
 import axios from 'axios'
 import Picker from '../component/Picker';
 import Style from "../module/Style";
 import ModalReducer from "./reducer/ModalReducer";
 import CalcDate from '../module/CalcDate';
+import AuthContext from '../../../store/authContext';
 
-const MakeCalendarModal = ({ idx, visible, onConfirm, onCancel, memo, Schedule }) => {
+const MakeCalendarModal = ({ targetdate, visible, onConfirm, onCancel, todo }) => {
     
-    /*console.log('MakeCalendarModal:', 'idx:', idx)
+    /*console.log('MakeCalendarModal:', 'todo:', todo)
+    console.log('MakeCalendarModal:', 'targetdate:', targetdate)
+    console.log('MakeCalendarModal:', 'schedule:', Schedule)
     console.log('MakeCalendarModal:', 'visible:', visible)
     console.log('MakeCalendarModal:', 'onConfirm:', onConfirm)
-    console.log('MakeCalendarModal:', 'onCancel:', onCancel)
-    console.log('MakeCalendarModal:', 'memo:', memo)*/
+    console.log('MakeCalendarModal:', 'onCancel:', onCancel)*/
     const initialState = {
-        color: '',
-        todo: '',
+        color: '',        
         todos: '',
         checked: false,
         date: ''
@@ -24,16 +25,16 @@ const MakeCalendarModal = ({ idx, visible, onConfirm, onCancel, memo, Schedule }
     const [state, dispatch] = useReducer(ModalReducer, initialState)
 
 
-    const color = state.color;
-    const todo = state.todo;
-    const todos = state.todos;
+    const color = state.color;        
     const check = state.checked;
-    const end = state.date
-    
+    const end = state.date  
+    const info = todo[targetdate]    
+    const authCtx = useContext(AuthContext)
+    const token = authCtx.token
 
     const onKeyPress = (e) => {
         if (e.key == 'Enter') {
-            onConfirm({idx, todo})
+            onConfirm({targetdate, todo})
             dispatch({type: 'CHANGE', value: ''})
         }
     }
@@ -71,10 +72,35 @@ const MakeCalendarModal = ({ idx, visible, onConfirm, onCancel, memo, Schedule }
     
     // 입력
     const confirm = () => {
-        const todos = CalcDate(idx, end)
-        onConfirm({idx, todo, color, todos})
+        const todos = CalcDate(targetdate, end)
+        onConfirm({targetdate, todo, color, todos})
         Initialization()
         changeColor('')
+    }
+    
+    // 삭제
+    const remove = () => {
+        // 선택된 목록 가져오기
+        const query = 'input[name="info"]:checked';
+        const selectedEls = 
+            document.querySelectorAll(query);
+        
+        // 선택된 목록에서 value 찾기
+        let result = [];        
+        selectedEls.forEach((el) => {
+          const data = el.value.split(",")
+          result.push({targetdate: targetdate, memo: data[0], color: data[1]})
+        });
+        console.log(result)
+        
+        // 삭제
+        axios.post('/calendar/deleteSchedules', result, {
+            headers: {
+              'Authorization': 'Bearer ' + token
+            }
+          })
+          window.location.reload();
+
     }
 
 
@@ -90,31 +116,31 @@ const MakeCalendarModal = ({ idx, visible, onConfirm, onCancel, memo, Schedule }
             <Container>
                 <Modal.Header closeButton>
                     <Modal.Title id="contained-modal-title-vcenter">
-                    {idx}{memo}                        
+                    {targetdate}                    
                     </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
+                    
                     <div>
-                        <input className="input" placeholder={memo} value={todo} onChange={onChange} onKeyPress={onKeyPress}></input>                    
-                        {color !== '' && <div className="custom-check-box"
-                                     style={Style(color)}/>}
-                    </div>
-                    <div className="end">
-                        <p>종료일 설정</p>
-                        <input className="input" type = 'checkbox' onClick = {onCheck} />
-                    </div>
-                    <div className="choice-day">
-                        { check === true &&                        
-                            <div className="end-day">
-                                <input className="input" type="text" onChange={onTodos} placeholder={idx} />
-                            </div>                        
-                        }   
-                    </div>
+
+                    {info.map(info => {
+                        return (
+                            <tr key={info}>     
+                                <input name='info' type = 'checkbox' value={info} onClick = {onCheck} />         
+                                <td>일정: &nbsp;</td>
+                                <td>{info[0]}</td>
+                                <div style={Style(info[1])} className="custom-check-box"> </div>
+                            </tr>
+                        )
+                        })}                        
+                        
+                    </div>     
                     <Picker changeColor = {changeColor}/>                    
                 </Modal.Body>
                 <Modal.Footer>                    
-                        <button className="choice" onClick={confirm} >Confirm</button>
-                        <button className="choice" onClick={cancel}>Cancel</button>    
+                        <button className="choice" onClick={confirm} >수정</button>
+                        <button className="choice" onClick={remove} >삭제</button>
+                        <button className="choice" onClick={cancel}>취소</button>    
                 </Modal.Footer>
             </Container>
         </Modal>

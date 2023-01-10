@@ -25,20 +25,32 @@ function App() {
     <Layout>
       <Routes>
         {/*로그인 여부, 유저권한에 따라서 조건에 부합하지 않을경우 홈으로 이동 */}
+        {/*홈페이지 */}
         <Route path="/" element={<HomePage />} />
+        {/*개인정보 변경 */}
         <Route path="/profile/" element={!authCtx.isLoggedIn ? <Navigate to='/' /> : <ProfilePage />} />
+        {/*관리자 페이지 */}
         <Route path="/admin/" element={!authCtx.isLoggedIn || authCtx.userObj.role !== 'ROLE_ADMIN' ? <Navigate to='/' /> : <AdminPage />} />
+        {/*달력 페이지 */}
         <Route path="/calendar/" element= {<CalendarPage />}/>
-        <Route path="/main" element={<Main />} />
-        <Route path="/page" element={<Page />} />
-        <Route path="/create-board" element={<CreateBoard />} />
-        <Route path="/update-board" element={<UpdateBoard />} />
-        <Route path="/bulletin" element={<Bulletin />} />
-         {/* 업데이트 되면서 component ={} -> element{<>/}로 사용*/}
-        <Route path="/note" element = {<NoteListComponent/>}></Route>
-        <Route path="/noteWrite" element = {<NoteWriteComponent/>}></Route>
-        <Route path="/noteRead/:no" element = {<NoteReadComponent/>}> </Route>
-        <Route path="/noteSentList" element = {<NoteSentListComponent/>}></Route>
+        {/*소모임 메인 */}
+        <Route path="/main" element={!authCtx.isLoggedIn ? <Navigate to='/' /> : <Main />} />
+        {/*게시글 보이는 페이지*/}
+        <Route path="/page" element={!authCtx.isLoggedIn ? <Navigate to='/' /> : <Page />} />
+        {/*글쓰기 */}
+        <Route path="/create-board" element={!authCtx.isLoggedIn ? <Navigate to='/' /> : <CreateBoard />} />
+        {/*글 수정 */}
+        <Route path="/update-board" element={!authCtx.isLoggedIn ? <Navigate to='/' /> : <UpdateBoard />} />
+        {/*소모임 페이지(게시판, 달력 있는곳) */}
+        <Route path="/bulletin" element={!authCtx.isLoggedIn ? <Navigate to='/' /> : <Bulletin />} />         
+        {/*쪽지메인 페이지 (받은쪽지 보임) */}
+        <Route path="/note" element = {!authCtx.isLoggedIn ? <Navigate to='/' /> : <NoteListComponent/>}></Route>
+        {/*쪽지 보내기*/}
+        <Route path="/noteWrite" element = {!authCtx.isLoggedIn ? <Navigate to='/' /> : <NoteWriteComponent/>}></Route>
+        {/*쪽지 읽기*/}
+        <Route path="/noteRead/:no" element = {!authCtx.isLoggedIn ? <Navigate to='/' /> : <NoteReadComponent/>}> </Route>
+        {/*보낸 쪽지함 */}
+        <Route path="/noteSentList" element = {!authCtx.isLoggedIn ? <Navigate to='/' /> : <NoteSentListComponent/>}></Route>
       </Routes>
     </Layout>
   );

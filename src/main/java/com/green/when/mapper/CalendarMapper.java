@@ -18,4 +18,6 @@ public interface CalendarMapper {
     void insertSchedule(ScheduleVo schedule);
 
     List<ScheduleVo> getSchedule(String userid);
+
+    void deleteSchedule(ScheduleVo schedule);
 }

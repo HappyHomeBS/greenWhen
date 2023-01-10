@@ -148,6 +148,7 @@
         VALUES (#{userid}, #{usernickname}, #{useremail})
     </insert>
 
+    <!-- 유저권한 변경-->
     <update id="roleChange">
         UPDATE member_tb
         SET   role = #{role}

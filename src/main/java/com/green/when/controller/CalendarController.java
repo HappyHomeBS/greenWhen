@@ -47,6 +47,16 @@ public class CalendarController {
         return savedSchedules;
     }
 
+    @PostMapping("/deleteSchedules")
+    public void deleteSchedules(@RequestBody List<ScheduleVo> schedules) {
+        String userid = SecurityUtil.getCurrentMemberId();
+        System.out.println(schedules);
+        for (ScheduleVo schedule : schedules) {
+            schedule.setUserid(userid);
+            calendarService.deleteSchedule(schedule);
+        }
+    }
+
 
 
 }
