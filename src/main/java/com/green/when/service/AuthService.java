@@ -34,14 +34,14 @@ public class AuthService {
         }
 
         MemberVo memberVo = requestDto.toMember(passwordEncoder);
-        //System.out.println("정보:" + memberVo.toString());
+        System.out.println("정보:" + memberVo.toString());
         userMapper.signup(memberVo);
     }
 
     public TokenVo login(MemberRequestVo requestDto) {
         UsernamePasswordAuthenticationToken authenticationToken = requestDto.toAuthentication();
         Authentication authentication = managerBuilder.getObject().authenticate(authenticationToken);
-        //System.out.println("로그인" + authentication);
+        System.out.println("로그인" + authentication);
         return tokenProvider.generateTokenDto(authentication);
     }
 
@@ -91,21 +91,26 @@ public class AuthService {
     public MailVo createMailAndChangePassword(String userid) {
         String useremail = userMapper.findUseremail(userid);
         String pw = getTempPassword();
+        System.out.println(pw);
+        System.out.println(useremail);
         MailVo mailVo = new MailVo();
         mailVo.setAddress(useremail);
         mailVo.setTitle("Cocolo 임시비밀번호 안내 이메일 입니다.");
         mailVo.setMessage("안녕하세요. Cocolo 임시비밀번호 안내 관련 이메일 입니다." + " 회원님의 임시 비밀번호는 "
                 + pw + " 입니다." + "로그인 후에 비밀번호를 변경을 해주세요");
         String userpw = passwordEncoder.encode(pw);
+        System.out.println(userpw);
         HashMap map = new HashMap<>();
         map.put("userpw", userpw);
         map.put("useremail", useremail);
+        System.out.println(map);
         userMapper.updatePassword(map);
         return mailVo;
     }
 
     // 메일보내기
     public void mailSend(MailVo mailVo) {
+        System.out.println("전송 완료!");
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(mailVo.getAddress());
         message.setSubject(mailVo.getTitle());
@@ -114,7 +119,6 @@ public class AuthService {
         message.setReplyTo("greenwhen2@gmail.com");
         System.out.println("message"+message);
         mailSender.send(message);
-        System.out.println("전송 완료!");
     }
 
 }

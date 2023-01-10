@@ -36,5 +36,4 @@ public class AdminService {
     public void roleChange(MemberVo memberVo) {
         userMapper.roleChange(memberVo);
     }
-
 }

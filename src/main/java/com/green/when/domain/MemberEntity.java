@@ -4,10 +4,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.management.relation.Role;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
@@ -23,18 +21,31 @@ public class MemberEntity {
     @Column(name = "usernickname", nullable = false)
     private String usernickname;
 
+    @Column(name = "userpw", nullable = false)
+    private String userpw;
+
+    @Column(name = "useremail", nullable = false)
+    private String useremail;
+
     @Column(name = "time", nullable = false)
     private LocalDateTime time;
 
+    /*
+    @Enumerated(EnumType.STRING)
+    @Column(name = "role", nullable = false)
+    private Role role;
+*/
+    @Lob
+    @Column(name = "profiledata")
+    private String profiledata;
 
-
-
-
-    public MemberEntity(String userid) {
-
+    public MemberEntity(String userid, String usernickname, String userpw, String useremail,
+                        LocalDateTime time, String profiledata) {
         this.userid = userid;
+        this.usernickname = usernickname;
+        this.userpw = userpw;
+        this.useremail = useremail;
+        this.time = time;
+        this.profiledata = profiledata;
     }
-
-
-
 }

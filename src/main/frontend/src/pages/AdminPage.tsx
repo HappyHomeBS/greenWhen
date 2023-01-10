@@ -1,19 +1,21 @@
 import React from "react";
 import { Fragment, useContext, useState } from "react";
-import { Member } from "../components/User/Admin/MemberList";
-import Group from "../components/User/Admin/Group";
-
+import { Member } from "../components/Admin/Member";
+import { Group } from "../components/Admin/Group";
+import { Note } from "../components/Admin/Note";
 
 const ProfilePage = () => {
   const [member, setMember] = useState(true);
-  const [group, setGroup] = useState(false);  
+  const [group, setGroup] = useState(false);
+  const [note, setNote] = useState(false);
 
   return (
     <Fragment>
       <button
         onClick={() => {
           setMember(false);
-          setGroup(true);          
+          setGroup(true);
+          setNote(false);
         }}
       >
         소모임
@@ -21,15 +23,24 @@ const ProfilePage = () => {
       <button
         onClick={() => {
           setMember(true);
-          setGroup(false);          
+          setGroup(false);
+          setNote(false);
         }}
       >
         회원
-      </button>  
-      <div className="userInfo">
-        {member && <Member />}
-      </div>    
-      {group && <Group />}    
+      </button>
+      <button
+        onClick={() => {
+          setMember(false);
+          setGroup(false);
+          setNote(true);
+        }}
+      >
+        1:1문의
+      </button>
+      {member && <Member />}
+      {group && <Group />}
+      {note && <Note />}
     </Fragment>
   );
 };

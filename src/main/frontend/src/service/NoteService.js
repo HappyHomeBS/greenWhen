@@ -12,22 +12,22 @@ import axios from 'axios';
         return res;
     }
     export const noteSentList = (num, option, search, token) =>{
-        const res = axios.get("/api/noteSentList?num="+num+'&option='+option+'&search='+search, header(token))
+        let res = axios.get("/api/noteSentList?num="+num+'&option='+option+'&search='+search, header(token))
         return res;
     }
 
     export const noteWrite = (note, token)=>{
-        const result = axios.post("/api/noteWrite/", note, header(token));
+        let result = axios.post("/api/noteWrite/", note, header(token));
         return result;
     }
 
     export const noteRead = (no, token) =>{
-        const res = axios.get("/api/noteRead/"+no, header(token) );
+        let res = axios.get("/api/noteRead/"+no, header(token) );
         return res;
     }
 
     export const noteDelete = (no, token)=>{
-        const res = axios.post("/api/noteDelete", {
+        let res = axios.post("/api/noteDelete", {
             nos: no
         }, header(token));
         return res;

@@ -1,8 +1,8 @@
 package com.green.when.domain;
 
+import com.green.when.domain.GroupEntity;
 
-import com.green.when.dto.BoardDeleteDto;
-import com.green.when.dto.dtos.BoardDto;
+
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
@@ -49,21 +49,11 @@ public class BoardEntity {
     @Column(name = "time", nullable = false)
     private LocalDateTime time;
 
-    @Column(name = "allowcomment", nullable = true)
-    private boolean allowcomment;
-
-    @Column(name = "tag", nullable = false)
-    private String tag;
-
-    @Column(name = "role", nullable = false)
-    private Long role;
-
     @OneToMany(mappedBy = "boardEntity", cascade = CascadeType.ALL)
     private List<FileEntity> files;
 
     @OneToMany(mappedBy = "boardEntity", cascade = CascadeType.ALL)
     private List<CommentEntity> comment;
-
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "groupname", referencedColumnName = "groupname", insertable = false, updatable = false)
@@ -71,7 +61,7 @@ public class BoardEntity {
 
     public BoardEntity(Long no, String title, String userid, String content,
                        Long readcount, String groupname, LocalDateTime time,
-                       List<FileEntity> files, boolean allowcomment, String tag, Long role) {
+                       List<FileEntity> files) {
         this.no = no;
         this.title = title;
         this.userid = userid;
@@ -80,26 +70,10 @@ public class BoardEntity {
         this.readcount = readcount;
         this.time = time;
         this.files = files;
-        this.allowcomment = allowcomment;
-        this.tag = tag;
-        this.role = role;
-    }
-
-    public BoardEntity(BoardDto boardDto){
-        this.no = boardDto.getNo();
-        this.title = boardDto.getTitle();
-        this.userid = boardDto.getUserid();
-        this.content = boardDto.getContent();
-        this.groupname = boardDto.getGroupname();
-        this.readcount = boardDto.getReadcount();
-        this.time = boardDto.getTime();
-        this.allowcomment = boardDto.isAllowcomment();
-        this.tag = boardDto.getTag();
-        this.role = boardDto.getRole();
     }
 
     public BoardEntity(Long no, String title, String userid, String content,
-                             Long readcount, String groupname, LocalDateTime time, boolean allowcomment, String tag, Long role) {
+                             Long readcount, String groupname, LocalDateTime time) {
         this.no = no;
         this.title = title;
         this.userid = userid;
@@ -107,13 +81,6 @@ public class BoardEntity {
         this.groupname = groupname;
         this.readcount = readcount;
         this.time = time;
-        this.allowcomment = allowcomment;
-        this.tag = tag;
-        this.role = role;
-    }
-
-    public BoardEntity (BoardDeleteDto Boars) {
-        this.no = Boars.getNo();
     }
 
 

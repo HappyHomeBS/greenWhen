@@ -19,19 +19,13 @@ public class BoardService {
 
     public List<BoardEntity> findBoardsBygroupname(String groupname) {
 
-        return boardRepository.findBoardsBygroupnameOrderByTimeDesc(groupname);
+        return boardRepository.findBoardsBygroupname(groupname);
     }
 
 
-    @Transactional
     public BoardEntity findOne(Long no) {
 
-       BoardEntity prev = boardRepository.findById(no).orElseThrow(NullPointerException::new);
-       Long countup = prev.getReadcount() + 1;
-       prev.setReadcount(countup);
-
-       return prev;
-
+        return boardRepository.findById(no).orElseThrow(NullPointerException::new);
     }
 
     @Transactional
@@ -57,26 +51,4 @@ public class BoardService {
 
         boardRepository.delete(board);
     }
-
-    public List<BoardEntity> search(String title, String content, String groupname) {
-        return boardRepository.findByTitleContainingOrContentContainingAndGroupname(title, content, groupname);
-        //Containing
-    }
-
-    public List<BoardEntity> findBoardsByUserid(String userid) {
-        return boardRepository.findByUseridOrderByTimeDesc(userid);
-    }
-
-    public List<BoardEntity> findAnnouncements(Long role) {
-        return boardRepository.findByRole(role);
-    }
-
-    /*
-    @Transactional
-    public void deleteAll(List<BoardDeleteDto> boardDeleteDtoList) {
-        boardRepository.deleteAllByNo(boardDeleteDtoList);
-
-    }
-
-     */
 }

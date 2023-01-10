@@ -16,7 +16,7 @@ class NoteReadComponent extends Component {
         token = this.props.token;
         NoteService.noteRead(no, token).then((res) => {
         console.log(res.data);
-        this.setState({note: res.data.noteVo});
+        this.setState({note: res.data});
         
         
         });
@@ -52,18 +52,19 @@ class NoteReadComponent extends Component {
                                    <label> 받은시간  : {this.state.note.time}</label>
                                    <label> 제    목  : {this.state.note.title}</label>
                                    <br></br>
+                                   <br></br>
                         </div>
                         <div className = "row">
-                            <label> 내 용 </label>
-                            <textarea value={this.state.note.content} readOnly style={{ flex: "1", margin: "1%", resize: "none"}}/>
+                            <label> 내 용 </label><br></br>
+                            <textarea value={this.state.note.content} readOnly/>
                         </div>
-                        <br></br>
-                        <div style={{float:"right"}}>
-                            <button className="btn btn-primary" onClick={this.goToList.bind(this)} style={{marginLeft:"10px"}}>목록으로</button>
-                            {this.props.userId === this.state.note.recept && 
-                            <button className="btn btn-primary" onClick={()=>this.noteDelete()} style={{marginLeft:"10px"}}>쪽지삭제</button>
-                            }
-                         </div>
+                        {/* <div>
+                            {this.note.time}
+                        </div> */} 
+                        <button className="btn btn-primary" onClick={this.goToList.bind(this)} style={{marginLeft:"10px"}}>쪽지목록으로 이동</button>
+                         {this.props.userId === this.state.note.recept && 
+                        <button className="btn btn-primary" onClick={()=>this.noteDelete()} style={{marginLeft:"10px"}}>쪽지삭제</button>
+                         }
                     </div>
                 </div>
                 

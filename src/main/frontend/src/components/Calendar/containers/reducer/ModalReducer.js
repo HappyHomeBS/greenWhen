@@ -1,7 +1,6 @@
 import React from "react";
 
 function ModalReducer(state, action) {
-    // eslint-disable-next-line default-case
     switch (action.type) {
         // 색상 변경
         case 'COLOR':

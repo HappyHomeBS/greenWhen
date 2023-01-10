@@ -6,7 +6,7 @@ const Schedule = (index, todo) => {
     const info = []
     if (todo[index] !== undefined) {
         todo[index].map((item) => {
-            result.push(<li className="calendarLi" style={Style(item[1])} key={index+item}>{item[0]}</li>)
+            result.push(<li style={Style(item[1])} key={index+item}>{item[0]}</li>)
             info.push({index: index, todo: item})
         })
         return result

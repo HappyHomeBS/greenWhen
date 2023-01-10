@@ -9,6 +9,4 @@ import java.util.List;
 public interface CommentRepository extends JpaRepository<CommentEntity, Long> {
 
     List<CommentEntity> findByContentNo(Long contentNo);
-
-    List<CommentEntity> findByUseridOrderByTimeDesc(String userid);
 }

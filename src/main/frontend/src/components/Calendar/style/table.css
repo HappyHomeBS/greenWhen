@@ -1,34 +1,26 @@
-.calendarTable {
+.table {
     width: 80%;
-    height: 100%;
+    height: 900px;
     table-layout: fixed;
     text-align: center;
     border-collapse: collapse;
-    font-size: 19px;          
+    font-size: 19px;
 }
 
-.calendarMainTable {
-    width: 80%;
-    height: 700px;
-    table-layout: fixed;
-    text-align: center;
-    border-collapse: collapse;
-    font-size: 20px;        
+table tbody tr {
+    border-top: 0.5px solid #c4c9d0;
 }
 
-.calendarTable .calendarTbody .calendarTr .calendarMainTable {
-    border-top: 0.5px solid #c4c9d0;    
-}
-
-.calendarTable .calendarTh .calendarTd .calendarMainTd .calendarMainTable {
+table, th, td {
     vertical-align: top;
 }
 
-.calendarTable .calendarTbody .calendarTr .calendarTd .calendarMainTd .calendarMainTable  {
-    margin-left: 20px;    
+table tbody tr td {
+    margin-left: 20px;
 }
 
-.calendarTable .calendarTbody .calendarTd .calendarMainTd .calendarMainTable {
+
+table tbody td {
     width: 10%;
     height: 10%;
     overflow:hidden;
@@ -36,65 +28,42 @@
     text-overflow: ellipsis;
 }
 
+td:first-child, td:last-child {
+    color: red;
+}
 
-.calendarTable .calendarTbody .calendarTd .calendarMainTd .calendarDiv .calendarMainTable {
-    height: 100%;
+table tbody td div {
+    height: 100px;
     color: black;
     font-size: 12px;
     font-weight: bold;
     text-decoration: none;
     overflow: auto;
 }
-.calendarMainTd:first-child, .calendarMainTd:last-child {
-    color: red;
-}
 
 
-.calendarDiv::-webkit-scrollbar {    
+div::-webkit-scrollbar {
     width: 10px;
 }
-.calendarDiv::-webkit-scrollbar-thumb {
+div::-webkit-scrollbar-thumb {
     background-color: #2f3542;
     border-radius: 10px;
     background-clip: padding-box;
     border: 2px solid transparent;
 }
-.calendarDiv::-webkit-scrollbar-track {
+div::-webkit-scrollbar-track {
     background-color: grey;
     border-radius: 10px;
     box-shadow: inset 0px 0px 5px white;
 }
-.calendarTable .calendarTbody .calendarTd:hover{
+table tbody td:hover{
     font-weight: bold;
 }
 
-.calendarLi {
+li {
     list-style: none;
 }
 
 .diff {
     color:rgba(0, 0, 0, 0.3 ) !important;
-}
-
-.regionTd {
-    width: 100px;    
-    vertical-align: top;
-}
-
-/* 기본user agent stylesheet세팅이 vertical-align: middle; 로 되어있어서 classname 선언하지 않고 전체적용  */
-tbody {
-    vertical-align: top;
-}
-
-.calendarDiv {
-    position: 'absolute';
-    font-size: 13px;    
-}
-
-.div {
-    font-size: 20px;    
-}
-
-.pagination {
-    text-align: center;
 }

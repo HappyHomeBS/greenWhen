@@ -41,12 +41,4 @@ public class CommentService {
     public List<CommentEntity> findByBoardId(Long no) {
         return commentRepository.findByContentNo(no);
     }
-
-    public List<CommentEntity> findByUserid(String userid) {
-        return  commentRepository.findByUseridOrderByTimeDesc(userid);
-    }
-
-    public List<CommentEntity> findByContentno(Long no) {
-        return commentRepository.findByContentNo(no);
-    }
 }

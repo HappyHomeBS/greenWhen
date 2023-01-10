@@ -1,15 +1,10 @@
 // # frontend/src/pages/UpdateBoard.jsx
-import { React, useEffect, useState, useContext } from "react"
-import AuthContext from "../store/authContext";
+import { React, useEffect, useState } from "react"
 import axios from 'axios';
 import { useNavigate, useLocation } from "react-router-dom";
-import "../DamCss/Page/page.css";
-
 
 const UpdateBoard = () => {
 
-    const authCtx = useContext(AuthContext);
-    const token = authCtx.token;
     const [title, setTitle] = useState("");
     const [content, setContent] = useState("");
     let location = useLocation();
@@ -37,8 +32,7 @@ const UpdateBoard = () => {
             let response = await axios({
 											                    method: 'put',
 											                    url: '/api/update-board',
-											                    headers: {'Content-Type': 'application/json',
-                                                                            'Authorization': 'Bearer ' + token },
+											                    headers: {'Content-Type': 'application/json' },
 											                    data: JSON.stringify(request_data)
 									                    });
             console.log('writeBoard/response: ', response);
@@ -59,13 +53,11 @@ const UpdateBoard = () => {
 
     return (
         <>
-            <div className="page"> 
             <label>제목</label> <br/>
             <input id='input_title' type="text" placeholder="수정할 제목을 입력해주세요" value={title} onChange={(e) => setTitle(e.target.value) }/><br/>
             <label>내용</label><br/>
             <textarea id='textarea_content' type="text" placeholder="수정할 내용 을 입력해주세요" value={content}  onChange={(e) => setContent(e.target.value) }/><br/>
-            <input type="button" className="dambutton" value="게시글 수정" onClick={handleInputClick}/>
-            </div>
+            <input type="button" value="게시글 수정" onClick={handleInputClick}/>
         </>
     )
 }

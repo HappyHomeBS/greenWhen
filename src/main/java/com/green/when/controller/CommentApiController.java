@@ -1,11 +1,9 @@
 package com.green.when.controller;
 
 
-
-import com.green.when.config.SecurityUtil;
 import com.green.when.domain.CommentEntity;
 import com.green.when.dto.CommentDeleteDto;
-import com.green.when.dto.dtos.CommentDto;
+import com.green.when.dto.CommentDto;
 import com.green.when.service.CommentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
@@ -36,15 +34,6 @@ public class CommentApiController {
         return new WrapperClass(commentDtoList);
     }
 
-    @GetMapping("/api/comment-list-mypage")
-    public WrapperClass comment_list_mypage(){
-        String userid = SecurityUtil.getCurrentMemberId();
-        List<CommentEntity> commentList = commentService.findByUserid(userid);
-        List<CommentDto> commentDtoList = commentList.stream().map(b-> new CommentDto(b)).collect(Collectors.toList());
-
-        return new WrapperClass(commentDtoList);
-    }
-
     //CREATE-COMMENT
     @PostMapping("/api/create-comment")
     public ResponseEntity create_comment(@RequestBody CommentDto commentDto){
@@ -55,11 +44,10 @@ public class CommentApiController {
 
         try {
             LocalDateTime date = LocalDateTime.now();
-            String userid = SecurityUtil.getCurrentMemberId();
 
             CommentEntity comment = new CommentEntity(
                     commentDto.getNo(),
-                    userid,
+                    commentDto.getUserid(),
                     commentDto.getContentNo(),
                     commentDto.getContent(),
                     date

@@ -1,13 +1,10 @@
 package com.green.when.service;
 
-
 import com.green.when.domain.GroupEntity;
 import com.green.when.repositories.GroupRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 @Service
 @Transactional(readOnly = true)
@@ -19,7 +16,6 @@ public class GroupService {
 
     @Transactional
     public void create(GroupEntity group) {
-
         groupRepository.save(group);
     }
 
@@ -37,16 +33,5 @@ public class GroupService {
     @Transactional
     public void delete(GroupEntity group) {
         groupRepository.delete(group);
-    }
-
-    @Transactional
-    public void changeLeader(String userid, String groupname) {
-        GroupEntity findGroup = groupRepository.findById(groupname).orElseThrow(NullPointerException::new);
-        findGroup.setGroupleader(userid);
-    }
-
-
-    public List<GroupEntity> findAll() {
-        return groupRepository.findAll();
     }
 }

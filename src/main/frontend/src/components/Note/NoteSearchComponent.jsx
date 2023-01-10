@@ -1,6 +1,9 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 
 import React, {Component } from 'react';
+import * as NoteService from '../../service/NoteService.js';
+import { withRouter } from './NoteListComponent';
+
 
 class NoteSearchComponent extends Component{
     constructor(props) {
@@ -9,7 +12,7 @@ class NoteSearchComponent extends Component{
 
     render() {
         return (
-            <div style={{textAlign:"center"}}>
+            <div>
                 <form>
                     <select name = "option" >
                         <option value="send"> 보낸사람 </option>
