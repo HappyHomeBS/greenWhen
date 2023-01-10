@@ -15,6 +15,7 @@ import NoteListComponent from './components/Note/NoteListComponent';
 import NoteReadComponent from './components/Note/NoteReadComponent';
 import NoteWriteComponent from './components/Note/NoteWriteComponent';
 import NoteSentListComponent from './components/Note/NoteSentListComponent';
+import InquiryListComponent from './components/Inquiry/InquiryListComponent';
 
 
 function App() {
@@ -51,6 +52,9 @@ function App() {
         <Route path="/noteRead/:no" element = {!authCtx.isLoggedIn ? <Navigate to='/' /> : <NoteReadComponent/>}> </Route>
         {/*보낸 쪽지함 */}
         <Route path="/noteSentList" element = {!authCtx.isLoggedIn ? <Navigate to='/' /> : <NoteSentListComponent/>}></Route>
+        {/*1:1 문의 */}
+        <Route path="/inquiryList" element = {!authCtx.isLoggedIn ? <Navigate to='/' /> : <InquiryListComponent/>}></Route>
+
       </Routes>
     </Layout>
   );
