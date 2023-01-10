@@ -31,4 +31,9 @@ public class CalendarService {
         List<ScheduleVo> scheduleList = calendarMapper.getSchedule(userid);
         return scheduleList;
     }
+
+    @Transactional
+    public void deleteSchedule(ScheduleVo schedule) {
+        calendarMapper.deleteSchedule(schedule);
+    }
 }
