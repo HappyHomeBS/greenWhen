@@ -6,7 +6,7 @@ import Style from "../module/Style";
 import ModalReducer from "./reducer/ModalReducer";
 import CalcDate from '../module/CalcDate';
 
-const CalendarModal = ({ targetdate, visible, onConfirm, onCancel }) => {
+const CalendarModal = ({ targetdate, visible, onConfirm, onCancel }) => {    
     const initialState = {
         color: '',
         todo: '',
@@ -88,22 +88,20 @@ const CalendarModal = ({ targetdate, visible, onConfirm, onCancel }) => {
                     </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <div className="input">
-                        <input placeholder="일정" value={todo} onChange={onChange} onKeyPress={onKeyPress}></input>                    
+                    <div>
+                        <input className="input" placeholder="일정" value={todo} onChange={onChange} onKeyPress={onKeyPress}></input>                    
                         {color !== '' && <div className="custom-check-box"
                                      style={Style(color)}/>}
                     </div>
                     <div className="end">
                         <p>종료일 설정</p>
-                        <input type = 'checkbox' onClick = {onCheck} />
+                        <input className="input" type = 'checkbox' onClick = {onCheck} />
                     </div>
                     <div className="choice-day">
-                        { check === true &&
-                        <div className="day">
+                        { check === true &&                        
                             <div className="end-day">
-                                <input type="text" onChange={onTodos} placeholder={targetdate} />
-                            </div>
-                        </div>
+                                <input className="input" type="text" onChange={onTodos} placeholder={targetdate} />
+                            </div>                        
                         }   
                     </div>
                     <Picker changeColor = {changeColor}/>                    

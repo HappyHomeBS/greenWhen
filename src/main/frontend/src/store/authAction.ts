@@ -16,22 +16,22 @@ const calculateRemainingTime = (expirationTime:number) => {
 };
 
 export const loginTokenHandler = (token:string, expirationTime:number) => {
-  localStorage.setItem('token', token);
-  localStorage.setItem('expirationTime', String(expirationTime));
+  sessionStorage.setItem('token', token);
+  sessionStorage.setItem('expirationTime', String(expirationTime));
 
   const remainingTime = calculateRemainingTime(expirationTime);
   return remainingTime;
 }
 
 export const retrieveStoredToken = () => {
-  const storedToken = localStorage.getItem('token');
-  const storedExpirationDate = localStorage.getItem('expirationTime') || '0';
+  const storedToken = sessionStorage.getItem('token');
+  const storedExpirationDate = sessionStorage.getItem('expirationTime') || '0';
 
   const remaingTime = calculateRemainingTime(+ storedExpirationDate);
 
   if(remaingTime <= 1000) {
-    localStorage.removeItem('token');
-    localStorage.removeItem('expirationTime');
+    sessionStorage.removeItem('token');
+    sessionStorage.removeItem('expirationTime');
     return null
   }
 
@@ -65,8 +65,8 @@ export const findIdActionHandler = (useremail:string) => {
 };
 
 export const logoutActionHandler = () => {
-  localStorage.removeItem('token');
-  localStorage.removeItem('expirationTime');
+  sessionStorage.removeItem('token');
+  sessionStorage.removeItem('expirationTime');
 };
 
 export const getUserActionHandler = (token:string) => {
