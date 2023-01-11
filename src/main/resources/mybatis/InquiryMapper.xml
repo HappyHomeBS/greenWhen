@@ -6,11 +6,11 @@
     <select id = "inquiryList" parameterType="InquiryVo" resultType="InquiryVo">
         SELECT * FROM inquiry_tb
         WHERE depth = 0
-        <choose>
-            <when test= "userRole.equals('ROLE_USER')">
-            AND writer = #{userId}
-            </when>
-        </choose>
+<!--        <choose>-->
+<!--            <when test= "userRole.equals('ROLE_USER')">-->
+<!--            AND writer = #{userId}-->
+<!--            </when>-->
+<!--        </choose>-->
     </select>
 
 </mapper>

@@ -1,5 +1,6 @@
 package com.green.when.controller;
 
+import com.green.when.config.SecurityUtil;
 import com.green.when.service.InquiryService;
 import com.green.when.vo.InquiryVo;
 import lombok.RequiredArgsConstructor;
@@ -19,9 +20,15 @@ public class InquiryController{
     @Autowired
     InquiryService inquiryService;
 
-    @PostMapping("/inquiryList")
-    public ResponseEntity<Map> inquiryList(@RequestBody InquiryVo inquiryVo){
-        System.out.println("inquiryVo"+inquiryVo);
+    @GetMapping("/inquiryList")
+    public ResponseEntity<Map> inquiryList(){
+        String userid = SecurityUtil.getCurrentMemberId();
+
+        InquiryVo inquiryVo = new InquiryVo();
+        inquiryVo.setUserId(userid);
+
+
+        System.out.println("요청데이터");
         List<InquiryVo>inquiryList = inquiryService.inquiryList(inquiryVo);
 
         Map result = new HashMap<>();
