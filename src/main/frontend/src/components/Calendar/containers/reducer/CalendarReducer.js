@@ -33,7 +33,7 @@ function calendarReducer(state, action) {
                         ...state.schedule,
                         [action.index]: [
                             ...state.schedule[action.index],
-                            [action.todo, action.color]
+                            [action.todo, action.color, action.no, action.region]
                         ]
                     }}
             }
@@ -41,7 +41,7 @@ function calendarReducer(state, action) {
             else {
                 return {...state, schedule: {
                         ...state.schedule,
-                        [action.index]: [[action.todo, action.color]]
+                        [action.index]: [[action.todo, action.color, action.no, action.region]]
                     }}
             }
     }

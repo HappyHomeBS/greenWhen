@@ -10,7 +10,7 @@
 
     <!-- 달력 메모 불러오기 -->
     <select id="getSchedule" resultType="ScheduleVo">
-        SELECT userid, groupname, memo, region, DATE_FORMAT(targetdate, '%Y.%c.%e') as targetdate, color
+        SELECT no, userid, groupname, memo, region, DATE_FORMAT(targetdate, '%Y.%c.%e') as targetdate, color
         FROM memo_tb
         where userid = #{userid}
     </select>
@@ -19,9 +19,7 @@
     <delete id="deleteSchedule">
         DELETE FROM memo_tb
         WHERE userid = #{userid}
-        AND   memo   = #{memo}
-        AND   color  = #{color}
-        AND   targetdate = #{targetdate}
+        AND   no   = #{no}
     </delete>
 
 
