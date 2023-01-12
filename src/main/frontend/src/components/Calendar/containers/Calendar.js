@@ -1,10 +1,11 @@
-import React, { useReducer, useContext, useEffect, useState } from "react";
+import React, { useReducer, useContext, useEffect, useState, useCallback } from "react";
 import CalendarModal from "./CalendarModal";
 import calendarReducer from "./reducer/CalendarReducer";
 import MakeCalendar from "../module/MakeCalendar";
 import axios from "axios";
 import AuthContext from "../../../store/authContext";
-import MakeCalendarModal from "./MakeCalendarModal";
+import CalendarUpdateModal from "./CalendarUpdateModal";
+import CalendarMemoModal from "./CalendarMemoModal";
 
 const today = new Date();
 
@@ -21,9 +22,11 @@ const initialState = {
 
 const Calendar = () => {
   const [state, dispatch] = useReducer(calendarReducer, initialState);
-
+  
+  // 유저 정보
   const authCtx = useContext(AuthContext);
   const token = authCtx.token;
+  const userNickname = authCtx.userObj.usernickname
 
   // 날짜 관련
   const year = state.year;
@@ -38,22 +41,25 @@ const Calendar = () => {
   // Modal
   const visible = state.modal.visible;
   const targetdate = state.modal.index;
+  const [calendarUpdateModalOn, setCalendarUpdateModalOn] = useState(false);  
+  const [calendarMemoModalOn, setCalendarMemoModalOn] = useState(false);  
 
-  const [makeCalendarModalOn, setMakeCalendarModalOn] = useState(false);
-  const [calendarModalOn, setCalendarModalOn] = useState(false);
+  // 지역
+  const [selected, setSelected] = useState(sessionStorage.getItem('selected'));  
 
-  useEffect(() => {
+  useEffect(() => {       
+    dispatch({type: 'INITIALIZATIONSCHEDULE'})
     axios
-      .get("/calendar/getSchedule", {
+      .get("/calendar/getSchedules?region="+sessionStorage.getItem('selected'), {
         headers: {
           Authorization: "Bearer " + token,
         },
       })
-      .then((res) => {
+      .then((res) => {     
         const data = res.data;
         console.log("메모", data);
         data.map((item) => {
-          console.log("아이템", item);
+          console.log("아이템", item);          
           dispatch({
             type: "INSERT",
             index: item.targetdate,
@@ -63,8 +69,8 @@ const Calendar = () => {
             region: item.region,
           });
         });
-      });
-  }, []);
+      });      
+  }, [sessionStorage.getItem('selected')]);
 
   // Month 감소
   const onDecreases = () => {
@@ -81,23 +87,27 @@ const Calendar = () => {
     dispatch({ type: "MODAL", value: key });
   };
 
-  const clickModal = () => {
-    setMakeCalendarModalOn(true)
-    
-  }
+  //지역 선택
+  const selectChange = useCallback((e) => {    
+    setSelected(e.target.value);
+    sessionStorage.setItem('selected', e.target.value);
+    console.log('지역번호:',selected)
+  }, [selected])
+
 
   // 일정 입력
-  const onConfirm = ({ targetdate, todo, color, todos }) => {
+  const onConfirm = ({ targetdate, todo, color, todos, region }) => {
     console.log("날짜", targetdate);
     console.log("일정", todo);
     console.log("컬러", color);
+    console.log("지역", region);
 
     if (todos.length != 0) {
       const schedules = [];
 
       todos.map((item) => {
         // targetdate: 날짜(시작일 ~ 종료일), todo: 일정, color: 표시color
-        schedules.push({ targetdate: item, memo: todo, color: color });
+        schedules.push({ targetdate: item, memo: todo, color: color, region: region });
       });
 
       axios
@@ -115,7 +125,8 @@ const Calendar = () => {
     } else {
       // 일정이 하루만 입력된 경우
       const schedule = [];
-      schedule.push({ targetdate: targetdate, memo: todo, color: color });
+
+      schedule.push({ targetdate: targetdate, memo: todo, color: color, region: region });
 
       axios
         .post("/calendar/saveSchedule", schedule, {
@@ -133,6 +144,10 @@ const Calendar = () => {
     dispatch({ type: "MODAL" });
   };
 
+  const onClickSchedule = ({ targetdate, todo, color, todos, region }) => {
+
+  }
+
   // 일정 입력 취소
   const onCancel = () => {
     dispatch({ type: "MODAL" });
@@ -149,6 +164,12 @@ const Calendar = () => {
           <button className="move" onClick={onIncreases}>
             &gt;
           </button>
+          <select onChange={selectChange} value={sessionStorage.getItem('selected')}>
+            <option value={0}>{userNickname}</option>
+            <option value={108}>서울</option>
+            <option value={159}>부산</option>
+          </select>
+          <button onClick={() => setCalendarMemoModalOn(true)}>내 메모 보기</button>
         </div>
         <table className="table">
           <thead>
@@ -170,24 +191,32 @@ const Calendar = () => {
               lastDate,
               changeVisible,
               todo,
-              setMakeCalendarModalOn,
-              setCalendarModalOn,
+              setCalendarUpdateModalOn,              
               onCancel,
             })}
           </tbody>
-        </table>
+        </table>        
         <CalendarModal
-          visible={calendarModalOn}
-          onCancel={() => setCalendarModalOn(false)}
+          visible={visible}
+          onCancel={onCancel}
           onConfirm={onConfirm}
           targetdate={targetdate}
+          region={selected}
         />
-        <MakeCalendarModal
-          visible={makeCalendarModalOn}
-          onCancel={() => setMakeCalendarModalOn(false)}
+        <CalendarUpdateModal
+          visible={calendarUpdateModalOn}
+          onCancel={() => setCalendarUpdateModalOn(false)}
           targetdate={targetdate}
           todo={todo}
         />
+        <CalendarMemoModal
+          visible={calendarMemoModalOn}
+          onCancel={() => setCalendarMemoModalOn(false)}
+          targetdate={targetdate}
+          todo={todo}
+          token={token}
+          onClickSchedule = {onClickSchedule}
+          />          
       </div>
     </>
   );

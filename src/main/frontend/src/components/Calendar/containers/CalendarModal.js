@@ -6,7 +6,7 @@ import Style from "../module/Style";
 import ModalReducer from "./reducer/ModalReducer";
 import CalcDate from '../module/CalcDate';
 
-const CalendarModal = ({ targetdate, visible, onConfirm, onCancel }) => {    
+const CalendarModal = ({ targetdate, visible, onConfirm, onCancel, region }) => {    
     const initialState = {
         color: '',
         todo: '',
@@ -66,7 +66,7 @@ const CalendarModal = ({ targetdate, visible, onConfirm, onCancel }) => {
     // 입력
     const confirm = () => {
         const todos = CalcDate(targetdate, end)
-        onConfirm({targetdate, todo, color, todos})
+        onConfirm({targetdate, todo, color, todos, region})
         Initialization()
         changeColor('')
     }

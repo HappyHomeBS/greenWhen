@@ -58,11 +58,8 @@ public class AuthController {
     // 이메일로 임시비밀번호 보내기
     @PostMapping("/sendEmail")
     public void sendEmail(@RequestBody MemberVo memberVo){
-        System.out.println(memberVo.getUserid());
         String userid = memberVo.getUserid();
-        System.out.println(userid);
         MailVo mailVo = authService.createMailAndChangePassword(userid);
-        System.out.println(mailVo.toString());
         authService.mailSend(mailVo);
     }
 

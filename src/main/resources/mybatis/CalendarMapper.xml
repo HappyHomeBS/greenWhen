@@ -9,11 +9,23 @@
     </insert>
 
     <!-- 달력 메모 불러오기 -->
-    <select id="getSchedule" resultType="ScheduleVo">
+    <select id="getSchedules" resultType="ScheduleVo">
         SELECT no, userid, groupname, memo, region, DATE_FORMAT(targetdate, '%Y.%c.%e') as targetdate, color
         FROM memo_tb
         where userid = #{userid}
+        <if test=" region != null ">
+            AND   region = #{region}
+        </if>
     </select>
+
+    <!-- 내가 쓴 메모 불러오기 -->
+    <select id="getAllSchedules" resultType="ScheduleVo">
+        SELECT no, userid, groupname, memo, region, DATE_FORMAT(targetdate, '%Y.%c.%e') as targetdate, color
+        FROM memo_tb
+        where userid = #{userid}
+        ORDER BY no desc
+    </select>
+
 
     <!-- 일정 삭제 -->
     <delete id="deleteSchedule">
@@ -21,6 +33,14 @@
         WHERE userid = #{userid}
         AND   no   = #{no}
     </delete>
+
+    <!-- 일정 수정 -->
+    <update id="updateSchedules">
+        UPDATE memo_tb
+        SET    memo = #{newMemo}
+        WHERE  userid  = #{userid}
+        AND    no      = #{no}
+    </update>
 
 
 
