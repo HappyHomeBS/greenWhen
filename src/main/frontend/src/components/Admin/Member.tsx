@@ -1,12 +1,13 @@
 import axios from 'axios';
 import React, { useContext, useEffect, useState } from 'react';
 import AuthContext from '../../store/authContext';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 
 const Member = () => {
   const authCtx = useContext(AuthContext);
   const token = authCtx.token;
-  const [selected, setSelected] = useState("");
+  const [selected, setSelected] = useState("");  
   const [users, setUsers] = useState([{
     userid: '',
     usernickname: '',
@@ -14,6 +15,8 @@ const Member = () => {
     role: '',
     time: ''
   }]);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
 
@@ -37,7 +40,7 @@ const Member = () => {
     authCtx.userDelete(userid, useremail, usernickname);
   }
 
-  const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  const selectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSelected(event.target.value);
     console.log(selected)
   }
@@ -48,7 +51,8 @@ const Member = () => {
     event.preventDefault();
     console.log(selected, userid);
     authCtx.roleChange(selected, userid);
-    window.location.reload();
+    //window.location.reload();
+    navigate("/admin", { replace: true });    
   }
 
   return (
@@ -77,7 +81,7 @@ const Member = () => {
                 {user.role === 'ROLE_ADMIN' && <span>관리자</span>}
                 {user.role === 'ROLE_USER' && <span>일반유저</span>}
                 <span>{user.time}</span>
-                <select className="grade" onChange={handleChange} value={selected}>
+                <select className="grade" onChange={selectChange} >
                   <option>관리등급</option>
                   <option value="ROLE_ADMIN">관리자</option>
                   <option value="ROLE_USER">일반유저</option>

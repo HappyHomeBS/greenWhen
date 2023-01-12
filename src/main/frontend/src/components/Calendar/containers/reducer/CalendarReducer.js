@@ -26,6 +26,11 @@ function calendarReducer(state, action) {
                     visible: !state.modal.visible,
                     index: action.value
                 }}
+            // 초기화    
+        case 'INITIALIZATIONSCHEDULE':
+            return{...state, schedule: []
+            }        
+
         case 'INSERT':
             // 해당 인덱스에 이미 일정이 있는 경우
             if (state.schedule[action.index] !== undefined) {

@@ -32,19 +32,51 @@ public class CalendarController {
         }
     }
 
-    @GetMapping("/getSchedule")
-    public List<ScheduleVo> getSchedules() {
+    @GetMapping("/getSchedules")
+    public List<ScheduleVo> getSchedules(@RequestParam int region) {
         String userid = SecurityUtil.getCurrentMemberId();
+        ScheduleVo scheduleVo = new ScheduleVo();
+        scheduleVo.setUserid(userid);
+        scheduleVo.setRegion(region);
         List<ScheduleVo> savedSchedules = new ArrayList<>();
 
-        List<ScheduleVo> getSchedules = calendarService.getSchedule(userid);
+        List<ScheduleVo> getSchedules = calendarService.getSchedules(scheduleVo);
         for (ScheduleVo vo : getSchedules) {
             savedSchedules.add(vo);
         }
 
-        System.out.println(savedSchedules);
+        return savedSchedules;
+    }
+
+    @GetMapping("/getAllSchedules")
+    public List<ScheduleVo> getAllSchedules() {
+        String userid = SecurityUtil.getCurrentMemberId();
+        List<ScheduleVo> savedSchedules = new ArrayList<>();
+
+        List<ScheduleVo> getSchedules = calendarService.getAllSchedules(userid);
+        for (ScheduleVo vo : getSchedules) {
+            savedSchedules.add(vo);
+        }
 
         return savedSchedules;
+    }
+
+    @PostMapping("/deleteSchedules")
+    public void deleteSchedules(@RequestBody List<ScheduleVo> schedules) {
+        String userid = SecurityUtil.getCurrentMemberId();
+        for (ScheduleVo schedule : schedules) {
+            schedule.setUserid(userid);
+            calendarService.deleteSchedule(schedule);
+        }
+    }
+
+    @PostMapping("/updateSchedules")
+    public void updateSchedules(@RequestBody List<Map> schedules) {
+        String userid = SecurityUtil.getCurrentMemberId();
+        for (Map schedule : schedules) {
+            schedule.put("userid", userid);
+            calendarService.updateSchedules(schedule);
+        }
     }
 
 
