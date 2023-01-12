@@ -28,14 +28,14 @@ public class AdminController {
     @GetMapping("/userList")
     public List<MemberResponseVo> getMyMemberInfo() {
         List<MemberResponseVo> userList = adminService.userList();
-        System.out.println(userList);
+        //System.out.println(userList);
         return userList;
         // return ResponseEntity.ok(memberService.getMyInfoBySecurity());
     }
 
     @PostMapping("/userDelete")
     public void userDelete(@RequestBody MemberVo memberVo) {
-        System.out.println(memberVo.toString());
+        //System.out.println(memberVo.toString());
         adminService.userDelete(memberVo);
     }
 

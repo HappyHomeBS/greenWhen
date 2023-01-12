@@ -31,15 +31,14 @@ const MakeCalendar = ({
   lastDate,
   changeVisible,
   todo,
-  setMakeCalendarModalOn,
-  setCalendarModalOn,
+  setCalendarUpdateModalOn,  
   onCancel,
 }) => {
   const result = [];
 
   const viewModal=()=>{
-    setMakeCalendarModalOn(true)
-    
+    setCalendarUpdateModalOn(true)
+    changeVisible(onCancel)    
   }
 
   const makeDay = (week) => {
@@ -57,7 +56,7 @@ const MakeCalendar = ({
             <td className="diff" onClick={() => changeVisible(idx)} key={idx}>
               {now}
               <div className="todo">
-                <div onClick={() => setMakeCalendarModalOn(true)}>
+                <div onClick={viewModal}>
                   {Schedule(idx, todo)}
                 </div>
               </div>
@@ -90,10 +89,10 @@ const MakeCalendar = ({
           const idx = returnIdx("", year, month, now);
 
           result.push(
-            <td onClick={() => setCalendarModalOn(true)} key={idx}>
+            <td onClick={() => changeVisible(idx)} key={idx}>
               {now}
               <div className="todo">
-                <div onClick={() => setMakeCalendarModalOn(true)}>
+                <div onClick={viewModal}>
                   {Schedule(idx, todo)}
                 </div>
               </div>
@@ -109,7 +108,7 @@ const MakeCalendar = ({
             <td className="diff" onClick={() => changeVisible(idx)} key={idx}>
               {now}
               <div className="todo">
-                <div onClick={() => setMakeCalendarModalOn(true)}>
+                <div onClick={viewModal}>
                   {Schedule(idx, todo)}
                 </div>
               </div>

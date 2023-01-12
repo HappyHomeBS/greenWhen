@@ -40,7 +40,7 @@ const Member = () => {
     authCtx.userDelete(userid, useremail, usernickname);
   }
 
-  const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  const selectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSelected(event.target.value);
     console.log(selected)
   }
@@ -81,7 +81,7 @@ const Member = () => {
                 {user.role === 'ROLE_ADMIN' && <span>관리자</span>}
                 {user.role === 'ROLE_USER' && <span>일반유저</span>}
                 <span>{user.time}</span>
-                <select className="grade" onChange={handleChange} >
+                <select className="grade" onChange={selectChange} >
                   <option>관리등급</option>
                   <option value="ROLE_ADMIN">관리자</option>
                   <option value="ROLE_USER">일반유저</option>
