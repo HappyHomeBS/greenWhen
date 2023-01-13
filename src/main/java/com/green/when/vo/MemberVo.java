@@ -13,9 +13,11 @@ public class MemberVo {
     private String usernickname;
     private String userpw;
     private String useremail;
-    private String profiledata;
+    private byte[] profileData;
     private Authority role;
     private String time;
+    private String filename;
+    private String filepath;
 
     public void setNickname(String usernickname) {
         this.usernickname = usernickname;

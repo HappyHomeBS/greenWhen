@@ -1,5 +1,4 @@
 package com.green.when.controller;
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.green.when.config.SecurityUtil;
 import com.green.when.service.NoteService;
 import com.green.when.vo.NoteVo;
@@ -10,9 +9,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.swing.text.html.parser.Entity;
-import java.lang.reflect.Array;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
