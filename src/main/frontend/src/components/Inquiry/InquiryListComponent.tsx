@@ -5,7 +5,7 @@ import AuthContext from '../../store/authContext';
 import {inquiryList} from '../Inquiry/InquiryInterface';
 
 const InquiryList: React.FC = (props: any) => {
-    const [inquiryList, setInquiryList] = useState([]);
+    const [inquiryList, setInquiryList] = useState(any[]);
     const authCtx = useContext(AuthContext);
     
     useEffect(() => {
@@ -19,9 +19,10 @@ const InquiryList: React.FC = (props: any) => {
             'Authorization': 'Bearer ' + token
         }}
         }
-        const listData =  await axios.get("/api/inquiryList", header(token))
-        console.log(listData)
-        setInquiryList(listData.data)
+        const res =  await axios.get("/api/inquiryList", header(token))
+        console.log(res)
+        const listData = res.data
+        setInquiryList.apply(null, [listData.data.parameter]: listData.value)
         console.log(inquiryList)
     //     .then((listData) => {
     //         setInquiryList(listData.data)
