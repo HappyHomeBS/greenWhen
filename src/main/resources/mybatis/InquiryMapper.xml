@@ -4,13 +4,29 @@
 <mapper namespace="com.green.when.mapper.InquiryMapper">
 
     <select id = "inquiryList" parameterType="InquiryVo" resultType="InquiryVo">
+        select
+        no
+        ,grpno
+        ,depth
+        ,userid
+        ,title
+        ,content
+        ,time
+        ,status
+        ,m.role as userRole
+        from inquiry_tb as i
+        join member_tb as m on i.userid = m.userid
+        <choose>
+            <when test= "userRole.equals('ROLE_USER')">
+            AND userid = #{userId}
+            </when>
+        </choose>
+    </select>
+
+    <select id="inquiryRead" parameterType="int" resultType="InquiryVo">
         SELECT * FROM inquiry_tb
-        WHERE depth = 0
-<!--        <choose>-->
-<!--            <when test= "userRole.equals('ROLE_USER')">-->
-<!--            AND writer = #{userId}-->
-<!--            </when>-->
-<!--        </choose>-->
+        WHERE no= #{no} AND grpno= #{no}
+
     </select>
 
 </mapper>

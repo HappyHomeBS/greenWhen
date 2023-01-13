@@ -43,6 +43,7 @@ class NoteListComponent extends Component {
     // 컴포넌트 생성시 실행(값 세팅)a
     componentDidMount() {
         this.listNote(1);
+        console.log(this.state)
     }
     //페이징 포함 리스트 호출
     
@@ -210,7 +211,6 @@ class NoteListComponent extends Component {
                                     <th><input type="checkbox" className="note_checkbox" id="all_checkbox" onChange={(e)=>this.allCheckHandler(e.target.checked)}
                                     checked={this.state.checkList.length === this.state.note.length ? true : false}
                                     /> </th>
-                                    <th style= {{display :"none"}}> 번  호 </th>
                                     <th> 제  목 </th>
                                     <th> 보낸사람</th>
                                     <th> 받은날짜</th>
@@ -226,7 +226,6 @@ class NoteListComponent extends Component {
                                             <td><input type="checkbox" id={note.no} classame="note_checkbox" onChange={(e)=> this.checkBoxHandler(e.target.id, e.target.checked)}
                                             checked={this.state.checkList.includes(note.no)? true : false}
                                             /></td>
-                                            <td style= {{display :"none"}}>{note.no}</td>
                                             <td> <a onClick = {() => this.noteRead(note.no)}>{note.title}</a></td>
                                             <td>{note.send}</td>
                                             <td>{note.time}</td>

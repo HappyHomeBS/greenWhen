@@ -6,8 +6,11 @@ const header = (token: string) => {
     }}
 }
 
-export const getInquiryList = async (userData:any, token:string)=> {
-    const listData = await axios.post("/api/inquiryList",userData ,header(token))
+export const getInquiryList = async (token:string)=> {
+    const listData = await axios.get("/api/inquiryList", header(token))
     return listData
 }
 
+export const inquiryListDetail = async(token:string) => {
+    const readData = await axios.get("")
+}
