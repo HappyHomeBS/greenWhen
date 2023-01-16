@@ -17,22 +17,42 @@ import java.util.Map;
 @RequestMapping("/api")
 
 public class InquiryController{
+
+    public InquiryVo setUserInfo() {
+        String userId = SecurityUtil.getCurrentMemberId();
+        String userRole = inquiryService.getUserRole(userId);
+
+        InquiryVo userInfo = new InquiryVo();
+        userInfo.setUserId(userId);
+        userInfo.setUserRole(userRole);
+
+        return userInfo;
+    }
     @Autowired
     InquiryService inquiryService;
-
+    //리스트 조회, 사용자 권한 확인 후  vo에 id와 함께 전달
     @GetMapping("/inquiryList")
     public ResponseEntity<Map> inquiryList(){
-        String userid = SecurityUtil.getCurrentMemberId();
-
-        InquiryVo inquiryVo = new InquiryVo();
-        inquiryVo.setUserId(userid);
-
+        InquiryVo inquiryVo = setUserInfo();
 
         System.out.println("요청데이터");
         List<InquiryVo>inquiryList = inquiryService.inquiryList(inquiryVo);
 
         Map result = new HashMap<>();
         result.put ("inquiryList", inquiryList);
+
+        System.out.println(result);
+        return ResponseEntity.ok(result);
+    }
+    @GetMapping("/inquiryRead")
+    public ResponseEntity<Map> inquiryRead(@RequestParam int no){
+        InquiryVo inquiryVo = setUserInfo();
+        inquiryVo.setNo(no);
+
+        List<InquiryVo> inquiryRead = inquiryService.inquiryRead(inquiryVo);
+
+        Map result = new HashMap<>();
+        result.put("inquiryRead", inquiryRead);
 
         System.out.println(result);
         return ResponseEntity.ok(result);

@@ -3,6 +3,15 @@
 
 <mapper namespace="com.green.when.mapper.InquiryMapper">
 
+    <select id = "getUserRole" parameterType="String" resultType="String">
+    SELECT
+        role
+    FROM member_tb
+    WHERE userid = #{userid}
+
+    </select>
+
+
     <select id = "inquiryList" parameterType="InquiryVo" resultType="InquiryVo">
         select
         no
@@ -13,12 +22,10 @@
         ,content
         ,time
         ,status
-        ,m.role as userRole
-        from inquiry_tb as i
-        join member_tb as m on i.userid = m.userid
+        FROM inquiry_tb
         <choose>
             <when test= "userRole.equals('ROLE_USER')">
-            AND userid = #{userId}
+            WHERE userid = #{userId}
             </when>
         </choose>
     </select>
@@ -26,7 +33,11 @@
     <select id="inquiryRead" parameterType="int" resultType="InquiryVo">
         SELECT * FROM inquiry_tb
         WHERE no= #{no} AND grpno= #{no}
+        <choose>
+            <when test="userRole.equals('ROLE_USER')">
 
+            </when>
+        </choose>
     </select>
 
 </mapper>

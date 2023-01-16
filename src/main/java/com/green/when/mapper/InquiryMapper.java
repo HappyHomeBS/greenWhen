@@ -11,6 +11,10 @@ import java.util.List;
 
 public interface InquiryMapper {
 
+    String getUserRole(String userId);
+
     List<InquiryVo> inquiryList(InquiryVo inquiryVo);
+
+    List<InquiryVo> inquiryRead(InquiryVo inquiryVo);
 
 }
