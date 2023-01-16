@@ -18,10 +18,12 @@ const ProfileImage = () => {
       }
     })
       .then((res) => {
+        if (res !== null){
         const data = res.data;
         const URL = data.filepath
         setImage(URL)
         console.log("주소", Image)
+      } 
       });
   }, []);
 
