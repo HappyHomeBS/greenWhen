@@ -2,14 +2,9 @@ import React, { useState, useEffect, useCallback, useReducer } from 'react'
 import { Modal, Container } from 'react-bootstrap'
 import axios from 'axios'
 
-const CalendarModal = ({ visible, onConfirm, onCancel, token, onClickSchedule }) => {    
+const CalendarMemoModal = ({ visible, onCancel, token, onClickSchedule, setCalendarMemoModalOn }) => {    
     
-    const [allSchedules, setAllSchedules] = useState([]);
-    const [memo, setMemo] = useState([]);
-    const [targetdate, setTargetdate] = useState([]);
-    const [region, setRegion] = useState([]);
-
-    
+    const [allSchedules, setAllSchedules] = useState([]);   
 
     useEffect(()=> {
         axios
@@ -26,22 +21,11 @@ const CalendarModal = ({ visible, onConfirm, onCancel, token, onClickSchedule })
 
     }, [visible]) 
 
-    const clickSchedule = (e) => {
-        setMemo(document.querySelector("[name='memo']"))
-        setTargetdate(e.target.value)
-        setRegion(e.target.value)
-        console.log('clickSchedule', memo, targetdate, region)
-
-       // onClickSchedule({targetdate, memo, region})        
-    }    
-
-    const handleChange = useCallback((index, e) => {
-        const newValues = [...memo];
-        newValues[index] = e.target.value;
-        setMemo(newValues);
-        console.log('memoList', memo)
-      }, [memo]);
-
+    const clickSchedule = (schedule) => {        
+        console.log('clickSchedule', schedule)
+        onClickSchedule({schedule})        
+        setCalendarMemoModalOn(false)
+    }
 
     if (!visible) return null;
     return (
@@ -68,12 +52,12 @@ const CalendarModal = ({ visible, onConfirm, onCancel, token, onClickSchedule })
                         </tr>
                     </thead>
                     <tbody>
-                    {allSchedules.map((info, index) => {
+                    {allSchedules.map((schedule, index) => {
                         return (
-                        <tr key={index} onClick={clickSchedule}>
-                            <td name='memo' value={memo[index] || ''} onChange={(e) => handleChange(index, e)}>{info.memo}</td>
-                            <td value={targetdate || ''}>{info.targetdate}</td>
-                            <td value={region || ''}>{info.region}</td>
+                        <tr key={index} onClick={() => clickSchedule(schedule)}>
+                            <td>{schedule.memo}</td>
+                            <td>{schedule.targetdate}</td>
+                            <td>{schedule.region}</td>
                         </tr>                            
                         );
                     })}    
@@ -88,4 +72,4 @@ const CalendarModal = ({ visible, onConfirm, onCancel, token, onClickSchedule })
     )
 }
 
-export default CalendarModal
+export default CalendarMemoModal

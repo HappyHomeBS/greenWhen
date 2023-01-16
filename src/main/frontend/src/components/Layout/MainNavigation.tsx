@@ -42,10 +42,13 @@ const MainNavigation = () => {
         }
       })
         .then((res) => {
-          const data = res.data;
-          const URL = data.filepath
-          setImage(URL)
-          console.log("주소", Image)
+          if (res !== null){
+            const data = res.data;
+            const URL = data.filepath
+            setImage(URL)
+            console.log("주소", URL)
+            console.log("주소!!!", Image)
+          } 
         });
     }
   }, [isLogin]);
