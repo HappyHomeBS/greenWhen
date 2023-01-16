@@ -1,4 +1,5 @@
 import axios from "axios";
+import { InquiryInterface } from "../components/Inquiry/InquiryInterface";
 
 const header = (token: string) => {
     return {headers: {
@@ -7,10 +8,17 @@ const header = (token: string) => {
 }
 
 export const getInquiryList = async (token:string)=> {
-    const listData = await axios.get("/api/inquiryList", header(token))
-    return listData
+    const res = await axios.get("/api/inquiryList", header(token))
+    return res
 }
 
-export const inquiryListDetail = async(token:string) => {
-    const readData = await axios.get("")
+export const getInquiryRead = async(no:string, token:string) => {
+    const res = await axios.get("/api/inquiryRead?no="+no, header(token))
+    return res;
+}
+
+export const inquiryWrite = async(inquiry: InquiryInterface, token:string ) => {
+    const res = await axios.post("/api/inquiryWrite", inquiry, header(token))
+    console.log(inquiry)
+    return res;
 }

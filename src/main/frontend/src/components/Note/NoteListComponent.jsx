@@ -15,9 +15,9 @@ export const withRouter = (WrappedComponent) => (props) => {
     const authCtx = useContext(AuthContext);
     const sentList = false;
 
-    var userId = authCtx.userObj.userid;
-    var userNickName = authCtx.userObj.usernickname;
-    var token = authCtx.token;
+    const userId = authCtx.userObj.userid;
+    const userNickName = authCtx.userObj.usernickname;
+    const token = authCtx.token;
     return<WrappedComponent{...props} sentList={sentList} userId={userId} token = {token} params={params} navigate = {navigate} location={location}/>;
 };
 
@@ -49,10 +49,9 @@ class NoteListComponent extends Component {
     
     listNote(num){
         console.log("pageNum : ");
-        var token = this.props.token;
-        let option = queryString.parse(this.props.location.search).option
-        let search = queryString.parse(this.props.location.search).search
-        let data = { withCredentials: true }
+        const token = this.props.token;
+        const option = queryString.parse(this.props.location.search).option
+        const search = queryString.parse(this.props.location.search).search
         
         if (search !== undefined) {
             if (option !== undefined) {
@@ -135,7 +134,7 @@ class NoteListComponent extends Component {
     }
     //삭제
     noteDelete = async function() {
-        var token = this.props.token;
+        const token = this.props.token;
         NoteService.noteDelete(this.state.checkList, token).then(res => {
             console.log(res);
             if(res.status == 200) {

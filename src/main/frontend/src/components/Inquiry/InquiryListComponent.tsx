@@ -1,17 +1,21 @@
-import axios from "axios";
+/* eslint-disable jsx-a11y/anchor-is-valid */
+/* eslint-disable jsx-a11y/anchor-has-content */
+
 import React, { useContext, useEffect, useState } from "react"
+import { Button } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 import * as InquiryService from "../../service/InquiryService";
 import AuthContext from '../../store/authContext';
-import {InquiryListInterface} from '../Inquiry/InquiryInterface';
+import {InquiryInterface} from '../Inquiry/InquiryInterface';
 
 const InquiryList: React.FC = (props: any) => {
-    const [inquiryList, setInquiryList] = useState<Array<InquiryListInterface>>([]);
+    const [inquiryList, setInquiryList] = useState<Array<InquiryInterface>>([]);
     const authCtx = useContext(AuthContext);
     const token = authCtx.token;
-   
+    const navigate = useNavigate();
+
     useEffect(() => {
         getInquiryList();
-        console.log('inquiryList:', inquiryList)
     }, []);
         
     const getInquiryList = async () => {
@@ -22,10 +26,15 @@ const InquiryList: React.FC = (props: any) => {
         setInquiryList(newInquiryList)
         console.log('listData', (await listData).data)
         console.log('inquiryList', inquiryList)
-
     }
 
-    
+    const InquiryRead = (no:number | undefined) => {
+        navigate('/inquiryRead?no='+no);
+    };
+
+    const InquiryWrite = () => {
+        navigate('/inquiryWrite')
+    }
 
     return (
         
@@ -43,15 +52,17 @@ const InquiryList: React.FC = (props: any) => {
                         </thead>
                         <tbody>
                         { 
-                        Array.isArray(inquiryList) && inquiryList.map((inquiry: InquiryListInterface) =>
+                        Array.isArray(inquiryList) && inquiryList.map((inquiry: InquiryInterface) =>
                         <tr key = {inquiry.no}>
-                            <td>{inquiry.title}</td>
+                            <td> <a onClick = {()=> InquiryRead(inquiry.no)}> {inquiry.title}</a></td>
                             <td>{inquiry.userId}</td>
                             <td>{inquiry.time}</td>
                         </tr>
                         )}
                          </tbody>
                     </table>
+                    <Button variant="primary" onClick={() => InquiryWrite()}>등 록</Button>
+
                 </div>
             </div>
         </>

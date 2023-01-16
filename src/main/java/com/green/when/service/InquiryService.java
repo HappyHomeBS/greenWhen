@@ -39,4 +39,16 @@ public class InquiryService {
         }
         return inquiryRead;
     }
+
+    // 쓰기
+
+    public void inquiryWrite(InquiryVo inquiryVo) {
+        try{
+            mapper.inquiryWrite(inquiryVo);
+        } catch(Exception e) {
+            e.printStackTrace();
+            throw e;
+        }
+
+    }
 }

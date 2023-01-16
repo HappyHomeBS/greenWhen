@@ -1,10 +1,10 @@
-export interface InquiryListInterface {
-    no: number;
+export interface InquiryInterface {
+    no?: number;
     title: string;
-    grpno: number;
-    depth: number;
+    grpno?: number;
+    depth?: number;
     content: string;
-    time: string;
-    status: string;
-    userId: string;
+    time?: string;
+    status?: string;
+    userId?: string;
 }

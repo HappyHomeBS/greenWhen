@@ -48,12 +48,27 @@ public class InquiryController{
     public ResponseEntity<Map> inquiryRead(@RequestParam int no){
         InquiryVo inquiryVo = setUserInfo();
         inquiryVo.setNo(no);
-
+        System.out.println("setting inquiryVo:" + inquiryVo);
         List<InquiryVo> inquiryRead = inquiryService.inquiryRead(inquiryVo);
 
         Map result = new HashMap<>();
         result.put("inquiryRead", inquiryRead);
 
+        System.out.println(result);
+        return ResponseEntity.ok(result);
+    }
+
+    @PostMapping("/inquiryWrite")
+    public ResponseEntity<Map> inquiryWrite(@RequestBody InquiryVo inquiryVo){
+        String userId = SecurityUtil.getCurrentMemberId();
+        String userRole = inquiryService.getUserRole(userId);
+
+        inquiryVo.setUserId(userId);
+        inquiryVo.setUserRole(userRole);
+        System.out.println("inquiryVO"+inquiryVo);
+        inquiryService.inquiryWrite(inquiryVo);
+
+        Map result = new HashMap<>();
         System.out.println(result);
         return ResponseEntity.ok(result);
     }

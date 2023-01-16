@@ -38,6 +38,11 @@
 
             </when>
         </choose>
+        ORDER BY NO DESC
     </select>
 
+    <insert id="inquiryWrite" parameterType="inquiryVo">
+        INSERT INTO inquiry_tb(no, title, content, userid, grpno, depth, status, userrole, time)
+        VALUES((COALESCE(SELECT MAX(no) FROM inquiry_tb a), 0)+1), #{title}, #{content}, #{userId}, (COALESCE(SELECT MAX(no) FROM inquiry_tb a), 0)+1), 0, "읽지않음", #{userRole}, NOW())
+    </insert>
 </mapper>

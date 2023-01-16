@@ -17,4 +17,6 @@ public interface InquiryMapper {
 
     List<InquiryVo> inquiryRead(InquiryVo inquiryVo);
 
+    void inquiryWrite(InquiryVo inquiryVo);
+
 }

@@ -16,6 +16,8 @@ import NoteReadComponent from './components/Note/NoteReadComponent';
 import NoteWriteComponent from './components/Note/NoteWriteComponent';
 import NoteSentListComponent from './components/Note/NoteSentListComponent';
 import InquiryListComponent from './components/Inquiry/InquiryListComponent';
+import InquiryReadComponent from './components/Inquiry/InquiryReadComponent';
+import InquiryWriteComponent from './components/Inquiry/InquiryWriteComponent';
 
 
 function App() {
@@ -52,9 +54,12 @@ function App() {
         <Route path="/noteRead/:no" element = {!authCtx.isLoggedIn ? <Navigate to='/' /> : <NoteReadComponent/>}> </Route>
         {/*보낸 쪽지함 */}
         <Route path="/noteSentList" element = {!authCtx.isLoggedIn ? <Navigate to='/' /> : <NoteSentListComponent/>}></Route>
-        {/*1:1 문의 */}
+        {/*1:1 문의 리스트 */}
         <Route path="/inquiryList" element = {!authCtx.isLoggedIn ? <Navigate to='/' /> : <InquiryListComponent/>}></Route>
-
+        {/*1:1 문의 읽기 */}
+        <Route path="/inquiryRead" element = {!authCtx.isLoggedIn ? <Navigate to='/' /> : <InquiryReadComponent/>}></Route>
+        {/* 1:1 문의 쓰기 */}
+        <Route path="/inquiryWrite" element = {!authCtx.isLoggedIn ? <Navigate to='/' /> : <InquiryWriteComponent/>}></Route>
       </Routes>
     </Layout>
   );
