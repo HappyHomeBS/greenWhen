@@ -1,11 +1,13 @@
 import React, { useState, useEffect, useCallback, useReducer } from 'react'
 import { Modal, Container } from 'react-bootstrap'
 import axios from 'axios'
+import Region from '../module/Region'
 
 const CalendarMemoModal = ({ visible, onCancel, token, onClickSchedule, setCalendarMemoModalOn }) => {    
     
     const [allSchedules, setAllSchedules] = useState([]);   
 
+    // 해당유저의 전체 메모 불러오기
     useEffect(()=> {
         axios
       .get("/calendar/getAllSchedules", {
@@ -13,18 +15,17 @@ const CalendarMemoModal = ({ visible, onCancel, token, onClickSchedule, setCalen
           Authorization: "Bearer " + token,
         },
       }).then ((res) => {
-        console.log('allSchedules:',res.data)
+        //console.log('allSchedules:',res.data)
         setAllSchedules(res.data)
-        console.log('allSchedules:',allSchedules)        
+        //console.log('allSchedules:',allSchedules)        
       })
-
 
     }, [visible]) 
 
-    const clickSchedule = (schedule) => {        
-        console.log('clickSchedule', schedule)
-        onClickSchedule({schedule})        
-        setCalendarMemoModalOn(false)
+    // 메모 클릭시 해당 날짜, 지역의 달력으로 이동
+    const clickSchedule = (schedule) => {                
+        onClickSchedule({schedule})              
+        setCalendarMemoModalOn(false)        
     }
 
     if (!visible) return null;
@@ -57,7 +58,7 @@ const CalendarMemoModal = ({ visible, onCancel, token, onClickSchedule, setCalen
                         <tr key={index} onClick={() => clickSchedule(schedule)}>
                             <td>{schedule.memo}</td>
                             <td>{schedule.targetdate}</td>
-                            <td>{schedule.region}</td>
+                            <td>{Region({regionNumber:schedule.region})}</td>
                         </tr>                            
                         );
                     })}    

@@ -12,11 +12,9 @@ import AuthContext from "../../../store/authContext";
 
 const CalendarUpdateModal = ({
   targetdate,
-  visible,
-  onConfirm,
+  visible,  
   onCancel,
-  todo,
-  data
+  todo,  
 }) => {  
   const initialState = {
     color: "",
@@ -37,6 +35,7 @@ const CalendarUpdateModal = ({
     dispatch({ type: "INITIALIZATION" });
   };
 
+  // 수정된 메모
   const handleChange = useCallback((index, e) => {
     const newValues = [...memo];
     newValues[index] = e.target.value;
@@ -68,7 +67,6 @@ const CalendarUpdateModal = ({
     });
     console.log(result);
 
-    // 삭제
     axios.post("/calendar/deleteSchedules", result, {
       headers: {
         Authorization: "Bearer " + token,
@@ -76,6 +74,7 @@ const CalendarUpdateModal = ({
     });
     window.location.reload();
   };
+  
 
   // 수정
   const update = () => {
@@ -99,7 +98,6 @@ const CalendarUpdateModal = ({
     });
     console.log('결과',result);
 
-     //수정
      axios.post('/calendar/updateSchedules', result, {
          headers: {
            'Authorization': 'Bearer ' + token

@@ -1,10 +1,9 @@
-package com.green.when.dto;
+package com.green.when.dto.dtos;
 
 
 import com.green.when.domain.CommentEntity;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 
 import java.time.LocalDateTime;
 

@@ -1,7 +1,6 @@
 import React, {useState} from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import UpdateAndDelete from "./UpdateAndDelete";
 
 
 const CommentForm = (prop) => {
@@ -20,7 +19,6 @@ const CommentForm = (prop) => {
 
     const navigate = useNavigate();
     
-    console.log("1. 댓글에 지금 문제가 boardId가 안들어감. 다른건 보내짐. 일단 prop은 되었나?", contentNo);
 
     
 
@@ -28,7 +26,6 @@ const CommentForm = (prop) => {
         event.preventDefault();
         setIsSubmitting(true);
         setError(null);
-        console.log("2. 여기선 되었나? : ", contentNo);
 
 
         let data = {
@@ -37,16 +34,14 @@ const CommentForm = (prop) => {
             content: content
         }
 
-        console.log("아 좀 보자고: ", data);
         try {
             const response = await axios.post("/api/create-comment", data);
             if (response.status >= 200 && response.status < 300) {
                 alert("Comment created successfully");
-                console.log( {no: Number(no)});
-                console.log( no );
-                console.log(Number(no));
-                navigate("/page", { state: { no: Number(no) } });
                 setFig(fig + 1);
+                console.log('figfig: ', fig);
+                navigate("/page", { state: { no: Number(no), allowcomment : true } });
+                
             }
         } catch (err) {
             setError(err.message);
@@ -82,10 +77,7 @@ const CommentForm = (prop) => {
             </button>
         </form>
     
-      <div>
-       <UpdateAndDelete />
-
-        </div>
+      
   </>
     )
 };

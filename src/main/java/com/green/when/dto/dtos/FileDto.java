@@ -1,4 +1,4 @@
-package com.green.when.dto;
+package com.green.when.dto.dtos;
 
 
 import com.green.when.domain.FileEntity;

@@ -1,11 +1,10 @@
-package com.green.when.dto;
+package com.green.when.dto.dtos;
 
 
 import com.green.when.domain.GroupManageEntity;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
 import java.time.LocalDateTime;
 
 @Data
@@ -21,6 +20,8 @@ public class GroupManageDto {
     private LocalDateTime time;
 
     private Long grade;
+
+    private String deny;
 
     public GroupManageDto (GroupManageEntity groupManageEntity){
         this.no = groupManageEntity.getNo();

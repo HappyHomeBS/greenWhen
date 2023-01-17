@@ -1,4 +1,4 @@
-package com.green.when.dto;
+package com.green.when.dto.dtos;
 
 
 
@@ -6,7 +6,6 @@ import com.green.when.domain.BoardEntity;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Table;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -31,6 +30,10 @@ public class BoardDto {
 
     private List<FileDto> files;
 
+    private String tag;
+
+    private boolean allowcomment;
+
     public BoardDto(BoardEntity boardEntity) {
         this.no = boardEntity.getNo();
         this.title = boardEntity.getTitle();
@@ -40,6 +43,8 @@ public class BoardDto {
         this.readcount = boardEntity.getReadcount();
         this.time = boardEntity.getTime();
         this.files = boardEntity.getFiles().stream().map(FileDto::new).collect(Collectors.toList());
+        this.allowcomment = boardEntity.isAllowcomment();
+        this.tag = boardEntity.getTag();
     }
 
 

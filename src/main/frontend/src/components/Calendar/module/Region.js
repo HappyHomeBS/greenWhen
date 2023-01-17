@@ -1,10 +1,10 @@
-import React from "react";
+import React, { useState, useContext } from "react";
+import AuthContext from "../../../store/authContext";
 import Style from "./Style";
 
-const Region = (regionNumber) => {
-    const regionList =[{1:'강원도'}, {2:'경기도'}, {3:'경상남도'}, {4:'경상북도'}, {5:'광주'}, {6:'대구'}, {7:'대전'}, 
-    {8:'부산'}, {9:'서울'}, {10:'세종'}, {11:'울산'}, {12:'인천'}, {13:'전라남도'},{14:'전라북도'}, {15:'제주도'}, {16:'충청남도'}, {17:'충청북도'}] 
-
+const Region = ({regionNumber, ClickRegion}) => {
+    const authCtx = useContext(AuthContext);
+    const userNickname = [{no:0, region: authCtx.userObj.usernickname}]    
     const gangwon = [{no:105, region:'강릉'}, {no:100, region:'대관령'}, {no:106, region:'동해'}, {no:104, region:'북강릉'}, {no:93, region:'북춘천'}, 
     {no:214, region:'삼척'}, {no:90, region:'속초'}, {no:121, region:'영월'}, {no:114, region:'원주'}, {no:211, region:'인제'}, 
     {no:217, region:'정선군'}, {no:95, region:'철원'}, {no:101, region:'춘천'}, {no:216, region:'태백'}, {no:212, region:'홍천'} ]
@@ -51,78 +51,93 @@ const Region = (regionNumber) => {
     const chungbuk = [{no:226, region:'보은'},{no:221, region:'제천'},{no:131, region:'청주'},
     {no:135, region:'추풍령'},{no:127, region:'충주'}]
 
-    const result =[]
+    const allRegion = userNickname.concat(gangwon, gyeonggi, gyeongnam, gyeongbuk, gwangju, daegu, daejeon, busan, seoule, ulsan, incheon, sejong,
+        jeonnam, jeonbuk, jeju, chungnam, chungbuk)
     
-    if (regionNumber == 1 ) {
-        gangwon.map((data) => {               
-            result.push(<li key={data.no} name="data" value={data}>{data.region}</li>) 
-        })
-             
+    const result =[]
+
+    const regionClick = (subRegion) => {                    
+        ClickRegion({subRegion})        
+    }
+    
+    if (regionNumber == 0 ) {
+        userNickname.map((subRegion) => {               
+            result.push(<li key={subRegion.no} onClick={() => regionClick(subRegion)}>{subRegion.region}</li>) 
+        })             
+    } else if (regionNumber == 1) {
+        gangwon.map((subRegion) => {               
+            result.push(<li key={subRegion.no} onClick={() => regionClick(subRegion)}>{subRegion.region}</li>) 
+        }) 
     } else if (regionNumber == 2) {
-        gyeonggi.map((data) => {                     
-            result.push(<li key={data.no} value={data}>{data.region}</li>) 
+        gyeonggi.map((subRegion) => {               
+            result.push(<li key={subRegion.no} onClick={() => regionClick(subRegion)}>{subRegion.region}</li>) 
         })
     } else if (regionNumber == 3) {
-        gyeongnam.map((data) => {                     
-            result.push(<li key={data.no} value={data}>{data.region}</li>) 
+        gyeongnam.map((subRegion) => {               
+            result.push(<li key={subRegion.no} onClick={() => regionClick(subRegion)}>{subRegion.region}</li>) 
         })
     } else if (regionNumber == 4) {
-        gyeongbuk.map((data) => {                     
-            result.push(<li key={data.no} value={data}>{data.region}</li>) 
+        gyeongbuk.map((subRegion) => {               
+            result.push(<li key={subRegion.no} onClick={() => regionClick(subRegion)}>{subRegion.region}</li>) 
         })
     } else if (regionNumber == 5) {
-        gwangju.map((data) => {                     
-            result.push(<li key={data.no} value={data}>{data.region}</li>) 
+        gwangju.map((subRegion) => {               
+            result.push(<li key={subRegion.no} onClick={() => regionClick(subRegion)}>{subRegion.region}</li>) 
         })
     } else if (regionNumber == 6) {
-        daegu.map((data) => {                     
-            result.push(<li key={data.no} value={data}>{data.region}</li>) 
+        daegu.map((subRegion) => {               
+            result.push(<li key={subRegion.no} onClick={() => regionClick(subRegion)}>{subRegion.region}</li>) 
         })
     } else if (regionNumber == 7) {
-        daejeon.map((data) => {                     
-            result.push(<li key={data.no} value={data}>{data.region}</li>) 
+        daejeon.map((subRegion) => {               
+            result.push(<li key={subRegion.no} onClick={() => regionClick(subRegion)}>{subRegion.region}</li>) 
         })
     } else if (regionNumber == 8) {
-        busan.map((data) => {                     
-            result.push(<li key={data.no} value={data}>{data.region}</li>) 
+        busan.map((subRegion) => {               
+            result.push(<li key={subRegion.no} onClick={() => regionClick(subRegion)}>{subRegion.region}</li>) 
         })
     } else if (regionNumber == 9) {
-        seoule.map((data) => {                     
-            result.push(<li key={data.no} value={data}>{data.region}</li>) 
+        seoule.map((subRegion) => {               
+            result.push(<li key={subRegion.no} onClick={() => regionClick(subRegion)}>{subRegion.region}</li>) 
         })
     } else if (regionNumber == 10) {
-        sejong.map((data) => {                     
-            result.push(<li key={data.no} value={data}>{data.region}</li>) 
+        sejong.map((subRegion) => {               
+            result.push(<li key={subRegion.no} onClick={() => regionClick(subRegion)}>{subRegion.region}</li>) 
         })
     } else if (regionNumber == 11) {
-        ulsan.map((data) => {                     
-            result.push(<li key={data.no} value={data}>{data.region}</li>) 
+        ulsan.map((subRegion) => {               
+            result.push(<li key={subRegion.no} onClick={() => regionClick(subRegion)}>{subRegion.region}</li>) 
         })
     } else if (regionNumber == 12) {
-        incheon.map((data) => {                     
-            result.push(<li key={data.no} value={data}>{data.region}</li>) 
+        incheon.map((subRegion) => {               
+            result.push(<li key={subRegion.no} onClick={() => regionClick(subRegion)}>{subRegion.region}</li>) 
         })
     } else if (regionNumber == 13) {
-        jeonnam.map((data) => {                     
-            result.push(<li key={data.no} value={data}>{data.region}</li>) 
+        jeonnam.map((subRegion) => {               
+            result.push(<li key={subRegion.no} onClick={() => regionClick(subRegion)}>{subRegion.region}</li>) 
         })
     } else if (regionNumber == 14) {
-        jeonbuk.map((data) => {                     
-            result.push(<li key={data.no} value={data}>{data.region}</li>) 
+        jeonbuk.map((subRegion) => {               
+            result.push(<li key={subRegion.no} onClick={() => regionClick(subRegion)}>{subRegion.region}</li>) 
         })
     } else if (regionNumber == 15) {
-        jeju.map((data) => {                     
-            result.push(<li key={data.no} value={data}>{data.region}</li>) 
+        jeju.map((subRegion) => {               
+            result.push(<li key={subRegion.no} onClick={() => regionClick(subRegion)}>{subRegion.region}</li>) 
         })
     } else if (regionNumber == 16) {
-        chungnam.map((data) => {                     
-            result.push(<li key={data.no} value={data}>{data.region}</li>) 
+        chungnam.map((subRegion) => {               
+            result.push(<li key={subRegion.no} onClick={() => regionClick(subRegion)}>{subRegion.region}</li>) 
         })
     } else if (regionNumber == 17) {
-        chungbuk.map((data) => {                     
-            result.push(<li key={data.no} value={data}>{data.region}</li>) 
+        chungbuk.map((subRegion) => {               
+            result.push(<li key={subRegion.no} onClick={() => regionClick(subRegion)}>{subRegion.region}</li>) 
         })
-    }  
+    } else {
+        allRegion.map((subRegion) => {
+            if (subRegion.no == regionNumber)
+            result.push(<li key={subRegion.no}>{subRegion.region}</li>) 
+        })
+    }
     
 
     

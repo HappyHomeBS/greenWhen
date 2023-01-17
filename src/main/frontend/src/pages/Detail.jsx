@@ -5,6 +5,8 @@ import { useNavigate, useLocation, Link } from "react-router-dom";
 const Detail = () => {
     const[title, setTitle] = useState("");
     const[content, setContent] = useState("");
+    const[groupname, setGroupname] = useState("");
+    const[readcount, setReadcount] = useState(0);
     const[files, setFiles] = useState([]);
     const location = useLocation();
     const navigate = useNavigate();
@@ -24,15 +26,18 @@ const Detail = () => {
         });
 
         console.log('머가 삭제되러 갓는지 보자 ', response);
-        navigate("/", {});
+        navigate("/bulletin", { state  :  { groupname : groupname }});
+
     };
 
     useEffect( ()=> {
         const fetchData = async () => {
             const result = await axios(`/api/board-detail/${no}`);
             setTitle(result.data.data.title);
+            setGroupname(result.data.data.groupname);
             setContent(result.data.data.content);
             setFiles(result.data.data.files);
+            setReadcount(result.data.data.readcount);
             console.log('타이틀 내용 사진 보자 ->', result);
         };
         fetchData();
@@ -42,6 +47,7 @@ const Detail = () => {
         <>
             <h1>{title}</h1>
             <h3>{content}</h3>
+            <h5> {readcount } </h5>
             {files.map((file, index) => (
                 <img key={index} src={file.filedata} alt={file.name} width={400} height={300} />
             ))}
@@ -56,10 +62,11 @@ const Detail = () => {
                     수정하기 | {" "}
                 </Link>
             <input type="button" onClick={handleDeleteBtnClick} value="삭제" />
-            <Link to ={"/"} state={{}}>
+            <Link to ={"/bulletin"} state={{ groupname : groupname }}>
             {" "}
             |목록보기  {" "}
             </Link>
+            
         </>
     );
 
