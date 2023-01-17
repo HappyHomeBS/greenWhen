@@ -80,6 +80,7 @@ public class MemberController {
     public MemberVo callProfile() {
         String userid = SecurityUtil.getCurrentMemberId();
         MemberVo memberVo = memberService.callProfileImg(userid);
+        System.out.println(memberVo);
         return memberVo;
     }
 

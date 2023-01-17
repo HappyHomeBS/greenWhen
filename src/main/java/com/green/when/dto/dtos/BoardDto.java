@@ -34,24 +34,6 @@ public class BoardDto {
 
     private boolean allowcomment;
 
-    private Long role;
-
-    private Long commentCount;
-
-    public BoardDto(BoardEntity boardEntity, Long commmentCount) {
-        this.no = boardEntity.getNo();
-        this.title = boardEntity.getTitle();
-        this.userid = boardEntity.getUserid();
-        this.content = boardEntity.getContent();
-        this.groupname = boardEntity.getGroupname();
-        this.readcount = boardEntity.getReadcount();
-        this.time = boardEntity.getTime();
-        this.files = boardEntity.getFiles().stream().map(FileDto::new).collect(Collectors.toList());
-        this.allowcomment = boardEntity.isAllowcomment();
-        this.tag = boardEntity.getTag();
-        this.role = boardEntity.getRole();
-        this.commentCount = commmentCount;
-    }
     public BoardDto(BoardEntity boardEntity) {
         this.no = boardEntity.getNo();
         this.title = boardEntity.getTitle();
@@ -63,7 +45,6 @@ public class BoardDto {
         this.files = boardEntity.getFiles().stream().map(FileDto::new).collect(Collectors.toList());
         this.allowcomment = boardEntity.isAllowcomment();
         this.tag = boardEntity.getTag();
-        this.role = boardEntity.getRole();
     }
 
 

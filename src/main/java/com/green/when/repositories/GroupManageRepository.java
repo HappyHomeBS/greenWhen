@@ -9,4 +9,13 @@ import java.util.List;
 
 public interface GroupManageRepository extends JpaRepository<GroupManageEntity, Long> {
     List<GroupManageEntity> findByUserid(String userid);
+
+    List<GroupManageEntity> findAllByGroupname(String groupname);
+
+
+    GroupManageEntity findByNo(Long no);
+
+    GroupManageEntity findByUseridAndGroupname(String userid, String groupname);
+
+    GroupManageEntity findByGradeAndGroupname(Long no, String groupname);
 }

@@ -5,6 +5,7 @@ import CommentBox from "../CommentBox/CommentBox";
 const CommentList = (props) => {
         console.log('props: ' , props);
 
+      
     return (
 
         <>
@@ -17,6 +18,7 @@ const CommentList = (props) => {
                 userid = {i.userid}
                 content = {i.content}
                 time = {i.time}
+                
                 />
         ))
         : null}

@@ -1,7 +1,7 @@
 package com.green.when.domain;
 
 
-import com.green.when.dto.FileDto;
+import com.green.when.dto.dtos.FileDto;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;

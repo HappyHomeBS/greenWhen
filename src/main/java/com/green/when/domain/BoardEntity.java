@@ -1,8 +1,7 @@
 package com.green.when.domain;
 
-import com.green.when.domain.GroupEntity;
 
-
+import com.green.when.dto.BoardDeleteDto;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
@@ -49,6 +48,12 @@ public class BoardEntity {
     @Column(name = "time", nullable = false)
     private LocalDateTime time;
 
+    @Column(name = "allowcomment", nullable = true)
+    private boolean allowcomment;
+
+    @Column(name = "tag", nullable = false)
+    private String tag;
+
     @OneToMany(mappedBy = "boardEntity", cascade = CascadeType.ALL)
     private List<FileEntity> files;
 
@@ -61,7 +66,7 @@ public class BoardEntity {
 
     public BoardEntity(Long no, String title, String userid, String content,
                        Long readcount, String groupname, LocalDateTime time,
-                       List<FileEntity> files) {
+                       List<FileEntity> files, boolean allowcomment, String tag) {
         this.no = no;
         this.title = title;
         this.userid = userid;
@@ -70,10 +75,12 @@ public class BoardEntity {
         this.readcount = readcount;
         this.time = time;
         this.files = files;
+        this.allowcomment = allowcomment;
+        this.tag = "1";
     }
 
     public BoardEntity(Long no, String title, String userid, String content,
-                             Long readcount, String groupname, LocalDateTime time) {
+                             Long readcount, String groupname, LocalDateTime time, boolean allowcomment, String tag) {
         this.no = no;
         this.title = title;
         this.userid = userid;
@@ -81,6 +88,12 @@ public class BoardEntity {
         this.groupname = groupname;
         this.readcount = readcount;
         this.time = time;
+        this.allowcomment = allowcomment;
+        this.tag = "1";
+    }
+
+    public BoardEntity (BoardDeleteDto Boars) {
+        this.no = Boars.getNo();
     }
 
 

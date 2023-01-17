@@ -1,7 +1,6 @@
 import { EditableSelect } from 'react-editable-select';
 import axios from 'axios';
-import React, { useState, useEffect, useContext } from 'react';
-import AuthContext from '../../../store/authContext';
+import React, { useState, useEffect } from 'react';
 
 //npm i react-select 설치
 // 
@@ -11,16 +10,10 @@ function SelectList(props) {
   const [options, setOptions] = useState([]);
   const [selectedOption, setSelectedOption] = useState(null);
   const [isOptionA, setIsOptionA] = useState(false);
-  const authCtx = useContext(AuthContext);
-  const token = authCtx.token;
 
   useEffect(() => {
     const getTagList = async () => {
-      let response = await axios.get(`/api/tag-list/${groupname}/${groupleader}`, {
-        headers: {
-        'Authorization': 'Bearer ' + token
-        }
-        });
+      let response = await axios.get(`/api/tag-list/${groupname}/${groupleader}/${userid}`);
       setOptions(response.data.data.filter(option => option.tag !== '공지'));
       console.log('option:' , response.data.data);
     };
@@ -39,8 +32,6 @@ function SelectList(props) {
     fetch(`/api/updateTag/${option.no}`, {
       method: 'PUT',
       body: JSON.stringify({ tag: option.tag }),
-      headers: {'Authorization': 'Bearer ' + token}
-        
     });
     setOptions(options.map((o) => (o.no === option.no ? option : o)));
   };
@@ -53,8 +44,7 @@ const handleAdd = (text) => {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            'Accept': 'application/json',
-            'Authorization': 'Bearer ' + token
+            'Accept': 'application/json'
         },
         body: JSON.stringify(newOption),
     });

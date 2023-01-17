@@ -23,16 +23,11 @@ public class GroupManageDto {
 
     private String deny;
 
-    private Long accessiblelevel;
-
     public GroupManageDto (GroupManageEntity groupManageEntity){
         this.no = groupManageEntity.getNo();
         this.userid = groupManageEntity.getUserid();
         this.groupname = groupManageEntity.getGroupname();
         this.time = groupManageEntity.getTime();
         this.grade = groupManageEntity.getGrade();
-        this.accessiblelevel = groupManageEntity.getAccessiblelevel();
     }
-
-
 }

@@ -14,6 +14,4 @@ public interface TagRepository extends JpaRepository<TagEntity, Long> {
 
 
     List<TagEntity> findByGroupnametag(String groupname);
-
-    TagEntity findByGroupnametagAndTag(String groupnametag, String tag);
 }

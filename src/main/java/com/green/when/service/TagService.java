@@ -55,15 +55,4 @@ public class TagService {
             return null;
         }
     }
-
-    @Transactional
-    public void delete(TagEntity tag) {
-        System.out.println("삭제될 태그 : " + tag);
-        tagRepository.delete(tag);
-    }
-
-    @Transactional
-    public TagEntity findByGroupnametagAndTag(String groupnametag, String tag) {
-        return tagRepository.findByGroupnametagAndTag(groupnametag, tag);
-    }
 }

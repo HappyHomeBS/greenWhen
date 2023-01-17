@@ -1,9 +1,10 @@
 package com.green.when.controller;
 
 
+
 import com.green.when.domain.CommentEntity;
 import com.green.when.dto.CommentDeleteDto;
-import com.green.when.dto.CommentDto;
+import com.green.when.dto.dtos.CommentDto;
 import com.green.when.service.CommentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
@@ -29,6 +30,14 @@ public class CommentApiController {
     @GetMapping("/api/comment-list/{no}")
     public WrapperClass comment_list(@PathVariable("no") Long no) {
         List<CommentEntity> commentList = commentService.findByBoardId(no);
+        List<CommentDto> commentDtoList = commentList.stream().map(b-> new CommentDto(b)).collect(Collectors.toList());
+
+        return new WrapperClass(commentDtoList);
+    }
+
+    @GetMapping("/api/comment-list-mypage/{userid}")
+    public WrapperClass comment_list_mypage(@PathVariable("userid") String userid){
+        List<CommentEntity> commentList = commentService.findByUserid(userid);
         List<CommentDto> commentDtoList = commentList.stream().map(b-> new CommentDto(b)).collect(Collectors.toList());
 
         return new WrapperClass(commentDtoList);

@@ -9,5 +9,5 @@ import java.util.List;
 public interface NoteRepository extends JpaRepository<NoteEntity, Long> {
     List<NoteEntity> findByReceptAndInvitation(String recept, boolean b);
 
-    NoteEntity findByReceptAndContentAndInvitation(String recept, String content, boolean b);
+    NoteEntity findByContentAndInvitation(String content, boolean b);
 }
