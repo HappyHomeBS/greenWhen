@@ -45,7 +45,7 @@ const MainNavigation = () => {
           const data = res.data;
           const URL = data.filepath
           console.log('프로필이미지',URL)
-          if (URL !== null){
+          if (!URL.isempty ){
             setImage(URL)
             console.log("주소", URL)
             console.log("주소!!!", Image)

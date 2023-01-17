@@ -20,7 +20,8 @@ const ProfileImage = () => {
       .then((res) => {
         const data = res.data;
         const URL = data.filepath
-        if (res !== null){
+        console.log('프로필이미지',URL)
+        if (!URL.isempty ){
         setImage(URL)
         console.log("주소", Image)
       } 
