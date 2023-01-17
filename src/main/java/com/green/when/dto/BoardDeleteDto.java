@@ -8,4 +8,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class BoardDeleteDto {
     private Long no;
+
+    public BoardDeleteDto(Number no){
+        this.no = no.longValue();
+    }
 }

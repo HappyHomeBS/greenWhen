@@ -1,5 +1,6 @@
 package com.green.when.service;
 
+
 import com.green.when.domain.GroupEntity;
 import com.green.when.repositories.GroupRepository;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +17,7 @@ public class GroupService {
 
     @Transactional
     public void create(GroupEntity group) {
+
         groupRepository.save(group);
     }
 
@@ -34,4 +36,12 @@ public class GroupService {
     public void delete(GroupEntity group) {
         groupRepository.delete(group);
     }
+
+    @Transactional
+    public void changeLeader(String userid, String groupname) {
+        GroupEntity findGroup = groupRepository.findById(groupname).orElseThrow(NullPointerException::new);
+        findGroup.setGroupleader(userid);
+    }
+
+
 }

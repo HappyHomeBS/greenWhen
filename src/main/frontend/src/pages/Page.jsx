@@ -8,14 +8,22 @@ import axios from "axios";
 
 const Page = () => {
  
-  const location = useLocation();  
-  const no = location.state.no;
+ const location = useLocation();  
 
-  const [data, setData] = useState("");
-  const [fig, setFig] = useState(0);
+ const no = location.state.no;
+ console.log('Page.no:' , no );
 
-  console.log('Page.no:' , no );
-  console.log('fig보자 :' , fig);
+ const noey = location.state;
+ console.log('no없이', noey);
+
+ const  allowcomment  = location.state.allowcomment;
+ console.log('allowcomment :', allowcomment);
+
+ const [data, setData] = useState("");
+ const [fig, setFig] = useState(0);
+
+  
+  console.log('1. page의 fig보자 :' , fig);
 
   useEffect(() => {
     const getCommentList = async () => {
@@ -25,15 +33,18 @@ const Page = () => {
     }
     getCommentList();
     
-  }, [no, fig]);    // [id, data]로 바꿔
-  
+  }, [fig]);    // [id, data]로 바꿔
+
   
   return (
       <div>
         <Detail no={no} />
-        <CommentList data={data} />
-        <CommentForm contentNo={no}
-                      fig={fig} setFig={setFig} />
+        <CommentList data={data}
+                      fig={fig} 
+                      setFig={setFig} />
+        {allowcomment === true &&<CommentForm contentNo={no}
+                      fig={fig} 
+                      setFig={setFig} />}
        
       </div>
     );

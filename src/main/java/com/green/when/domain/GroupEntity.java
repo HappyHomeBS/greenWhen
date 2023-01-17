@@ -1,8 +1,7 @@
 package com.green.when.domain;
 
 
-
-import com.green.when.dto.GroupDto;
+import com.green.when.dto.dtos.GroupDto;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
@@ -14,7 +13,7 @@ import java.util.List;
 @Entity
 @Data
 @Table( name = "group_tb")
-@ToString
+@ToString(exclude = {"board", "groupmanage", "tags" })
 @NoArgsConstructor
 public class GroupEntity {
 
@@ -35,11 +34,27 @@ public class GroupEntity {
     @OneToMany(mappedBy = "groupEntity", cascade = CascadeType.ALL)
     private List<BoardEntity> board;
 
+    @OneToMany(mappedBy = "groupEntity", cascade = CascadeType.ALL)
+    private List<GroupManageEntity> groupmanage;
+
+
+    @OneToMany(mappedBy = "groupEntity", cascade = CascadeType.ALL)
+    private List<TagEntity> tags;
+
+
+
+    public GroupEntity(String groupleader, String groupname, String descript,  LocalDateTime time){
+        this.groupname = groupname;
+        this.groupleader = groupleader;
+        this.descript = descript;
+        this.time = LocalDateTime.now();
+    }
 
     public GroupEntity(GroupDto groupDto){
         this.groupname = groupDto.getGroupname();
+        this.groupleader = groupDto.getGroupleader();
         this.descript = groupDto.getDescript();
-        this.time = LocalDateTime.now();
+        this.time = groupDto.getTime();
     }
 
 

@@ -2,13 +2,13 @@
 import React, { useState } from "react";
 import UpdateAndDelete from "../ForDetail/UpdateAndDelete";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+//import { useNavigate } from "react-router-dom";
 
 
 
 const CommentBox = (props) => {
     const [showForm, setShowForm] = useState(false);
-    const navigate = useNavigate();
+ //   const navigate = useNavigate();
     console.log('commentbox : ' , props);
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [error, setError] = useState(null);
@@ -57,7 +57,8 @@ const CommentBox = (props) => {
                 console.log('contentNo:', contentNo);
                 console.log('Number(contentNo)', Number(contentNo));
                 console.log('대체 어디로 가길래지랄이고 state: { no : Number(contentNo) }',{ no : Number(contentNo) });
-                navigate("/page", { state: { no : Number(contentNo) } });
+                window.location.reload();
+               // navigate("/page", { state: { no : Number(contentNo) } });
             }
         } catch (err) {
             setError(err.message);
@@ -88,8 +89,8 @@ const CommentBox = (props) => {
         console.log('contentNo:', contentNo);
         console.log('Number(contentNo)', Number(contentNo));
         console.log('대체 어디로 가길래지랄이고 state: { no : Number(contentNo) }',{ no : Number(contentNo) });
-        navigate("/page", { state: { no : Number(contentNo) } });
-           
+        //navigate("/page", { state: { no : Number(contentNo) } });
+        window.location.reload(); 
     }catch (err){
         setError(err.message);
     }

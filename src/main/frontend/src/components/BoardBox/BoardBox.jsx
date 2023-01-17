@@ -3,18 +3,27 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 const BoardBox = (props) => {
-    console.log('beerBox/props: ', props);
-    console.log('beerBox/props.title: ', props.title);
+
+
+
+
+    
+    //<Link
+    //   to = {"/page"}
+    // state = {{
+    //    no: props.no,
+    // }}
+    //>
+
     return(
     <>
+    
         <Link
-            to = {"/page"}
-             state = {{
-                no: props.no,
-             }}
+         to= {"/page"}
+         state= {{ no: props.no, allowcomment : props.allowcomment }}
         >
             <div>
-                <h1>{props.title}</h1>
+                <h5>{props.title}</h5>
             </div>
         </Link>
     </>

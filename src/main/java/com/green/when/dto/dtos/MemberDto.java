@@ -1,4 +1,4 @@
-package com.green.when.dto;
+package com.green.when.dto.dtos;
 
 
 
@@ -14,14 +14,8 @@ public class MemberDto {
 
     private String usernickname;
 
-    private String useremail;
-
-    private String profiledata;
-
     public MemberDto(MemberEntity memberEntity){
         this.userid = memberEntity.getUserid();
         this.usernickname = memberEntity.getUsernickname();
-        this.useremail = memberEntity.getUseremail();
-        this.profiledata = memberEntity.getProfiledata();
     }
 }

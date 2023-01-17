@@ -12,8 +12,9 @@ import axios from "axios";
 import AuthContext from "../../../store/authContext";
 import CalendarUpdateModal from "./CalendarUpdateModal";
 import CalendarMemoModal from "./CalendarMemoModal";
-import { BsCloudRainHeavy, BsBrightnessHigh, BsCloudSnow, BsFillCloudFill, BsFillCloudLightningRainFill } from "react-icons/bs";
+import { BsCloudRainHeavy, BsBrightnessHigh, BsCloudSnow, BsFillCloudFill, BsFillCloudLightningRainFill, BsFillUmbrellaFill } from "react-icons/bs";
 import CalendarRegionModal from "./CalendarRegionModal";
+import Region from "../module/Region";
 
 const today = new Date();
 
@@ -56,9 +57,11 @@ const Calendar = () => {
   // 지역
   const [selected, setSelected] = useState(sessionStorage.getItem("selected"));
 
+  // 접속시 달력에 일정 입력(최초는 유저 달력으로 출력)
   useEffect(() => {
-    if (!selected) {      
-      sessionStorage.setItem("selected", 0);
+    if (!selected) {           
+      sessionStorage.setItem("selected", 0);     
+      sessionStorage.setItem("region", 0);     
     }
     dispatch({ type: "INITIALIZATIONSCHEDULE" });
     axios
@@ -102,15 +105,15 @@ const Calendar = () => {
     dispatch({ type: "MODAL", value: key });
   };
 
-  //지역 선택
-  const selectChange = useCallback(
-    (e) => {
-      setSelected(e.target.value);
-      sessionStorage.setItem("selected", e.target.value);
-      console.log("지역번호:", selected);
-    },
-    [selected]
-  );
+  // 지역선택에서 지역 선택시
+  const onClickRegion = useCallback( ({ subRegion }) => {     
+    console.log('서브',subRegion)   
+    setSelected(subRegion.no)              
+    sessionStorage.setItem("region", subRegion.no)    
+    sessionStorage.setItem("selected", subRegion.no)    
+  },[selected]
+  );  
+  
 
   // 일정 입력
   const onConfirm = ({ targetdate, todo, color, todos, region }) => {
@@ -173,19 +176,13 @@ const Calendar = () => {
 
   // 내가 쓴 메모 보기에서 일정 선택시
   const onClickSchedule = ({ schedule }) => {
-    console.log('이동 스케쥴 날짜:', schedule.targetdate)
-    console.log('이동 스케쥴 지역:', schedule.region)
     const date = schedule.targetdate
     const region = schedule.region
     dispatch({ type: "setYearMonth", date: date, region: region });
+    sessionStorage.setItem("region", region)
     setSelected(region);
   };
-
-  // 지역선택에서 지역 선택시
-  const onClickRegion = ({ region }) => {
-    console.log('이동지역:', region)
-
-  };
+  
 
   // 일정 입력 취소
   const onCancel = () => {
@@ -196,7 +193,7 @@ const Calendar = () => {
     <>
       <div className="Calendar">
         <div className="header">
-        <BsCloudRainHeavy /><BsBrightnessHigh /><BsCloudSnow /><BsFillCloudFill /><BsFillCloudLightningRainFill />
+        <BsCloudRainHeavy /><BsBrightnessHigh /><BsCloudSnow /><BsFillCloudFill /><BsFillCloudLightningRainFill /><BsFillUmbrellaFill />
           <button className="move" onClick={onDecreases}>
             &lt;
           </button>
@@ -204,7 +201,7 @@ const Calendar = () => {
           <button className="move" onClick={onIncreases}>
             &gt;
           </button>
-          <div>지역:{selected}</div>
+          <div>{Region({regionNumber:sessionStorage.getItem("region")})}</div>
           <button onClick={() => setCalendarMemoModalOn(true)}>
             내 메모 보기
           </button>
@@ -266,8 +263,7 @@ const Calendar = () => {
           visible={calendarRegionModalOn}
           onCancel={() => setCalendarRegionModalOn(false)}
           onClickRegion={onClickRegion}
-          setCalendarRegionModalOn = {setCalendarRegionModalOn}
-          selectChange = {selectChange}
+          setCalendarRegionModalOn = {setCalendarRegionModalOn}          
           />
       </div>
     </>

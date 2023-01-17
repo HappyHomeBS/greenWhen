@@ -15,6 +15,9 @@ import NoteListComponent from './components/Note/NoteListComponent';
 import NoteReadComponent from './components/Note/NoteReadComponent';
 import NoteWriteComponent from './components/Note/NoteWriteComponent';
 import NoteSentListComponent from './components/Note/NoteSentListComponent';
+import ManageGroup from './pages/ManageGroup';
+import WillBeDeleted from './pages/WillBeDeleted';
+import SearchingFunction from './components/SearchingThings/SearchingFunction';
 
 
 function App() {
@@ -50,7 +53,13 @@ function App() {
         {/*쪽지 읽기*/}
         <Route path="/noteRead/:no" element = {!authCtx.isLoggedIn ? <Navigate to='/' /> : <NoteReadComponent/>}> </Route>
         {/*보낸 쪽지함 */}
-        <Route path="/noteSentList" element = {!authCtx.isLoggedIn ? <Navigate to='/' /> : <NoteSentListComponent/>}></Route>
+        <Route path="/noteSentList" element = {!authCtx.isLoggedIn ? <Navigate to='/' /> : <NoteSentListComponent/>}></Route>                
+        {/*그룹 관리 */}
+        <Route path="/manage-group" element={<ManageGroup/>} />
+        {/*내정보(쓴글, 가입한 소모임, 초대, 댓글목록) */}
+        <Route path="/willBeDeleted" element={<WillBeDeleted />} />
+        {/*검색 결과값 */}
+        <Route path="/searching-function" element={<SearchingFunction />} />
       </Routes>
     </Layout>
   );
