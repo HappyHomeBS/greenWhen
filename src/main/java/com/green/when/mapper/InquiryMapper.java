@@ -19,4 +19,8 @@ public interface InquiryMapper {
 
     void inquiryWrite(InquiryVo inquiryVo);
 
+    void inquiryReply(InquiryVo inquiryVo);
+
+    void inquiryDelete(int no);
+
 }

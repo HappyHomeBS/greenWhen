@@ -44,6 +44,7 @@ public class InquiryController{
         System.out.println(result);
         return ResponseEntity.ok(result);
     }
+    //상세보기
     @GetMapping("/inquiryRead")
     public ResponseEntity<Map> inquiryRead(@RequestParam int no){
         InquiryVo inquiryVo = setUserInfo();
@@ -58,18 +59,34 @@ public class InquiryController{
         return ResponseEntity.ok(result);
     }
 
+    // 1:1문의 쓰기 + 댓글달기 ( 클라이언트에서 전달받은 grpNo 값의 유무로 답글/원글 판단)
     @PostMapping("/inquiryWrite")
     public ResponseEntity<Map> inquiryWrite(@RequestBody InquiryVo inquiryVo){
         String userId = SecurityUtil.getCurrentMemberId();
         String userRole = inquiryService.getUserRole(userId);
-
         inquiryVo.setUserId(userId);
         inquiryVo.setUserRole(userRole);
-        System.out.println("inquiryVO"+inquiryVo);
-        inquiryService.inquiryWrite(inquiryVo);
+
+        if (inquiryVo.getGrpNo()==0) {
+            System.out.println("writeVo" + inquiryVo);
+            inquiryService.inquiryWrite(inquiryVo);
+        } else {
+            System.out.println("replyVo" + inquiryVo);
+            inquiryService.inquiryReply(inquiryVo);
+        }
 
         Map result = new HashMap<>();
         System.out.println(result);
         return ResponseEntity.ok(result);
+    }
+
+    @GetMapping("/inquiryDelete")
+    public ResponseEntity<Map> inquiryDelete(@RequestParam int no){
+        System.out.println("번호"+no);
+        inquiryService.inquiryDelete(no);
+
+        Map result = new HashMap<>();
+        System.out.println(result);
+        return  ResponseEntity.ok(result);
     }
 }

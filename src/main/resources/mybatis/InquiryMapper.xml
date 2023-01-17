@@ -23,26 +23,39 @@
         ,time
         ,status
         FROM inquiry_tb
+        WHERE depth = 0
         <choose>
             <when test= "userRole.equals('ROLE_USER')">
-            WHERE userid = #{userId}
+            AND userid = #{userId}
             </when>
         </choose>
+        ORDER BY no DESC
     </select>
 
     <select id="inquiryRead" parameterType="int" resultType="InquiryVo">
         SELECT * FROM inquiry_tb
-        WHERE no= #{no} AND grpno= #{no}
+        WHERE no= #{no} OR grpno= #{no}
         <choose>
             <when test="userRole.equals('ROLE_USER')">
 
             </when>
         </choose>
-        ORDER BY NO DESC
+        ORDER BY time ASC
     </select>
 
     <insert id="inquiryWrite" parameterType="inquiryVo">
-        INSERT INTO inquiry_tb(no, title, content, userid, grpno, depth, status, userrole, time)
-        VALUES((COALESCE(SELECT MAX(no) FROM inquiry_tb a), 0)+1), #{title}, #{content}, #{userId}, (COALESCE(SELECT MAX(no) FROM inquiry_tb a), 0)+1), 0, "읽지않음", #{userRole}, NOW())
+        INSERT INTO inquiry_tb(no, grpno, title, content, userid, depth, status, userrole, time)
+        VALUES ((COALESCE((SELECT MAX(no) FROM inquiry_tb i), 0)+1), (COALESCE((SELECT MAX(no) FROM inquiry_tb i), 0)+1),  #{title}, #{content}, #{userId}, 0, '읽지않음', #{userRole}, NOW())
     </insert>
+
+    <insert id="inquiryReply" parameterType="inquiryVo">
+        INSERT INTO inquiry_tb(no, grpno, title, content, userid, depth, status, userrole, time)
+        VALUES ((COALESCE((SELECT MAX(no) FROM inquiry_tb i), 0)+1), #{grpNo},  #{title}, #{content}, #{userId}, 1, '읽지않음', #{userRole}, NOW())
+    </insert>
+
+    <delete id="inquiryDelete" parameterType= "int">
+        DELETE FROM inquiry_tb
+        WHERE no = #{no}
+    </delete>
+
 </mapper>

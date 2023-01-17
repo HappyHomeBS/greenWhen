@@ -12,7 +12,7 @@ import lombok.*;
 
 public class InquiryVo {
     private int no;
-    private int grpno;
+    private int grpNo;
     private int depth;
     private String userId;
     private String title;

@@ -11,7 +11,6 @@ import {InquiryInterface} from '../Inquiry/InquiryInterface';
 const InquiryWrite: React.FC = (props: any) => {
 // html5 validation 시행
     const [validated, setVaildated] = useState(false);
-   
     const authCtx = useContext(AuthContext);
     const token = authCtx.token;
     const userId = authCtx.userObj.userid;
@@ -35,7 +34,7 @@ const InquiryWrite: React.FC = (props: any) => {
         }
         
         writeInquiry(inquiry, token);
-        navigate(-1)
+        navigate('inquiryList')
     };
 
     const writeInquiry = async (inquiry: InquiryInterface, token: string) => {
@@ -61,6 +60,7 @@ const InquiryWrite: React.FC = (props: any) => {
             <Button variant="primary" type="submit">
                 등록
             </Button>
+            <Button variant="primary" onClick={ () => navigate(-1)}> 취소 </Button>
         </Form>
 
     );

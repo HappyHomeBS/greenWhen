@@ -9,7 +9,7 @@ const header = (token: string) => {
 
 export const getInquiryList = async (token:string)=> {
     const res = await axios.get("/api/inquiryList", header(token))
-    return res
+    return res;
 }
 
 export const getInquiryRead = async(no:string, token:string) => {
@@ -20,5 +20,16 @@ export const getInquiryRead = async(no:string, token:string) => {
 export const inquiryWrite = async(inquiry: InquiryInterface, token:string ) => {
     const res = await axios.post("/api/inquiryWrite", inquiry, header(token))
     console.log(inquiry)
+    return res;
+}
+
+export const inquiryReply = async(inquiry: InquiryInterface, token:string) => {
+    const res= await axios.post("/api/inquiryWrite", inquiry, header(token))
+    console.log(inquiry)
+    return res;
+}
+
+export const inquiryDelete = async(no:any, token:string) => {
+    const res= await axios.get("/api/inquiryDelete?no="+no, header(token))
     return res;
 }

@@ -1,10 +1,11 @@
 export interface InquiryInterface {
     no?: number;
     title: string;
-    grpno?: number;
+    grpNo?: number;
     depth?: number;
     content: string;
     time?: string;
     status?: string;
     userId?: string;
+    userRole?: string;
 }

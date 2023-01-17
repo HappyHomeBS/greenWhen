@@ -11,17 +11,19 @@ import java.util.List;
 public class InquiryService {
     @Autowired
     public InquiryMapper mapper;
+
     // 사이트 관리자 권한 체크
     public String getUserRole(String userId) {
         String userRole = mapper.getUserRole(userId);
         return userRole;
     }
+
     // 리스트 조회
-    public List<InquiryVo> inquiryList(InquiryVo inquiryVo){
+    public List<InquiryVo> inquiryList(InquiryVo inquiryVo) {
         List<InquiryVo> inquiryList;
-        try{
+        try {
             inquiryList = mapper.inquiryList(inquiryVo);
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
             throw e;
         }
@@ -33,7 +35,7 @@ public class InquiryService {
         List<InquiryVo> inquiryRead;
         try {
             inquiryRead = mapper.inquiryRead(inquiryVo);
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
             throw e;
         }
@@ -43,12 +45,29 @@ public class InquiryService {
     // 쓰기
 
     public void inquiryWrite(InquiryVo inquiryVo) {
-        try{
+        try {
             mapper.inquiryWrite(inquiryVo);
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
             throw e;
         }
+    }
+    //답글달기
+    public void inquiryReply(InquiryVo inquiryVo) {
+        try {
+            mapper.inquiryReply(inquiryVo);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        }
+    }
 
+    public void inquiryDelete(int no) {
+        try {
+            mapper.inquiryDelete(no);
+        }catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        }
     }
 }
