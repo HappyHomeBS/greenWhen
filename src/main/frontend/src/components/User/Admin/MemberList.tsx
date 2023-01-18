@@ -2,7 +2,6 @@ import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
 import AuthContext from "../../../store/authContext";
 import MemberBox from "./MemberBox";
-import "../../../css/admin.css"
 
 const Member = () => {
   const authCtx = useContext(AuthContext);
@@ -16,32 +15,32 @@ const Member = () => {
       time: "",
     },
   ]);
-  const [allUser, setAllUser] = useState([{}]);
 
   //페이징
   const [page, setPage] = useState(1); //현재 페이지
-  const itemsPerPage = 5; //보여줄 게시글 갯수
-    
+  const itemsPerPage = 3; //보여줄 게시글 갯수
+
+  
   //페이지 계산
-  const totalPages = Math.ceil(allUser.length / itemsPerPage);
+  const totalPages = Math.ceil(users.length / itemsPerPage);
 
   const renderPageLinks = () => {
     const pageLinks = [];
     pageLinks.push(
-      <button  key="prev" onClick={() => setPage(page - 1)}>
+      <button key="prev" onClick={() => setPage(page - 1)}>
         Prev
       </button>
     );
-    for (let i =1; i <= totalPages; i++){
-      const className = i === page ? 'current-page' : '';
+    for (let i = 1; i <= totalPages; i++) {
+      const className = i === page ? "current-page" : "";
       pageLinks.push(
-        <button key={i} className={` ${i === page ? 'current-page' : ''}`} onClick={ () => setPage(i)}>
+        <button key={i} className={className} onClick={() => setPage(i)}>
           {i}
         </button>
       );
     }
     pageLinks.push(
-      <button  key="next" onClick={() => setPage(page + 1)}>
+      <button key="next" onClick={() => setPage(page + 1)}>
         Next
       </button>
     );
@@ -50,10 +49,10 @@ const Member = () => {
 
   // 시작점 계산
   const startIndex = (page - 1) * itemsPerPage;
-  const items = allUser.slice(startIndex, startIndex + itemsPerPage);
+  const items = users.slice(startIndex, startIndex + itemsPerPage);
 
   const callUserList = (items: any) => {
-    const userList = items.map((user: any) => {      
+    const userList = items.map((user: any) => {
       return (
         <MemberBox
           key={user.userid}
@@ -73,14 +72,17 @@ const Member = () => {
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-    const searchUser: any = []
-    
-    users.map((user) => {
-      if (user.userid === searchQuery) {        
-        searchUser.push(user)        
+
+    const response = await axios.get(
+      `/admin/searchingUser?userid=` + searchQuery,
+      {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
       }
-      setAllUser(searchUser)        
-    });
+    ); 
+    setUsers([response.data])   
+    console.log('검색',users)
   };
 
   useEffect(() => {
@@ -92,18 +94,28 @@ const Member = () => {
       })
       .then((res) => {        
         setUsers(res.data)                 
-        setAllUser(res.data)                
+        console.log('시작',users)               
       });
   }, []);  
-
 
   return (
     <div>
       <h2>회원 목록</h2>
-      <div>                        
-        {callUserList(items)}        
-        {renderPageLinks()}
-      </div>   
+      <div>
+        <table>
+          <tbody>
+            <tr>
+              <th> 아이디 </th>
+              <th> 닉네임</th>
+              <th> 이메일 </th>
+              <th> 유저권한</th>
+              <th> 가입일자</th>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div>{callUserList(items)}</div>
+      {renderPageLinks()}
       <div>
         <form onSubmit={handleSubmit}>
           <label>
@@ -114,7 +126,7 @@ const Member = () => {
               onChange={(event) => setSearchQuery(event.target.value)}
             />
           </label>
-          <input type="submit" value="Submit"/>
+          <input type="submit" value="Submit" />
         </form>
       </div>
     </div>

@@ -51,4 +51,12 @@ public class AdminController {
 
     }
 
+    @GetMapping("/searchingUser")
+    public MemberResponseVo searchingUser(@RequestParam String userid) {
+        MemberResponseVo memberResponseVo = adminService.searchingUser(userid);
+        System.out.println(memberResponseVo);
+        return memberResponseVo;
+
+    }
+
 }

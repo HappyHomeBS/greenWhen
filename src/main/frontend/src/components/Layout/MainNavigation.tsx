@@ -4,8 +4,8 @@ import { Link } from 'react-router-dom';
 import { Button, Container, Nav, Navbar } from 'react-bootstrap';
 
 import AuthContext from '../../store/authContext';
-import SignUpModal from '../../modals/SignUpModal'
-import SignInModal from '../../modals/SignInModal';
+import SignUpModal from '../User/UserModals/SignUpModal'
+import SignInModal from '../User/UserModals/SignInModal';
 
 import '../../ProfileImagecss.css'
 import { Modal } from 'react-bootstrap';
