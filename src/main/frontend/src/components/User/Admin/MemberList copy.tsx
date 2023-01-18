@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useContext, useEffect, useState } from 'react';
-import AuthContext from '../../store/authContext';
+import AuthContext from '../../../store/authContext';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 

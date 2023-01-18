@@ -11,7 +11,7 @@ import MakeCalendar from "../module/MakeCalendar";
 import axios from "axios";
 import AuthContext from "../../../store/authContext";
 import CalendarUpdateModal from "./CalendarUpdateModal";
-import CalendarMemoModal from "./CalendarMemoModal";
+import CalendarMemoModal from "./CalendarMemoModalBox";
 import { BsCloudRainHeavy, BsBrightnessHigh, BsCloudSnow, BsFillCloudFill, BsFillCloudLightningRainFill, BsFillUmbrellaFill } from "react-icons/bs";
 import CalendarRegionModal from "./CalendarRegionModal";
 import Region from "../module/Region";

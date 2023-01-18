@@ -155,5 +155,12 @@
         WHERE userid = #{userid}
     </update>
 
+    <!-- 검색한 유저 정보 -->
+    <select id="searchingUser" resultType="MemberResponseVo">
+        SELECT *
+        FROM   member_tb
+        WHERE  userid = #{userid}
+    </select>
+
 
 </mapper>
