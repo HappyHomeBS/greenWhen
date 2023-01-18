@@ -4,25 +4,26 @@ import {InquiryInterface} from './InquiryInterface';
 import * as InquiryService from "../../service/InquiryService";
 import { useLocation } from "react-router-dom";
 import queryString from "query-string";
-import InquiryReply from "../Inquiry/InquiryReply"
+import InquiryReply from "./InquiryReplyComponent"
 
- const InquiryRead: React.FC = (props: any) => {
+const InquiryRead: React.FC = (props: any) => {
     const [inquiryRead, setInquiryRead] = useState<Array<InquiryInterface>>([]);
     const [inputReply, setInputReply] = useState(false);
-    const [updating, setUpdating] = useState([]);
+    const [isUpdating, setIsUpdating] = useState<number | null>(null);
     const authCtx = useContext(AuthContext);
     const token = authCtx.token;
     // url 파라미터 가져오기
     const location = useLocation();
     const no:any  = queryString.parse(location.search).no;
+    const grpNo:any = queryString.parse(location.search).no;
     const userId = authCtx.userObj.userid;
     const userRole = authCtx.userObj.role;
 
     useEffect(() => {
 
         getInquiryRead(no, token)
-     
-    }, []);
+       
+    },[]);
 
     const getInquiryRead = async (no: string, token: string) => {
         const readData = InquiryService.getInquiryRead(no, token);
@@ -38,10 +39,50 @@ import InquiryReply from "../Inquiry/InquiryReply"
     }
 
 
-    const deleteInquiry = (no :any, grpNo:any ) => {
-        InquiryService.inquiryDelete(no, token);
-        alert("삭제하였습니다")
+    const deleteInquiry = (no :any) => {
+        InquiryService.inquiryDelete(no, token).then((res) =>{
+            if(res.status === 200) {
+                alert("삭제하였습니다")
+                getInquiryRead(grpNo, token)
+            }else{
+                alert("실패!");
+            }
+        });
+    }
+    //답글달고 목록 다시 불러오기
+    const updatingInfo = ()=> {
         getInquiryRead(grpNo, token)
+    }
+
+    //수정버튼 눌렀을 때 상태변화
+    const handleUpdateClick = (no:any) => {
+        setIsUpdating(no)
+    }
+
+    //수정메소드
+    const inquiryUpdate = async (event:any) =>{
+        event.preventDefault();
+        event.stopPropagation();
+        const form = event.currentTarget;
+        const no:any = isUpdating
+        const inquiry = {
+            no: no
+            ,title: form.title.value
+            ,content: form.content.value
+        }
+        InquiryService.inquiryUpdate(inquiry, token).then((res) =>{
+            if(res.status ===200) {
+                setIsUpdating(null)
+                getInquiryRead(grpNo, token)
+            }else{
+                alert("실패!")
+            }
+        })
+      
+        
+        
+        
+        
     }
 
     return (
@@ -51,28 +92,48 @@ import InquiryReply from "../Inquiry/InquiryReply"
             <h3 className = "text-center"> 1:1 문의 상세보기 </h3>
         { Array.isArray(inquiryRead) && inquiryRead.map((inquiry: InquiryInterface) =>
            <div className = "card-body" key={inquiry.no}>
-            <div className="row">
-                <label>작성자 : {inquiry.userId}</label>
-                <label>작성시간 : {inquiry.time}</label>
-                <label>제목 : {inquiry.title} </label>
-                <br></br>
-            </div>
-            <div className = "row">
-                <label>내 용</label>
-                <textarea value={inquiry.content} readOnly/>
-                {inquiry.userId === userId && <button className = "btn btn-primary"onClick={()=> reply}> 수정하기</button>}               
-                {inquiry.userId === userId? <button className = "btn btn-primary"onClick={()=> deleteInquiry(inquiry.no, inquiry.grpNo)}> 삭제하기</button> :
-                 userRole ==='ROLE_ADMIN' && <button className = "btn btn-primary"onClick={()=> deleteInquiry(inquiry.no, inquiry.grpNo)}> 삭제하기</button>} 
-            </div>
-            <br></br>
-           </div>
-        )}  
-            {!inputReply}
-            <button className = "btn btn-primary" onClick={()=> reply()}> {inputReply? "답글닫기" : "답글달기"} </button>
-            <hr/>
-            {inputReply && <InquiryReply/>}
-            {}
+            {isUpdating === inquiry.no? (
+                <form onSubmit={inquiryUpdate}>
+                    <div className="row">
+                        <label>작성자: {inquiry.userId}</label>
+                        <label>작성시간:{inquiry.time}</label>
+                        <label>제목</label>
+                        <input type="text" id="title" defaultValue={inquiry.title} />
+                        <div className="row">
+                            <label>내용</label>
+                            <textarea id="content" defaultValue={inquiry.content}/>
+                        </div>
+                    </div>
+                    <button className = "btn btn-primary" type="submit" > 수정하기 </button>
+                </form>
+            ):
 
+              (  
+                <>
+                <div className="row">
+                    <label>작성자 : {inquiry.userId}</label>
+                    <label>작성시간 : {inquiry.time}</label>
+                    <label>제목 : {inquiry.title} </label>
+                    <br></br>
+                </div>
+                <div className = "row">
+                    <label>내 용</label>
+                    <textarea value={inquiry.content} readOnly/>
+                </div>
+                    {inquiry.userId === userId && <button className = "btn btn-primary"onClick={()=> handleUpdateClick(inquiry.no)}> 수정하기</button>}               
+                    {inquiry.userId === userId? <button className = "btn btn-primary"onClick={()=> deleteInquiry(inquiry.no)}> 삭제하기</button> :
+                     userRole ==='ROLE_ADMIN' && <button className = "btn btn-primary"onClick={()=> deleteInquiry(inquiry.no)}> 삭제하기</button>} 
+                <br></br>
+                </>
+            )
+        }
+            </div>
+        )}  
+        {!inputReply}
+        <button className = "btn btn-primary" onClick={()=> reply()}> {inputReply? "답글닫기" : "답글달기"} </button>
+        <hr/>
+        {inputReply && <InquiryReply updatingInfo={updatingInfo} />}
+        {}
         </div>
         </>
 

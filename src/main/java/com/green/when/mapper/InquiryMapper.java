@@ -23,4 +23,6 @@ public interface InquiryMapper {
 
     void inquiryDelete(int no);
 
+    void inquiryUpdate(InquiryVo inquiryVo);
+
 }

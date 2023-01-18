@@ -6,10 +6,8 @@ import * as InquiryService from "../../service/InquiryService";
 import {InquiryInterface} from './InquiryInterface';
 import queryString from "query-string";
 
-
-
-const InquiryReply: React.FC = () => {
-
+const InquiryReply = (props: { updatingInfo: () => void}) => {
+  
     const [validated, setValidated] = useState(false);
     const authCtx = useContext(AuthContext);
     const token = authCtx.token;
@@ -17,7 +15,6 @@ const InquiryReply: React.FC = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const no:any  = queryString.parse(location.search).no;
-
     const handleSubmit = (event: any) => {
         event.preventDefault();
         event.stopPropagation();
@@ -37,14 +34,18 @@ const InquiryReply: React.FC = () => {
         }
 
         writeInquiryReply(inquiry, token);
+        form.titleInput.value=''
+        form.contextText.value=''
     };
 
     const writeInquiryReply = async (inquiry: InquiryInterface, token: string) => {
-        InquiryService.inquiryReply(inquiry, token).then()
-       
+        InquiryService.inquiryReply(inquiry, token).then(props.updatingInfo)
         console.log("입력")
         console.log(no)
+       
     }
+
+   
     
 
     return (

@@ -89,4 +89,15 @@ public class InquiryController{
         System.out.println(result);
         return  ResponseEntity.ok(result);
     }
+
+    @PostMapping("/inquiryUpdate")
+    public ResponseEntity<Map> inquiryUpdate(@RequestBody InquiryVo inquiryVo){
+
+        System.out.println(inquiryVo);
+        inquiryService.inquiryUpdate(inquiryVo);
+
+        Map result = new HashMap<>();
+
+        return ResponseEntity.ok(result);
+    }
 }

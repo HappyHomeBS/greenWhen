@@ -40,7 +40,7 @@
 
             </when>
         </choose>
-        ORDER BY time ASC
+        ORDER BY depth ASC
     </select>
 
     <insert id="inquiryWrite" parameterType="inquiryVo">
@@ -50,12 +50,23 @@
 
     <insert id="inquiryReply" parameterType="inquiryVo">
         INSERT INTO inquiry_tb(no, grpno, title, content, userid, depth, status, userrole, time)
-        VALUES ((COALESCE((SELECT MAX(no) FROM inquiry_tb i), 0)+1), #{grpNo},  #{title}, #{content}, #{userId}, 1, '읽지않음', #{userRole}, NOW())
+        VALUES ((COALESCE((SELECT MAX(no) FROM inquiry_tb i), 0)+1), #{grpNo},  #{title}, #{content}, #{userId}, (COALESCE((SELECT MAX(depth) FROM inquiry_tb i WHERE grpno=#{grpNo}), 0)+1), '읽지않음', #{userRole}, NOW())
     </insert>
 
     <delete id="inquiryDelete" parameterType= "int">
         DELETE FROM inquiry_tb
         WHERE no = #{no}
     </delete>
+
+    <update id="inquiryUpdate" parameterType="inquiryVo">
+        UPDATE inquiry_tb
+        SET title = #{title}
+            ,content = #{content}
+            ,time = NOW()
+        WHERE no= #{no}
+
+
+
+    </update>
 
 </mapper>

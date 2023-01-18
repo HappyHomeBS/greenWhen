@@ -70,4 +70,13 @@ public class InquiryService {
             throw e;
         }
     }
+
+    public void inquiryUpdate(InquiryVo inquiryVo) {
+        try{
+            mapper.inquiryUpdate(inquiryVo);
+        }catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        }
+    }
 }

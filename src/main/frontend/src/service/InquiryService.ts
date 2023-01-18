@@ -33,3 +33,8 @@ export const inquiryDelete = async(no:any, token:string) => {
     const res= await axios.get("/api/inquiryDelete?no="+no, header(token))
     return res;
 }
+
+export const inquiryUpdate = async(inquiry:InquiryInterface, token:string) => {
+    const res= await axios.post("api/inquiryUpdate", inquiry, header(token))
+    return res;
+}
