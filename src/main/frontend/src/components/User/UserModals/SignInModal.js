@@ -1,7 +1,7 @@
 import React, { useRef, useState, useContext } from 'react'
 import { Modal, Button, Form, Container } from 'react-bootstrap'
 import { useNavigate } from 'react-router-dom';
-import AuthContext from '../store/authContext';
+import AuthContext from '../../../store/authContext';
 import FindIdModal from './FindIdModal';
 import FindPwModal from './FindPwModal';
 

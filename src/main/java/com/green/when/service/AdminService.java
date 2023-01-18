@@ -36,4 +36,9 @@ public class AdminService {
     public void roleChange(MemberVo memberVo) {
         userMapper.roleChange(memberVo);
     }
+
+    @Transactional
+    public MemberResponseVo searchingUser(String userid) {
+        return userMapper.searchingUser(userid);
+    }
 }
