@@ -45,8 +45,6 @@ const InquiryReply = (props: { updatingInfo: () => void}) => {
        
     }
 
-   
-    
 
     return (
         <Form noValidate validated={validated} onSubmit={handleSubmit}>

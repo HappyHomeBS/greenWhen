@@ -7,9 +7,15 @@ import { useNavigate } from "react-router-dom";
 import * as InquiryService from "../../service/InquiryService";
 import AuthContext from '../../store/authContext';
 import {InquiryInterface} from '../Inquiry/InquiryInterface';
+import * as InquiryPaging from'../Inquiry/InquiryPaging';
 
 const InquiryList: React.FC = (props: any) => {
+    const [currentPage, setCurrentPage] = useState(1);
     const [inquiryList, setInquiryList] = useState<Array<InquiryInterface>>([]);
+    const [loaded, setLoaded] = useState(false);
+    const [inquiriesPerPage, setInquiresPerPage] = useState(10);
+    const [totalInquiry, setTotalInquiry] = useState(0);
+
     const authCtx = useContext(AuthContext);
     const token = authCtx.token;
     const navigate = useNavigate();
@@ -20,10 +26,12 @@ const InquiryList: React.FC = (props: any) => {
         
     const getInquiryList = async () => {
     
-        const listData = InquiryService.getInquiryList(token);  
+        const listData = (await InquiryService.getInquiryList(token)).data.inquiryList;  
        
-        const newInquiryList = (await listData).data.inquiryList
-        setInquiryList(newInquiryList)
+        const newInquiryList = InquiryPaging.GetPostsLoaded(listData, currentPage);
+        
+        setInquiryList(newInquiryList);
+        setTotalInquiry(newInquiryList.length)
         console.log('listData', (await listData).data)
         console.log('inquiryList', inquiryList)
     }
@@ -61,10 +69,11 @@ const InquiryList: React.FC = (props: any) => {
                         )}
                          </tbody>
                     </table>
-                    <Button variant="primary" onClick={() => InquiryWrite()}>등 록</Button>
+                    <Button variant="primary" onClick={() => InquiryWrite()}> 등 록 </Button>
 
                 </div>
             </div>
+            <InquiryPaging.PageNumbers currentPage={currentPage} totalInquiry={totalInquiry}  />
         </>
     );
 };
