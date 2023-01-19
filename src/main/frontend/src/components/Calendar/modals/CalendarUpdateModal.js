@@ -7,7 +7,7 @@ import React, {
 import { Modal, Container } from "react-bootstrap";
 import axios from "axios";
 import Style from "../module/Style";
-import ModalReducer from "./reducer/ModalReducer";
+import ModalReducer from "../containers/reducer/ModalReducer";
 import AuthContext from "../../../store/authContext";
 
 const CalendarUpdateModal = ({

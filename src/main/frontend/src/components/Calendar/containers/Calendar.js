@@ -5,15 +5,15 @@ import React, {
   useState,
   useCallback,
 } from "react";
-import CalendarModal from "./CalendarModal";
+import CalendarModal from "../modals/CalendarModal";
 import calendarReducer from "./reducer/CalendarReducer";
 import MakeCalendar from "../module/MakeCalendar";
 import axios from "axios";
 import AuthContext from "../../../store/authContext";
-import CalendarUpdateModal from "./CalendarUpdateModal";
-import CalendarMemoModal from "./CalendarMemoModalBox";
+import CalendarUpdateModal from "../modals/CalendarUpdateModal";
+import CalendarMemoModal from "../modals/CalendarMemoModalList";
 import { BsCloudRainHeavy, BsBrightnessHigh, BsCloudSnow, BsFillCloudFill, BsFillCloudLightningRainFill, BsFillUmbrellaFill } from "react-icons/bs";
-import CalendarRegionModal from "./CalendarRegionModal";
+import CalendarRegionModal from "../modals/CalendarRegionModal";
 import Region from "../module/Region";
 
 const today = new Date();
@@ -207,6 +207,9 @@ const Calendar = () => {
           </button>
           <button onClick={() => setCalendarRegionModalOn(true)}>
             지역 선택
+          </button>
+          <button onClick={() => setCalendarRegionModalOn(true)}>
+            관광지 추천
           </button>
         </div>
         <table className="table">

@@ -41,8 +41,6 @@
         WHERE  userid  = #{userid}
         AND    no      = #{no}
     </update>
-
-
-
+    
 
 </mapper>
