@@ -41,6 +41,7 @@ public class AdminController {
 
     @PostMapping("/roleChange")
     public void roleChange(@RequestBody MemberVo memberVo) {
+        System.out.println(memberVo);
         String userid = SecurityUtil.getCurrentMemberId();
         String inputId = memberVo.getUserid();
         if (userid.equals(inputId)){
@@ -48,14 +49,6 @@ public class AdminController {
         } else {
             adminService.roleChange(memberVo);
         }
-
-    }
-
-    @GetMapping("/searchingUser")
-    public MemberResponseVo searchingUser(@RequestParam String userid) {
-        MemberResponseVo memberResponseVo = adminService.searchingUser(userid);
-        System.out.println(memberResponseVo);
-        return memberResponseVo;
 
     }
 

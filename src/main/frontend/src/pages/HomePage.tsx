@@ -19,7 +19,7 @@ const HomePage = () => {
   const click = () => {
     addNotification({
       title: '제목',
-      message: '내용',
+      message: userid,      
       icon: Image,
       native: true,
       duration: 4000,           
