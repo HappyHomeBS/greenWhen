@@ -61,5 +61,4 @@ public interface UserMapper {
 
     void roleChange(MemberVo memberVo);
 
-    MemberResponseVo searchingUser(String userid);
 }

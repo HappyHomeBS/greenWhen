@@ -15,14 +15,14 @@ const Member = () => {
       time: "",
     },
   ]);
+  const [allUser, setAllUser] = useState([{}]);
 
   //페이징
   const [page, setPage] = useState(1); //현재 페이지
-  const itemsPerPage = 3; //보여줄 게시글 갯수
-
-  
+  const itemsPerPage = 5; //보여줄 게시글 갯수
+    
   //페이지 계산
-  const totalPages = Math.ceil(users.length / itemsPerPage);
+  const totalPages = Math.ceil(allUser.length / itemsPerPage);
 
   const renderPageLinks = () => {
     const pageLinks = [];
@@ -49,10 +49,10 @@ const Member = () => {
 
   // 시작점 계산
   const startIndex = (page - 1) * itemsPerPage;
-  const items = users.slice(startIndex, startIndex + itemsPerPage);
+  const items = allUser.slice(startIndex, startIndex + itemsPerPage);
 
   const callUserList = (items: any) => {
-    const userList = items.map((user: any) => {
+    const userList = items.map((user: any) => {      
       return (
         <MemberBox
           key={user.userid}
@@ -72,17 +72,14 @@ const Member = () => {
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-
-    const response = await axios.get(
-      `/admin/searchingUser?userid=` + searchQuery,
-      {
-        headers: {
-          Authorization: "Bearer " + token,
-        },
+    const searchUser: any = []
+    
+    users.map((user) => {
+      if (user.userid === searchQuery) {        
+        searchUser.push(user)        
       }
-    ); 
-    setUsers([response.data])   
-    console.log('검색',users)
+      setAllUser(searchUser)        
+    });
   };
 
   useEffect(() => {
@@ -94,27 +91,29 @@ const Member = () => {
       })
       .then((res) => {        
         setUsers(res.data)                 
-        console.log('시작',users)               
+        setAllUser(res.data)                
       });
   }, []);  
+
 
   return (
     <div>
       <h2>회원 목록</h2>
       <div>
         <table>
-          <tbody>
+          <thead>
             <tr>
-              <th> 아이디 </th>
-              <th> 닉네임</th>
-              <th> 이메일 </th>
-              <th> 유저권한</th>
-              <th> 가입일자</th>
+              <td> 아이디 </td>
+              <td> 닉네임</td>
+              <td> 이메일 </td>
+              <td> 유저권한</td>
+              <td> 가입일자</td>
             </tr>
-          </tbody>
+          </thead>                  
+            {callUserList(items)}
         </table>
       </div>
-      <div>{callUserList(items)}</div>
+      <div></div>
       {renderPageLinks()}
       <div>
         <form onSubmit={handleSubmit}>

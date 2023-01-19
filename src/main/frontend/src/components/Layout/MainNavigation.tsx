@@ -93,6 +93,7 @@ const MainNavigation = () => {
                 <Navbar><Link to='/calendar'><Button variant="outline-primary">달력</Button></Link></Navbar>&nbsp;
                 <Navbar><Link to='/main'><Button variant="outline-primary">소모임</Button></Link></Navbar>&nbsp;
                 <Navbar><Link to='/'><Button variant="outline-primary">고객센터</Button></Link></Navbar>&nbsp;
+                <Navbar><Link to='/note'><Button variant="outline-primary">쪽지함</Button></Link></Navbar>&nbsp;
               </Nav>
             </Navbar.Collapse>
           </Container>
