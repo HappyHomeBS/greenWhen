@@ -16,7 +16,7 @@ class NoteReadComponent extends Component {
         token = this.props.token;
         NoteService.noteRead(no, token).then((res) => {
         console.log(res.data);
-        this.setState({note: res.data});
+        this.setState({note: res.data.noteVo});
         
         
         });
