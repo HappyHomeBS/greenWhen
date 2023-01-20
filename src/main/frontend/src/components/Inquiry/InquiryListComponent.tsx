@@ -12,7 +12,6 @@ import * as InquiryPaging from'../Inquiry/InquiryPaging';
 const InquiryList: React.FC = (props: any) => {
     const [currentPage, setCurrentPage] = useState(1);
     const [inquiryList, setInquiryList] = useState<Array<InquiryInterface>>([]);
-    const [totalList, setTotalList] = useState<Array<InquiryInterface>>([]);
     const [loaded, setLoaded] = useState(false);
     const [inquiriesPerPage, setInquiresPerPage] = useState(10);
     const [totalInquiry, setTotalInquiry] = useState(0);
@@ -20,31 +19,21 @@ const InquiryList: React.FC = (props: any) => {
     const authCtx = useContext(AuthContext);
     const token = authCtx.token;
     const navigate = useNavigate();
-    
-    //최초 리스트 로딩
+
     useEffect(() => {
         getInquiryList();
     }, []);
-    
-    //현재페이지에 따라 바뀜    
-    useEffect(() => {
-        goPage();
-    }, [currentPage])
+        
     const getInquiryList = async () => {
     
-        const listData =( (await InquiryService.getInquiryList(token)).data.inquiryList);  
-        const newInquiryList = InquiryPaging.GetPostsLoaded(listData, currentPage); // 슬라이스후 현재페이지 글목록
-      
+        const listData = (await InquiryService.getInquiryList(token)).data.inquiryList;  
+       
+        const newInquiryList = InquiryPaging.GetPostsLoaded(listData, currentPage);
+        
         setInquiryList(newInquiryList);
-
-        setTotalInquiry(listData.length) // 불러온 모든 게시글 수 
-
-        setTotalList(listData) // 모든 게시글 리스트 저장
-    }
-
-    const goPage = () => {
-        const newInquiryList = InquiryPaging.GetPostsLoaded(totalList, currentPage);
-        setInquiryList(newInquiryList);
+        setTotalInquiry(newInquiryList.length)
+        console.log('listData', (await listData).data)
+        console.log('inquiryList', inquiryList)
     }
 
     const InquiryRead = (no:number | undefined) => {
@@ -64,9 +53,9 @@ const InquiryList: React.FC = (props: any) => {
                     <table className="table table-striped table-bordered">
                         <thead>
                             <tr>
-                                <th style={{width: "60%"}}>제    목</th>
-                                <th style={{width: "20%"}}>작 성 자</th>
-                                <th style={{width: "20%"}}>날    짜</th>
+                                <th>제    목</th>
+                                <th>작 성 자</th>
+                                <th>날    짜</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -80,14 +69,11 @@ const InquiryList: React.FC = (props: any) => {
                         )}
                          </tbody>
                     </table>
-                    <div style={{}}>
-                         <button style={{float: "right", width:"10%"}}className="btn btn-primary" onClick={() => InquiryWrite()}> 등 록 </button>
-                    </div>
+                    <Button variant="primary" onClick={() => InquiryWrite()}> 등 록 </Button>
+
                 </div>
             </div>
-            <div style={{textAlign:"center"}}>
-              <InquiryPaging.PageNumbers currentPage={currentPage} totalInquiry={totalInquiry} setCurrentPage={setCurrentPage} />
-            </div>
+            <InquiryPaging.PageNumbers currentPage={currentPage} totalInquiry={totalInquiry}  />
         </>
     );
 };

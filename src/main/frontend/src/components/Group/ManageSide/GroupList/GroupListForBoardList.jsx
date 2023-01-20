@@ -13,9 +13,9 @@ return(
                 no = {i.no}
                 userid = {i.userid}
                 groupname = {i.groupname}
-                time = {i.time.slice(0,10)}
+                time = {i.time}
                 grade = {i.grade}
-                accessiblelevel = {i.accessiblelevel}
+
   />
         ))
         : null}

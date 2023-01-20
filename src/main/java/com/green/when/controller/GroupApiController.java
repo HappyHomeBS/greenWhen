@@ -1,5 +1,6 @@
 package com.green.when.controller;
 
+import com.green.when.config.SecurityUtil;
 import com.green.when.domain.GroupEntity;
 import com.green.when.domain.GroupManageEntity;
 import com.green.when.domain.TagEntity;
@@ -44,7 +45,7 @@ public class GroupApiController {
         try{
 
             String groupname = groupDto.getGroupname();
-            String groupleader = groupDto.getGroupleader();
+            String groupleader =  SecurityUtil.getCurrentMemberId();
             String descript = groupDto.getDescript();
             List<TagDto> tags = groupDto.getTags();
 
@@ -53,6 +54,10 @@ public class GroupApiController {
             groupService.create(group);
             //순서주의 외래키 문제로 groupentity- > save -> groupmanageEntity -> SAVE해야함
             //이 순서 하나라도 틀리면 외래키 아웃됨
+
+            String userid = SecurityUtil.getCurrentMemberId();
+            groupDto.setGroupleader(userid);
+
             GroupManageEntity groupfortwo = new GroupManageEntity(groupDto);
             groupManageService.create(groupfortwo);
 
@@ -77,11 +82,12 @@ public class GroupApiController {
 
 
 //       *******에러***** 해당 서비스->리파지토리보면 그룹메니지엔티티 쓴다고 말해놨기에 여기서 사용 불가
-    @GetMapping("/api/group-list/{userid}")
-    public WrapperClass group_list(@PathVariable("userid") String userid){
+    @GetMapping("/api/group-list")
+    public WrapperClass group_list(){
         //group_tb 말고 groupmanage_tb에서 userid로 검색
         // 결과값 groupname 을 가져온다 group_tb로하면
         // member tb 거쳐서 외래키 사용해야 하니까 한번에 그냥 찾겠음
+        String userid = SecurityUtil.getCurrentMemberId();
         System.out.println("1. 그룹 리스트 찾으러 옴.");
         System.out.println("2. userid :"+ userid);
 
@@ -122,7 +128,7 @@ public class GroupApiController {
     }
 
     //onetomany 해줘야함
-    @DeleteMapping("/api/delete-group/")
+    @DeleteMapping("/api/delete-group")
     public ResponseEntity delete_group(@RequestBody GroupDeleteDto groupDto){
         System.out.println("delete_group = " + groupDto);
         HttpHeaders headers = new HttpHeaders();
@@ -156,12 +162,12 @@ public class GroupApiController {
     }
 
     //해당 그룹엔 무슨 말머리가 있을까
-    @GetMapping("/api/tag-list/{groupname}/{groupleader}/{userid}")
+    @GetMapping("/api/tag-list/{groupname}/{groupleader}")
     public WrapperClass findtags(@PathVariable("groupname") String groupname,
-                                 @PathVariable("groupleader") String groupleader,
-                                 @PathVariable("userid") String userid) {
+                                 @PathVariable("groupleader") String groupleader){
         
         System.out.println("태그가지러 왔니");
+        String userid = SecurityUtil.getCurrentMemberId();
 
         List<TagEntity> taglist = tagService.findByGroupnametag(groupname);
         List<TagDto> tagDtos = taglist.stream().map(t ->

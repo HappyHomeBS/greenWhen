@@ -7,7 +7,6 @@ import BoardBox from "../BoardBox/BoardBox";
 import 'react-input-checkbox/lib/react-input-checkbox.min.css';
 import axios from "axios";
 import AuthContext from "../../../../store/authContext";
-import "../../../../DamCss/Component/Component.css";
 
 const BoardList = (props) => {
 
@@ -23,15 +22,13 @@ const BoardList = (props) => {
   const [selectedItems, setSelectedItems] = useState([]);
   const [data, setData] = useState("");
   const [fig, setFig] = useState(0);
-  const { Admin } = props;
 
-  console.log('BoardList/Admin? : ' , Admin);
   //main
 
   
   //페이징
   const [page, setPage] = useState(1); //현재 페이지
-  const itemsPerPage = 10; //보여줄 게시글 갯수
+  const itemsPerPage = 3; //보여줄 게시글 갯수
 
   //페이지 계산
   const totalPages = Math.ceil(props.data.length / itemsPerPage );
@@ -49,38 +46,32 @@ const BoardList = (props) => {
   const renderPageLinks = () => {
     const pageLinks = [];
     pageLinks.push(
-      <button className="damclick-left" key="prev" onClick={ () => setPage(page - 1)}>
+      <button key="prev" onClick={ () => setPage(page - 1)}>
         Prev
       </button>
     );
     for (let i =1; i <= totalPages; i++){
       const className = i === page ? 'current-page' : '';
       pageLinks.push(
-        <button key={i} className={`damclick-number ${i === page ? 'current-page' : ''}`} onClick={ () => setPage(i)}>
+        <button key={i} className={className} onClick={ () => setPage(i)}>
           {i}
         </button>
-
       );
     }
     pageLinks.push(
-      <button className="damclick-right" key="next" onClick = { () => setPage(page + 1)}>
+      <button key="next" onClick = { () => setPage(page + 1)}>
         Next
       </button>
     );
-   
-
-    return pageLinks;
-  }
-
-  /*
-   pageLinks.push(
+    pageLinks.push(
       <div key = "jump-to">
         <input value={jumpToPage} onChange = {e => setJumpToPage(e.target.value)}/>
         <button onClick={ () => setPage(jumpToPage)}>Go</button>
       </div>
     );
-  */
 
+    return pageLinks;
+  }
 
   // 시작점 계산
   const startIndex = (page - 1) * itemsPerPage;
@@ -117,11 +108,8 @@ const BoardList = (props) => {
                 content = {item.content}
                 readcount = {item.readcount}
                 groupname = {item.groupname}
-                time = {item.time.slice(0,10)}
+                time = {item.time}
                 allowcomment = {item.allowcomment}
-                tag = {item.tag}
-                commentcount = {item.commentCount}
-                Admin = {Admin}
       />
     </div>
     );
@@ -157,9 +145,7 @@ console.log('1진짜 보내는건? :', {data});
         deleteSelectedItems()}>Delete Selected Items</button>
       )}
       </div>
-      <div className="damPagination">
-      {!only4 ? renderPageLinks() : null}
-      </div></div>
+      {!only4 ? renderPageLinks() : null}</div>
   );
 };
 

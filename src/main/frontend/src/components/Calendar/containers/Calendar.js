@@ -15,6 +15,7 @@ import CalendarMemoModal from "../modals/CalendarMemoModalList";
 import { BsCloudRainHeavy, BsBrightnessHigh, BsCloudSnow, BsFillCloudFill, BsFillCloudLightningRainFill, BsFillUmbrellaFill } from "react-icons/bs";
 import CalendarRegionModal from "../modals/CalendarRegionModal";
 import Region from "../module/Region";
+import Button from 'react-bootstrap/Button';
 
 const today = new Date();
 
@@ -201,16 +202,18 @@ const Calendar = () => {
           <button className="move" onClick={onIncreases}>
             &gt;
           </button>
+          <div className="threeButtons">
           <div>{Region({regionNumber:sessionStorage.getItem("region")})}</div>
-          <button onClick={() => setCalendarMemoModalOn(true)}>
+          <Button variant="outline-danger" onClick={() => setCalendarMemoModalOn(true)}>
             내 메모 보기
-          </button>
-          <button onClick={() => setCalendarRegionModalOn(true)}>
+          </Button> &nbsp;
+          <Button variant="outline-danger" onClick={() => setCalendarRegionModalOn(true)}>
             지역 선택
-          </button>
-          <button onClick={() => setCalendarRegionModalOn(true)}>
+          </Button> &nbsp;
+          <Button variant="outline-danger" onClick={() => setCalendarRegionModalOn(true)}>
             관광지 추천
-          </button>
+          </Button> &nbsp;
+        </div>
         </div>
         <table className="table">
           <thead>

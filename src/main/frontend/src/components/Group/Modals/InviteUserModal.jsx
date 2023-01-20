@@ -69,22 +69,22 @@ const InviteUserModal = (props) => {
 
 
     return (
-        <div className="dam-modal-overlay-to-invite">
-            <div className="dam-modal-content-to-invite">
+        <div className="modal-overlay-to-invite">
+            <div className="modal-content-to-invite">
                 <h2>초대하기</h2>
-                <form className="dam-form-invite" onSubmit={handleSubmit}>
-                    <input className="dam-input-invite-userid"
+                <form onSubmit={handleSubmit}>
+                    <input
                         type = "text"
                         id = "invite-user"
                         value={userId}
                         onChange={(event) => setUserId(event.target.value)}
                     />
-                    <label className="dam-label-invite-whom" htmlFor="invite-user"> 회원을 </label>
+                    <label htmlFor="invite-user"> 회원을 </label>
                     <br />
                     {groupname}
-                    <label className="dam-label-invite-whom-for-real" > 에 초대하시겠습니까? </label>
+                    <label > 에 초대하시겠습니까? </label>
                     <br />
-                    <button className="dam-button-yes-invite" type="submit"> 네 </button>
+                    <button type="submit"> 네 </button>
                     <button className="modal-close-button" onClick={props.onClose}>
                     취소
                 </button>

@@ -16,7 +16,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api")
 
-public class InquiryController {
+public class InquiryController{
 
     public InquiryVo setUserInfo() {
         String userId = SecurityUtil.getCurrentMemberId();

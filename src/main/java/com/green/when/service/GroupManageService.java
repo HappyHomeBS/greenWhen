@@ -30,7 +30,7 @@ public class GroupManageService {
     }
 
     public GroupManageEntity findOne(Long no) {
-       return groupManageRepository.findById(no).orElseThrow(NullPointerException::new);
+        return groupManageRepository.findById(no).orElseThrow(NullPointerException::new);
     }
 
 

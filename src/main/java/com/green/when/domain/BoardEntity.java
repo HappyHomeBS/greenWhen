@@ -2,6 +2,7 @@ package com.green.when.domain;
 
 
 import com.green.when.dto.BoardDeleteDto;
+import com.green.when.dto.dtos.BoardDto;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
@@ -77,6 +78,18 @@ public class BoardEntity {
         this.files = files;
         this.allowcomment = allowcomment;
         this.tag = "1";
+    }
+
+    public BoardEntity(BoardDto boardDto){
+        this.no = boardDto.getNo();
+        this.title = boardDto.getTitle();
+        this.userid = boardDto.getUserid();
+        this.content = boardDto.getContent();
+        this.groupname = boardDto.getGroupname();
+        this.readcount = boardDto.getReadcount();
+        this.time = boardDto.getTime();
+        this.allowcomment = boardDto.isAllowcomment();
+        this.tag = boardDto.getTag();
     }
 
     public BoardEntity(Long no, String title, String userid, String content,

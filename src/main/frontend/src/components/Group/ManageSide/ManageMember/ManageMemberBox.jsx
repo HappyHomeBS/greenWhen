@@ -2,7 +2,6 @@ import React, { useEffect, useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import AuthContext from "../../../../store/authContext";
-import "../../../../DamCss/Component/Component.css"
 
 const ManageMemberBox = (props) => {
 
@@ -91,16 +90,10 @@ const ManageMemberBox = (props) => {
 
 
 
-        <div className="dam-manage-member-parent">
+        <div>
             {groupname} | {TheGrade} | 
-             {usernickname} | {userid} | {time} | 
-             {grade === 1 
-             ? null 
-             : <div className="dam-manage-member-buttons"><button className="dam-manage-member-buttonone" onClick={kickout}>강퇴</button> 
-                <button  className="dam-manage-member-buttontwo" onClick={authoriz}> 위임 </button>
-                </div>}
+             {usernickname} | {userid} | {time} | <button onClick={kickout}>강퇴</button> <button onClick={authoriz}> 위임 </button>
         </div>
-
         
     );
 };

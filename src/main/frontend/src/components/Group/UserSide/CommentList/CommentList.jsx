@@ -18,7 +18,6 @@ const CommentList = (props) => {
                 userid = {i.userid}
                 content = {i.content}
                 time = {i.time}
-                updateCommentList = {props.updateCommentList}
                 
                 />
         ))

@@ -2,10 +2,9 @@ import React, { useContext, useEffect, useState } from "react"
 import AuthContext from '../../store/authContext';
 import {InquiryInterface} from './InquiryInterface';
 import * as InquiryService from "../../service/InquiryService";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import queryString from "query-string";
 import InquiryReply from "./InquiryReplyComponent"
-import { Right } from "react-bootstrap/lib/Media";
 
 const InquiryRead: React.FC = (props: any) => {
     const [inquiryRead, setInquiryRead] = useState<Array<InquiryInterface>>([]);
@@ -19,7 +18,7 @@ const InquiryRead: React.FC = (props: any) => {
     const grpNo:any = queryString.parse(location.search).no;
     const userId = authCtx.userObj.userid;
     const userRole = authCtx.userObj.role;
-    const navigate = useNavigate();
+
     useEffect(() => {
 
         getInquiryRead(no, token)
@@ -79,13 +78,16 @@ const InquiryRead: React.FC = (props: any) => {
                 alert("실패!")
             }
         })
+      
+        
+        
+        
         
     }
 
     return (
    
         <>
-        {/* 업데이트 폼 */}
         <div className = "card col-md-6 offset-md-3">
             <h3 className = "text-center"> 1:1 문의 상세보기 </h3>
         { Array.isArray(inquiryRead) && inquiryRead.map((inquiry: InquiryInterface) =>
@@ -95,17 +97,14 @@ const InquiryRead: React.FC = (props: any) => {
                     <div className="row">
                         <label>작성자: {inquiry.userId}</label>
                         <label>작성시간:{inquiry.time}</label>
-                        <label>제 목</label>
-                        <input type="text" id="title" defaultValue={inquiry.title} style={{width: "auto", flex:"1", margin: "2%", resize:"none"}}/>
-                        <div className="row" style={{height:"50%", flexGrow:"1"}}>
+                        <label>제목</label>
+                        <input type="text" id="title" defaultValue={inquiry.title} />
+                        <div className="row">
                             <label>내용</label>
-                            <textarea id="content" defaultValue={inquiry.content} style={{height:"20%", width: "auto", flex: "1", margin: "2%", resize: "vertical"}}/>
+                            <textarea id="content" defaultValue={inquiry.content}/>
                         </div>
                     </div>
-                    <div style={{float:"right"}}>
                     <button className = "btn btn-primary" type="submit" > 수정하기 </button>
-                    <button className = "btn btn-primary" onClick={ ()=> setIsUpdating(null)}>취  소</button>
-                    </div>
                 </form>
             ):
 
@@ -119,13 +118,11 @@ const InquiryRead: React.FC = (props: any) => {
                 </div>
                 <div className = "row">
                     <label>내 용</label>
-                    <textarea value={inquiry.content} readOnly style={{flex: "1", margin: "2%", resize: "none"}}/>
+                    <textarea value={inquiry.content} readOnly/>
                 </div>
-                <div className= "buttons" style={{float:"right"}}>
                     {inquiry.userId === userId && <button className = "btn btn-primary"onClick={()=> handleUpdateClick(inquiry.no)}> 수정하기</button>}               
                     {inquiry.userId === userId? <button className = "btn btn-primary"onClick={()=> deleteInquiry(inquiry.no)}> 삭제하기</button> :
                      userRole ==='ROLE_ADMIN' && <button className = "btn btn-primary"onClick={()=> deleteInquiry(inquiry.no)}> 삭제하기</button>} 
-                </div>
                 <br></br>
                 </>
             )

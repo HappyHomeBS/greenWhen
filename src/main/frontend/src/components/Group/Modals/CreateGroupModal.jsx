@@ -1,7 +1,6 @@
 import axios from "axios";
 import React, { useState, useContext } from "react";
 import AuthContext from "../../../store/authContext";
-import "../../../DamCss/Modal/Modal.css";
 
 function CreateGroupModal(props) {
     const [groupTitle, setGroupTitle] = useState('');
@@ -26,7 +25,7 @@ function CreateGroupModal(props) {
                 groupname  : groupTitle,
                 groupleader : userid,
                 descript : groupDesc,
-                tags : tagList,
+                tags : tagList
                 
             };
 
@@ -38,41 +37,41 @@ function CreateGroupModal(props) {
          window.location.reload();
 
         }catch( err ){
-            console.log('create-group-err : ', err );
+            console.log('yes' );
         }
     };
 
     return(
-        <div className="dam-create-group-modal-overlay">
-        <div className="dam-create-group-modal-content">
-            <button className="dam-create-group-modal-close-button" onClick={props.onClose}>
-                닫기
-            </button>
-            <h2>Create a new Group</h2>
-            <form className="dam-create-form" onSubmit={handleSubmit}>
-                <label className="dam-create-label" htmlFor="group-title">Group Title:</label>
-                <input className="dam-create-input-grouptitle"
-                    type="text"
-                    id="group-title"
-                    value={groupTitle}
-                    onChange={(event) => setGroupTitle(event.target.value)}
-                />
-                <br />
-                <label className="dam-group-desc-label" htmlFor="group-desc">Group Description:</label>
-                <input className="dam-group-desc-input"
-                    type="text"
-                    id="group-desc"
-                    value={groupDesc}
-                    onChange={(event) => setGroupDesc(event.target.value)}
+        <div className="modal-overlay">
+            <div className="modal-content">
+                <button className="modal-close-button" onClick={props.onClose}>
+                    닫기
+                </button>
+                <h2>Create a new Group</h2>
+                <form onSubmit={handleSubmit}>
+                    <label htmlFor="group-title">Group Title:</label>
+                    <input 
+                        type="text"
+                        id="group-title"
+                        value={groupTitle}
+                        onChange={(event) => setGroupTitle(event.target.value)}
                     />
-                <br />
-                {errorMessage && (
-                    <p className="error-message">{errorMessage}</p>
-                )}
-                <button className="dam-create-group-button-submit" type="submit">Create Group</button>
-            </form>
+                    <br />
+                    <label htmlFor="group-desc">Group Description:</label>
+                    <input
+                        type="text"
+                        id="group-desc"
+                        value={groupDesc}
+                        onChange={(event) => setGroupDesc(event.target.value)}
+                        />
+                    <br />
+                    {errorMessage && (
+                        <p className="error-message">{errorMessage}</p>
+                    )}
+                    <button type="submit">Create Group</button>
+                </form>
+            </div>
         </div>
-    </div>
     );
 
 }
