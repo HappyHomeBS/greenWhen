@@ -1,7 +1,7 @@
 import { Fragment, useContext } from "react";
-import { ChangeUsername } from "../components/Profile/ChangeUsername";
-import { ChangePassword } from "../components/Profile/ChangePassword";
-import { ProfileImage } from "../components/Profile/ProfileImage";
+import { ChangeUsername } from "../components/User/Profile/ChangeUsername";
+import { ChangePassword } from "../components/User/Profile/ChangePassword";
+import { ProfileImage } from "../components/User/Profile/ProfileImage";
 import React from "react";
 import AuthContext from "../store/authContext";
 

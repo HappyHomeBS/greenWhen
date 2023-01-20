@@ -1,8 +1,8 @@
 import React from "react";
 import { Fragment, useContext, useState } from "react";
-import { Member } from "../components/Admin/Member";
-import { Group } from "../components/Admin/Group";
-import { Note } from "../components/Admin/Note";
+import { Member } from "../components/User/Admin/MemberList";
+import Group from "../components/User/Admin/Group";
+import { Note } from "../components/User/Admin/Note";
 
 const ProfilePage = () => {
   const [member, setMember] = useState(true);

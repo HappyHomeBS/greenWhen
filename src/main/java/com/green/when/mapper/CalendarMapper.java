@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 //기존 DaoImpl 대신 mapper와 다이렉트 연결
@@ -17,5 +18,12 @@ import java.util.Optional;
 public interface CalendarMapper {
     void insertSchedule(ScheduleVo schedule);
 
-    List<ScheduleVo> getSchedule(String userid);
+    List<ScheduleVo> getSchedules(ScheduleVo scheduleVo);
+
+    void deleteSchedule(ScheduleVo schedule);
+
+    void updateSchedules(Map schedule);
+
+    List<ScheduleVo> getAllSchedules(String userid);
+
 }

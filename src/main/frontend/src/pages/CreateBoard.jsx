@@ -1,38 +1,77 @@
-import React, { useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
+import AuthContext from "../store/authContext";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import 'react-input-checkbox/lib/react-input-checkbox.min.css';
+import { Checkbox } from "react-input-checkbox";
+import Select from "react-select";
+
 
 const CreateBoard = () => {
+  
+  const authCtx = useContext(AuthContext);
+  const token = authCtx.token;
+  const userid = authCtx.userObj.userid;
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [fileData, setFileData] = useState(null);
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [allowComment, setAllowComment ] = useState({checked : true});
+  const [isSubmitting, setIsSubmitting] = useState(false); // this part? 
   const [error, setError] = useState(null);
+  const [tagList, setTagList] = useState([]);
+  const [selectedTag, setSelectedTag] = useState("");
+
+  //groupname 은 이전에서 받아오고
+  const location = useLocation();
+  const groupname = location.state.groupname.selectedGroup;
+  const groupleader = location.state.groupleader.groupLeader;
 
   const navigate = useNavigate();
-  const damdam = "damdam";
   const readcount = 0;
-  const damgroup = "damgroup";
+
+  console.log('왜 여기선 오브잭트내로 계속가노???', groupname, groupleader, userid);
+  // userid는 로그인기능 쓰면 좋겟다
+
+ 
+//tag list가져오기 
+  useEffect(() =>  {
+
+    const getTagList = async () => {
+      
+      let response = await axios.get(`/api/tag-list/${groupname}/${groupleader}`, {
+          headers: {
+          'Authorization': 'Bearer ' + token
+          }
+          } );
+      setTagList(response.data.data);
+
+      console.log('1.',response.data.data);
+    };
+
+    getTagList();
+
+  }, [groupleader, groupname]);
+
+
+ 
 
   const resetInput = () => {
     setContent("");
     setTitle("");
     setFileData(null);
+    };
+
+  const handleChange = (event) => {
+    setAllowComment({ ...allowComment, checked: false});
+   //setCheck({ ...check, checked: event.target.checked});
   };
-
-
-
 
 // read하는게 엄청 오래걸리므로 promise를 쓴다
 // 안그러면 빈값 날라감
   const handleFileChange = (event) => {
     const files = event.target.files;
     const fileArray = [];
-    console.log('1. 클릭하면: ', files);
     const fileReaders = [];
-    console.log('2. files.length? :', files.length);
-    console.log('3. files[0] ???: ', files[0]);
-    console.log('7이랑비교 setdata', {fileData});
 
     for (let i = 0; i < files.length; i++) {
       const fileReader = new FileReader();
@@ -47,7 +86,6 @@ const CreateBoard = () => {
     }
     Promise.all(fileReaders).then(() => setFileData(fileArray));
  
-    console.log('이젠 진짜 들어갓나', {fileData});
   };
 
   const handleSubmit = async (event) => {
@@ -58,30 +96,67 @@ const CreateBoard = () => {
     try {
       const data = {
         title: title,
-        userid: damdam,
+        userid: userid,
         content: content,
         readcount: readcount,
-        groupname: damgroup,
+        groupname: groupname,
         files: fileData,
+        allowcomment: allowComment.checked,
+        tag : selectedTag
       };
 
-      const response = await axios.post("/api/create-board", data);
+      const response = await axios.post("/api/create-board", data, {
+        headers: {
+        'Authorization': 'Bearer ' + token
+        }
+        });
 
       if (response.status >= 200 && response.status < 300) {
         alert("Board created successfully");
-        navigate("/", {});
+        //  navigate("/page", { state: { no: Number(no) } });
+        navigate("/bulletin", { state  :  { groupname : groupname }});
       }
     } catch (err) {
       setError(err.message);
+      console.log('여기는?' , {groupname});
       resetInput();
     } finally {
       setIsSubmitting(false);
     }
   };
+
+  const handleGroupTag = (event) => {
+    setSelectedTag(event.target.value);
+  }
   
     return (
       <form onSubmit={handleSubmit}>
         {error && <p>{error}</p>}
+        <div>
+        <Checkbox
+          label = "i agree to the terms and conditions"          
+          onChange={handleChange}
+        > not allowed comment
+          </Checkbox> 
+      </div>
+
+      <br />
+      <br />
+        <div>
+            <label>
+                Group :
+                  <select value={selectedTag} onChange={handleGroupTag}>
+                          {tagList.map(tag => (
+                              <option key = {tag.tag} 
+                                      value={tag.tag}>
+                                        {tag.tag}
+                              </option> 
+                          ))}
+                  </select>
+            </label>
+        </div>   
+      <br />
+      <br />
         <label>
           Title:
           <input

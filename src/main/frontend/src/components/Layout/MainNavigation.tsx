@@ -4,8 +4,8 @@ import { Link } from 'react-router-dom';
 import { Button, Container, Nav, Navbar } from 'react-bootstrap';
 
 import AuthContext from '../../store/authContext';
-import SignUpModal from '../../modals/SignUpModal'
-import SignInModal from '../../modals/SignInModal';
+import SignUpModal from '../User/UserModals/SignUpModal'
+import SignInModal from '../User/UserModals/SignInModal';
 
 import '../../ProfileImagecss.css'
 import { Modal } from 'react-bootstrap';
@@ -41,11 +41,15 @@ const MainNavigation = () => {
           'Authorization': 'Bearer ' + token
         }
       })
-        .then((res) => {
+        .then((res) => {          
           const data = res.data;
           const URL = data.filepath
-          setImage(URL)
-          console.log("주소", Image)
+          console.log('프로필이미지',URL)
+          if (!URL.isempty ){
+            setImage(URL)
+            console.log("주소", URL)
+            console.log("주소!!!", Image)
+          } 
         });
     }
   }, [isLogin]);
@@ -86,7 +90,10 @@ const MainNavigation = () => {
                 {isLogin && <Navbar> &nbsp; {usernickname}님 환영합니다! &nbsp; </Navbar>}
                 {isLogin && <Navbar> <Button variant="outline-primary" onClick={toggleLogoutHandler}>Logout</Button>&nbsp;</Navbar>}
                 {isLogin && role ==='ROLE_ADMIN' &&  <Navbar><Link to='/admin'> <Button variant="outline-primary">관리자 페이지</Button></Link>&nbsp;</Navbar>}
-                <Navbar><Link to='/calendar'><Button variant="outline-primary">달력</Button></Link></Navbar>
+                <Navbar><Link to='/calendar'><Button variant="outline-primary">달력</Button></Link></Navbar>&nbsp;
+                <Navbar><Link to='/main'><Button variant="outline-primary">소모임</Button></Link></Navbar>&nbsp;
+                <Navbar><Link to='/'><Button variant="outline-primary">고객센터</Button></Link></Navbar>&nbsp;
+                <Navbar><Link to='/note'><Button variant="outline-primary">쪽지함</Button></Link></Navbar>&nbsp;
               </Nav>
             </Navbar.Collapse>
           </Container>

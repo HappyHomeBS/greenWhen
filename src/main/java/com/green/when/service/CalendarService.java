@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 @Getter
@@ -27,8 +28,25 @@ public class CalendarService {
     }
 
     @Transactional
-    public List<ScheduleVo> getSchedule(String userid) {
-        List<ScheduleVo> scheduleList = calendarMapper.getSchedule(userid);
+    public List<ScheduleVo> getSchedules(ScheduleVo scheduleVo) {
+        List<ScheduleVo> scheduleList = calendarMapper.getSchedules(scheduleVo);
         return scheduleList;
     }
+
+    @Transactional
+    public List<ScheduleVo> getAllSchedules(String userid) {
+        List<ScheduleVo> allScheduleList = calendarMapper.getAllSchedules(userid);
+        return allScheduleList;
+    }
+
+    @Transactional
+    public void deleteSchedule(ScheduleVo schedule) {
+        calendarMapper.deleteSchedule(schedule);
+    }
+
+    @Transactional
+    public void updateSchedules(Map schedule) {
+        calendarMapper.updateSchedules(schedule);
+    }
+
 }

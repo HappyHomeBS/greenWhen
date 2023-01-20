@@ -1,11 +1,11 @@
 package com.green.when.controller;
 
-
+import com.green.when.config.SecurityUtil;
 import com.green.when.domain.BoardEntity;
 import com.green.when.domain.FileEntity;
 import com.green.when.dto.BoardDeleteDto;
-import com.green.when.dto.BoardDto;
-import com.green.when.dto.FileDto;
+import com.green.when.dto.dtos.BoardDto;
+import com.green.when.dto.dtos.FileDto;
 import com.green.when.service.BoardService;
 import com.green.when.service.FileService;
 import lombok.RequiredArgsConstructor;
@@ -79,6 +79,19 @@ controller 니까, api만 받는 거고 내부 로직은 service가 담당함.
         return new WrapperClass(boardDto);
     }
 
+
+    @GetMapping("/api/board-list-mypage")
+    public WrapperClass board_lists_mypage(){
+        String userid = SecurityUtil.getCurrentMemberId();
+        List<BoardEntity> boardList = boardService.findBoardsByUserid(userid);
+        System.out.println("1. 요청와서 일단 만듦 boardList:" + boardList);
+        List<BoardDto> boardDtoList = boardList.stream().map(b ->
+                new BoardDto(b)).collect(Collectors.toList());
+        System.out.println("2. 그걸 boardDtoList 로 맵핑함. 처음엔 열어봤는데 그림너무 길어");
+        System.out.println("+ 근데 이건 뭐냐 Collectors.tolist? : " + Collectors.toList());
+        return new WrapperClass(boardDtoList);
+
+    }
     /*
     @GetMapping("/api/board-detail/{no}")
 public WrapperClass board_detail(@PathVariable("no") Long no){
@@ -98,6 +111,23 @@ getMapping 되어온 ("boardId") 를, Long boardId 변수로 가져오겠다는 
 그리고 위에랑 똑같이 boardDto 로 바꾸고 wrapperclass로 감싸서 보낸다.
  */
 
+
+    //검색기능을 만들어 보자. 일단 a라고 함
+    @GetMapping("/api/searching-in-board/{searchQuery}")
+    public WrapperClass searching_in_board(@PathVariable String searchQuery)throws Exception{
+        //일단 받아온 값 체크
+        System.out.println("검색하고자 하는 것은? : " + searchQuery);
+        //이제 db를 가야하니까 entity로 만들어 보자 ㅅㅂ 이게되나???
+        List<BoardEntity> board = boardService.search(searchQuery, searchQuery);
+        //이제 돌려보내야 하니까 dto 로 list 를 감싸주자
+        List<BoardDto> boardDtoList = board.stream().map(b ->
+                new BoardDto(b)).collect(Collectors.toList());
+
+
+        return new WrapperClass(boardDtoList);
+    }
+
+    //여기보세요 userid 20230118
     @PostMapping("/api/create-board")
     public ResponseEntity create_board(@RequestBody BoardDto boardDto)throws Exception{
       //  String userid = SecurityUtil.getCurrentMemberId(); <- 로그인한 유저의 id
@@ -106,33 +136,36 @@ getMapping 되어온 ("boardId") 를, Long boardId 변수로 가져오겠다는 
 
         Long no = boardDto.getNo();
         String title = boardDto.getTitle();
-        String userid = "damdam";
+        //String userid = boardDto.getUserid();
+        String userid = SecurityUtil.getCurrentMemberId();   // userid는 지금부터 토큰으로 받아온다.
         String content = boardDto.getContent();
         Long readcount = Long.valueOf(0);
-        String groupname = "damgroup";
+        String groupname = boardDto.getGroupname();
         List<FileDto> files = boardDto.getFiles();    ////List<FIleEntity> 로 바꿔야함
+        String tag = boardDto.getTag();
+        boolean allowcomment = boardDto.isAllowcomment();
 
         if(files == null){
             BoardEntity boardForNoFile = new BoardEntity(no, title, userid, content, readcount,
-                        groupname, LocalDateTime.now());
+                        groupname, LocalDateTime.now(), allowcomment, tag);
             boardService.create(boardForNoFile);
 
         }else {
             System.out.println("1. here");
 
             BoardEntity board = new BoardEntity(no, title, userid, content, readcount,
-                    groupname, LocalDateTime.now());
+                    groupname, LocalDateTime.now(), allowcomment, tag);
 
                     boardService.create(board);
 
             for (FileDto fileDto : files) {
-                System.out.println("왜굳이?");
+
                 FileEntity fileEntity = new FileEntity(no, fileDto.getFiledata(), board.getNo());
                 fileService.createFile(fileEntity);
+
                 System.out.println("4. here");
 
                 System.out.println("2. here. service가기 직전임 board:-> " + board);
-
 
                 System.out.println("3. here");
             }
@@ -245,6 +278,28 @@ getMapping 되어온 ("boardId") 를, Long boardId 변수로 가져오겠다는 
     이건 삭제니까 사실 id만 있으면 됨. title, content이런게 필요가 없음 그래서 BoardDeleteDto 를 새로 만듦
 
      */
+
+    //게시글 대량 삭제
+/*
+    @DeleteMapping("/api/delete-multiple")
+    public void delete_multiple(@RequestBody List<BoardDeleteDto> boardDeleteDto) {
+        for (BoardDeleteDto board : boardDeleteDto ) {
+            BoardEntity boardE = boardService.findOne(board.getNo());
+            System.out.println("삭제예정 : " + boardE);
+            boardService.delete(boardE);
+        }
+    }
+*/
+    @DeleteMapping("/api/delete-multiple")
+    public void deleteMultiple(@RequestBody List<Long> selectedItems) {
+        System.out.println("1.왔나용??: " + selectedItems);
+        for ( Long no : selectedItems){
+            BoardEntity board = boardService.findOne(no);
+            System.out.println("보여저" + board);
+            boardService.delete(board);
+        }
+
+    }
 
 
 }
