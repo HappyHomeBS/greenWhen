@@ -9,6 +9,7 @@ const CalendarRegionModal = ({
   onCancel,
   onClickRegion,
   setCalendarRegionModalOn,  
+  groupName,
 }) => {  
   const [regionNumber, setRegionNumber] = useState(1);
   const authCtx = useContext(AuthContext);
@@ -35,7 +36,7 @@ const CalendarRegionModal = ({
     { no: 17, region: "충청북도" },
   ];
 
-  //최초 접속시 유저 달력 출력
+  //최초 접속시 유저 달력 출력하도록 0으로 설정
   useEffect(() => {
     setRegionNumber(0);
   }, [visible]);

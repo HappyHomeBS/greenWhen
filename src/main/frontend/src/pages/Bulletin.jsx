@@ -6,6 +6,7 @@ import axios from 'axios';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import Select from "react-select";
 import AuthContext from "../store/authContext";
+import Calendar from "../components/Calendar/containers/Calendar";
 
 //this is 2023-01-04
 
@@ -137,7 +138,9 @@ console.log('2.grouplist : ', groupList);
       <input type='button' value = '소모임관리'/>
       </Link>}
     </div>
-
+    {/*여기서부터 달력 들어가자 */}   
+    <Calendar
+     groupName={selectedGroup} />        
 
     <div>
       <form onSubmit={handleSubmit}>
