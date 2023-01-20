@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
+import AuthContext from "../store/authContext";
 import { useLocation } from "react-router-dom";
 import Detail from "./Detail";
-import CommentList from "../components/CommentList/CommentList";
-import CommentForm from "../components/ForDetail/CommentForm";
+import CommentList from "../components/Group/UserSide/CommentList/CommentList";
+import CommentForm from "../components/Group/UserSide/ForDetail/CommentForm";
 import axios from "axios";
 
 
@@ -16,6 +17,10 @@ const Page = () => {
  const noey = location.state;
  console.log('no없이', noey);
 
+ const authCtx = useContext(AuthContext);
+ const token = authCtx.token;
+
+
  const  allowcomment  = location.state.allowcomment;
  console.log('allowcomment :', allowcomment);
 
@@ -28,7 +33,11 @@ const Page = () => {
   useEffect(() => {
     const getCommentList = async () => {
 
-      let response = await axios.get(`/api/comment-list/${no}`);
+      let response = await axios.get(`/api/comment-list/${no}`, {
+        headers: {
+        'Authorization': 'Bearer ' + token
+        }
+        });
       setData(response.data.data);
     }
     getCommentList();

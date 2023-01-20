@@ -9,11 +9,7 @@ export class NotePagingComponent extends Component{
             num: 1 
             ,paging: {}
         }
-        // this.isMoveToFirstPage = this.isMoveToFirstPage(this)
-        // this.isMoveToLastPage = this.isMoveToLastPage(this)
-        // this.isPagingNext = this.isPagingNext(this)
-        // this.isPagingPrev = this.isPagingPrev(this)
-        // this.isPagingPrev = this.viewPaging(this)
+
     }
     
     componentDidMount(){

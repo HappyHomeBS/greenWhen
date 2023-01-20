@@ -1,10 +1,13 @@
 // # frontend/src/pages/UpdateBoard.jsx
-import { React, useEffect, useState } from "react"
+import { React, useEffect, useState, useContext } from "react"
+import AuthContext from "../store/authContext";
 import axios from 'axios';
 import { useNavigate, useLocation } from "react-router-dom";
 
 const UpdateBoard = () => {
 
+    const authCtx = useContext(AuthContext);
+    const token = authCtx.token;
     const [title, setTitle] = useState("");
     const [content, setContent] = useState("");
     let location = useLocation();
@@ -32,7 +35,8 @@ const UpdateBoard = () => {
             let response = await axios({
 											                    method: 'put',
 											                    url: '/api/update-board',
-											                    headers: {'Content-Type': 'application/json' },
+											                    headers: {'Content-Type': 'application/json',
+                                                                            'Authorization': 'Bearer ' + token },
 											                    data: JSON.stringify(request_data)
 									                    });
             console.log('writeBoard/response: ', response);

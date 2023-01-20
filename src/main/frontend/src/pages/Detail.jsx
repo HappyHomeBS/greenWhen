@@ -1,16 +1,21 @@
-import React,{ useEffect, useState }  from "react";
+import React,{ useEffect, useState, useContext }  from "react";
+import AuthContext from "../store/authContext";
 import axios from "axios";
 import { useNavigate, useLocation, Link } from "react-router-dom";
 
 const Detail = () => {
+    const authCtx = useContext(AuthContext);
+    const token = authCtx.token;
     const[title, setTitle] = useState("");
     const[content, setContent] = useState("");
     const[groupname, setGroupname] = useState("");
     const[readcount, setReadcount] = useState(0);
     const[files, setFiles] = useState([]);
+    const[writer, setWriter] = useState("");
     const location = useLocation();
     const navigate = useNavigate();
     const no = location.state.no;
+    const userid = authCtx.userObj.userid;
 
     console.log("no: " , no );
 
@@ -21,7 +26,8 @@ const Detail = () => {
         let response = await axios({
             method : 'DELETE',
             url: '/api/delete-board',
-            headers: {'Content-type': 'application/json'},
+            headers: {'Content-type': 'application/json',
+                       'Authorization': 'Bearer ' + token},
             data : JSON.stringify(request_data)
         });
 
@@ -32,12 +38,17 @@ const Detail = () => {
 
     useEffect( ()=> {
         const fetchData = async () => {
-            const result = await axios(`/api/board-detail/${no}`);
+            const result = await axios(`/api/board-detail/${no}`, {
+                headers: {
+                'Authorization': 'Bearer ' + token
+                }
+                });
             setTitle(result.data.data.title);
             setGroupname(result.data.data.groupname);
             setContent(result.data.data.content);
             setFiles(result.data.data.files);
             setReadcount(result.data.data.readcount);
+            setWriter(result.data.data.userid);
             console.log('타이틀 내용 사진 보자 ->', result);
         };
         fetchData();
@@ -51,7 +62,7 @@ const Detail = () => {
             {files.map((file, index) => (
                 <img key={index} src={file.filedata} alt={file.name} width={400} height={300} />
             ))}
-            <Link 
+            {userid === writer && < Link 
                 to={"/update-board"}
                 state={{
                     no: no,
@@ -60,8 +71,9 @@ const Detail = () => {
                 }}>
                     {" "}
                     수정하기 | {" "}
-                </Link>
-            <input type="button" onClick={handleDeleteBtnClick} value="삭제" />
+                </Link>}
+            {userid === writer &&
+            <input type="button" onClick={handleDeleteBtnClick} value="삭제" />}
             <Link to ={"/bulletin"} state={{ groupname : groupname }}>
             {" "}
             |목록보기  {" "}
