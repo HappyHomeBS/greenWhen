@@ -14,7 +14,7 @@ const InquiryList: React.FC = (props: any) => {
     const [inquiryList, setInquiryList] = useState<Array<InquiryInterface>>([]);
     const [loaded, setLoaded] = useState(false);
     const [inquiriesPerPage, setInquiresPerPage] = useState(10);
-    const [totalInquiry, setTotalInquiry] = useState(0);
+    const [totalInquiry, setTotalInquiry] = useState([]);
 
     const authCtx = useContext(AuthContext);
     const token = authCtx.token;
@@ -27,12 +27,12 @@ const InquiryList: React.FC = (props: any) => {
     const getInquiryList = async () => {
     
         const listData = (await InquiryService.getInquiryList(token)).data.inquiryList;  
+        setTotalInquiry(listData)
        
         const newInquiryList = InquiryPaging.GetPostsLoaded(listData, currentPage);
         
         setInquiryList(newInquiryList);
-        setTotalInquiry(newInquiryList.length)
-        console.log('listData', (await listData).data)
+        console.log('listData', (await listData))
         console.log('inquiryList', inquiryList)
     }
 

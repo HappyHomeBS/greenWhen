@@ -33,13 +33,13 @@ const InquiryWrite: React.FC = (props: any) => {
             userId: userId
         }
         
-        writeInquiry(inquiry, token);
-        navigate('inquiryList')
+        writeInquiry(inquiry, token).then(()=> {
+            navigate('/inquiryList')
+        })
     };
 
     const writeInquiry = async (inquiry: InquiryInterface, token: string) => {
         InquiryService.inquiryWrite(inquiry, token)
-        navigate('inquiryList')
     }
     
 
