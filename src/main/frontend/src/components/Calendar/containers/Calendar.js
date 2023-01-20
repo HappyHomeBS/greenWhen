@@ -6,14 +6,15 @@ import React, {
   useCallback,
 } from "react";
 import CalendarModal from "../modals/CalendarModal";
-import calendarReducer from "./reducer/CalendarReducer";
 import MakeCalendar from "../module/MakeCalendar";
+import calendarReducer from "./reducer/CalendarReducer";
 import axios from "axios";
 import AuthContext from "../../../store/authContext";
 import CalendarUpdateModal from "../modals/CalendarUpdateModal";
 import CalendarMemoModal from "../modals/CalendarMemoModalList";
-import { BsCloudRainHeavy, BsBrightnessHigh, BsCloudSnow, BsFillCloudFill, BsFillCloudLightningRainFill, BsFillUmbrellaFill } from "react-icons/bs";
 import CalendarRegionModal from "../modals/CalendarRegionModal";
+import CalendarRecommendModal from "../modals/CalendarRecommendModal";
+import { BsCloudRainHeavy, BsBrightnessHigh, BsCloudSnow, BsFillCloudFill, BsFillCloudLightningRainFill, BsFillUmbrellaFill } from "react-icons/bs";
 import Region from "../module/Region";
 import Button from 'react-bootstrap/Button';
 
@@ -30,13 +31,14 @@ const initialState = {
   schedule: [],
 };
 
-const Calendar = () => {
+const Calendar = (props) => {
   const [state, dispatch] = useReducer(calendarReducer, initialState);
 
   // 유저 정보
   const authCtx = useContext(AuthContext);
   const token = authCtx.token;
   const userNickname = authCtx.userObj.usernickname;
+  const schedule = [];
 
   // 날짜 관련
   const year = state.year;
@@ -54,6 +56,7 @@ const Calendar = () => {
   const [calendarUpdateModalOn, setCalendarUpdateModalOn] = useState(false);
   const [calendarMemoModalOn, setCalendarMemoModalOn] = useState(false);
   const [calendarRegionModalOn, setCalendarRegionModalOn] = useState(false);
+  const [calendarRecommendModalOn, setCalendarRecommendModalOn] = useState(false);
 
   // 지역
   const [selected, setSelected] = useState(sessionStorage.getItem("selected"));
@@ -65,9 +68,14 @@ const Calendar = () => {
       sessionStorage.setItem("region", 0);     
     }
     dispatch({ type: "INITIALIZATIONSCHEDULE" });
+    let data = {
+      region : sessionStorage.getItem("selected"),
+      groupname : props.groupName,
+  }
+    
     axios
-      .get(
-        "/calendar/getSchedules?region=" + sessionStorage.getItem("selected"),
+      .post(
+        "/calendar/getSchedules", data, 
         {
           headers: {
             Authorization: "Bearer " + token,
@@ -133,6 +141,7 @@ const Calendar = () => {
           memo: todo,
           color: color,
           region: region,
+          groupname: props.groupName,
         });
       });
 
@@ -157,6 +166,7 @@ const Calendar = () => {
         memo: todo,
         color: color,
         region: region,
+        groupname: props.groupName,
       });
 
       axios
@@ -203,14 +213,22 @@ const Calendar = () => {
             &gt;
           </button>
           <div className="threeButtons">
-          <div>{Region({regionNumber:sessionStorage.getItem("region")})}</div>
+          {!props.groupName && <div>{Region({regionNumber:sessionStorage.getItem("region")})}</div>}
+          {props.groupName && <div>{props.groupName}</div>}
+          {!props.groupName &&
           <Button variant="outline-danger" onClick={() => setCalendarMemoModalOn(true)}>
             내 메모 보기
-          </Button> &nbsp;
+          </Button> 
+          } &nbsp;
+          {props.groupName &&
+          <Button variant="outline-danger" onClick={() => setCalendarMemoModalOn(true)}>
+            그룹 메모 보기
+          </Button> 
+          } &nbsp;
           <Button variant="outline-danger" onClick={() => setCalendarRegionModalOn(true)}>
             지역 선택
           </Button> &nbsp;
-          <Button variant="outline-danger" onClick={() => setCalendarRegionModalOn(true)}>
+          <Button variant="outline-danger" onClick={() => setCalendarRecommendModalOn(true)}>
             관광지 추천
           </Button> &nbsp;
         </div>
@@ -245,7 +263,7 @@ const Calendar = () => {
           onCancel={onCancel}
           onConfirm={onConfirm}
           targetdate={targetdate}
-          region={selected}
+          region={selected}          
         />
 
         <CalendarUpdateModal
@@ -269,8 +287,14 @@ const Calendar = () => {
           visible={calendarRegionModalOn}
           onCancel={() => setCalendarRegionModalOn(false)}
           onClickRegion={onClickRegion}
-          setCalendarRegionModalOn = {setCalendarRegionModalOn}          
-          />
+          setCalendarRegionModalOn = {setCalendarRegionModalOn}     
+          groupName={props.groupName}     
+          />   
+        <CalendarRecommendModal 
+          visible={calendarRecommendModalOn}
+          onCancel={() => setCalendarRecommendModalOn(false)}
+          region={Region({regionNumber:sessionStorage.getItem("region")})}
+        />       
       </div>
     </>
   );

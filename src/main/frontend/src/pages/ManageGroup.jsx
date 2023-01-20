@@ -32,24 +32,6 @@ const ManageGroup  = () => {
   const [jsxElement, setJsxElement] = useState(null)
   const [modyElement, setModyElement]  = useState(null)
 
-/*
-const ExampleComponent = () => {
-  */
-    
-  
-
-    /*
-    return (
-        <div>
-            <button onClick={exampleFunction}>Click Me</button>
-            <div>{exampleFunction()}</div>
-        </div>
-    );
-
-}
-*/
-
-
   const deleteGroup = async (event) => {
     setIsSubmitting(true);
     setError(null);
