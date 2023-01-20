@@ -17,7 +17,7 @@ public class PageVo {
 
     private int pageNum; // 표시될 페이지 번호 (ex: 1~10)
     private int displayPost; //출력할 글
-    private int pageNumCnt = 10;
+    private int pageNumCnt = 10; //페이지 카운트
     private int endPageNum;
     private int startPageNum;
 
