@@ -3,29 +3,29 @@ import { InquiryInterface } from "./InquiryInterface";
 
 // postNum: 한 페이지의 글 갯수
 // pageNumCnt: 표시되는 페이징 번호 갯수
-interface pagenationData{
-    lastInquiryNumber: number;
-    firstInquiryNumber: number;
+export interface pagenationData{
+    lastInquiryNumber: number | undefined;
+    firstInquiryNumber: number | undefined;
 }
 
-function getPagenationData(currentPage:number){
+//반환형을 인터페이ㅈ스 pagenationData로
+function getPagenationData(currentPage:number): pagenationData {
     const inquiriesPerPage=10
     console.log('currentPage', currentPage)
     const lastInquiryNumber= currentPage * inquiriesPerPage;
     const firstInquiryNumber= (lastInquiryNumber - inquiriesPerPage)+1;
     
-    const pagenationData: Array<pagenationData> ={
-        lastInquiryNumber: lastInquiryNumber
-        ,firstInquiryNumber: firstInquiryNumber
-    }
-    return pagenationData;
+    return { lastInquiryNumber: lastInquiryNumber
+        ,firstInquiryNumber: firstInquiryNumber}
+   
+   
 }
 
 
 
 export function GetPostsLoaded(props: Array<InquiryInterface>, currentPage:number) {
-    getPagenationData(currentPage)
-    const loadedInquires = props.slice(getPagenationData.pagenationData.firstInquiryNumber, getPagenationData.lastInquiryNumber)
+    var paginationData = getPagenationData(currentPage);
+    const loadedInquires = props.slice(paginationData.firstInquiryNumber, paginationData.lastInquiryNumber)
 
     return loadedInquires
 }
