@@ -17,7 +17,10 @@ import NoteWriteComponent from './components/Note/NoteWriteComponent';
 import NoteSentListComponent from './components/Note/NoteSentListComponent';
 import ManageGroup from './pages/ManageGroup';
 import WillBeDeleted from './pages/WillBeDeleted';
-import SearchingFunction from './components/SearchingThings/SearchingFunction';
+import SearchingFunction from './components/Group/Board/SearchingThings/SearchingFunction';
+import InquiryListComponent from './components/Inquiry/InquiryListComponent';
+import InquiryReadComponent from './components/Inquiry/InquiryReadComponent';
+import InquiryWriteComponent from './components/Inquiry/InquiryWriteComponent';
 
 
 function App() {
@@ -60,6 +63,12 @@ function App() {
         <Route path="/willBeDeleted" element={<WillBeDeleted />} />
         {/*검색 결과값 */}
         <Route path="/searching-function" element={<SearchingFunction />} />
+        {/*1:1 문의 리스트 */}
+        <Route path="/inquiryList" element = {!authCtx.isLoggedIn ? <Navigate to='/' /> : <InquiryListComponent/>}></Route>
+        {/*1:1 문의 읽기 */}
+        <Route path="/inquiryRead" element = {!authCtx.isLoggedIn ? <Navigate to='/' /> : <InquiryReadComponent/>}></Route>
+        {/* 1:1 문의 쓰기 */}
+        <Route path="/inquiryWrite" element = {!authCtx.isLoggedIn ? <Navigate to='/' /> : <InquiryWriteComponent/>}></Route>
       </Routes>
     </Layout>
   );

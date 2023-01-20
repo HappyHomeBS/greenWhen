@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import AuthContext from "../../../../store/authContext";
 
 const ManageMemberBox = (props) => {
 
@@ -8,10 +9,16 @@ const ManageMemberBox = (props) => {
     const [ TheGrade, setTheGrade ] = useState("");
     const [ IsSubmitting, setIsSubmitting] = useState(false);
     const [ Error, setError ] = useState(null);
+
+    const authCtx = useContext(AuthContext);
+    const token = authCtx.token;
+    const sessecion = userid;
+
     const navigate = useNavigate();
 
+    console.log('props체크함 : ', props);
 
-
+    console.log('받아온거 모지 i.props.updateBoardList 는 어케되는거지 ? ' , props);
 
     const kickout = async (event) => {
 
@@ -23,7 +30,12 @@ const ManageMemberBox = (props) => {
     
     
         try {
-            const response = await axios.delete(`/api/manage/kick-out/${userid}/${groupname}`);
+            const response = await axios.delete(`/api/manage/kick-out/${groupname}/${sessecion}`, {
+                headers: {
+                'Authorization': 'Bearer ' + token
+                }
+                });
+            await props.updateBoardList();
             if (response.status >= 200 && response.status < 300) {
                 alert("successfully deleted");
                     
@@ -47,7 +59,12 @@ const ManageMemberBox = (props) => {
     
     
         try {
-            const response = await axios.put(`/api/change-leader/${userid}/${groupname}`);
+            const response = await axios.put(`/api/change-leader/${userid}/${groupname}`, {
+                headers: {
+                'Authorization': 'Bearer ' + token
+                }
+                });
+            await props.updateBoardList();
             if (response.status >= 200 && response.status < 300) {
                 alert("you are not a groupleader anymore.");
                 navigate("/");

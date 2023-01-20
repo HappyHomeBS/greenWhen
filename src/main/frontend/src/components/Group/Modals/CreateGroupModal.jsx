@@ -1,11 +1,15 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import AuthContext from "../../../store/authContext";
 
 function CreateGroupModal(props) {
     const [groupTitle, setGroupTitle] = useState('');
     const [groupDesc, setGroupDesc] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
-    const damdam = "damdam";
+    const authCtx = useContext(AuthContext);
+    const token = authCtx.token;
+    const userid = authCtx.userObj.userid;
+    
     const tagList = ["공지","일반글"];
 
     const handleSubmit = async (event) => {
@@ -19,13 +23,17 @@ function CreateGroupModal(props) {
         try {
             const data = {
                 groupname  : groupTitle,
-                groupleader : damdam,
+                groupleader : userid,
                 descript : groupDesc,
                 tags : tagList
                 
             };
 
-         await axios.post("/api/creat-group", data);
+         await axios.post("/api/creat-group", data, {
+            headers: {
+            'Authorization': 'Bearer ' + token
+            }
+            });
          window.location.reload();
 
         }catch( err ){

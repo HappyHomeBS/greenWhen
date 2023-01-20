@@ -15,9 +15,9 @@ export const withRouter = (WrappedComponent) => (props) => {
     const authCtx = useContext(AuthContext);
     const sentList = false;
 
-    var userId = authCtx.userObj.userid;
-    var userNickName = authCtx.userObj.usernickname;
-    var token = authCtx.token;
+    const userId = authCtx.userObj.userid;
+    const userNickName = authCtx.userObj.usernickname;
+    const token = authCtx.token;
     return<WrappedComponent{...props} sentList={sentList} userId={userId} token = {token} params={params} navigate = {navigate} location={location}/>;
 };
 
@@ -43,15 +43,15 @@ class NoteListComponent extends Component {
     // 컴포넌트 생성시 실행(값 세팅)a
     componentDidMount() {
         this.listNote(1);
+        console.log(this.state)
     }
     //페이징 포함 리스트 호출
     
     listNote(num){
         console.log("pageNum : ");
-        var token = this.props.token;
-        let option = queryString.parse(this.props.location.search).option
-        let search = queryString.parse(this.props.location.search).search
-        let data = { withCredentials: true }
+        const token = this.props.token;
+        const option = queryString.parse(this.props.location.search).option
+        const search = queryString.parse(this.props.location.search).search
         
         if (search !== undefined) {
             if (option !== undefined) {
@@ -134,7 +134,7 @@ class NoteListComponent extends Component {
     }
     //삭제
     noteDelete = async function() {
-        var token = this.props.token;
+        const token = this.props.token;
         NoteService.noteDelete(this.state.checkList, token).then(res => {
             console.log(res);
             if(res.status == 200) {
@@ -210,7 +210,6 @@ class NoteListComponent extends Component {
                                     <th><input type="checkbox" className="note_checkbox" id="all_checkbox" onChange={(e)=>this.allCheckHandler(e.target.checked)}
                                     checked={this.state.checkList.length === this.state.note.length ? true : false}
                                     /> </th>
-                                    <th style= {{display :"none"}}> 번  호 </th>
                                     <th> 제  목 </th>
                                     <th> 보낸사람</th>
                                     <th> 받은날짜</th>
@@ -226,7 +225,6 @@ class NoteListComponent extends Component {
                                             <td><input type="checkbox" id={note.no} classame="note_checkbox" onChange={(e)=> this.checkBoxHandler(e.target.id, e.target.checked)}
                                             checked={this.state.checkList.includes(note.no)? true : false}
                                             /></td>
-                                            <td style= {{display :"none"}}>{note.no}</td>
                                             <td> <a onClick = {() => this.noteRead(note.no)}>{note.title}</a></td>
                                             <td>{note.send}</td>
                                             <td>{note.time}</td>

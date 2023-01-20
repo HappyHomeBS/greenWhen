@@ -1,17 +1,24 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 //import BoardList from 
-import BoardList from "../BoardList/BoardList";
-
+import BoardList from "../../Board/BoardList/BoardList";
 import axios from "axios";
+import AuthContext from "../../../../store/authContext";
+
 
 const GroupBoxForBoardList = (props) => {
+    const authCtx = useContext(AuthContext);
+    const token = authCtx.token;
     const [data, setData] = useState('');
     const only4 = true;
 
     useEffect(() => {
         const getBoardList = async () => {
               
-              let response = await axios.get(`/api/board-list/${props.groupname}`);
+              let response = await axios.get(`/api/board-list/${props.groupname}`, {
+                headers: {
+                'Authorization': 'Bearer ' + token
+                }
+                });
               setData(response.data.data);
 
             };

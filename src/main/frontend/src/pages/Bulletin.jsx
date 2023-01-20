@@ -1,17 +1,20 @@
 // # Bulletin/frontend/src/pages/Bulletin.jsx
 
-import { React, useEffect, useState } from "react"; 
-import BoardList from "../components/BoardList/BoardList";
+import { React, useEffect, useState, useContext } from "react"; 
+import BoardList from "../components/Group/Board/BoardList/BoardList";
 import axios from 'axios';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import Select from "react-select";
+import AuthContext from "../store/authContext";
 
 //this is 2023-01-04
 
 const Bulletin = () => {
+  const authCtx = useContext(AuthContext);
+  const token = authCtx.token;
+  const userid = authCtx.userObj.userid;
   const [data, setData] = useState("")
   const location = useLocation();
-  const userid = "damdam";
   const groupname = location.state.groupname;
   //dropdown
   const [groupList, setGroupList] = useState([]);
@@ -33,7 +36,11 @@ const Bulletin = () => {
    //   });
 
 
-      const response = await axios.get(`/api/searching-in-board/${searchQuery}`);
+      const response = await axios.get(`/api/searching-in-board/${searchQuery}`, {
+        headers: {
+        'Authorization': 'Bearer ' + token
+        }
+        });
      // setResults(response.data.data);
 
  // const [results, setResults] = useState([]); 는 handleSubmit 밖에 있음
@@ -53,7 +60,11 @@ const Bulletin = () => {
 
     const getBoardList = async () => {
         console.log('notnull', selectedGroup, 'groupname: ', groupname);
-        let response = await axios.get(`/api/board-list/${selectedGroup}`);
+        let response = await axios.get(`/api/board-list/${selectedGroup}`, {
+          headers: {
+          'Authorization': 'Bearer ' + token
+          }
+          });
         setData(response.data.data);
         console.log('data->이거 boardlist:', data);
         console.log('data->이거 boardlist:', response.data.data);
@@ -61,7 +72,11 @@ const Bulletin = () => {
       };
         
     const getGroupList = async() => {
-      let response = await axios.get(`/api/group-list/${userid}`);
+      let response = await axios.get(`/api/group-list`, {
+        headers: {
+        'Authorization': 'Bearer ' + token
+        }
+        });
             setGroupList(response.data.data );
       
       console.log('1.grouplist : ', groupList);
@@ -72,7 +87,11 @@ const Bulletin = () => {
 
     const getGroupLeader = async() => {
       console.log('리더가져오기 작동')
-      let response2 = await axios.get(`/api/whoisGroupLeader/${selectedGroup}`);
+      let response2 = await axios.get(`/api/whoisGroupLeader/${selectedGroup}`, {
+        headers: {
+        'Authorization': 'Bearer ' + token
+        }
+        });
       setGroupLeader(response2.data.data.groupleader);
       console.log('response.groupleader', groupLeader);
       

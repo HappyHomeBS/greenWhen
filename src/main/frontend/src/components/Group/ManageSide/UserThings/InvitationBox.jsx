@@ -1,11 +1,12 @@
 import axios from "axios";
-import React, { useState } from "react";
-
+import React, { useState, useContext } from "react";
+import AuthContext from "../../../../store/authContext";
 
 const InvitationBox = (props) => {
 
     const { recept, content, title  } = props;
-
+    const authCtx = useContext(AuthContext);
+    const token = authCtx.token;
 
 
     //수락
@@ -19,7 +20,11 @@ const InvitationBox = (props) => {
         }
     
         try{
-            await axios.post("/api/accepted/", data);
+            await axios.post("/api/accepted", data, {
+                headers: {
+                'Authorization': 'Bearer ' + token
+                }
+                });
             props.onAccept();
         }catch(err){
             console.log(err);
@@ -39,7 +44,11 @@ const InvitationBox = (props) => {
         }
     
         try{
-            await axios.post("/api/accepted/", data);
+            await axios.post("/api/accepted", data, {
+                headers: {
+                'Authorization': 'Bearer ' + token
+                }
+                });
             props.onAccept();
             console.log("수락보내기실행");
         }catch(err){

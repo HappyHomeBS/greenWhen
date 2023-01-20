@@ -23,8 +23,8 @@ public class NoteService {
 
     private final NoteRepository noteRepository;
 
-    public NoteEntity findOne(String content, boolean b) {
-        return noteRepository.findByContentAndInvitation(content, true);
+    public NoteEntity findOne(String recept,String content, boolean b) {
+        return noteRepository.findByReceptAndContentAndInvitation(recept, content, true);
 
     }
 
@@ -147,4 +147,7 @@ public class NoteService {
 
 
 
+    public NoteEntity ForUpdate(NoteEntity note) {
+        return noteRepository.findByReceptAndContentAndInvitation(note.getRecept(), note.getContent(), true);
+    }
 }

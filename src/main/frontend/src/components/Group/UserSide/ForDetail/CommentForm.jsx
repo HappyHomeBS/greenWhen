@@ -1,13 +1,18 @@
-import React, {useState} from "react";
+import React, {useState, useContext} from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import AuthContext from "../../../../store/authContext";
 
 
 const CommentForm = (prop) => {
-    const [userid, setUserId] = useState("");
+    
     const [content, setContent] = useState("");
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [error, setError] = useState(null);
+    const authCtx = useContext(AuthContext);
+    const token = authCtx.token;
+    const userid = authCtx.userObj.userid;
+    const usernickname = authCtx.userObj.usernickname;
     console.log('CommentForm에 boardId = {id} 로 받았음 ->', prop);
 
     //prop 이 지금 boardId임
@@ -35,7 +40,11 @@ const CommentForm = (prop) => {
         }
 
         try {
-            const response = await axios.post("/api/create-comment", data);
+            const response = await axios.post("/api/create-comment", data, {
+                headers: {
+                'Authorization': 'Bearer ' + token
+                }
+                });
             if (response.status >= 200 && response.status < 300) {
                 alert("Comment created successfully");
                 setFig(fig + 1);
@@ -56,13 +65,7 @@ const CommentForm = (prop) => {
         <form onSubmit={handleSubmit}>
             {error && <p>{error}</p>}
             <label>
-                userid:
-                <input
-                    type="text"
-                    placeholder="로그인기능이 없어서 잠시 대체 "
-                    value={userid}
-                    onChange={(event)=> setUserId(event.target.value)}
-                />
+               {usernickname} <h6> | </h6> {userid}  <h6> | </h6> 
             </label>
             <label>
                 content :

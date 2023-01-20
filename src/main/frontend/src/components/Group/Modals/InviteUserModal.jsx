@@ -1,5 +1,6 @@
 import axios from "axios";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
+import AuthContext from "../../../store/authContext";
 
 const InviteUserModal = (props) => {
     //groupname 만 받아오면 됨
@@ -9,6 +10,8 @@ const InviteUserModal = (props) => {
     console.log( '초대1', props.data[0].userid );
     console.log( '초대2', props.data[1] );
     const [userList, setUserList] = useState([]);
+    const authCtx = useContext(AuthContext);
+    const token = authCtx.token;
 
    
 
@@ -51,7 +54,11 @@ const InviteUserModal = (props) => {
                 deleted : 0,
                 invitation : true
             };
-        await axios.post("/api/invite", data);
+        await axios.post("/api/invite", data, {
+            headers: {
+            'Authorization': 'Bearer ' + token
+            }
+            });
         window.location.reload();
         }catch ( err ){
             console.log('errrrr');

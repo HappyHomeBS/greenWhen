@@ -1,5 +1,6 @@
 package com.green.when.controller;
 
+import com.green.when.config.SecurityUtil;
 import com.green.when.domain.BoardEntity;
 import com.green.when.domain.FileEntity;
 import com.green.when.dto.BoardDeleteDto;
@@ -79,8 +80,9 @@ controller 니까, api만 받는 거고 내부 로직은 service가 담당함.
     }
 
 
-    @GetMapping("/api/board-list-mypage/{userid}")
-    public WrapperClass board_lists_mypage(@PathVariable("userid") String userid){
+    @GetMapping("/api/board-list-mypage")
+    public WrapperClass board_lists_mypage(){
+        String userid = SecurityUtil.getCurrentMemberId();
         List<BoardEntity> boardList = boardService.findBoardsByUserid(userid);
         System.out.println("1. 요청와서 일단 만듦 boardList:" + boardList);
         List<BoardDto> boardDtoList = boardList.stream().map(b ->
@@ -125,6 +127,7 @@ getMapping 되어온 ("boardId") 를, Long boardId 변수로 가져오겠다는 
         return new WrapperClass(boardDtoList);
     }
 
+    //여기보세요 userid 20230118
     @PostMapping("/api/create-board")
     public ResponseEntity create_board(@RequestBody BoardDto boardDto)throws Exception{
       //  String userid = SecurityUtil.getCurrentMemberId(); <- 로그인한 유저의 id
@@ -133,7 +136,8 @@ getMapping 되어온 ("boardId") 를, Long boardId 변수로 가져오겠다는 
 
         Long no = boardDto.getNo();
         String title = boardDto.getTitle();
-        String userid = boardDto.getUserid();
+        //String userid = boardDto.getUserid();
+        String userid = SecurityUtil.getCurrentMemberId();   // userid는 지금부터 토큰으로 받아온다.
         String content = boardDto.getContent();
         Long readcount = Long.valueOf(0);
         String groupname = boardDto.getGroupname();

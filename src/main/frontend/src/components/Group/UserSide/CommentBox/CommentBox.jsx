@@ -1,7 +1,8 @@
 //현재 board의 id값을 가지고 있음 state로 받아옴
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import UpdateAndDelete from "../ForDetail/UpdateAndDelete";
 import axios from "axios";
+import AuthContext from "../../../../store/authContext";
 //import { useNavigate } from "react-router-dom";
 
 
@@ -13,7 +14,10 @@ const CommentBox = (props) => {
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [error, setError] = useState(null);
     
+    const authCtx = useContext(AuthContext);
+    const token = authCtx.token;
 
+    const userid = authCtx.userObj.userid;
 
     //props 해체쇼
     const { no, contentNo } = props;
@@ -48,8 +52,15 @@ const CommentBox = (props) => {
             content: updatedContent
         };
 
+
+        //이전 props의 userid와 토큰(현재 접속 유저)의 userid가 동일해야 해당 기능이 사용가능 
+        // update랑 delete 둘다 
         try {
-            const response = await axios.post("/api/update-comment", data);
+            const response = await axios.post("/api/update-comment", data, {
+                headers: {
+                'Authorization': 'Bearer ' + token
+                }
+                });
             if (response.status >= 200 && response.status < 300) {
                 alert("db에 요청을 잘 보냈습니다");
                 console.log("content_no: 얘는 없어, contentono",  no);
@@ -82,8 +93,11 @@ const CommentBox = (props) => {
         let response = await axios({
             method: 'delete',
             url: '/api/delete-comment',
-            headers: {'Content-Type': 'application/json'},
-            data: JSON.stringify(request_data)
+            headers: {'Content-Type': 'application/json',
+                     'Authorization': 'Bearer ' + token },
+            data: JSON.stringify(request_data), 
+         
+                
         });
         console.log('Detail/handleDeleteBtnClick/response: ', response);
         console.log('contentNo:', contentNo);
@@ -106,9 +120,9 @@ const CommentBox = (props) => {
             </div>
             {error && <p>{error}</p>}
             <div>
-                <UpdateAndDelete no = {props.no}
+            {props.userid === userid && <UpdateAndDelete no = {props.no}
                                  onUpdateClick={handleUpdateClick}
-                                 onDeleteClick={handleDeleteClick}/>
+                                 onDeleteClick={handleDeleteClick}/>}
             </div>
             {showForm ? (
                 <form onSubmit={handleSubmit}>

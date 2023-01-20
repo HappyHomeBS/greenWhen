@@ -1,3 +1,4 @@
+
 import React from "react";
 import ManageMemberBox from "./ManageMemberBox";
 
@@ -10,6 +11,7 @@ const ManageMemberList = (props) => {
     
 
     console.log('받아온거', props.data );
+    console.log('받아온 function 자체는 못보니까 props. : ',  props );
 
     return (
 
@@ -26,6 +28,7 @@ const ManageMemberList = (props) => {
                 grade = {i.grade}
                 groupname = {i.groupname}
                 time = {i.time}
+                updateBoardList={props.updateBoardList}
                 />
 
         ))

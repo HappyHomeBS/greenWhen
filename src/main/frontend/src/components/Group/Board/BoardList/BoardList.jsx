@@ -1,14 +1,19 @@
 // # main/frontend/src/componets/BoardList/BoardList.jsx
 
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+//import BoardBox from "../../../BoardBox/BoardBox";
 import BoardBox from "../BoardBox/BoardBox";
+
 import 'react-input-checkbox/lib/react-input-checkbox.min.css';
 import axios from "axios";
+import AuthContext from "../../../../store/authContext";
 
 const BoardList = (props) => {
 
   //main인 경우 그냥 네개만 보여주기. only4가 없다면 false가 default
   const { only4 = false} = props;
+  const authCtx = useContext(AuthContext);
+  const token = authCtx.token;
   
   console.log('1. props는 부모한테 받은 정보 boerdList/props : ', props);
   console.log('2. props.data랑 props랑 무슨차이일까 boerdList/props.data : ', props.data);
@@ -16,6 +21,7 @@ const BoardList = (props) => {
   const [DeleteMultiple, setDeleteMultiple] = useState(state);
   const [selectedItems, setSelectedItems] = useState([]);
   const [data, setData] = useState("");
+  const [fig, setFig] = useState(0);
 
   //main
 
@@ -89,7 +95,7 @@ const BoardList = (props) => {
   }
 
 
-  //MAPPING + checkbox
+  //MAPPING + checkbox 아힘드러
   const itemEliments = items.map(item => {
     return (
       <div key={item.no}>
@@ -109,25 +115,26 @@ const BoardList = (props) => {
     );
   });
 
-
-  //delete selected boxes
+  //선택된 게시글들 삭제 
 
 console.log('1seleteditem모지 : ', selectedItems);
 console.log('1진짜 보내는건? :', {data});
-
   const deleteSelectedItems = async () => {
-    try {
-      await axios.delete('/api/delete-multiple', { data :  selectedItems  });
+    
+    try{
+      await axios.delete('/api/delete-multiple', { data :  selectedItems  }, {
+        headers: {
+          'Authorization': 'Bearer ' + token
+        }}
+      );
+      setSelectedItems([]);
+      await props.updateBoardList();
+    }catch(err){
+        console.log(err)
+      }
+    };
 
-      const updatedData = props.data.filter(item => !selectedItems.inclusdes(item.no));
-      console.log('2진짜 보내는건? :', selectedItems);
-      console.log('2진짜 보내는건? :', updatedData);
-
-      setData(updatedData);
-    } catch (error) {
-      console.error(error);
-    }
-  }
+  //const updatedData = props.data.filter(item => !selectedItems.inclusdes(item.no));
 
   return(
     <div>

@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
+import AuthContext from "../store/authContext";
 import axios from "axios";
 import { useLocation, useNavigate } from "react-router-dom";
 import 'react-input-checkbox/lib/react-input-checkbox.min.css';
@@ -8,6 +9,9 @@ import Select from "react-select";
 
 const CreateBoard = () => {
   
+  const authCtx = useContext(AuthContext);
+  const token = authCtx.token;
+  const userid = authCtx.userObj.userid;
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [fileData, setFileData] = useState(null);
@@ -23,7 +27,6 @@ const CreateBoard = () => {
   const groupleader = location.state.groupleader.groupLeader;
 
   const navigate = useNavigate();
-  const userid = "damdam";
   const readcount = 0;
 
   console.log('왜 여기선 오브잭트내로 계속가노???', groupname, groupleader, userid);
@@ -35,7 +38,11 @@ const CreateBoard = () => {
 
     const getTagList = async () => {
       
-      let response = await axios.get(`/api/tag-list/${groupname}/${groupleader}/${userid}`);
+      let response = await axios.get(`/api/tag-list/${groupname}/${groupleader}`, {
+          headers: {
+          'Authorization': 'Bearer ' + token
+          }
+          } );
       setTagList(response.data.data);
 
       console.log('1.',response.data.data);
@@ -98,7 +105,11 @@ const CreateBoard = () => {
         tag : selectedTag
       };
 
-      const response = await axios.post("/api/create-board", data);
+      const response = await axios.post("/api/create-board", data, {
+        headers: {
+        'Authorization': 'Bearer ' + token
+        }
+        });
 
       if (response.status >= 200 && response.status < 300) {
         alert("Board created successfully");
@@ -146,7 +157,6 @@ const CreateBoard = () => {
         </div>   
       <br />
       <br />
-
         <label>
           Title:
           <input
