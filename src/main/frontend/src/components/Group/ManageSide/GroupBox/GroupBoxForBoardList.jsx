@@ -12,8 +12,11 @@ const GroupBoxForBoardList = (props) => {
     const only4 = true;
 
     useEffect(() => {
+
         const getBoardList = async () => {
               
+        if(props.accessiblelevel === 0){
+
               let response = await axios.get(`/api/board-list/${props.groupname}`, {
                 headers: {
                 'Authorization': 'Bearer ' + token
@@ -21,8 +24,11 @@ const GroupBoxForBoardList = (props) => {
                 });
               setData(response.data.data);
 
+            }else if(props.accessiblelevel === 2){
+                console.log('접근금지')
             };
-      
+        };
+
           getBoardList();
         }, [props.groupname])
 
@@ -32,7 +38,8 @@ const GroupBoxForBoardList = (props) => {
                 <h5> {props.groupname} </h5>
             </div>
             <div>
-                <BoardList data = {data} only4={only4} />
+                {props.accessiblelevel === 0 && <BoardList data = {data} only4={only4} />}
+                {props.accessiblelevel === 2 && <h5> 해당 소모임의 접근 권한이 없습니다. </h5>}
             </div>
         </>
     )

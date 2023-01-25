@@ -10,6 +10,7 @@ const Main = () => {
     const authCtx = useContext(AuthContext);
     const token = authCtx.token;
     const [showModal, setShowModal] = useState(false);
+    const [fig, setFig ] = useState(0);
 
 
 
@@ -32,7 +33,12 @@ const Main = () => {
               };
         };
         getGroupList();
-    }, []);
+    }, [fig]);
+
+
+    const updateGroupList = () =>{
+        setFig(fig + 1);
+    }
 
     return(
         <>
@@ -40,7 +46,7 @@ const Main = () => {
             {showModal && (
                 <CreateGroupModal onClose={() => setShowModal(false)} />
             )}
-            <GroupList data={data}/>
+            <GroupList data={data} updateGroupList={updateGroupList} />
 
 
             <br />

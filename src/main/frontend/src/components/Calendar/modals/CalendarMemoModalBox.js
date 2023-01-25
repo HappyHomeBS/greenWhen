@@ -9,7 +9,7 @@ const CalendarMemoModalBox = ( props ) => {
         <>
             <td>{props.memo}</td>
             <td>{props.targetdate}</td>
-            <td>{Region({regionNumber:props.region})}</td>
+            <td>{Region({regionNumber:props.region, groupName: props.groupName})}</td>
         </>           
             );      
 }

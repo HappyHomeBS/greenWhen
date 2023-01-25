@@ -1,4 +1,4 @@
-export interface InquiryInterface {
+export type InquiryInterface = {
     no?: number;
     title: string;
     grpNo?: number;

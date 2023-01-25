@@ -15,7 +15,7 @@ return(
                 groupname = {i.groupname}
                 time = {i.time}
                 grade = {i.grade}
-
+                accessiblelevel = {i.accessiblelevel}
   />
         ))
         : null}

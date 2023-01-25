@@ -22,7 +22,9 @@ const BoardList = (props) => {
   const [selectedItems, setSelectedItems] = useState([]);
   const [data, setData] = useState("");
   const [fig, setFig] = useState(0);
+  const { Admin } = props;
 
+  console.log('BoardList/Admin? : ' , Admin);
   //main
 
   
@@ -110,6 +112,9 @@ const BoardList = (props) => {
                 groupname = {item.groupname}
                 time = {item.time}
                 allowcomment = {item.allowcomment}
+                tag = {item.tag}
+                commentcount = {item.commentCount}
+                Admin = {Admin}
       />
     </div>
     );

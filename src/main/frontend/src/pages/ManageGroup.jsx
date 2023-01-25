@@ -10,6 +10,7 @@ import SelectList from "../components/Group/Board/SelectComponentForModify";
 import { EditableSelect } from "./ddd";
 import DDD from "./ddd";
 import InviteUserModal from "../components/Group/Modals/InviteUserModal";
+import NoteAllUserModal from "../components/Group/Modals/NoteAllUserModal";
 
 const ManageGroup  = () => {
   const location = useLocation();
@@ -25,12 +26,15 @@ const ManageGroup  = () => {
   const [ IsSubmitting, setIsSubmitting] = useState(false);
   const [ Error, setError ] = useState(null);
   const [showModal, setShowModal] = useState(false);
+  const [showModalForNote ,setShowModalForNote] = useState(false);
   const [fig, setFig] = useState(0);
   const navigate = useNavigate();
 
 
   const [jsxElement, setJsxElement] = useState(null)
   const [modyElement, setModyElement]  = useState(null)
+
+
 
   const deleteGroup = async (event) => {
     setIsSubmitting(true);
@@ -167,6 +171,13 @@ const ManageGroup  = () => {
             {showModal && (
                 <InviteUserModal  groupname = {groupname} groupleader = {groupleader} data = {memberListData} onClose={() => setShowModal(false)} />
             )}
+            </div>
+            <div>
+              <button onClick={ () => setShowModalForNote(true)}>전체쪽지</button>
+              {showModalForNote && (
+                <NoteAllUserModal groupname = {groupname}  groupleader = {groupleader} onClose={() => setShowModalForNote(false)}  />
+              )}
+              
             </div>
         </>
     );

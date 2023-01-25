@@ -2,7 +2,7 @@ import React from "react";
 import { Fragment, useContext, useState } from "react";
 import { Member } from "../components/User/Admin/MemberList";
 import Group from "../components/User/Admin/Group";
-import { Note } from "../components/User/Admin/Note";
+
 
 const ProfilePage = () => {
   const [member, setMember] = useState(true);
@@ -28,19 +28,9 @@ const ProfilePage = () => {
         }}
       >
         회원
-      </button>
-      <button
-        onClick={() => {
-          setMember(false);
-          setGroup(false);
-          setNote(true);
-        }}
-      >
-        1:1문의
-      </button>
+      </button>      
       {member && <Member />}
-      {group && <Group />}
-      {note && <Note />}
+      {group && <Group />}    
     </Fragment>
   );
 };

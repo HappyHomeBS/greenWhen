@@ -20,6 +20,7 @@ const CreateBoard = () => {
   const [error, setError] = useState(null);
   const [tagList, setTagList] = useState([]);
   const [selectedTag, setSelectedTag] = useState("");
+  const [isFormValid, setIsFormValid] = useState(false);
 
   //groupname 은 이전에서 받아오고
   const location = useLocation();
@@ -51,6 +52,18 @@ const CreateBoard = () => {
     getTagList();
 
   }, [groupleader, groupname]);
+
+
+  
+  //태그랑 title안써도 값이 날라가는 기이한 현상을 막아보자
+  useEffect(() => {
+    if(title !== "" && selectedTag !== "") {
+        setIsFormValid(true);
+    } else {
+        setIsFormValid(false);
+    }
+}, [title, selectedTag])
+
 
 
  
@@ -93,6 +106,7 @@ const CreateBoard = () => {
     setIsSubmitting(true);
     setError(null);
 
+
     try {
       const data = {
         title: title,
@@ -102,7 +116,9 @@ const CreateBoard = () => {
         groupname: groupname,
         files: fileData,
         allowcomment: allowComment.checked,
-        tag : selectedTag
+        time : null,
+        tag : selectedTag,
+        role : 0
       };
 
       const response = await axios.post("/api/create-board", data, {
@@ -128,6 +144,8 @@ const CreateBoard = () => {
   const handleGroupTag = (event) => {
     setSelectedTag(event.target.value);
   }
+
+  console.log('CreateBoard/selectdTag :', selectedTag);
   
     return (
       <form onSubmit={handleSubmit}>
@@ -146,6 +164,7 @@ const CreateBoard = () => {
             <label>
                 Group :
                   <select value={selectedTag} onChange={handleGroupTag}>
+                          <option value=""> 말머리 선택하기</option>
                           {tagList.map(tag => (
                               <option key = {tag.tag} 
                                       value={tag.tag}>
@@ -184,7 +203,7 @@ const CreateBoard = () => {
         </label>
         <br />
         <br />
-        <button type="submit" disabled={isSubmitting}>
+        <button type="submit" disabled={isSubmitting || !isFormValid }>
           Create board
         </button>
       </form>

@@ -35,7 +35,7 @@ public class DirectorController {
     private final NoteService noteService;
 
     // 소모임 목록 보기
-    @GetMapping("/direct/get-grouplist/")
+    @GetMapping("/direct/get-grouplist")
     public WrapperClass direct_get_groupList(){
         System.out.println("관리자의 목록");
         List<GroupEntity> groups = groupService.findAll();
@@ -44,6 +44,37 @@ public class DirectorController {
 
         return new WrapperClass(groupDtos);
     }
+
+    //공지사항 OR FAQ 목록 보기
+    @GetMapping("/direct/get-service-center/{role}")
+    public WrapperClass direct_get_service_center_by_role(@PathVariable("role") Long role) {
+        if (role == 1L) {
+            System.out.println("공지사항 가져갑니다");
+           } else if (role == 2L) {
+            System.out.println("FAQ가져갑니다");
+        }
+        List<BoardEntity> boards = boardService.findAnnouncements(role);
+        List<BoardDto> boardDtos = boards.stream().map(b -> new BoardDto(b)).collect(Collectors.toList());
+
+        return new WrapperClass(boardDtos);
+    }
+
+    // 0 : 정상화 1 : 소모임장, 관리자만 접근 가능. 2 : 관리자만 접근가능
+    @PutMapping("/direct/change-accessiblelevel/{groupname}/{accessiblelevel}")
+    public ResponseEntity change_accessiblelevel(@PathVariable("groupname") String groupname,
+                                                 @PathVariable("accessiblelevel") Long accessiblelevel){
+        System.out.println("change-accessiblelevel-" + groupname);
+        //찾고 (groupmanage의 accessiblelevel로 처리.)
+        List<GroupManageEntity> lists = groupManageService.findonlyByGroupName(groupname);
+        for (GroupManageEntity grovi : lists) {
+            groupManageService.update(grovi, accessiblelevel);
+            System.out.println("하나하나 잘 바뀌었나 보는중 : " +grovi);
+        }
+        return ResponseEntity.ok().build();
+    }
+
+
+
     // 소모임장들에게 단체 쪽지
     @PostMapping("/direct/note-all-groupLeader")
     public ResponseEntity note_all_groupleader(@RequestBody NoteDto noteDto){
