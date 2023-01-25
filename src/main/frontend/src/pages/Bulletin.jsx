@@ -17,6 +17,9 @@ const Bulletin = () => {
   const [data, setData] = useState("")
   const location = useLocation();
   const groupname = location.state.groupname;
+  const role = authCtx.userObj.role;
+  const Admin = location.state.Admin;
+  
   //dropdown
   const [groupList, setGroupList] = useState([]);
   const [selectedGroup, setSelectedGroup] = useState(location.state.groupname);
@@ -27,7 +30,7 @@ const Bulletin = () => {
  // const [results, setResults] = useState([]);
   const navigate = useNavigate();
 
-  console.log('그룹리더와 유저 아이디', groupLeader, userid);
+  console.log('그룹리더와 유저 아이디', groupLeader, userid, role, Admin);
 
 
   const handleSubmit = async (event) => {
@@ -37,7 +40,9 @@ const Bulletin = () => {
    //   });
 
 
-      const response = await axios.get(`/api/searching-in-board/${searchQuery}`, {
+   console.log('Bulletin/searcingStart');
+
+      const response = await axios.get(`/api/searching-in-board/${searchQuery}/${groupname}`, {
         headers: {
         'Authorization': 'Bearer ' + token
         }
@@ -47,8 +52,10 @@ const Bulletin = () => {
  // const [results, setResults] = useState([]); 는 handleSubmit 밖에 있음
      //뭔뜻이냐면 handleSubmit 내에서 {results} 는 못씀. 그래서 콘솔 찍으면 안나온거 
   
-      console.log('1. :', response.data.data);
-      navigate("/searching-function", { state : { results: response.data.data }});
+     // console.log('1. :', response.data.data);
+    //  navigate("/searching-function", { state : { results: response.data.data }});
+
+        setData(response.data.data);
 
   };
   
@@ -71,19 +78,32 @@ const Bulletin = () => {
         console.log('data->이거 boardlist:', response.data.data);
 
       };
-        
+
+
+      //재밌는점 : 관리자로 가져오면 group_tb이므로 accessiblelevel이 없어서 select에서  GroupList에 filter로 2짜리가 사라지지않음.
     const getGroupList = async() => {
-      let response = await axios.get(`/api/group-list`, {
-        headers: {
-        'Authorization': 'Bearer ' + token
+
+      if(Admin){
+        console.log('admin? :' , Admin);
+
+        let response = await axios.get("/direct/get-grouplist",  {
+          headers: {
+          'Authorization': 'Bearer ' + token
+          }
+        });
+        setGroupList(response.data.data );
+
+      }else if(!Admin){
+        console.log('admin? ', Admin);
+      
+        let response = await axios.get(`/api/group-list`, {
+          headers: {
+          'Authorization': 'Bearer ' + token
         }
         });
-            setGroupList(response.data.data );
-      
-      console.log('1.grouplist : ', groupList);
-      console.log('1.grouplist : ', JSON.stringify(groupList));
-      console.log('1.grouplist: ', response.data.data);
-
+        setGroupList(response.data.data );
+        
+      }
     };
 
     const getGroupLeader = async() => {
@@ -105,12 +125,12 @@ const Bulletin = () => {
 
   }, [selectedGroup] );
 
-console.log('2.grouplist : ', groupList);
+  console.log('2.grouplist : ', groupList);
   
 
- const handleGroupChange = (event) => {
+const handleGroupChange = (event) => {
   setSelectedGroup(event.target.value);
- }
+}
 
   return (
     <>
@@ -118,7 +138,8 @@ console.log('2.grouplist : ', groupList);
       <label>
         Group :
         <select value={selectedGroup} onChange={handleGroupChange}>
-          {groupList.map(group => (
+          {groupList.filter(group => group.accessiblelevel !== 2)
+          .map(group => (
             <option key = {group.groupname} 
                     value={group.groupname}>
               {group.groupname}
@@ -129,18 +150,22 @@ console.log('2.grouplist : ', groupList);
     </form>
 
     <div>
-      {groupLeader === userid && <Link to ={"/manage-group"}
-      state = {{
-                  groupname : {selectedGroup},
-                  groupleader : {groupLeader},
-                  userid : {userid}
-            }}>
-      <input type='button' value = '소모임관리'/>
-      </Link>}
+    {groupLeader === userid || Admin ? 
+      <Link to ={"/manage-group"}
+            state = {{
+            groupname : {selectedGroup},
+            groupleader : {groupLeader},
+            userid : {userid}
+        }}>
+                      <input type='button' value = '소모임관리'/>
+      </Link> : null }
     </div>
-    {/*여기서부터 달력 들어가자 */}   
-    <Calendar
-     groupName={selectedGroup} />        
+    {/*달력 */}   
+        <Calendar
+         groupName={selectedGroup}
+         groupLeader={groupLeader} />  
+
+
 
     <div>
       <form onSubmit={handleSubmit}>
@@ -159,38 +184,12 @@ console.log('2.grouplist : ', groupList);
             }}>
         <input type='button' value='게시글 작성하기'/>
        </Link>
-       <BoardList data={data}/>
+       <BoardList data={data} Admin={Admin}/>
             <br />
             <br />
-            <br />
-       <div>
-            <Link to ={"/willBeDeleted"} >
-            {" "}
-            |내정보보기  {" "}
-            </Link>
-      </div>
-    
+            <br /> 
     </>
   );
 };
 
 export default Bulletin;
-/*
-This looks like a JavaScript file that is using the React framework to create a component called "Main."
- This component is responsible for rendering a list of items called "BoardList,"
- which is imported from another file called "BoardList.jsx."
-
-The component has a state variable called "data" that is initialized to an empty string,
- and it uses the "useState" hook to allow this value to be updated.
-  The component also has a "useEffect" hook,
-   which is a function that is executed after the component is mounted.
-
-Inside the "useEffect" hook, there is an async function called "getBoardList"
-which makes an HTTP GET request to the "/api/board-list" endpoint using the axios library.
- The response data is then logged to the console
- and used to update the component's "data" state variable using the "setData" function.
-
-Finally,
-the component renders a link to another page called "create-board," as well as the "BoardList" component,
-passing the "data" state variable as a prop.
-*/

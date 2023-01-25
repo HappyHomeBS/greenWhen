@@ -9,12 +9,14 @@ import java.util.List;
 public interface BoardRepository extends JpaRepository<BoardEntity, Long> {
 
 
-    List<BoardEntity> findByTitleContainingOrContentContaining(String title, String content);
+    List<BoardEntity> findByTitleContainingOrContentContainingAndGroupname(String title, String content, String Groupname);
 
 
     List<BoardEntity> findBoardsBygroupnameOrderByTimeDesc(String groupname);
 
     List<BoardEntity> findByUseridOrderByTimeDesc(String userid);
+
+    List<BoardEntity> findByRole(Long role);
 
     // void deleteAllByNo(List<BoardDeleteDto> boardDeleteDtoList);
 

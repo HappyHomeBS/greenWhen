@@ -16,11 +16,12 @@ import NoteReadComponent from './components/Note/NoteReadComponent';
 import NoteWriteComponent from './components/Note/NoteWriteComponent';
 import NoteSentListComponent from './components/Note/NoteSentListComponent';
 import ManageGroup from './pages/ManageGroup';
-import WillBeDeleted from './pages/WillBeDeleted';
 import SearchingFunction from './components/Group/Board/SearchingThings/SearchingFunction';
 import InquiryListComponent from './components/Inquiry/InquiryListComponent';
 import InquiryReadComponent from './components/Inquiry/InquiryReadComponent';
 import InquiryWriteComponent from './components/Inquiry/InquiryWriteComponent';
+import ServiceCenter from './pages/ServiceCenter';
+import CreateAnnounceOrFAQ from './components/ServiceCenter/CreateAnnouceOrFAQ';
 
 
 function App() {
@@ -36,7 +37,7 @@ function App() {
         {/*개인정보 변경 */}
         <Route path="/profile/" element={!authCtx.isLoggedIn ? <Navigate to='/' /> : <ProfilePage />} />
         {/*관리자 페이지 */}
-        <Route path="/admin/" element={!authCtx.isLoggedIn || authCtx.userObj.role !== 'ROLE_ADMIN' ? <Navigate to='/' /> : <AdminPage />} />
+        <Route path="/admin/" element={!authCtx.isLoggedIn || authCtx.userObj.role !== 'ROLE_ADMIN' ? <Navigate to='/admin' /> : <AdminPage />} />
         {/*달력 페이지 */}
         <Route path="/calendar/" element= {<CalendarPage />}/>
         {/*소모임 메인 */}
@@ -58,9 +59,7 @@ function App() {
         {/*보낸 쪽지함 */}
         <Route path="/noteSentList" element = {!authCtx.isLoggedIn ? <Navigate to='/' /> : <NoteSentListComponent/>}></Route>                
         {/*그룹 관리 */}
-        <Route path="/manage-group" element={<ManageGroup/>} />
-        {/*내정보(쓴글, 가입한 소모임, 초대, 댓글목록) */}
-        <Route path="/willBeDeleted" element={<WillBeDeleted />} />
+        <Route path="/manage-group" element={<ManageGroup/>} />       
         {/*검색 결과값 */}
         <Route path="/searching-function" element={<SearchingFunction />} />
         {/*1:1 문의 리스트 */}
@@ -69,6 +68,10 @@ function App() {
         <Route path="/inquiryRead" element = {!authCtx.isLoggedIn ? <Navigate to='/' /> : <InquiryReadComponent/>}></Route>
         {/* 1:1 문의 쓰기 */}
         <Route path="/inquiryWrite" element = {!authCtx.isLoggedIn ? <Navigate to='/' /> : <InquiryWriteComponent/>}></Route>
+        {/*고객 센터 */}
+        <Route path="/service-center" element={<ServiceCenter/>} />
+        {/*고객센터 글 쓰기 */}
+        <Route path="/create-annouce-or-faq" element={<CreateAnnounceOrFAQ/>} />
       </Routes>
     </Layout>
   );

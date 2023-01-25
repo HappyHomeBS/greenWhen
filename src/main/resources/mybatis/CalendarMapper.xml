@@ -28,7 +28,15 @@
     <select id="getAllSchedules" resultType="ScheduleVo">
         SELECT no, userid, groupname, memo, region, DATE_FORMAT(targetdate, '%Y.%c.%e') as targetdate, color
         FROM memo_tb
-        where userid = #{userid}
+        <choose>
+            <when test=" groupname == null ">
+                WHERE userid = #{userid}
+                AND   groupname is null
+            </when>
+            <when test=" groupname != null " >
+                WHERE groupname = #{groupname}
+            </when>
+        </choose>
         ORDER BY no desc
     </select>
 

@@ -18,4 +18,5 @@ public interface GroupManageRepository extends JpaRepository<GroupManageEntity, 
     GroupManageEntity findByUseridAndGroupname(String userid, String groupname);
 
     GroupManageEntity findByGradeAndGroupname(Long no, String groupname);
+
 }

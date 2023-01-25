@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -29,7 +28,7 @@ public class GroupEntity {
     private String descript;
 
     @Column(name = "time", nullable = false)
-    private LocalDateTime time;
+    private String time;
 
     @OneToMany(mappedBy = "groupEntity", cascade = CascadeType.ALL)
     private List<BoardEntity> board;
@@ -41,13 +40,16 @@ public class GroupEntity {
     @OneToMany(mappedBy = "groupEntity", cascade = CascadeType.ALL)
     private List<TagEntity> tags;
 
+    @OneToMany(mappedBy = "groupEntity", cascade = CascadeType.ALL)
+    private List<MemoEntity> memos;
 
 
-    public GroupEntity(String groupleader, String groupname, String descript,  LocalDateTime time){
+
+    public GroupEntity(String groupleader, String groupname, String descript,  String time){
         this.groupname = groupname;
         this.groupleader = groupleader;
         this.descript = descript;
-        this.time = LocalDateTime.now();
+        this.time = time;
     }
 
     public GroupEntity(GroupDto groupDto){

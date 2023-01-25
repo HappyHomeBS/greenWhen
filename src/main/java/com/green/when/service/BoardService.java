@@ -58,13 +58,17 @@ public class BoardService {
         boardRepository.delete(board);
     }
 
-    public List<BoardEntity> search(String title, String content) {
-        return boardRepository.findByTitleContainingOrContentContaining(title, content);
+    public List<BoardEntity> search(String title, String content, String groupname) {
+        return boardRepository.findByTitleContainingOrContentContainingAndGroupname(title, content, groupname);
         //Containing
     }
 
     public List<BoardEntity> findBoardsByUserid(String userid) {
         return boardRepository.findByUseridOrderByTimeDesc(userid);
+    }
+
+    public List<BoardEntity> findAnnouncements(Long role) {
+        return boardRepository.findByRole(role);
     }
 
     /*

@@ -12,6 +12,7 @@ import * as InquiryPaging from'../Inquiry/InquiryPaging';
 const InquiryList: React.FC = (props: any) => {
     const [currentPage, setCurrentPage] = useState(1);
     const [inquiryList, setInquiryList] = useState<Array<InquiryInterface>>([]);
+    const [totalList, setTotalList] = useState<Array<InquiryInterface>>([]);
     const [loaded, setLoaded] = useState(false);
     const [inquiriesPerPage, setInquiresPerPage] = useState(10);
     const [totalInquiry, setTotalInquiry] = useState(0);
@@ -19,21 +20,28 @@ const InquiryList: React.FC = (props: any) => {
     const authCtx = useContext(AuthContext);
     const token = authCtx.token;
     const navigate = useNavigate();
-
+    
+    //최초 리스트 로딩
     useEffect(() => {
         getInquiryList();
     }, []);
-        
+    
+    //현재페이지에 따라 바뀜    
+    useEffect(() => {
+        goPage();
+    }, [currentPage])
     const getInquiryList = async () => {
     
-        const listData = (await InquiryService.getInquiryList(token)).data.inquiryList;  
-       
+        const listData =( (await InquiryService.getInquiryList(token)).data.inquiryList);  
         const newInquiryList = InquiryPaging.GetPostsLoaded(listData, currentPage);
-        
         setInquiryList(newInquiryList);
-        setTotalInquiry(newInquiryList.length)
-        console.log('listData', (await listData).data)
-        console.log('inquiryList', inquiryList)
+        setTotalInquiry(listData.length)
+        setTotalList(listData)
+    }
+
+    const goPage = () => {
+        const newInquiryList = InquiryPaging.GetPostsLoaded(totalList, currentPage);
+        setInquiryList(newInquiryList);
     }
 
     const InquiryRead = (no:number | undefined) => {
@@ -73,7 +81,9 @@ const InquiryList: React.FC = (props: any) => {
 
                 </div>
             </div>
-            <InquiryPaging.PageNumbers currentPage={currentPage} totalInquiry={totalInquiry}  />
+            <div>
+            <InquiryPaging.PageNumbers currentPage={currentPage} totalInquiry={totalInquiry} setCurrentPage={setCurrentPage} />
+            </div>
         </>
     );
 };

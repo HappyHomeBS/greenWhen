@@ -25,7 +25,7 @@ function CreateGroupModal(props) {
                 groupname  : groupTitle,
                 groupleader : userid,
                 descript : groupDesc,
-                tags : tagList
+                tags : tagList,
                 
             };
 
@@ -37,7 +37,7 @@ function CreateGroupModal(props) {
          window.location.reload();
 
         }catch( err ){
-            console.log('yes' );
+            console.log('create-group-err : ', err );
         }
     };
 

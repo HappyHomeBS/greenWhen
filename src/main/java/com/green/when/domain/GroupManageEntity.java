@@ -37,6 +37,9 @@ public class GroupManageEntity {
     @Column(name = "grade", nullable = false)
     private Long grade;
 
+    @Column(name = "accessiblelevel", nullable = false)
+    private Long accessiblelevel;
+
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "groupname", referencedColumnName = "groupname", insertable = false, updatable = false)
@@ -50,12 +53,13 @@ public class GroupManageEntity {
     private MemberEntity memberEntities;
 
     public GroupManageEntity(Long no, String userid, String groupname,
-                             LocalDateTime time, Long grade) {
+                             LocalDateTime time, Long grade, Long accessiblelevel) {
         this.no = no;
         this.userid = userid;
         this.groupname = groupname;
         this.time = time;
         this.grade = grade;
+        this.accessiblelevel = accessiblelevel;
     }
 
     public GroupManageEntity(GroupDto groupDto){
@@ -72,6 +76,7 @@ public class GroupManageEntity {
         this.groupname = groupManageDto.getGroupname();
         this.time = LocalDateTime.now();
         this.grade = groupManageDto.getGrade();
+        this.accessiblelevel = groupManageDto.getAccessiblelevel();
 
     }
 }

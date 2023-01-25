@@ -45,12 +45,13 @@ public class CalendarController {
         return savedSchedules;
     }
 
-    @GetMapping("/getAllSchedules")
-    public List<ScheduleVo> getAllSchedules() {
+    @PostMapping("/getAllSchedules")
+    public List<ScheduleVo> getAllSchedules(@RequestBody ScheduleVo scheduleVo) {
         String userid = SecurityUtil.getCurrentMemberId();
+        scheduleVo.setUserid(userid);
         List<ScheduleVo> savedSchedules = new ArrayList<>();
 
-        List<ScheduleVo> getSchedules = calendarService.getAllSchedules(userid);
+        List<ScheduleVo> getSchedules = calendarService.getAllSchedules(scheduleVo);
         for (ScheduleVo vo : getSchedules) {
             savedSchedules.add(vo);
         }

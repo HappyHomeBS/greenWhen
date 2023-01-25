@@ -34,12 +34,12 @@ const InquiryWrite: React.FC = (props: any) => {
         }
         
         writeInquiry(inquiry, token);
-        navigate('inquiryList')
     };
 
     const writeInquiry = async (inquiry: InquiryInterface, token: string) => {
-        InquiryService.inquiryWrite(inquiry, token)
-        navigate('inquiryList')
+        InquiryService.inquiryWrite(inquiry, token).then((res)=>{
+            navigate(-1)
+         })
     }
     
 

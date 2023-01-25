@@ -48,9 +48,11 @@ public class GroupApiController {
             String groupleader =  SecurityUtil.getCurrentMemberId();
             String descript = groupDto.getDescript();
             List<TagDto> tags = groupDto.getTags();
+            LocalDateTime timepre = LocalDateTime.now();
+            String time = String.valueOf(timepre);
 
 
-            GroupEntity group = new GroupEntity(groupleader, groupname, descript, LocalDateTime.now());
+            GroupEntity group = new GroupEntity(groupleader, groupname, descript, time);
             groupService.create(group);
             //순서주의 외래키 문제로 groupentity- > save -> groupmanageEntity -> SAVE해야함
             //이 순서 하나라도 틀리면 외래키 아웃됨
@@ -59,6 +61,7 @@ public class GroupApiController {
             groupDto.setGroupleader(userid);
 
             GroupManageEntity groupfortwo = new GroupManageEntity(groupDto);
+            groupfortwo.setAccessiblelevel(0L);
             groupManageService.create(groupfortwo);
 
             for (TagDto tagDto : tags){
@@ -67,6 +70,7 @@ public class GroupApiController {
 
         }catch (Exception exception){
             status = HttpStatus.BAD_REQUEST;
+            System.out.println("안만들어지는 이유 : " + exception);
 
 
             }
@@ -182,20 +186,26 @@ public class GroupApiController {
         return new WrapperClass(tagDtos);
     }
 
-    //태그 수정
-        @PutMapping("/api/updateTag/{no}")
-    public ResponseEntity<TagDto> updateTag(@PathVariable Long no, @RequestBody TagDto tagDto) {
-        TagDto updatedTag = tagService.updateTag(no, tagDto);
-        if (updatedTag != null) {
-            return new ResponseEntity<>(updatedTag, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+    //태그 삭제
+    @DeleteMapping("/api/updateTag")
+    public ResponseEntity updateTag(@RequestBody TagDto tagDto) {
+        System.out.println("태그삭제 on ");
+        TagEntity tag = tagService.findByGroupnametagAndTag(tagDto.getGroupnametag(), tagDto.getTag());
+        tagService.delete(tag);
+
+        return ResponseEntity.ok().build();
     }
+
+
+
     //태그 새거 추가
     @PostMapping("/api/addTag")
     public ResponseEntity<TagDto> addTag(@RequestBody TagDto tagDto) {
         TagDto addTag = tagService.createTag(tagDto);
+        System.out.println("태그add");
+        System.out.println("gggggg");
+        System.out.println("gggggdddg");
+
         if (addTag != null) {
             return new ResponseEntity<>(addTag, HttpStatus.OK);
         } else {

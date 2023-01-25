@@ -31,15 +31,19 @@ const MakeCalendar = ({
   lastDate,
   changeVisible,
   todo,
-  setCalendarUpdateModalOn,  
+  setCalendarUpdateModalOn,
   onCancel,
+  groupLeader,
+  userid,
+  groupName,
 }) => {
+  console.log("정보정보", groupName, userid, groupLeader);
   const result = [];
 
-  const viewModal=()=>{
-    setCalendarUpdateModalOn(true)
-    changeVisible(onCancel)    
-  }
+  const viewModal = () => {
+    setCalendarUpdateModalOn(true);
+    changeVisible(onCancel);
+  };
 
   const makeDay = (week) => {
     const result = [];
@@ -53,14 +57,31 @@ const MakeCalendar = ({
           const idx = returnIdx("PREV", year, month, now);
 
           result.push(
-            <td className="diff" onClick={() => changeVisible(idx)} key={idx}>
-              {now}
-              <div className="todo">
-                <div onClick={viewModal}>
-                  {Schedule(idx, todo)}
-                </div>
-              </div>
-            </td>
+            <>
+              {!groupName || (groupName && groupLeader === userid) ? (
+                <td
+                  className="diff"
+                  onClick={() => changeVisible(idx)}
+                  key={idx}
+                >
+                  {now}
+                  <div className="todo">
+                    <div onClick={viewModal}>{Schedule(idx, todo)}</div>
+                  </div>
+                </td>
+              ) : null}
+              {groupName && groupLeader !== userid ? (
+                <td
+                  className="diff"                  
+                  key={idx}
+                >
+                  {now}
+                  <div className="todo">
+                    <div>{Schedule(idx, todo)}</div>
+                  </div>
+                </td>
+              ) : null}
+            </>
           );
         }
         // 현재 달 날짜
@@ -69,14 +90,31 @@ const MakeCalendar = ({
           const idx = returnIdx("", year, month, now);
 
           result.push(
-            <td onClick={() => changeVisible(idx)} key={idx}>
-              {now}
-              <div className="todo">
-                <div onClick={viewModal}>
-                  {Schedule(idx, todo)}
-                </div>
-              </div>
-            </td>
+            <>
+              {!groupName || (groupName && groupLeader === userid) ? (
+                <td
+                  className="diff"
+                  onClick={() => changeVisible(idx)}
+                  key={idx}
+                >
+                  {now}
+                  <div className="todo">
+                    <div onClick={viewModal}>{Schedule(idx, todo)}</div>
+                  </div>
+                </td>
+              ) : null}
+              {groupName && groupLeader !== userid ? (
+                <td
+                  className="diff"                  
+                  key={idx}
+                >
+                  {now}
+                  <div className="todo">
+                    <div>{Schedule(idx, todo)}</div>
+                  </div>
+                </td>
+              ) : null}
+            </>
           );
         }
       }
@@ -89,14 +127,31 @@ const MakeCalendar = ({
           const idx = returnIdx("", year, month, now);
 
           result.push(
-            <td onClick={() => changeVisible(idx)} key={idx}>
-              {now}
-              <div className="todo">
-                <div onClick={viewModal}>
-                  {Schedule(idx, todo)}
-                </div>
-              </div>
-            </td>
+            <>
+              {!groupName || (groupName && groupLeader === userid) ? (
+                <td
+                  className="diff"
+                  onClick={() => changeVisible(idx)}
+                  key={idx}
+                >
+                  {now}
+                  <div className="todo">
+                    <div onClick={viewModal}>{Schedule(idx, todo)}</div>
+                  </div>
+                </td>
+              ) : null}
+              {groupName && groupLeader !== userid ? (
+                <td
+                  className="diff"                  
+                  key={idx}
+                >
+                  {now}
+                  <div className="todo">
+                    <div>{Schedule(idx, todo)}</div>
+                  </div>
+                </td>
+              ) : null}
+            </>
           );
         }
         // 다음 달 날짜
@@ -105,14 +160,31 @@ const MakeCalendar = ({
           const idx = returnIdx("NEXT", year, month, now);
 
           result.push(
-            <td className="diff" onClick={() => changeVisible(idx)} key={idx}>
-              {now}
-              <div className="todo">
-                <div onClick={viewModal}>
-                  {Schedule(idx, todo)}
-                </div>
-              </div>
-            </td>
+            <>
+              {!groupName || (groupName && groupLeader === userid) ? (
+                <td
+                  className="diff"
+                  onClick={() => changeVisible(idx)}
+                  key={idx}
+                >
+                  {now}
+                  <div className="todo">
+                    <div onClick={viewModal}>{Schedule(idx, todo)}</div>
+                  </div>
+                </td>
+              ) : null}
+              {groupName && groupLeader !== userid ? (
+                <td
+                  className="diff"                  
+                  key={idx}
+                >
+                  {now}
+                  <div className="todo">
+                    <div>{Schedule(idx, todo)}</div>
+                  </div>
+                </td>
+              ) : null}
+            </>
           );
         }
       }

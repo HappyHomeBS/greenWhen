@@ -37,8 +37,10 @@ const Calendar = (props) => {
   // 유저 정보
   const authCtx = useContext(AuthContext);
   const token = authCtx.token;
-  const userNickname = authCtx.userObj.usernickname;
+  const userid = authCtx.userObj.userid;
   const schedule = [];
+  const groupLeader = props.groupLeader;
+  const groupName = props.groupName;
 
   // 날짜 관련
   const year = state.year;
@@ -68,7 +70,7 @@ const Calendar = (props) => {
       sessionStorage.setItem("region", 0);     
     }
     dispatch({ type: "INITIALIZATIONSCHEDULE" });
-    let data = {
+    const data = {
       region : sessionStorage.getItem("selected"),
       groupname : props.groupName,
   }
@@ -97,7 +99,7 @@ const Calendar = (props) => {
           });
         });
       });
-  }, [selected]);
+  }, [selected, groupName]);
 
   // Month 감소
   const onDecreases = () => {
@@ -213,8 +215,7 @@ const Calendar = (props) => {
             &gt;
           </button>
           <div className="threeButtons">
-          {!props.groupName && <div>{Region({regionNumber:sessionStorage.getItem("region")})}</div>}
-          {props.groupName && <div>{props.groupName}</div>}
+          <div>{Region({regionNumber:sessionStorage.getItem("region"), groupName: props.groupName})}</div>          
           {!props.groupName &&
           <Button variant="outline-danger" onClick={() => setCalendarMemoModalOn(true)}>
             내 메모 보기
@@ -255,6 +256,9 @@ const Calendar = (props) => {
               todo,
               setCalendarUpdateModalOn,
               onCancel,
+              groupLeader,
+              userid,
+              groupName
             })}
           </tbody>
         </table>
@@ -281,6 +285,7 @@ const Calendar = (props) => {
           token={token}
           onClickSchedule={onClickSchedule}
           setCalendarMemoModalOn = {setCalendarMemoModalOn}
+          groupName = {props.groupName}
         />
 
         <CalendarRegionModal 
