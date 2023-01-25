@@ -183,7 +183,7 @@ const Region = ({ regionNumber, ClickRegion, groupName }) => {
   if (regionNumber == 0) {
     userNickname.map((subRegion) => {
       result.push(
-        <li key={subRegion.no} onClick={() => regionClick(subRegion)}>
+        <li className="calendarLi" key={subRegion.no} onClick={() => regionClick(subRegion)}>
           {subRegion.region}
         </li>
       );
@@ -191,7 +191,7 @@ const Region = ({ regionNumber, ClickRegion, groupName }) => {
   } else if (regionNumber == 1) {
     gangwon.map((subRegion) => {
       result.push(
-        <li key={subRegion.no} onClick={() => regionClick(subRegion)}>
+        <li className="calendarLi" key={subRegion.no} onClick={() => regionClick(subRegion)}>
           {subRegion.region}
         </li>
       );
@@ -199,7 +199,7 @@ const Region = ({ regionNumber, ClickRegion, groupName }) => {
   } else if (regionNumber == 2) {
     gyeonggi.map((subRegion) => {
       result.push(
-        <li key={subRegion.no} onClick={() => regionClick(subRegion)}>
+        <li className="calendarLi" key={subRegion.no} onClick={() => regionClick(subRegion)}>
           {subRegion.region}
         </li>
       );
@@ -207,7 +207,7 @@ const Region = ({ regionNumber, ClickRegion, groupName }) => {
   } else if (regionNumber == 3) {
     gyeongnam.map((subRegion) => {
       result.push(
-        <li key={subRegion.no} onClick={() => regionClick(subRegion)}>
+        <li className="calendarLi" key={subRegion.no} onClick={() => regionClick(subRegion)}>
           {subRegion.region}
         </li>
       );
@@ -215,7 +215,7 @@ const Region = ({ regionNumber, ClickRegion, groupName }) => {
   } else if (regionNumber == 4) {
     gyeongbuk.map((subRegion) => {
       result.push(
-        <li key={subRegion.no} onClick={() => regionClick(subRegion)}>
+        <li className="calendarLi" key={subRegion.no} onClick={() => regionClick(subRegion)}>
           {subRegion.region}
         </li>
       );
@@ -223,7 +223,7 @@ const Region = ({ regionNumber, ClickRegion, groupName }) => {
   } else if (regionNumber == 5) {
     gwangju.map((subRegion) => {
       result.push(
-        <li key={subRegion.no} onClick={() => regionClick(subRegion)}>
+        <li className="calendarLi" key={subRegion.no} onClick={() => regionClick(subRegion)}>
           {subRegion.region}
         </li>
       );
@@ -231,7 +231,7 @@ const Region = ({ regionNumber, ClickRegion, groupName }) => {
   } else if (regionNumber == 6) {
     daegu.map((subRegion) => {
       result.push(
-        <li key={subRegion.no} onClick={() => regionClick(subRegion)}>
+        <li className="calendarLi" key={subRegion.no} onClick={() => regionClick(subRegion)}>
           {subRegion.region}
         </li>
       );
@@ -239,7 +239,7 @@ const Region = ({ regionNumber, ClickRegion, groupName }) => {
   } else if (regionNumber == 7) {
     daejeon.map((subRegion) => {
       result.push(
-        <li key={subRegion.no} onClick={() => regionClick(subRegion)}>
+        <li className="calendarLi" key={subRegion.no} onClick={() => regionClick(subRegion)}>
           {subRegion.region}
         </li>
       );
@@ -247,7 +247,7 @@ const Region = ({ regionNumber, ClickRegion, groupName }) => {
   } else if (regionNumber == 8) {
     busan.map((subRegion) => {
       result.push(
-        <li key={subRegion.no} onClick={() => regionClick(subRegion)}>
+        <li className="calendarLi" key={subRegion.no} onClick={() => regionClick(subRegion)}>
           {subRegion.region}
         </li>
       );
@@ -255,7 +255,7 @@ const Region = ({ regionNumber, ClickRegion, groupName }) => {
   } else if (regionNumber == 9) {
     seoule.map((subRegion) => {
       result.push(
-        <li key={subRegion.no} onClick={() => regionClick(subRegion)}>
+        <li className="calendarLi" key={subRegion.no} onClick={() => regionClick(subRegion)}>
           {subRegion.region}
         </li>
       );
@@ -263,7 +263,7 @@ const Region = ({ regionNumber, ClickRegion, groupName }) => {
   } else if (regionNumber == 10) {
     sejong.map((subRegion) => {
       result.push(
-        <li key={subRegion.no} onClick={() => regionClick(subRegion)}>
+        <li className="calendarLi" key={subRegion.no} onClick={() => regionClick(subRegion)}>
           {subRegion.region}
         </li>
       );
@@ -271,7 +271,7 @@ const Region = ({ regionNumber, ClickRegion, groupName }) => {
   } else if (regionNumber == 11) {
     ulsan.map((subRegion) => {
       result.push(
-        <li key={subRegion.no} onClick={() => regionClick(subRegion)}>
+        <li className="calendarLi" key={subRegion.no} onClick={() => regionClick(subRegion)}>
           {subRegion.region}
         </li>
       );
@@ -279,7 +279,7 @@ const Region = ({ regionNumber, ClickRegion, groupName }) => {
   } else if (regionNumber == 12) {
     incheon.map((subRegion) => {
       result.push(
-        <li key={subRegion.no} onClick={() => regionClick(subRegion)}>
+        <li className="calendarLi" key={subRegion.no} onClick={() => regionClick(subRegion)}>
           {subRegion.region}
         </li>
       );
@@ -287,7 +287,7 @@ const Region = ({ regionNumber, ClickRegion, groupName }) => {
   } else if (regionNumber == 13) {
     jeonnam.map((subRegion) => {
       result.push(
-        <li key={subRegion.no} onClick={() => regionClick(subRegion)}>
+        <li className="calendarLi" key={subRegion.no} onClick={() => regionClick(subRegion)}>
           {subRegion.region}
         </li>
       );
@@ -295,7 +295,7 @@ const Region = ({ regionNumber, ClickRegion, groupName }) => {
   } else if (regionNumber == 14) {
     jeonbuk.map((subRegion) => {
       result.push(
-        <li key={subRegion.no} onClick={() => regionClick(subRegion)}>
+        <li className="calendarLi" key={subRegion.no} onClick={() => regionClick(subRegion)}>
           {subRegion.region}
         </li>
       );
@@ -303,7 +303,7 @@ const Region = ({ regionNumber, ClickRegion, groupName }) => {
   } else if (regionNumber == 15) {
     jeju.map((subRegion) => {
       result.push(
-        <li key={subRegion.no} onClick={() => regionClick(subRegion)}>
+        <li className="calendarLi" key={subRegion.no} onClick={() => regionClick(subRegion)}>
           {subRegion.region}
         </li>
       );
@@ -311,7 +311,7 @@ const Region = ({ regionNumber, ClickRegion, groupName }) => {
   } else if (regionNumber == 16) {
     chungnam.map((subRegion) => {
       result.push(
-        <li key={subRegion.no} onClick={() => regionClick(subRegion)}>
+        <li className="calendarLi" key={subRegion.no} onClick={() => regionClick(subRegion)}>
           {subRegion.region}
         </li>
       );
@@ -319,7 +319,7 @@ const Region = ({ regionNumber, ClickRegion, groupName }) => {
   } else if (regionNumber == 17) {
     chungbuk.map((subRegion) => {
       result.push(
-        <li key={subRegion.no} onClick={() => regionClick(subRegion)}>
+        <li className="calendarLi" key={subRegion.no} onClick={() => regionClick(subRegion)}>
           {subRegion.region}
         </li>
       );
@@ -327,7 +327,7 @@ const Region = ({ regionNumber, ClickRegion, groupName }) => {
   } else {
     allRegion.map((subRegion) => {
       if (subRegion.no == regionNumber)
-        result.push(<li key={subRegion.no}>{subRegion.region}</li>);
+        result.push(<li className="calendarLi" key={subRegion.no}>{subRegion.region}</li>);
     });
   }
 

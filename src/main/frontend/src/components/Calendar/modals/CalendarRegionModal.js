@@ -102,10 +102,10 @@ const CalendarRegionModal = ({
           <Modal.Title id="contained-modal-title-vcenter">지역</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <table>
-            <tbody>
-              <tr>
-                <td>
+          <table className="calendarTable">
+            <tbody className="calendarTbody">
+              <tr className="calendarTr">
+                <td className="regionTd">
                   <select onChange={changeRegion}>
                     {regionList.map((item) => {
                       return <option value={item.no}>{item.region}</option>;

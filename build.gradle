@@ -43,6 +43,8 @@ dependencies {
 
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springdoc:springdoc-openapi-ui:1.6.6'
+
+    implementation 'com.xnx3.json:json:1.0'
 }
 
 tasks.named('test') {

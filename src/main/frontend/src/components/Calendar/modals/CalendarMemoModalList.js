@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useCallback, useReducer } from "react";
 import { Modal, Container } from "react-bootstrap";
 import axios from "axios";
-import Region from "../module/Region";
 import CalendarMemoModalBox from "./CalendarMemoModalBox";
 
 const CalendarMemoModal = ({
@@ -78,7 +77,7 @@ const CalendarMemoModal = ({
     const scheduleList = items.map((schedule, index) => {
       //console.log('schedule:', schedule, index)
       return (
-        <tr onClick={() => clickSchedule(schedule)}>
+        <tr className="calendarTr" onClick={() => clickSchedule(schedule)}>
           <CalendarMemoModalBox
             key={index}
             memo={schedule.memo}
@@ -124,15 +123,15 @@ const CalendarMemoModal = ({
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <table>
+          <table className="calendarTable">
             <thead>
-              <tr>
-                <td>내용</td>
-                <td>날짜</td>
-                <td>지역</td>
+              <tr className="calendarTr">
+                <td className="calendarTd">내용</td>
+                <td className="calendarTd">날짜</td>
+                <td className="calendarTd">지역</td>
               </tr>
             </thead>
-            <tbody>{callSchedulesList(items)}</tbody>
+            <tbody className="calendarTbody">{callSchedulesList(items)}</tbody>
           </table>
           {renderPageLinks()}
 
