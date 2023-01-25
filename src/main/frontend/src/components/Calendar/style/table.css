@@ -1,26 +1,25 @@
-.table {
+table {
     width: 80%;
-    height: 900px;
+    height: 600px;
     table-layout: fixed;
     text-align: center;
     border-collapse: collapse;
-    font-size: 19px;
+    font-size: 19px;    
 }
 
-table tbody tr {
-    border-top: 0.5px solid #c4c9d0;
+.calendarTable .calendarTbody .calendarTr {
+    border-top: 0.5px solid #c4c9d0;    
 }
 
-table, th, td {
+.calendarTable .calendarTh .calendarTd .calendarMainTd {
     vertical-align: top;
 }
 
-table tbody tr td {
+.calendarTable .calendarTbody .calendarTr .calendarTd .calendarMainTd {
     margin-left: 20px;
 }
 
-
-table tbody td {
+.calendarTable .calendarTbody .calendarTd .calendarMainTd {
     width: 10%;
     height: 10%;
     overflow:hidden;
@@ -28,42 +27,52 @@ table tbody td {
     text-overflow: ellipsis;
 }
 
-td:first-child, td:last-child {
-    color: red;
-}
 
-table tbody td div {
-    /*height: 100px;*/
+.calendarTable .calendarTbody .calendarTd .calendarMainTd .calendarDiv {
+    height: 100%;
     color: black;
     font-size: 12px;
     font-weight: bold;
     text-decoration: none;
     overflow: auto;
 }
+.calendarMainTd:first-child, .calendarMainTd:last-child {
+    color: red;
+}
 
 
-div::-webkit-scrollbar {
+.calendarDiv::-webkit-scrollbar {
     width: 10px;
 }
-div::-webkit-scrollbar-thumb {
+.calendarDiv::-webkit-scrollbar-thumb {
     background-color: #2f3542;
     border-radius: 10px;
     background-clip: padding-box;
     border: 2px solid transparent;
 }
-div::-webkit-scrollbar-track {
+.calendarDiv::-webkit-scrollbar-track {
     background-color: grey;
     border-radius: 10px;
     box-shadow: inset 0px 0px 5px white;
 }
-table tbody td:hover{
+.calendarTable .calendarTbody .calendarTd:hover{
     font-weight: bold;
 }
 
-li {
+.calendarLi {
     list-style: none;
 }
 
-.diff {
+.diff .calendarMainTd {
     color:rgba(0, 0, 0, 0.3 ) !important;
+}
+
+.regionTd {
+    width: 100px;
+    vertical-align: top;
+}
+
+/* 기본user agent stylesheet세팅이 vertical-align: middle; 로 되어있어서 classname 선언하지 않고 전체적용  */
+tbody {
+    vertical-align: top;
 }

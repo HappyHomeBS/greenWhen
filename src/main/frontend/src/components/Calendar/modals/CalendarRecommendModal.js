@@ -17,8 +17,29 @@ const CalendarRecommendModal = ({ visible, onCancel, region }) => {
         reader.readAsText(new Blob([text], { type: "text/csv" }));
       })
       .catch((error) => console.error(error));
-  }, []);
+      console.log(csvData)
 
+    }, []);
+
+  const filteredData = csvData.filter((row) => {
+    const cells = row.split(",");    
+    return cells[4] === region;
+  });
+
+  const modifiedData = filteredData.map((row) => {
+      const cells = row.split(",");
+      return (
+          <tr>
+              {cells.map((cell, cellIndex) => {
+                  if (cellIndex === 0 || cellIndex === 2) {
+                      return <td key={cellIndex}>{cell}</td>;
+                  }
+                  return null;
+              })}
+          </tr>
+      );
+  });
+    
   if (!visible) return null;
   return (
     <Modal
@@ -36,12 +57,12 @@ const CalendarRecommendModal = ({ visible, onCancel, region }) => {
         </Modal.Header>
         <Modal.Body>
           <table>
-            <tbody>
-              {csvData.map((row, index) => (
+            <tbody className="calendarTbody">
+              {filteredData.map((row, index) => (
                 <tr key={index}>
-                  {row.split(",").map((cell, cellIndex) => (
-                    <td key={cellIndex}>{cell}</td>
-                  ))}
+                    {row.split(",").map((cell, cellIndex) => (
+                        <td key={cellIndex}>{cellIndex === 0 || cellIndex === 2  ? cell : null}</td>
+                    ))}
                 </tr>
               ))}
             </tbody>

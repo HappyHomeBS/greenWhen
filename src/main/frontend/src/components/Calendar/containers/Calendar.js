@@ -210,7 +210,7 @@ const Calendar = (props) => {
           <button className="move" onClick={onDecreases}>
             &lt;
           </button>
-          <p>{yearMonth}</p>
+          <p className="calendarP">{yearMonth}</p>
           <button className="move" onClick={onIncreases}>
             &gt;
           </button>
@@ -234,19 +234,19 @@ const Calendar = (props) => {
           </Button> &nbsp;
         </div>
         </div>
-        <table className="table">
+        <table className="calendarTable">
           <thead>
-            <tr>
-              <td>Sun</td>
-              <td>Mon</td>
-              <td>Tue</td>
-              <td>Wed</td>
-              <td>Thu</td>
-              <td>Fri</td>
-              <td>Sat</td>
+            <tr className="calendarTr">
+              <td className="calendarMainTd">Sun</td>
+              <td className="calendarMainTd">Mon</td>
+              <td className="calendarMainTd">Tue</td>
+              <td className="calendarMainTd">Wed</td>
+              <td className="calendarMainTd">Thu</td>
+              <td className="calendarMainTd">Fri</td>
+              <td className="calendarMainTd">Sat</td>
             </tr>
           </thead>
-          <tbody>
+          <tbody className="calendarTbody">
             {MakeCalendar({
               year,
               month,

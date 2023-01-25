@@ -59,26 +59,20 @@ const MakeCalendar = ({
           result.push(
             <>
               {!groupName || (groupName && groupLeader === userid) ? (
-                <td
-                  className="diff"
+                <td className="diff calendarMainTd"
                   onClick={() => changeVisible(idx)}
                   key={idx}
                 >
-                  {now}
-                  <div className="todo">
-                    <div onClick={viewModal}>{Schedule(idx, todo)}</div>
-                  </div>
+                  {now}                  
+                    <div className="calendarDiv" onClick={viewModal}>{Schedule(idx, todo)}</div>
                 </td>
               ) : null}
               {groupName && groupLeader !== userid ? (
-                <td
-                  className="diff"                  
+                <td className="diff calendarMainTd"
                   key={idx}
                 >
                   {now}
-                  <div className="todo">
-                    <div>{Schedule(idx, todo)}</div>
-                  </div>
+                    <div className="calendarDiv">{Schedule(idx, todo)}</div>
                 </td>
               ) : null}
             </>
@@ -93,25 +87,21 @@ const MakeCalendar = ({
             <>
               {!groupName || (groupName && groupLeader === userid) ? (
                 <td
-                  className="diff"
+                  className="calendarMainTd"
                   onClick={() => changeVisible(idx)}
                   key={idx}
                 >
                   {now}
-                  <div className="todo">
-                    <div onClick={viewModal}>{Schedule(idx, todo)}</div>
-                  </div>
+                    <div className="calendarDiv" onClick={viewModal}>{Schedule(idx, todo)}</div>
                 </td>
               ) : null}
               {groupName && groupLeader !== userid ? (
                 <td
-                  className="diff"                  
+                  className="calendarMainTd"                 
                   key={idx}
                 >
                   {now}
-                  <div className="todo">
-                    <div>{Schedule(idx, todo)}</div>
-                  </div>
+                    <div className="calendarDiv">{Schedule(idx, todo)}</div>
                 </td>
               ) : null}
             </>
@@ -130,25 +120,21 @@ const MakeCalendar = ({
             <>
               {!groupName || (groupName && groupLeader === userid) ? (
                 <td
-                  className="diff"
+                  className="calendarMainTd"
                   onClick={() => changeVisible(idx)}
                   key={idx}
                 >
                   {now}
-                  <div className="todo">
-                    <div onClick={viewModal}>{Schedule(idx, todo)}</div>
-                  </div>
+                    <div className="calendarDiv" onClick={viewModal}>{Schedule(idx, todo)}</div>
                 </td>
               ) : null}
               {groupName && groupLeader !== userid ? (
                 <td
-                  className="diff"                  
+                 className="calendarMainTd"                
                   key={idx}
                 >
                   {now}
-                  <div className="todo">
-                    <div>{Schedule(idx, todo)}</div>
-                  </div>
+                    <div className="calendarDiv">{Schedule(idx, todo)}</div>
                 </td>
               ) : null}
             </>
@@ -162,26 +148,20 @@ const MakeCalendar = ({
           result.push(
             <>
               {!groupName || (groupName && groupLeader === userid) ? (
-                <td
-                  className="diff"
+                <td className="diff calendarMainTd"
                   onClick={() => changeVisible(idx)}
                   key={idx}
                 >
                   {now}
-                  <div className="todo">
-                    <div onClick={viewModal}>{Schedule(idx, todo)}</div>
-                  </div>
+                    <div className="calendarDiv" onClick={viewModal}>{Schedule(idx, todo)}</div>
                 </td>
               ) : null}
               {groupName && groupLeader !== userid ? (
-                <td
-                  className="diff"                  
+                <td className="diff calendarMainTd"
                   key={idx}
                 >
                   {now}
-                  <div className="todo">
-                    <div>{Schedule(idx, todo)}</div>
-                  </div>
+                    <div className="calendarDiv">{Schedule(idx, todo)}</div>
                 </td>
               ) : null}
             </>
@@ -195,7 +175,7 @@ const MakeCalendar = ({
   // 주 계산
   const week = Math.ceil((firstDay + lastDate) / 7);
   for (let i = 1; i <= week; i++) {
-    result.push(<tr key={week + i}>{makeDay(i)}</tr>);
+    result.push(<tr classname="calendarTr" key={week + i}>{makeDay(i)}</tr>);
   }
   return result;
 };
