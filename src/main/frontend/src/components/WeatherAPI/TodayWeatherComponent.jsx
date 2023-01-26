@@ -41,7 +41,8 @@ export const TodayWeatherComponent = (props) => {
     ;
     
     return(
-        <div>
+       <>
+       <div>
             <div className="weatherBox" style = {{padding: '5%', marginTop: '20%', position: 'fixed', textalign:'center', width:'30%', left:'60%', border:'1px solid black'}} >
             {city} 현재날씨
             <br/>
@@ -52,9 +53,9 @@ export const TodayWeatherComponent = (props) => {
              {Description}
             <br/>
             </div>
-            <WeekWeatherComponent/>
         </div>
-
+        
+        </>
     )
 }
 export default TodayWeatherComponent;

@@ -24,7 +24,7 @@ public class WeatherApiController2 {
         String lat="35";
         String lon="129";
 
-        String appUrl = "https://api.openweathermap.org/data/2.5/weather?q=Busan&appid=0d4156b167362a339b8e51c8f22507ef&lank=kr";
+        String appUrl = "https://api.openweathermap.org/data/2.5/weather?q=Busan&appid=0d4156b167362a339b8e51c8f22507ef&lang=kr";
 
 //                "https://api.openweathermap.org/data/3.0/onecall?"
 //                +"lat="+lat
