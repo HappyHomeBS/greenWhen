@@ -33,10 +33,13 @@ const InquiryList: React.FC = (props: any) => {
     const getInquiryList = async () => {
     
         const listData =( (await InquiryService.getInquiryList(token)).data.inquiryList);  
-        const newInquiryList = InquiryPaging.GetPostsLoaded(listData, currentPage);
+        const newInquiryList = InquiryPaging.GetPostsLoaded(listData, currentPage); // 슬라이스후 현재페이지 글목록
+      
         setInquiryList(newInquiryList);
-        setTotalInquiry(listData.length)
-        setTotalList(listData)
+
+        setTotalInquiry(listData.length) // 불러온 모든 게시글 수 
+
+        setTotalList(listData) // 모든 게시글 리스트 저장
     }
 
     const goPage = () => {
@@ -61,9 +64,9 @@ const InquiryList: React.FC = (props: any) => {
                     <table className="table table-striped table-bordered">
                         <thead>
                             <tr>
-                                <th>제    목</th>
-                                <th>작 성 자</th>
-                                <th>날    짜</th>
+                                <th style={{width: "60%"}}>제    목</th>
+                                <th style={{width: "20%"}}>작 성 자</th>
+                                <th style={{width: "20%"}}>날    짜</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -77,12 +80,13 @@ const InquiryList: React.FC = (props: any) => {
                         )}
                          </tbody>
                     </table>
-                    <Button variant="primary" onClick={() => InquiryWrite()}> 등 록 </Button>
-
+                    <div style={{}}>
+                         <button style={{float: "right", width:"10%"}}className="btn btn-primary" onClick={() => InquiryWrite()}> 등 록 </button>
+                    </div>
                 </div>
             </div>
-            <div>
-            <InquiryPaging.PageNumbers currentPage={currentPage} totalInquiry={totalInquiry} setCurrentPage={setCurrentPage} />
+            <div style={{textAlign:"center"}}>
+              <InquiryPaging.PageNumbers currentPage={currentPage} totalInquiry={totalInquiry} setCurrentPage={setCurrentPage} />
             </div>
         </>
     );

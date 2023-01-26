@@ -7,6 +7,7 @@ export const WeekWeatherComponent = (props) => {
     const authCtx = useContext(AuthContext);
     const token = authCtx.token;
     const [weekPredict, setWeekPredict] = useState([]);
+    
     useEffect(()=>{
         getWeekWeather();
     }, []);
