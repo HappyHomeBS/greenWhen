@@ -21,6 +21,7 @@ import SearchingFunction from './components/Group/Board/SearchingThings/Searchin
 import InquiryListComponent from './components/Inquiry/InquiryListComponent';
 import InquiryReadComponent from './components/Inquiry/InquiryReadComponent';
 import InquiryWriteComponent from './components/Inquiry/InquiryWriteComponent';
+import TodayWeatherComponent from './components/WeatherAPI/TodayWeatherComponent';
 
 
 function App() {
@@ -69,6 +70,8 @@ function App() {
         <Route path="/inquiryRead" element = {!authCtx.isLoggedIn ? <Navigate to='/' /> : <InquiryReadComponent/>}></Route>
         {/* 1:1 문의 쓰기 */}
         <Route path="/inquiryWrite" element = {!authCtx.isLoggedIn ? <Navigate to='/' /> : <InquiryWriteComponent/>}></Route>
+        {/* 날씨 테스트 페이지 */}
+        <Route path="/weather" element = {!authCtx.isLoggedIn ? <Navigate to='/' /> : <TodayWeatherComponent/>}></Route>
       </Routes>
     </Layout>
   );
