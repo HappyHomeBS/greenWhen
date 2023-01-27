@@ -2,12 +2,12 @@ import React,{useContext} from "react";
 import Schedule from "./Schedule";
 import { transString } from "./CalcDate";
 import AuthContext from "../../../store/authContext";
-
+import { BsCloudRainHeavy, BsBrightnessHigh, BsCloudSnow, BsFillCloudFill, BsFillCloudLightningRainFill, BsFillUmbrellaFill } from "react-icons/bs";
 /*
  * 현재 날짜를 key값 형식으로 변환
  * key ex) 2021.10.11
  */
-const returnIdx = (order, year, month, day) => {
+const returnIdx = (order, year, month, day) => {  
   if (order == "PREV") {
     if (month == 0) {
       return transString(year - 1, 12, day);
@@ -38,6 +38,7 @@ const MakeCalendar = ({
   userid,
   groupName,
 }) => {
+  {/*날씨 아이콘 <BsCloudRainHeavy /><BsBrightnessHigh /><BsCloudSnow /><BsFillCloudFill /><BsFillCloudLightningRainFill /><BsFillUmbrellaFill />*/}
   const authCtx = useContext(AuthContext);
   const isLogin = authCtx.isLoggedIn;
   const result = [];
@@ -60,20 +61,20 @@ const MakeCalendar = ({
 
           result.push(
             <>
-              {!groupName || (groupName && groupLeader === userid) ? (
+              {isLogin && !groupName || (groupName && groupLeader === userid) ? (
                 <td className="diff calendarMainTd"
                   onClick={() => changeVisible(idx)}
                   key={idx}
                 >
-                  {now}                  
+                  {now}<BsCloudRainHeavy />      
                     <div className="calendarDiv" onClick={viewModal}>{Schedule(idx, todo)}</div>
                 </td>
               ) : null}
-              {groupName && groupLeader !== userid ? (
+              {!isLogin || groupName && groupLeader !== userid ? (
                 <td className="diff calendarMainTd"
                   key={idx}
                 >
-                  {now}
+                  {now}<BsCloudRainHeavy />
                     <div className="calendarDiv">{Schedule(idx, todo)}</div>
                 </td>
               ) : null}
@@ -93,7 +94,7 @@ const MakeCalendar = ({
                   onClick={() => changeVisible(idx)}
                   key={idx}
                 >
-                  {now}
+                  {now}<BsCloudRainHeavy />{/* {idx}: 연월일 */}
                     <div className="calendarDiv" onClick={viewModal}>{Schedule(idx, todo)}</div>
                 </td>
               ) : null}
@@ -102,7 +103,7 @@ const MakeCalendar = ({
                   className="calendarMainTd"                 
                   key={idx}
                 >
-                  {now}
+                  {now}<BsCloudRainHeavy />
                     <div className="calendarDiv">{Schedule(idx, todo)}</div>
                 </td>
               ) : null}
@@ -126,7 +127,7 @@ const MakeCalendar = ({
                   onClick={() => changeVisible(idx)}
                   key={idx}
                 >
-                  {now}
+                  {now}<BsCloudRainHeavy />
                     <div className="calendarDiv" onClick={viewModal}>{Schedule(idx, todo)}</div>
                 </td>
               ) : null}
@@ -135,7 +136,7 @@ const MakeCalendar = ({
                  className="calendarMainTd"                
                   key={idx}
                 >
-                  {now}
+                  {now}<BsCloudRainHeavy />
                     <div className="calendarDiv">{Schedule(idx, todo)}</div>
                 </td>
               ) : null}
@@ -154,7 +155,7 @@ const MakeCalendar = ({
                   onClick={() => changeVisible(idx)}
                   key={idx}
                 >
-                  {now}
+                  {now}<BsCloudRainHeavy />
                     <div className="calendarDiv" onClick={viewModal}>{Schedule(idx, todo)}</div>
                 </td>
               ) : null}
@@ -162,7 +163,7 @@ const MakeCalendar = ({
                 <td className="diff calendarMainTd"
                   key={idx}
                 >
-                  {now}
+                  {now}<BsCloudRainHeavy />
                     <div className="calendarDiv">{Schedule(idx, todo)}</div>
                 </td>
               ) : null}
