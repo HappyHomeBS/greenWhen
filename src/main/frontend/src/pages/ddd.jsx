@@ -3,6 +3,8 @@ import { useEffect, useState, useContext } from "react";
 import Select from "react-select";
 import AuthContext from "../store/authContext";
 import CreatableSelect from "react-select/creatable";
+import "../DamCss/Page/page.css";
+
 
 
 const DDD = (props) => {
@@ -87,7 +89,7 @@ const DDD = (props) => {
        };
         
     return( 
-      <div>
+      <div className="dam-ddddddddd">
         <h6>클릭시 삭제, 새로운 말머리 입력시 생성</h6>
           <CreatableSelect options={options} onChange={handleChange} />
         </div>

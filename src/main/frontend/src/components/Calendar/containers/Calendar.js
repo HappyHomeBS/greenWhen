@@ -38,7 +38,7 @@ const Calendar = (props) => {
   const authCtx = useContext(AuthContext);
   const token = authCtx.token;
   const userid = authCtx.userObj.userid;
-  const schedule = [];
+  const isLogin = authCtx.isLoggedIn;
   const groupLeader = props.groupLeader;
   const groupName = props.groupName;
 
@@ -204,9 +204,9 @@ const Calendar = (props) => {
 
   return (
     <>
-      <div className="Calendar">
-        <div className="header">
-        <BsCloudRainHeavy /><BsBrightnessHigh /><BsCloudSnow /><BsFillCloudFill /><BsFillCloudLightningRainFill /><BsFillUmbrellaFill />
+      <div className="Calendar calendarDiv">
+        <div className="header calendarDiv">
+        {/*날씨 아이콘 <BsCloudRainHeavy /><BsBrightnessHigh /><BsCloudSnow /><BsFillCloudFill /><BsFillCloudLightningRainFill /><BsFillUmbrellaFill />*/}
           <button className="move" onClick={onDecreases}>
             &lt;
           </button>
@@ -214,27 +214,29 @@ const Calendar = (props) => {
           <button className="move" onClick={onIncreases}>
             &gt;
           </button>
-          <div className="threeButtons">
-          <div>{Region({regionNumber:sessionStorage.getItem("region"), groupName: props.groupName})}</div>          
-          {!props.groupName &&
-          <Button variant="outline-danger" onClick={() => setCalendarMemoModalOn(true)}>
-            내 메모 보기
-          </Button> 
-          } &nbsp;
-          {props.groupName &&
-          <Button variant="outline-danger" onClick={() => setCalendarMemoModalOn(true)}>
-            그룹 메모 보기
-          </Button> 
-          } &nbsp;
-          <Button variant="outline-danger" onClick={() => setCalendarRegionModalOn(true)}>
-            지역 선택
-          </Button> &nbsp;
-          <Button variant="outline-danger" onClick={() => setCalendarRecommendModalOn(true)}>
-            관광지 추천
-          </Button> &nbsp;
+          <div className="threeButtons div">
+            <div>{Region({regionNumber:sessionStorage.getItem("region"), groupName: props.groupName})}</div>          
+            {isLogin && !props.groupName &&
+            <Button variant="outline-danger" onClick={() => setCalendarMemoModalOn(true)}>
+              내 메모 보기
+            </Button> 
+            } 
+            {isLogin &&  props.groupName &&
+            <Button variant="outline-danger" onClick={() => setCalendarMemoModalOn(true)}>
+              그룹 메모 보기
+            </Button> 
+            } &nbsp;
+            {isLogin && <Button variant="outline-danger" onClick={() => setCalendarRegionModalOn(true)}>
+              지역 선택
+            </Button> } &nbsp;
+            {/* 미완성
+            <Button variant="outline-danger" onClick={() => setCalendarRecommendModalOn(true)}>
+              관광지 추천
+            </Button> &nbsp;
+            */}
+          </div>
         </div>
-        </div>
-        <table className="calendarTable">
+        <table className="calendarMainTable">
           <thead>
             <tr className="calendarTr">
               <td className="calendarMainTd">Sun</td>

@@ -3,6 +3,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import AuthContext from '../../../store/authContext';
 import GroupList from '../../Group/ManageSide/GroupList/GroupList';
+import "../../../DamCss/Page/page.css"
 
 
 const Group = () => {
@@ -29,13 +30,13 @@ const Group = () => {
   }, [fig]);
 
   const updateGroupList = () => {
-    setFig( {fig} + 1 );
+    setFig( fig + 1 );
   }
+  console.log('리랜더링 fig :' , fig);
 
 
   return (
-    <div>
-      <h2>소모임 목록이 우선 뜨고 해당 소모임 클릭시 해당 소모임 게시판, 인원을 관리 가능</h2>
+    <div className="page">
       <GroupList data = {groupListAll} Admin={Admin}  updateGroupList = {updateGroupList}/>
 
     </div>

@@ -5,6 +5,7 @@ import Detail from "./Detail";
 import CommentList from "../components/Group/UserSide/CommentList/CommentList";
 import CommentForm from "../components/Group/UserSide/ForDetail/CommentForm";
 import axios from "axios";
+import "../DamCss/Page/page.css";
 
 
 const Page = () => {
@@ -46,7 +47,7 @@ const Page = () => {
 
   
   return (
-      <div>
+      <div className="page">
         <Detail no={no} />
         <CommentList data={data}
                       fig={fig} 

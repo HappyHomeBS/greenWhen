@@ -2,6 +2,8 @@ import React,{ useEffect, useState, useContext }  from "react";
 import AuthContext from "../store/authContext";
 import axios from "axios";
 import { useNavigate, useLocation, Link } from "react-router-dom";
+import "../DamCss/Page/page.css";
+
 
 const Detail = (props) => {
     const authCtx = useContext(AuthContext);
@@ -76,7 +78,7 @@ const Detail = (props) => {
                     수정하기 | {" "}
                 </Link>}
             {userid === writer &&
-            <input type="button" onClick={handleDeleteBtnClick} value="삭제" />}
+            <input className="dambutton" type="button" onClick={handleDeleteBtnClick} value="삭제" />}
             {Admin ? 
              <Link
              to = {"/bulletin"}

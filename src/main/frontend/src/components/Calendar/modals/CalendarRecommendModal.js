@@ -12,34 +12,16 @@ const CalendarRecommendModal = ({ visible, onCancel, region }) => {
         const reader = new FileReader();
         reader.onload = () => {
           const data = reader.result;
-          setCsvData(data.split(/\r?\n|\r/));
+          const rows = data.split(/\r?\n|\r/);
+          const rowsData = rows.map(row => row.split(',(?=(["]*"[""]*")*[""*$)', -1));
+          console.log('지역',rows)
+          setCsvData(rows);
         };
         reader.readAsText(new Blob([text], { type: "text/csv" }));
       })
       .catch((error) => console.error(error));
-      console.log(csvData)
+  }, []);
 
-    }, []);
-
-  const filteredData = csvData.filter((row) => {
-    const cells = row.split(",");    
-    return cells[4] === region;
-  });
-
-  const modifiedData = filteredData.map((row) => {
-      const cells = row.split(",");
-      return (
-          <tr>
-              {cells.map((cell, cellIndex) => {
-                  if (cellIndex === 0 || cellIndex === 2) {
-                      return <td key={cellIndex}>{cell}</td>;
-                  }
-                  return null;
-              })}
-          </tr>
-      );
-  });
-    
   if (!visible) return null;
   return (
     <Modal
@@ -57,12 +39,12 @@ const CalendarRecommendModal = ({ visible, onCancel, region }) => {
         </Modal.Header>
         <Modal.Body>
           <table>
-            <tbody className="calendarTbody">
-              {filteredData.map((row, index) => (
+            <tbody>
+              {csvData.map((row, index) => (
                 <tr key={index}>
-                    {row.split(",").map((cell, cellIndex) => (
-                        <td key={cellIndex}>{cellIndex === 0 || cellIndex === 2  ? cell : null}</td>
-                    ))}
+                  {row.split(",").map((cell, cellIndex) => (
+                    <td key={cellIndex}>{cellIndex === 0 ? cell : null}</td>
+                  ))}
                 </tr>
               ))}
             </tbody>

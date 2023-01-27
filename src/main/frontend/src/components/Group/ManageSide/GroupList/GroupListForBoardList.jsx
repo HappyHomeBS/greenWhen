@@ -13,7 +13,7 @@ return(
                 no = {i.no}
                 userid = {i.userid}
                 groupname = {i.groupname}
-                time = {i.time}
+                time = {i.time.slice(0,10)}
                 grade = {i.grade}
                 accessiblelevel = {i.accessiblelevel}
   />

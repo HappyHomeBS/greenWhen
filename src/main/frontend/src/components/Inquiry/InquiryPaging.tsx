@@ -48,18 +48,20 @@ export function PageNumbers (pageNumbers:pageNumbers){
     }
 
     return( 
-        <nav className="pagination" aria-label="pagination">
-            {pageNums.map(number => (
-                <li key={number } >
-                    <div
-                     role="presentaton"
-                     onClick={() => pageNumbers.setCurrentPage(number)}
-                     className="page-link"> 
-                     {number}
-                     </div>
-                </li>
-            ))}
-        </nav>
+        <div className ="row" style={{textAlign:"center"}} >
+            <nav className="pagination" aria-label="pagination" style={{width: "auto", margin:"auto"}}>
+                {pageNums.map(number => (
+                    <li key={number } >
+                        <div
+                        role="presentaton"
+                        onClick={() => pageNumbers.setCurrentPage(number)}
+                        className="page-link"> 
+                        {number}
+                        </div>
+                    </li>
+                ))}
+            </nav>
+        </div>
         )    //현재페이지가 10의 배수일 때 
   
 }
