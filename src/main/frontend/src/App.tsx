@@ -22,6 +22,7 @@ import InquiryReadComponent from './components/Inquiry/InquiryReadComponent';
 import InquiryWriteComponent from './components/Inquiry/InquiryWriteComponent';
 import ServiceCenter from './pages/ServiceCenter';
 import CreateAnnounceOrFAQ from './components/ServiceCenter/CreateAnnouceOrFAQ';
+import TodayWeatherComponent from './components/WeatherAPI/TodayWeatherComponent';
 
 
 function App() {
@@ -72,6 +73,8 @@ function App() {
         <Route path="/service-center" element={<ServiceCenter/>} />
         {/*고객센터 글 쓰기 */}
         <Route path="/create-annouce-or-faq" element={<CreateAnnounceOrFAQ/>} />
+        {/* 날씨 테스트 페이지 */}
+        <Route path="/weather" element = {!authCtx.isLoggedIn ? <Navigate to='/' /> : <TodayWeatherComponent/>}></Route>
       </Routes>
     </Layout>
   );

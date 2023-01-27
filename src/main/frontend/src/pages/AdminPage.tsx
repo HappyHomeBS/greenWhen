@@ -6,16 +6,14 @@ import Group from "../components/User/Admin/Group";
 
 const ProfilePage = () => {
   const [member, setMember] = useState(true);
-  const [group, setGroup] = useState(false);
-  const [note, setNote] = useState(false);
+  const [group, setGroup] = useState(false);  
 
   return (
     <Fragment>
       <button
         onClick={() => {
           setMember(false);
-          setGroup(true);
-          setNote(false);
+          setGroup(true);          
         }}
       >
         소모임
@@ -23,13 +21,14 @@ const ProfilePage = () => {
       <button
         onClick={() => {
           setMember(true);
-          setGroup(false);
-          setNote(false);
+          setGroup(false);          
         }}
       >
         회원
-      </button>      
-      {member && <Member />}
+      </button>  
+      <div className="userInfo">
+        {member && <Member />}
+      </div>    
       {group && <Group />}    
     </Fragment>
   );

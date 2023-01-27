@@ -5,6 +5,8 @@ import { useLocation, useNavigate } from "react-router-dom";
 import 'react-input-checkbox/lib/react-input-checkbox.min.css';
 import { Checkbox } from "react-input-checkbox";
 import Select from "react-select";
+import "../DamCss/Page/page.css";
+
 
 
 const CreateBoard = () => {
@@ -26,6 +28,7 @@ const CreateBoard = () => {
   const location = useLocation();
   const groupname = location.state.groupname.selectedGroup;
   const groupleader = location.state.groupleader.groupLeader;
+  const Admin = location.state.Admin.Admin;
 
   const navigate = useNavigate();
   const readcount = 0;
@@ -33,7 +36,12 @@ const CreateBoard = () => {
   console.log('왜 여기선 오브잭트내로 계속가노???', groupname, groupleader, userid);
   // userid는 로그인기능 쓰면 좋겟다
 
- 
+
+
+ console.log('createboard/admin/taglist' , tagList);
+
+
+
 //tag list가져오기 
   useEffect(() =>  {
 
@@ -46,12 +54,18 @@ const CreateBoard = () => {
           } );
       setTagList(response.data.data);
 
+     
       console.log('1.',response.data.data);
     };
 
     getTagList();
 
   }, [groupleader, groupname]);
+
+
+ console.log('createboard/admin/taglist' , tagList);
+
+
 
 
   
@@ -148,20 +162,14 @@ const CreateBoard = () => {
   console.log('CreateBoard/selectdTag :', selectedTag);
   
     return (
-      <form onSubmit={handleSubmit}>
+      <form className="damform" onSubmit={handleSubmit}>
         {error && <p>{error}</p>}
-        <div>
-        <Checkbox
-          label = "i agree to the terms and conditions"          
-          onChange={handleChange}
-        > not allowed comment
-          </Checkbox> 
-      </div>
 
-      <br />
-      <br />
-        <div>
-            <label>
+
+<div className="damblock">
+<div className="dam-parentts">
+        <div className="damselectedtagdiv">
+            <label className="damselectedtag">
                 Group :
                   <select value={selectedTag} onChange={handleGroupTag}>
                           <option value=""> 말머리 선택하기</option>
@@ -174,9 +182,7 @@ const CreateBoard = () => {
                   </select>
             </label>
         </div>   
-      <br />
-      <br />
-        <label>
+        <label className=" damtitle">
           Title:
           <input
             type="text"
@@ -185,25 +191,39 @@ const CreateBoard = () => {
             onChange={(event) => setTitle(event.target.value)}
           />
         </label>
+</div>
         <br />
         <br />
-        <label>
-          Content:
-          <textarea
+        <label className="damcontent">
+          Content
+          <textarea className="damtextarea"
             placeholder="Enter content"
             value={content}
             onChange={(event) => setContent(event.target.value)}
           />
         </label>
         <br />
-        <br />
-        <label>
+
+
+<div className="dam-parentsss"  >
+      <div  className="damcheckbox">
+        <Checkbox
+          label = "i agree to the terms and conditions"          
+          onChange={handleChange}
+        > not allowed comment
+          </Checkbox> 
+      </div>
+
+
+        <label className="damimage">
           Image:
           <input type="file" multiple onChange={handleFileChange} />
         </label>
+</div>
+</div>
         <br />
         <br />
-        <button type="submit" disabled={isSubmitting || !isFormValid }>
+        <button className="dambutton" type="submit" disabled={isSubmitting || !isFormValid }>
           Create board
         </button>
       </form>

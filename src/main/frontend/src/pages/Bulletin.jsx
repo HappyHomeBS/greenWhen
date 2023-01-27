@@ -7,6 +7,8 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import Select from "react-select";
 import AuthContext from "../store/authContext";
 import Calendar from "../components/Calendar/containers/Calendar";
+import "../DamCss/Page/page.css";
+
 
 //this is 2023-01-04
 
@@ -134,10 +136,12 @@ const handleGroupChange = (event) => {
 
   return (
     <>
+    <div className="page"> 
+    <div className="damparent">
     <form>
-      <label>
+      <label className="damlabel">
         Group :
-        <select value={selectedGroup} onChange={handleGroupChange}>
+        <select className="damselect" value={selectedGroup} onChange={handleGroupChange}>
           {groupList.filter(group => group.accessiblelevel !== 2)
           .map(group => (
             <option key = {group.groupname} 
@@ -149,16 +153,18 @@ const handleGroupChange = (event) => {
       </label>
     </form>
 
-    <div>
+    <div className="dam-manage-group">
     {groupLeader === userid || Admin ? 
       <Link to ={"/manage-group"}
             state = {{
             groupname : {selectedGroup},
             groupleader : {groupLeader},
-            userid : {userid}
+            userid : {userid},
+            Admin : {Admin}
         }}>
-                      <input type='button' value = '소모임관리'/>
+                      <input className="dambutton"  type='button' value = '소모임관리'/>
       </Link> : null }
+    </div>
     </div>
     {/*달력 */}   
         <Calendar
@@ -167,7 +173,20 @@ const handleGroupChange = (event) => {
 
 
 
-    <div>
+  <div className="damparent">
+    
+    <div className="damcreate-board">
+      <Link to={"/create-board"} 
+            state = {{
+                  groupname : {selectedGroup},
+                  groupleader : {groupLeader},
+                  Admin : {Admin}
+            }}>
+        <input className="dambutton" type='button' value='게시글 작성하기'/>
+      </Link>
+      </div>
+
+    <div className="dam-manage-group">
       <form onSubmit={handleSubmit}>
         <label>
           Search:
@@ -176,18 +195,12 @@ const handleGroupChange = (event) => {
         <input type="submit" value="Submit" />
       </form>
     </div>
-
-       <Link to={"/create-board"} 
-            state = {{
-                  groupname : {selectedGroup},
-                  groupleader : {groupLeader}
-            }}>
-        <input type='button' value='게시글 작성하기'/>
-       </Link>
+  </div>
        <BoardList data={data} Admin={Admin}/>
             <br />
             <br />
             <br /> 
+      </div>
     </>
   );
 };

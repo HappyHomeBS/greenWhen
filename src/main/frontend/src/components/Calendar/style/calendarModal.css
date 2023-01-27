@@ -33,6 +33,7 @@
     margin-top: 0;
     margin-bottom: 1rem;
     align-items: center;
+    border-radius: 5px;
 }
 
 .modal .footer {
@@ -50,11 +51,26 @@
     flex-direction: row;
 }
 
+.parentcustom-check-box{    
+    display: flex;
+    flex-wrap: nowrap;    
+}
+
 .custom-check-box {
     margin: 10px;
     width: 15px;
     height: 15px;
+    display: inline-block;
+    vertical-align: middle;
 }
+.custom-check-box-div {
+    margin: 5px;
+    width: 15px;
+    height: 15px;
+    display: inline-block;
+    vertical-align: middle;
+}
+
 
 .custom-check-box:hover {
     box-shadow: 10px 10px 10px grey;
@@ -66,8 +82,8 @@
     flex-direction: row;
 }
 .calendarLi {
-    margin-top:10px;
-    margin-bottom: 10px;
+    margin-top:5px;
+    margin-bottom: 5px;
     border-radius: 5px;
 }
 

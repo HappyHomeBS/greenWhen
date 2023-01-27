@@ -2,6 +2,8 @@ import React, {useContext, useState, useEffect} from "react";
 import axios from "axios";
 import AuthContext from "../../store/authContext";
 import { useNavigate, useLocation } from "react-router-dom";
+import "../../DamCss/Component/Component.css";
+import "../../DamCss/newCss.css";
 
 const CreateAnnounceOrFAQ = () => {
     const authCtx = useContext(AuthContext);
@@ -76,7 +78,10 @@ const CreateAnnounceOrFAQ = () => {
 return (
         <>
         
-        
+
+    
+
+    <div className="dam-create-announce-or-faq-select">
         {parents === "FAQ" && 
             <select value={selectedTag} onChange={(event) => setSelectedTag(event.target.value)}>
             {tagList.map(tag => (
@@ -85,10 +90,15 @@ return (
                           {tag.label}
                 </option> 
             ))}
-    </select>}
+    </select>
+    }
+    </div>
 
-    <form onSubmit={handleSubmit}>
-            <label>
+
+<form onSubmit={handleSubmit}>
+
+    <div className="dam-create-announce-or-faq-form">
+            <label  className="damtitle-create-announce-or-faq">
           Title:
           <input
             type="text"
@@ -99,15 +109,16 @@ return (
         </label>
         <br />
         <br />
-        <label>
+        <label className="damcontent-create-announce-or-faq">
           Content:
-          <textarea
+          <textarea className="damtextarea-create-announce-or-faq"
             placeholder="Enter content"
             value={content}
             onChange={(event) => setContent(event.target.value)}
           />
         </label>
-        <button type="submit" disabled={isSubmitting}>
+    </div>
+        <button className="dambutton" type="submit" disabled={isSubmitting}>
           공지생성
         </button>
         </form>

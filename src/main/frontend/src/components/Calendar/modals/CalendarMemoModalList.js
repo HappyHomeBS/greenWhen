@@ -133,18 +133,21 @@ const CalendarMemoModal = ({
             </thead>
             <tbody className="calendarTbody">{callSchedulesList(items)}</tbody>
           </table>
-          {renderPageLinks()}
+          <div >
+            {renderPageLinks()}
+          </div>
 
           <form onSubmit={handleSubmit}>
             <label>
               Search:
               <input
+                className="input"
                 type="text"
                 value={searchQuery}
                 onChange={(event) => setSearchQuery(event.target.value)}
               />
             </label>
-            <input type="submit" value="내용검색" />
+            <input className="button" type="submit" value="내용검색" />
           </form>
         </Modal.Body>
         <Modal.Footer>

@@ -4,6 +4,7 @@ import GroupList from "../components/Group/ManageSide/GroupList/GroupList";
 import GroupListForBoardList from "../components/Group/ManageSide/GroupList/GroupListForBoardList";
 import CreateGroupModal from "../components/Group/Modals/CreateGroupModal";
 import AuthContext from "../store/authContext";
+import "../DamCss/Page/page.css";
 
 const Main = () => {
     const [data, setData] = useState("");
@@ -42,20 +43,22 @@ const Main = () => {
 
     return(
         <>
-            <button onClick={ () => setShowModal(true)}>Creat Group</button>
+        <div className="page">
+            <button id="damcreatgroupbutton" className="dambutton" onClick={ () => setShowModal(true)}>Creat Group</button>
             {showModal && (
                 <CreateGroupModal onClose={() => setShowModal(false)} />
             )}
             <GroupList data={data} updateGroupList={updateGroupList} />
 
 
+
             <br />
             <br />
-        <div>
+        <div className="dam-main">
             <GroupListForBoardList data={data} />
         </div>
           
-
+        </div>
         </>
 
     );

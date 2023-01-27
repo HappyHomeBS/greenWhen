@@ -2,6 +2,7 @@ import React, {useContext} from "react";
 import AuthContext from "../../../store/authContext";
 import {useState} from "react";
 import axios from "axios";
+import "../../../DamCss/Modal/Modal.css";
 
 
 const HaltOrClosingModal = (props) => {
@@ -11,7 +12,6 @@ const HaltOrClosingModal = (props) => {
     const authCtx = useContext(AuthContext);
     const token = authCtx.token;
     const options = [
-        {value : 1, label: '소모임장 외 접근 금지'},
         {value : 2, label: '관리자 외 접근 금지'},
         {value : 3, label : '폐쇄'},
         {value : 4, label : '모두 접근 가능'}
@@ -148,18 +148,25 @@ const HaltOrClosingModal = (props) => {
   
     return(
         <>
-            <label>Select Option;</label>
-                <select value={selectedOption} onChange={handleChange}>
-                    <option value="">Select an option</option>
+    
+    <div className="dam-halt-or-over-lay">
+        <div className="dam-halt-or-content">
+            <label className="dam-halt-or-label">Select Option;</label>
+            <div className="dam-halt-or-select-and-option">
+                <select className="dam-halt-or-select" value={selectedOption} onChange={handleChange}>
+                    <option value="dam-halt-or-option">Select an option</option>
                         {options.map(option => (
                         <option key={option.value} value={option.value}>
                                 {option.label}
                         </option>
                     ))}
                 </select>
-                <button className="modal-close-button" onClick={props.onClose}>
+            </div>
+                <button className="dam-halt-or-close-button" onClick={props.onClose}>
                     닫기
                 </button>
+        </div>
+    </div>
         </>
 
     )

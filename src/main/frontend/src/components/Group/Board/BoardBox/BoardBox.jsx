@@ -3,6 +3,8 @@ import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import AuthContext from "../../../../store/authContext";
 import BoardNoteModal from "../../Modals/BoardNoteModal";
+import Table from 'react-bootstrap/Table';
+import "../../../../DamCss/Component/Component.css"
 
 const BoardBox = (props) => {
   const authCtx = useContext(AuthContext);
@@ -10,8 +12,11 @@ const BoardBox = (props) => {
   const token = authCtx.token;
   const [boardNoteModalOn, setBoardNoteModalOn] = useState(false);
 
+
   const { Admin } = props;
   console.log("BoardBox/Admin: ,", Admin);
+
+  console.log("BoardBox/time : " , props.time.slice(0,10));
   //<Link
   //   to = {"/page"}
   // state = {{
@@ -20,25 +25,19 @@ const BoardBox = (props) => {
   //>
 
   return (
-    <>
-      <Link
-        to={"/page"}
-        state={{ no: props.no, allowcomment: props.allowcomment, Admin: Admin }}
-      >
-        <div>
-          <h5>{props.title}</h5>
+    <div className="board-box">
+      
+    <div className="parent-board-box">
+      <div className="child-board-box-tag">{props.tag}</div>
+      <Link to={"/page"} state={{ no: props.no, allowcomment: props.allowcomment, Admin: Admin }}>
+        <div className="child-board-box-title">
+          {props.title} (  {props.commentcount} )
         </div>
       </Link>
-      {/*본인의 경우 유저아이디만 뜨고 다른사람의 경우 클리하여 쪽지보내기 가능 */}
-      <div>
-        {props.tag} || {props.title} || {props.commentcount} ||{props.userid} ||{" "}
-        {props.readcount} || {props.time}
-      </div>
-
       {props.userid !== userid ? (
-        <div onClick={() => setBoardNoteModalOn(true)}>{props.userid}</div>
+        <div className="child-board-box-userid" onClick={() => setBoardNoteModalOn(true)}>{props.userid}</div>
       ) : null}
-      {props.userid === userid ? <div>{props.userid}</div> : null}
+      {props.userid === userid ? <div  className="child-board-box-userid">{props.userid}</div> : null}
       <BoardNoteModal
         visible={boardNoteModalOn}
         onCancel={() => setBoardNoteModalOn(false)}
@@ -47,7 +46,12 @@ const BoardBox = (props) => {
         token={token}
         setBoardNoteModalOn={setBoardNoteModalOn}
       />
-    </>
+        <div className="child-board-box-readcount">
+          {props.readcount} </div>
+        <div  className="child-board-box-time"> {props.time} </div>
+      </div> 
+    </div >
   );
+
 };
 export default BoardBox;

@@ -75,7 +75,7 @@ const ProfilePage = () => {
 
   return (
     <Fragment>
-      <div>
+      <div className="profilepage">
         <ProfileImage />
         <div>아이디: {userid}</div>
         <div>닉네임: {usernickname}</div>

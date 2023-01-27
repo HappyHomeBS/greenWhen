@@ -1,6 +1,7 @@
-import React from "react";
+import React,{useContext} from "react";
 import Schedule from "./Schedule";
 import { transString } from "./CalcDate";
+import AuthContext from "../../../store/authContext";
 
 /*
  * 현재 날짜를 key값 형식으로 변환
@@ -37,7 +38,8 @@ const MakeCalendar = ({
   userid,
   groupName,
 }) => {
-  console.log("정보정보", groupName, userid, groupLeader);
+  const authCtx = useContext(AuthContext);
+  const isLogin = authCtx.isLoggedIn;
   const result = [];
 
   const viewModal = () => {
@@ -85,7 +87,7 @@ const MakeCalendar = ({
 
           result.push(
             <>
-              {!groupName || (groupName && groupLeader === userid) ? (
+              {isLogin && !groupName || (groupName && groupLeader === userid) ? (
                 <td
                   className="calendarMainTd"
                   onClick={() => changeVisible(idx)}
@@ -95,7 +97,7 @@ const MakeCalendar = ({
                     <div className="calendarDiv" onClick={viewModal}>{Schedule(idx, todo)}</div>
                 </td>
               ) : null}
-              {groupName && groupLeader !== userid ? (
+              {!isLogin || groupName && groupLeader !== userid ? (
                 <td
                   className="calendarMainTd"                 
                   key={idx}
@@ -118,7 +120,7 @@ const MakeCalendar = ({
 
           result.push(
             <>
-              {!groupName || (groupName && groupLeader === userid) ? (
+              {isLogin && !groupName || (groupName && groupLeader === userid) ? (
                 <td
                   className="calendarMainTd"
                   onClick={() => changeVisible(idx)}
@@ -128,7 +130,7 @@ const MakeCalendar = ({
                     <div className="calendarDiv" onClick={viewModal}>{Schedule(idx, todo)}</div>
                 </td>
               ) : null}
-              {groupName && groupLeader !== userid ? (
+              {!isLogin || groupName && groupLeader !== userid ? (
                 <td
                  className="calendarMainTd"                
                   key={idx}
@@ -147,7 +149,7 @@ const MakeCalendar = ({
 
           result.push(
             <>
-              {!groupName || (groupName && groupLeader === userid) ? (
+              {isLogin && !groupName || (groupName && groupLeader === userid) ? (
                 <td className="diff calendarMainTd"
                   onClick={() => changeVisible(idx)}
                   key={idx}
@@ -156,7 +158,7 @@ const MakeCalendar = ({
                     <div className="calendarDiv" onClick={viewModal}>{Schedule(idx, todo)}</div>
                 </td>
               ) : null}
-              {groupName && groupLeader !== userid ? (
+              {!isLogin || groupName && groupLeader !== userid ? (
                 <td className="diff calendarMainTd"
                   key={idx}
                 >

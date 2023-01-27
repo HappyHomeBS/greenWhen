@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
 import AuthContext from "../../../store/authContext";
 import MemberBox from "./MemberBox";
+import "../../../css/admin.css"
 
 const Member = () => {
   const authCtx = useContext(AuthContext);
@@ -27,20 +28,20 @@ const Member = () => {
   const renderPageLinks = () => {
     const pageLinks = [];
     pageLinks.push(
-      <button key="prev" onClick={() => setPage(page - 1)}>
+      <button  key="prev" onClick={() => setPage(page - 1)}>
         Prev
       </button>
     );
-    for (let i = 1; i <= totalPages; i++) {
-      const className = i === page ? "current-page" : "";
+    for (let i =1; i <= totalPages; i++){
+      const className = i === page ? 'current-page' : '';
       pageLinks.push(
-        <button key={i} className={className} onClick={() => setPage(i)}>
+        <button key={i} className={` ${i === page ? 'current-page' : ''}`} onClick={ () => setPage(i)}>
           {i}
         </button>
       );
     }
     pageLinks.push(
-      <button key="next" onClick={() => setPage(page + 1)}>
+      <button  key="next" onClick={() => setPage(page + 1)}>
         Next
       </button>
     );
@@ -99,22 +100,10 @@ const Member = () => {
   return (
     <div>
       <h2>회원 목록</h2>
-      <div>
-        <table>
-          <thead>
-            <tr>
-              <td> 아이디 </td>
-              <td> 닉네임</td>
-              <td> 이메일 </td>
-              <td> 유저권한</td>
-              <td> 가입일자</td>
-            </tr>
-          </thead>                  
-            {callUserList(items)}
-        </table>
-      </div>
-      <div></div>
-      {renderPageLinks()}
+      <div>                        
+        {callUserList(items)}        
+        {renderPageLinks()}
+      </div>   
       <div>
         <form onSubmit={handleSubmit}>
           <label>
@@ -125,7 +114,7 @@ const Member = () => {
               onChange={(event) => setSearchQuery(event.target.value)}
             />
           </label>
-          <input type="submit" value="Submit" />
+          <input type="submit" value="Submit"/>
         </form>
       </div>
     </div>

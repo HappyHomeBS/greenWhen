@@ -3,6 +3,8 @@ import Announcement from "../components/ServiceCenter/Announcement";
 import FAQ from "../components/ServiceCenter/FAQ";
 import AuthContext from "../store/authContext";
 import InquiryList from "../components/Inquiry/InquiryListComponent";
+import "../DamCss/Page/page.css";
+
 
 
 const ServiceCenter =() => {
@@ -13,11 +15,12 @@ const ServiceCenter =() => {
 
 
         <>
-        고객센터 페이지
-        <button onClick={() => setWhich(0)}>공지사항</button>
-        <button onClick={() => setWhich(1)}>FAQ</button>
-        <button onClick={() => setWhich(2)}>1:1문의</button>
-        
+        <div className="page">
+            <div className="dam-parents" >
+        <button className="dambutton" onClick={() => setWhich(0)}>공지사항</button>
+        <button className="dambutton" onClick={() => setWhich(1)}>FAQ</button>
+        <button className="dambutton" onClick={() => setWhich(2)}>1:1문의</button>
+            </div>
 
         <div>
         {which === 0 && <Announcement /> }
@@ -28,7 +31,7 @@ const ServiceCenter =() => {
         <div>
         {which === 2 && <InquiryList />}
         </div>
-
+        </div>
         </>
     )
 }

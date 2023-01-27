@@ -106,7 +106,6 @@ public class AuthService {
 
     // 메일보내기
     public void mailSend(MailVo mailVo) {
-        System.out.println("전송 완료!");
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(mailVo.getAddress());
         message.setSubject(mailVo.getTitle());
@@ -115,6 +114,7 @@ public class AuthService {
         message.setReplyTo("greenwhen2@gmail.com");
         System.out.println("message"+message);
         mailSender.send(message);
+        System.out.println("전송 완료!");
     }
 
 }
