@@ -48,7 +48,7 @@ const BoardNoteModal = ({ visible, onCancel, userid, recept, token, setBoardNote
               <label> Recept: </label> &nbsp;
               <label> {recept} </label>
             </div>
-            <div className="form-group">
+            <div className="text">
               <label> Title </label>
               <input
                 type="text"
@@ -56,7 +56,7 @@ const BoardNoteModal = ({ visible, onCancel, userid, recept, token, setBoardNote
                 onChange={changeTitleHandler}
               />
             </div>
-            <div className="form-group">
+            <div className="textarea">
               <label> Content </label>
               <textarea
                 placeholder="내용"
