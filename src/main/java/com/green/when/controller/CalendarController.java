@@ -32,32 +32,29 @@ public class CalendarController {
         }
     }
 
-    @GetMapping("/getSchedules")
-    public List<ScheduleVo> getSchedules(@RequestParam int region) {
+    @PostMapping("/getSchedules")
+    public List<ScheduleVo> getSchedules(@RequestBody ScheduleVo scheduleVo) {
         String userid = SecurityUtil.getCurrentMemberId();
-        ScheduleVo scheduleVo = new ScheduleVo();
         scheduleVo.setUserid(userid);
-        scheduleVo.setRegion(region);
         List<ScheduleVo> savedSchedules = new ArrayList<>();
 
         List<ScheduleVo> getSchedules = calendarService.getSchedules(scheduleVo);
         for (ScheduleVo vo : getSchedules) {
             savedSchedules.add(vo);
         }
-
         return savedSchedules;
     }
 
-    @GetMapping("/getAllSchedules")
-    public List<ScheduleVo> getAllSchedules() {
+    @PostMapping("/getAllSchedules")
+    public List<ScheduleVo> getAllSchedules(@RequestBody ScheduleVo scheduleVo) {
         String userid = SecurityUtil.getCurrentMemberId();
+        scheduleVo.setUserid(userid);
         List<ScheduleVo> savedSchedules = new ArrayList<>();
 
-        List<ScheduleVo> getSchedules = calendarService.getAllSchedules(userid);
+        List<ScheduleVo> getSchedules = calendarService.getAllSchedules(scheduleVo);
         for (ScheduleVo vo : getSchedules) {
             savedSchedules.add(vo);
         }
-
         return savedSchedules;
     }
 

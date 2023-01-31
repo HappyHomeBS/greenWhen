@@ -32,7 +32,6 @@ public class GroupManageController {
 
     private final NoteService noteService;
 
-    //send invite message
 
 
     //마음에 들었었는데 ->     @Query("SELECT g.groupname, g.grade, m.userid, m.usernickname FROM GroupManageEntity g JOIN g.memberEntity m WHERE g.groupname = :groupname")
@@ -44,6 +43,41 @@ public class GroupManageController {
 
 
         return new WrapperClass(lists);
+    }
+
+    @PostMapping("/api/Note-all-member/{groupname}")
+    public ResponseEntity note_all_member(@RequestBody NoteDto noteDto,
+                                          @PathVariable("groupname") String groupname){
+        //그룹에 들어있는 멤버 다 꺼내
+        String userid = SecurityUtil.getCurrentMemberId();
+        List<MemberAndGroupJoinDto> lists = groupManageService.findByGroupName(groupname);
+
+
+        for(MemberAndGroupJoinDto memberAndGroupJoinDto : lists) {
+
+            if (memberAndGroupJoinDto.getUserid().equals(userid)) {
+                System.out.println("내가 내한테 굳이 보내야할까");
+            } else {
+                NoteDto note = new NoteDto();
+                note.setNo(null);
+                note.setSend(userid);
+                note.setRecept(memberAndGroupJoinDto.getUserid());
+                note.setTitle(noteDto.getTitle());
+                note.setContent(noteDto.getContent());
+                note.setTime(noteDto.getTime());
+                note.setReadcheck(noteDto.getReadcheck());
+                note.setDeleted(noteDto.getDeleted());
+                note.setInvitation(noteDto.isInvitation());
+
+                System.out.println("잘 만들어졌나 보자 note-all-member : " + note);
+
+                NoteEntity noteEntity = new NoteEntity(note);
+                noteService.save(noteEntity);
+            }
+        }
+
+
+        return ResponseEntity.ok().build();
     }
 
 
@@ -148,6 +182,7 @@ public class GroupManageController {
 
                 String userid = SecurityUtil.getCurrentMemberId();
                 groupManageDto.setUserid(userid);
+                groupManageDto.setAccessiblelevel(0L);
                 GroupManageEntity groupManageEntity = new GroupManageEntity(groupManageDto);
                 System.out.println("초대받은사람 ! " + groupManageEntity);
                 groupManageService.save(groupManageEntity);

@@ -68,8 +68,10 @@ const CommentBox = (props) => {
                 console.log('contentNo:', contentNo);
                 console.log('Number(contentNo)', Number(contentNo));
                 console.log('대체 어디로 가길래지랄이고 state: { no : Number(contentNo) }',{ no : Number(contentNo) });
-                window.location.reload();
+               // window.location.reload();
                // navigate("/page", { state: { no : Number(contentNo) } });
+                props.updateCommentList();
+                
             }
         } catch (err) {
             setError(err.message);
@@ -104,7 +106,9 @@ const CommentBox = (props) => {
         console.log('Number(contentNo)', Number(contentNo));
         console.log('대체 어디로 가길래지랄이고 state: { no : Number(contentNo) }',{ no : Number(contentNo) });
         //navigate("/page", { state: { no : Number(contentNo) } });
-        window.location.reload(); 
+       // window.location.reload(); 
+       props.updateCommentList();
+
     }catch (err){
         setError(err.message);
     }

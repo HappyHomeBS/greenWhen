@@ -2,8 +2,10 @@ import React,{ useEffect, useState, useContext }  from "react";
 import AuthContext from "../store/authContext";
 import axios from "axios";
 import { useNavigate, useLocation, Link } from "react-router-dom";
+import "../DamCss/Page/page.css";
 
-const Detail = () => {
+
+const Detail = (props) => {
     const authCtx = useContext(AuthContext);
     const token = authCtx.token;
     const[title, setTitle] = useState("");
@@ -16,8 +18,11 @@ const Detail = () => {
     const navigate = useNavigate();
     const no = location.state.no;
     const userid = authCtx.userObj.userid;
+    const {Admin} = props;
 
-    console.log("no: " , no );
+    console.log("Detail/no: " , no );
+    console.log("Detail/Admin: " , Admin );
+
 
 //{no : no}  앞에거는 entity에 맞춘거고 뒤에거는 이 페이지의 no값
     const handleDeleteBtnClick = async (e) => {
@@ -73,11 +78,23 @@ const Detail = () => {
                     수정하기 | {" "}
                 </Link>}
             {userid === writer &&
-            <input type="button" onClick={handleDeleteBtnClick} value="삭제" />}
+            <input className="dambutton" type="button" onClick={handleDeleteBtnClick} value="삭제" />}
+            {Admin ? 
+             <Link
+             to = {"/bulletin"}
+                 state = {{
+                 groupname : groupname,
+                 Admin : Admin
+             }}
+            >
+            {" "}
+            |목록보기  {" "}
+            </Link> 
+            :
             <Link to ={"/bulletin"} state={{ groupname : groupname }}>
             {" "}
             |목록보기  {" "}
-            </Link>
+            </Link>}
             
         </>
     );

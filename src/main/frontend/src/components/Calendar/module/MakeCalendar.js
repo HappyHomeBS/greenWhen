@@ -1,12 +1,13 @@
-import React from "react";
+import React,{useContext} from "react";
 import Schedule from "./Schedule";
 import { transString } from "./CalcDate";
-
+import AuthContext from "../../../store/authContext";
+import { BsCloudRainHeavy, BsBrightnessHigh, BsCloudSnow, BsFillCloudFill, BsFillCloudLightningRainFill, BsFillUmbrellaFill } from "react-icons/bs";
 /*
  * 현재 날짜를 key값 형식으로 변환
  * key ex) 2021.10.11
  */
-const returnIdx = (order, year, month, day) => {
+const returnIdx = (order, year, month, day) => {  
   if (order == "PREV") {
     if (month == 0) {
       return transString(year - 1, 12, day);
@@ -31,15 +32,21 @@ const MakeCalendar = ({
   lastDate,
   changeVisible,
   todo,
-  setCalendarUpdateModalOn,  
+  setCalendarUpdateModalOn,
   onCancel,
+  groupLeader,
+  userid,
+  groupName,
 }) => {
+  {/*날씨 아이콘 <BsCloudRainHeavy /><BsBrightnessHigh /><BsCloudSnow /><BsFillCloudFill /><BsFillCloudLightningRainFill /><BsFillUmbrellaFill />*/}
+  const authCtx = useContext(AuthContext);
+  const isLogin = authCtx.isLoggedIn;
   const result = [];
 
-  const viewModal=()=>{
-    setCalendarUpdateModalOn(true)
-    changeVisible(onCancel)    
-  }
+  const viewModal = () => {
+    setCalendarUpdateModalOn(true);
+    changeVisible(onCancel);
+  };
 
   const makeDay = (week) => {
     const result = [];
@@ -53,14 +60,25 @@ const MakeCalendar = ({
           const idx = returnIdx("PREV", year, month, now);
 
           result.push(
-            <td className="diff" onClick={() => changeVisible(idx)} key={idx}>
-              {now}
-              <div className="todo">
-                <div onClick={viewModal}>
-                  {Schedule(idx, todo)}
-                </div>
-              </div>
-            </td>
+            <>
+              {isLogin && !groupName || (groupName && groupLeader === userid) ? (
+                <td className="diff calendarMainTd"
+                  onClick={() => changeVisible(idx)}
+                  key={idx}
+                >
+                  {now}<BsCloudRainHeavy />      
+                    <div className="calendarDiv" onClick={viewModal}>{Schedule(idx, todo)}</div>
+                </td>
+              ) : null}
+              {!isLogin || groupName && groupLeader !== userid ? (
+                <td className="diff calendarMainTd"
+                  key={idx}
+                >
+                  {now}<BsCloudRainHeavy />
+                    <div className="calendarDiv">{Schedule(idx, todo)}</div>
+                </td>
+              ) : null}
+            </>
           );
         }
         // 현재 달 날짜
@@ -69,14 +87,27 @@ const MakeCalendar = ({
           const idx = returnIdx("", year, month, now);
 
           result.push(
-            <td onClick={() => changeVisible(idx)} key={idx}>
-              {now}
-              <div className="todo">
-                <div onClick={viewModal}>
-                  {Schedule(idx, todo)}
-                </div>
-              </div>
-            </td>
+            <>
+              {isLogin && !groupName || (groupName && groupLeader === userid) ? (
+                <td
+                  className="calendarMainTd"
+                  onClick={() => changeVisible(idx)}
+                  key={idx}
+                >
+                  {now}<BsCloudRainHeavy />{/* {idx}: 연월일 */}
+                    <div className="calendarDiv" onClick={viewModal}>{Schedule(idx, todo)}</div>
+                </td>
+              ) : null}
+              {!isLogin || groupName && groupLeader !== userid ? (
+                <td
+                  className="calendarMainTd"                 
+                  key={idx}
+                >
+                  {now}<BsCloudRainHeavy />
+                    <div className="calendarDiv">{Schedule(idx, todo)}</div>
+                </td>
+              ) : null}
+            </>
           );
         }
       }
@@ -89,14 +120,27 @@ const MakeCalendar = ({
           const idx = returnIdx("", year, month, now);
 
           result.push(
-            <td onClick={() => changeVisible(idx)} key={idx}>
-              {now}
-              <div className="todo">
-                <div onClick={viewModal}>
-                  {Schedule(idx, todo)}
-                </div>
-              </div>
-            </td>
+            <>
+              {isLogin && !groupName || (groupName && groupLeader === userid) ? (
+                <td
+                  className="calendarMainTd"
+                  onClick={() => changeVisible(idx)}
+                  key={idx}
+                >
+                  {now}<BsCloudRainHeavy />
+                    <div className="calendarDiv" onClick={viewModal}>{Schedule(idx, todo)}</div>
+                </td>
+              ) : null}
+              {!isLogin || groupName && groupLeader !== userid ? (
+                <td
+                 className="calendarMainTd"                
+                  key={idx}
+                >
+                  {now}<BsCloudRainHeavy />
+                    <div className="calendarDiv">{Schedule(idx, todo)}</div>
+                </td>
+              ) : null}
+            </>
           );
         }
         // 다음 달 날짜
@@ -105,14 +149,25 @@ const MakeCalendar = ({
           const idx = returnIdx("NEXT", year, month, now);
 
           result.push(
-            <td className="diff" onClick={() => changeVisible(idx)} key={idx}>
-              {now}
-              <div className="todo">
-                <div onClick={viewModal}>
-                  {Schedule(idx, todo)}
-                </div>
-              </div>
-            </td>
+            <>
+              {isLogin && !groupName || (groupName && groupLeader === userid) ? (
+                <td className="diff calendarMainTd"
+                  onClick={() => changeVisible(idx)}
+                  key={idx}
+                >
+                  {now}<BsCloudRainHeavy />
+                    <div className="calendarDiv" onClick={viewModal}>{Schedule(idx, todo)}</div>
+                </td>
+              ) : null}
+              {!isLogin || groupName && groupLeader !== userid ? (
+                <td className="diff calendarMainTd"
+                  key={idx}
+                >
+                  {now}<BsCloudRainHeavy />
+                    <div className="calendarDiv">{Schedule(idx, todo)}</div>
+                </td>
+              ) : null}
+            </>
           );
         }
       }
@@ -123,7 +178,7 @@ const MakeCalendar = ({
   // 주 계산
   const week = Math.ceil((firstDay + lastDate) / 7);
   for (let i = 1; i <= week; i++) {
-    result.push(<tr key={week + i}>{makeDay(i)}</tr>);
+    result.push(<tr classname="calendarTr" key={week + i}>{makeDay(i)}</tr>);
   }
   return result;
 };

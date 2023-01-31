@@ -27,7 +27,7 @@ const ManageMemberList = (props) => {
                 usernickname = {i.usernickname}
                 grade = {i.grade}
                 groupname = {i.groupname}
-                time = {i.time}
+                time = {i.time.slice(0,10)}
                 updateBoardList={props.updateBoardList}
                 />
 

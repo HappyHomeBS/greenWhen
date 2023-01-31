@@ -33,7 +33,6 @@ public class AuthController {
     public int userCheck(@RequestBody MemberRequestVo requestVo) {
         int useridCheck = authService.useridCheck(requestVo.getUserid());
         return useridCheck;
-
     }
 
     // 이메일 중복체크

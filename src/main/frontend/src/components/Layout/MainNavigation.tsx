@@ -7,8 +7,7 @@ import AuthContext from '../../store/authContext';
 import SignUpModal from '../User/UserModals/SignUpModal'
 import SignInModal from '../User/UserModals/SignInModal';
 
-import '../../ProfileImagecss.css'
-import { Modal } from 'react-bootstrap';
+import '../../css/mainNavigation.css'
 
 
 const MainNavigation = () => {
@@ -77,28 +76,26 @@ const MainNavigation = () => {
       <SignInModal
         show={SignInModalOn}
         onHide={() => setSignInModalOn(false)} /> 
-      <header>
         <Navbar bg="light" expand="lg">
           <Container>
-            <Navbar.Brand><Link to='/'>언제갈래?</Link></Navbar.Brand>
+            <Navbar.Brand><Nav.Link href='/'>언제갈래?</Nav.Link></Navbar.Brand>
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
-            <Navbar.Collapse id="basic-navbar-nav">
+            <Navbar.Collapse  className='navBar-right' id="basic-navbar-nav">
               <Nav className="ml-auto">
-                {!isLogin && <Navbar><Button variant="outline-primary" onClick={() => setSignInModalOn(true)}>Login</Button>&nbsp;</Navbar>}
-                {!isLogin && <Navbar><Button variant="outline-primary" onClick={() => setSignUpModalOn(true)}>Sign-Up</Button>&nbsp;</Navbar>}
-                {isLogin && <Link to='/profile'><img src={Image} className="navImage" alt="" /></Link>}
-                {isLogin && <Navbar> &nbsp; {usernickname}님 환영합니다! &nbsp; </Navbar>}
-                {isLogin && <Navbar> <Button variant="outline-primary" onClick={toggleLogoutHandler}>Logout</Button>&nbsp;</Navbar>}
-                {isLogin && role ==='ROLE_ADMIN' &&  <Navbar><Link to='/admin'> <Button variant="outline-primary">관리자 페이지</Button></Link>&nbsp;</Navbar>}
+                {isLogin && role ==='ROLE_ADMIN' &&  <Navbar><Link to='/admin' className='link-to'> <Button variant="outline-primary">관리자 페이지</Button></Link>&nbsp;</Navbar>}
                 <Navbar><Link to='/calendar'><Button variant="outline-primary">달력</Button></Link></Navbar>&nbsp;
                 <Navbar><Link to='/main'><Button variant="outline-primary">소모임</Button></Link></Navbar>&nbsp;
-                <Navbar><Link to='/'><Button variant="outline-primary">고객센터</Button></Link></Navbar>&nbsp;
-                <Navbar><Link to='/note'><Button variant="outline-primary">쪽지함</Button></Link></Navbar>&nbsp;
+                <Navbar><Link to='/service-center'><Button variant="outline-primary">고객센터</Button></Link></Navbar>&nbsp;
+                {isLogin && <Navbar><Link to='/note'><Button variant="outline-primary">쪽지함</Button></Link></Navbar> }&nbsp;
               </Nav>
             </Navbar.Collapse>
+                {!isLogin && <Navbar><Button variant="outline-primary" onClick={() => setSignInModalOn(true)}>로그인</Button>&nbsp;</Navbar>}
+                {!isLogin && <Navbar><Button variant="outline-primary" onClick={() => setSignUpModalOn(true)}>회원가입</Button>&nbsp;</Navbar>}
+                {isLogin && <Link to='/profile'><img src={Image} className="navImage" alt="" /></Link>} &nbsp; 
+                {isLogin && <Navbar> &nbsp; {usernickname}님 환영합니다! &nbsp; </Navbar>}
+                {isLogin && <Navbar> <Button variant="outline-primary" onClick={toggleLogoutHandler}>Logout</Button>&nbsp;</Navbar>}
           </Container>
         </Navbar>
-      </header>
     </>
   );
 };

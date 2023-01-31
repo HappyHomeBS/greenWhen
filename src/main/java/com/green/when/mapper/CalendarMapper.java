@@ -24,6 +24,6 @@ public interface CalendarMapper {
 
     void updateSchedules(Map schedule);
 
-    List<ScheduleVo> getAllSchedules(String userid);
+    List<ScheduleVo> getAllSchedules(ScheduleVo scheduleVo);
 
 }
