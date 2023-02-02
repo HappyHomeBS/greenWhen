@@ -69,7 +69,7 @@ const MakeCalendar = ({
 
           result.push(
             <>
-              {isLogin & !groupName || (groupName && groupLeader === userid) ? (
+              {isLogin && !groupName || (groupName && groupLeader === userid) ? (
                 <td className="diff calendarMainTd"
                   onClick={() => changeVisible(idx)}
                   key={idx}
@@ -78,7 +78,7 @@ const MakeCalendar = ({
                     <div className="calendarDiv" onClick={viewModal}>{Schedule(idx, todo)}</div>
                 </td>
               ) : null}
-              {!isLogin | groupName && groupLeader !== userid ? (
+              {!isLogin || groupName && groupLeader !== userid ? (
                 <td className="diff calendarMainTd"
                   key={idx}
                 >
@@ -96,7 +96,7 @@ const MakeCalendar = ({
 
           result.push(
             <>
-              {isLogin & !groupName || (groupName && groupLeader === userid) ? (
+              {isLogin && !groupName || (groupName && groupLeader === userid) ? (
                 <td
                   className="calendarMainTd"
                   onClick={() => changeVisible(idx)}
@@ -114,7 +114,7 @@ const MakeCalendar = ({
                     <div className="calendarDiv" onClick={viewModal}>{Schedule(idx, todo)}</div>
                 </td>
               ) : null}
-              {!isLogin | groupName && groupLeader !== userid ? (
+              {!isLogin || groupName && groupLeader !== userid ? (
                 <td
                   className="calendarMainTd"                 
                   key={idx}
@@ -144,7 +144,7 @@ const MakeCalendar = ({
 
           result.push(
             <>
-              {isLogin & !groupName || (groupName && groupLeader === userid) ? (
+              {isLogin && !groupName || (groupName && groupLeader === userid) ? (
                 <td
                   className="calendarMainTd"
                   onClick={() => changeVisible(idx)}
@@ -161,7 +161,7 @@ const MakeCalendar = ({
                     <div className="calendarDiv" onClick={viewModal}>{Schedule(idx, todo)}</div>
                 </td>
               ) : null}
-              {!isLogin | groupName && groupLeader !== userid ? (
+              {!isLogin || groupName && groupLeader !== userid ? (
                 <td
                  className="calendarMainTd"                
                   key={idx}
@@ -187,7 +187,7 @@ const MakeCalendar = ({
 
           result.push(
             <>
-              {isLogin & !groupName || (groupName && groupLeader === userid) ? (
+              {isLogin && !groupName || (groupName && groupLeader === userid) ? (
                 <td className="diff calendarMainTd"
                   onClick={() => changeVisible(idx)}
                   key={idx}
@@ -196,7 +196,7 @@ const MakeCalendar = ({
                     <div className="calendarDiv" onClick={viewModal}>{Schedule(idx, todo)}</div>
                 </td>
               ) : null}
-              {!isLogin | groupName && groupLeader !== userid ? (
+              {!isLogin || groupName && groupLeader !== userid ? (
                 <td className="diff calendarMainTd"
                   key={idx}
                 >
