@@ -58,7 +58,7 @@ const Calendar = (props) => {
   const [calendarUpdateModalOn, setCalendarUpdateModalOn] = useState(false);
   const [calendarMemoModalOn, setCalendarMemoModalOn] = useState(false);
   const [calendarRegionModalOn, setCalendarRegionModalOn] = useState(false);
-  const [calendarRecommendModalOn, setCalendarRecommendModalOn] = useState(false);
+  const [calendarRecommendModalOn, setCalendarRecommendModalOn] = useState(false);  
 
   // 지역
   const [selected, setSelected] = useState(sessionStorage.getItem("selected"));
@@ -233,7 +233,7 @@ const Calendar = (props) => {
             <Button variant="outline-danger" onClick={() => setCalendarRecommendModalOn(true)}>
               관광지 추천
             </Button> &nbsp;
-            */}
+            */}           
           </div>
         </div>
         <table className="calendarMainTable">
@@ -260,7 +260,8 @@ const Calendar = (props) => {
               onCancel,
               groupLeader,
               userid,
-              groupName
+              groupName,
+              regionNum:sessionStorage.getItem("region")
             })}
           </tbody>
         </table>
@@ -301,7 +302,7 @@ const Calendar = (props) => {
           visible={calendarRecommendModalOn}
           onCancel={() => setCalendarRecommendModalOn(false)}
           region={Region({regionNumber:sessionStorage.getItem("region")})}
-        />       
+        />        
       </div>
     </>
   );

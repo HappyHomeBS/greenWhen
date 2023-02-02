@@ -3,7 +3,7 @@ import { Modal, Container } from "react-bootstrap";
 
 const CalendarRecommendModal = ({ visible, onCancel, region }) => {
   const [csvData, setCsvData] = useState([]);
-
+  // ""안에 ""가 있기때문에 ,로 split할수 없는듯
   useEffect(() => {
     const url = "/csv/recommend.csv";
     fetch(url)
@@ -14,7 +14,7 @@ const CalendarRecommendModal = ({ visible, onCancel, region }) => {
           const data = reader.result;
           const rows = data.split(/\r?\n|\r/);
           const rowsData = rows.map(row => row.split(',(?=(["]*"[""]*")*[""*$)', -1));
-          console.log('지역',rows)
+          //console.log('지역',rows)
           setCsvData(rows);
         };
         reader.readAsText(new Blob([text], { type: "text/csv" }));
