@@ -331,6 +331,7 @@ const Region = ({ regionNumber, ClickRegion, groupName }) => {
     });
   }
 
+  //console.log('regionresult', result)
   return result;
 };
 
