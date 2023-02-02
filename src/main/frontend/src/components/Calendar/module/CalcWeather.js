@@ -1,7 +1,7 @@
 import React,{ useState } from 'react';
 import { BsCloudRainHeavy, BsBrightnessHigh, BsCloudSnow, BsFillCloudFill, BsFillCloudLightningRainFill, BsFillUmbrellaFill } from "react-icons/bs";
 
-const CalcWeather = ({lowTemp, highTemp, rain, dust}) => {
+const CalcWeather = ({lowTemp, highTemp, rain, dust, month}) => {
     console.log('lowTemp', lowTemp)
     console.log('highTemp', highTemp)
     console.log('rain', rain)
@@ -32,7 +32,11 @@ const CalcWeather = ({lowTemp, highTemp, rain, dust}) => {
         setDustScore(1)
     }
 
-    {/*최저 온도의 경우 10: 좋음(5점)  5:보통(4점) 0:나쁨(3점) -5:매우나쁨(2점) -10:최악(5점)  */}
+    {/* 3,4,5월: 봄, 6,7,8:여름 9,10,11:가을, 12,1,2:겨울  (봄,가을), 여름, 겨울 */}    
+    {/*평균 온도(봄,가을)의 경우 15: 좋음(5점)  10:보통(4점) 5:나쁨(3점) 0:매우나쁨(2점) -5:최악(5점)  */}
+    {/*평균 온도(여름)의 경우 20: 좋음(5점)  23:보통(4점) 26:나쁨(3점) 32:매우나쁨(2점) 35:최악(5점)  */}
+    {/*평균 온도(겨울)의 경우 5: 좋음(5점)  0:보통(4점) -5:나쁨(3점) -10:매우나쁨(2점) -15:최악(5점)  */}
+
     if(lowTemp >= 10) {
         setLowTempScore(5)
     } else if(lowTemp >= 5) {
@@ -45,7 +49,10 @@ const CalcWeather = ({lowTemp, highTemp, rain, dust}) => {
         setLowTempScore(1)
     }
 
-    {/*최고 온도의 경우 15: 좋음(5점)  20:보통(4점) 25:나쁨(3점) 30:매우나쁨(2점) 35:최악(5점)  */}
+    
+    {/*최고 온도(봄,가을)의 경우 15: 좋음(5점)  10:보통(4점) 5:나쁨(3점) 0:매우나쁨(2점) -5:최악(5점)  */}
+    {/*최고 온도(여름)의 경우 15: 좋음(5점)  17:보통(4점) 20:나쁨(3점) 23:매우나쁨(2점) 25:최악(5점)  */}
+    {/*최고 온도(겨울)의 경우 10: 좋음(5점)  5:보통(4점) 0:나쁨(3점) -5:매우나쁨(2점) -10:최악(5점)  */}
     if(highTemp <= 15) {
         setHighTempScore(5)
     } else if(highTemp <= 20) {
@@ -58,7 +65,7 @@ const CalcWeather = ({lowTemp, highTemp, rain, dust}) => {
         setHighTempScore(1)
     }
     
-    {/* 일 강수량의 경우 없음: 좋음(5점) 5:보통(4점) 10이상: 나쁨(1점) */}
+    {/* 일 강수량의 경우 없음: 좋음(5점) 5:보통(3점) 10이상: 나쁨(1점) */}
     if(rain == 0 || rain == null) {
         setRainScore(5)
     } else if(rain <= 5) {
