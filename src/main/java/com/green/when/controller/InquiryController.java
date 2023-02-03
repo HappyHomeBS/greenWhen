@@ -17,7 +17,7 @@ import java.util.Map;
 @RequestMapping("/api")
 
 public class InquiryController {
-
+    //토큰에서 사용자정보 조회
     public InquiryVo setUserInfo() {
         String userId = SecurityUtil.getCurrentMemberId();
         String userRole = inquiryService.getUserRole(userId);
