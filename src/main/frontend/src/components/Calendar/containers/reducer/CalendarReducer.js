@@ -65,7 +65,6 @@ function calendarReducer(state, action) {
       const year = new Date(targetdate).getFullYear();
       const month = new Date(targetdate).getMonth();      
       return { ...state, year: year, month: month  };
-      
   }
 }
 
