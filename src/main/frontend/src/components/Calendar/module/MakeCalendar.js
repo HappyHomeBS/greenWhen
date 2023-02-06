@@ -55,6 +55,10 @@ const MakeCalendar = ({
     setCalendarWeatherModalOn(true);
     changeVisible(onCancel);
   }
+
+  const clickWeatherGest = () => {
+    setCalendarWeatherModalOn(true);    
+  }
   
   console.log('시작')
   console.log('month', month)
@@ -128,7 +132,7 @@ const MakeCalendar = ({
                   {now}
                   {icons.map((row, index) => (
                     row.targetDate === idx ? 
-                    <span onClick={clickWeather} key={index}>                                      
+                    <span onClick={clickWeatherGest} key={index}>                                      
                       {row.icon}
                     </span>
                     : null
@@ -175,7 +179,7 @@ const MakeCalendar = ({
                   {now}
                   {icons.map((row, index) => (
                     row.targetDate === idx ? 
-                    <span onClick={clickWeather} key={index}>                                      
+                    <span onClick={clickWeatherGest} key={index}>                                      
                       {row.icon}
                     </span>
                     : null

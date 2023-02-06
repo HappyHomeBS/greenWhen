@@ -83,7 +83,7 @@ const MainNavigation = () => {
             <Navbar.Collapse  className='navBar-right' id="basic-navbar-nav">
               <Nav className="ml-auto">
                 {isLogin && role ==='ROLE_ADMIN' &&  <Navbar><Link to='/admin' className='link-to'> <Button variant="outline-primary">관리자 페이지</Button></Link>&nbsp;</Navbar>}
-                <Navbar><Link to='/calendar'><Button variant="outline-primary">달력</Button></Link></Navbar>&nbsp;
+                {/*<Navbar><Link to='/calendar'><Button variant="outline-primary">달력</Button></Link></Navbar>&nbsp;*/}
                 <Navbar><Link to='/main'><Button variant="outline-primary">소모임</Button></Link></Navbar>&nbsp;
                 <Navbar><Link to='/service-center'><Button variant="outline-primary">고객센터</Button></Link></Navbar>&nbsp;
                 {isLogin && <Navbar><Link to='/note'><Button variant="outline-primary">쪽지함</Button></Link></Navbar> }&nbsp;

@@ -7,9 +7,10 @@ import ModalReducer from '../containers/reducer/ModalReducer';
 import CalcDate from '../module/CalcDate';
 import WeatherIcon from '../module/WeatherIcon';
 
-const CalendarWeatherModal = ({ targetdate, visible, onCancel, region, year, month, regionNum }) => {  
+const CalendarWeatherModal = ({ targetdate, visible, onCancel, year, month, regionNum }) => {  
 
     const icons = WeatherIcon({year:year, month:month+1, regionNum:regionNum});    
+    console.log('targetdate', targetdate, regionNum)
 
     if (!visible) return null;
     return (

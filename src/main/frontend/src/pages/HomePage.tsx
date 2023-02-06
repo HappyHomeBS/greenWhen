@@ -4,6 +4,7 @@ import AuthContext from "../store/authContext";
 import addNotification from "react-push-notification";
 import TodayWeatherComponent from "../components/WeatherAPI/TodayWeatherComponent";
 import WeekWeatherComponent from "../components/WeatherAPI/WeekWeatherComponent";
+import Calendar from "../components/Calendar/containers/Calendar";
 
 const HomePage = () => {
   const authCtx = useContext(AuthContext);
@@ -31,8 +32,7 @@ const HomePage = () => {
 
   return (
     <div>
-      <TodayWeatherComponent />    
-      <WeekWeatherComponent />     
+      <Calendar />    
     </div>
   );
 };

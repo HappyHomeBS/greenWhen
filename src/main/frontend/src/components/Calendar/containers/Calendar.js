@@ -228,9 +228,9 @@ const Calendar = (props) => {
               그룹 메모 보기
             </Button> 
             } &nbsp;
-            {isLogin && <Button variant="outline-danger" onClick={() => setCalendarRegionModalOn(true)}>
+            <Button variant="outline-danger" onClick={() => setCalendarRegionModalOn(true)}>
               지역 선택
-            </Button> } &nbsp;
+            </Button>
             {/* 미완성
             <Button variant="outline-danger" onClick={() => setCalendarRecommendModalOn(true)}>
               관광지 추천
