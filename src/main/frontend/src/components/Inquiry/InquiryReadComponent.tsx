@@ -53,6 +53,8 @@ const InquiryRead: React.FC = (props: any) => {
     //답글달고 목록 다시 불러오기
     const updatingInfo = ()=> {
         getInquiryRead(grpNo, token)
+        setInputReply(false)
+        console.log("updated-----------------------")
     }
 
     //수정버튼 눌렀을 때 상태변화
@@ -99,7 +101,7 @@ const InquiryRead: React.FC = (props: any) => {
                         <input type="text" id="title" defaultValue={inquiry.title} style={{width: "auto", flex:"1", margin: "2%", resize:"none"}}/>
                         <div className="row" style={{height:"50%", flexGrow:"1"}}>
                             <label>내용</label>
-                            <textarea id="content" defaultValue={inquiry.content} style={{height:"20%", width: "auto", flex: "1", margin: "2%", resize: "vertical"}}/>
+                            <textarea id="content" defaultValue={inquiry.content} style={{height:"20%", width: "auto", flex: "1", margin: "2%", resize: "none"}}/>
                         </div>
                     </div>
                     <div style={{float:"right"}}>
