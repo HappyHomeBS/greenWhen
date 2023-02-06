@@ -86,8 +86,8 @@ const InquiryRead: React.FC = (props: any) => {
    
         <>
         {/* 업데이트 폼 */}
-        <div className = "card col-md-6 offset-md-3">
-            <h3 className = "text-center"> 1:1 문의 상세보기 </h3>
+        <div className = "card col-md-6 offset-md-3" style={{marginTop:"2%"}}>
+            <h3 className = "text-center" style={{marginTop:"2%"}}> 1:1 문의 상세보기 </h3>
         { Array.isArray(inquiryRead) && inquiryRead.map((inquiry: InquiryInterface) =>
            <div className = "card-body" key={inquiry.no}>
             {isUpdating === inquiry.no? (
@@ -126,7 +126,7 @@ const InquiryRead: React.FC = (props: any) => {
                     {inquiry.userId === userId? <button className = "btn btn-primary"onClick={()=> deleteInquiry(inquiry.no)}> 삭제하기</button> :
                      userRole ==='ROLE_ADMIN' && <button className = "btn btn-primary"onClick={()=> deleteInquiry(inquiry.no)}> 삭제하기</button>} 
                 </div>
-                <br></br>
+               
                 </>
             )
         }

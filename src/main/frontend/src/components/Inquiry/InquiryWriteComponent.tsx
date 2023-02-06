@@ -74,7 +74,7 @@ const InquiryWrite: React.FC = (props: any) => {
         <Form noValidate validated={validated} onSubmit={handleSubmit}>
             <Form.Group controlId="titleInput"> 
                  <Form.Label>제 목</Form.Label>
-                 <Form.Control required as ="textarea" rows = {1} style={{resize:"none"}}/>
+                 <Form.Control required as ="textarea" rows = {1} style={{resize:"none", marginTop:"1%", marginBottom:"1%"}}/>
                  <Form.Control.Feedback type="invalid"> 제목을 입력하세요 </Form.Control.Feedback>
             </Form.Group>
                 {/*사진업로드버튼  */}
@@ -94,7 +94,7 @@ const InquiryWrite: React.FC = (props: any) => {
 
             <Form.Group controlId="contextText">
                 {/*사진 미리보기 */}
-                <div style={{display:"flex", flexWrap:"wrap"}}>
+                <div style={{marginBottom:"1%", display:"flex", flexWrap:"wrap"}}>
                     {image.map((image) => (
                         <img
                         key={image.name}
@@ -105,12 +105,12 @@ const InquiryWrite: React.FC = (props: any) => {
                     ))}
                 </div>
                 <Form.Label>내 용</Form.Label>
-                <Form.Control required as="textarea" rows={20}/>
+                <Form.Control required as="textarea" rows={20} style={{marginTop:"1%", marginBottom:"1%", resize:"none"}}/>
             </Form.Group>
-            <Button variant="primary" type="submit">
+            <Button variant="primary" onClick={ () => navigate(-1)} style={{float:"right", marginRight:"1px"}}> 취소 </Button>
+            <Button variant="primary" type="submit" style={{float:"right", marginRight:"1px"}}>
                 등록
             </Button>
-            <Button variant="primary" onClick={ () => navigate(-1)}> 취소 </Button>
         </Form>
         </div>
     );

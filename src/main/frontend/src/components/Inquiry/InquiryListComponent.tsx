@@ -58,30 +58,30 @@ const InquiryList: React.FC = (props: any) => {
     return (
         
         <>  
-            <div className="inquiry_list">
-                <h2 className="text-center"> 1:1 문의 </h2>
+            <div className="inquiry_list" style={{margin:"5%"}}>
+                <h2 className="text-center"style={{margin:"1%"}}> 1:1 문의 </h2>
                 <div className="row">
                     <table className="table table-striped table-bordered">
                         <thead>
                             <tr>
-                                <th style={{width: "60%"}}>제    목</th>
-                                <th style={{width: "20%"}}>작 성 자</th>
-                                <th style={{width: "20%"}}>날    짜</th>
+                                <th style={{width: "60%", textAlign:"center"}}>제    목</th>
+                                <th style={{width: "20%", textAlign:"center"}}>작 성 자</th>
+                                <th style={{width: "20%", textAlign:"center"}}>날    짜</th>
                             </tr>
                         </thead>
                         <tbody>
                         { 
                         Array.isArray(inquiryList) && inquiryList.map((inquiry: InquiryInterface) =>
                         <tr key = {inquiry.no}>
-                            <td> <a onClick = {()=> InquiryRead(inquiry.no)}> {inquiry.title}</a></td>
-                            <td>{inquiry.userId}</td>
-                            <td>{inquiry.time}</td>
+                            <td style={{paddingLeft:"2%"}}> <a onClick = {()=> InquiryRead(inquiry.no)}> {inquiry.title}</a></td>
+                            <td style={{textAlign:"center"}}>{inquiry.userId}</td>
+                            <td style={{textAlign:"center"}}>{inquiry.time}</td>
                         </tr>
                         )}
                          </tbody>
                     </table>
                     <div style={{}}>
-                         <button style={{float: "right", width:"10%"}}className="btn btn-primary" onClick={() => InquiryWrite()}> 등 록 </button>
+                         <button style={{float: "right", width:"5%"}}className="btn btn-primary" onClick={() => InquiryWrite()}> 등 록 </button>
                     </div>
                 </div>
             </div>

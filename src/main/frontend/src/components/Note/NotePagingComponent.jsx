@@ -89,8 +89,8 @@ export class NotePagingComponent extends Component{
         console.log("c-render")
         console.log(this.state)
             return(
-            <div>
-                <div className="row">
+            <div style={{justifyContent:"center"}}>
+                <div className="row" style={{justifyContent:"center", clear:"both"}}>
                 <nav aria-label="Page navigation example">
                     <ul className="pagination justify-content-center">
                         {
