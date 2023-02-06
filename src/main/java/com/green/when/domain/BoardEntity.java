@@ -14,7 +14,6 @@ import java.util.List;
 /*  해당 오류 발생으로 인해서
  : Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception
   [Handler dispatch failed; nested exception is java.lang.StackOverflowError] with root cause
-
 java.lang.StackOverflowError: null
 	at com.example.gallery.domain.BoardEntity.toString(BoardEntity.java:16) ~[classes/:na]
 	at java.base/java.lang.String.valueOf(String.java:2951) ~[na:na]
@@ -98,20 +97,8 @@ public class BoardEntity {
         this.role = boardDto.getRole();
     }
 
-    public BoardEntity(BoardDto boardDto){
-        this.no = boardDto.getNo();
-        this.title = boardDto.getTitle();
-        this.userid = boardDto.getUserid();
-        this.content = boardDto.getContent();
-        this.groupname = boardDto.getGroupname();
-        this.readcount = boardDto.getReadcount();
-        this.time = boardDto.getTime();
-        this.allowcomment = boardDto.isAllowcomment();
-        this.tag = boardDto.getTag();
-    }
-
     public BoardEntity(Long no, String title, String userid, String content,
-                             Long readcount, String groupname, LocalDateTime time, boolean allowcomment, String tag, Long role) {
+                       Long readcount, String groupname, LocalDateTime time, boolean allowcomment, String tag, Long role) {
         this.no = no;
         this.title = title;
         this.userid = userid;
