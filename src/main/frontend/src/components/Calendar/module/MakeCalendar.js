@@ -38,7 +38,8 @@ const MakeCalendar = ({
   groupLeader,
   userid,
   groupName,
-  regionNum
+  regionNum,
+  setCalendarWeatherModalOn
 }) => {
   {/*날씨 아이콘 <BsCloudRainHeavy /><BsBrightnessHigh /><BsCloudSnow /><BsFillCloudFill /><BsFillCloudLightningRainFill /><BsFillUmbrellaFill />*/}
   const authCtx = useContext(AuthContext);
@@ -49,6 +50,11 @@ const MakeCalendar = ({
     setCalendarUpdateModalOn(true);
     changeVisible(onCancel);
   };
+
+  const clickWeather = () => {
+    setCalendarWeatherModalOn(true);
+    changeVisible(onCancel);
+  }
   
   console.log('시작')
   console.log('month', month)
@@ -105,7 +111,7 @@ const MakeCalendar = ({
                   {now} 
                   {icons.map((row, index) => (
                     row.targetDate === idx ? 
-                    <span key={index}>                                      
+                    <span onClick={clickWeather} key={index}>                                      
                       {row.icon}
                     </span>
                     : null
@@ -122,7 +128,7 @@ const MakeCalendar = ({
                   {now}
                   {icons.map((row, index) => (
                     row.targetDate === idx ? 
-                    <span key={index}>                                      
+                    <span onClick={clickWeather} key={index}>                                      
                       {row.icon}
                     </span>
                     : null
@@ -153,7 +159,7 @@ const MakeCalendar = ({
                   {now}
                   {icons.map((row, index) => (
                     row.targetDate === idx ? 
-                    <span key={index}>                                      
+                    <span onClick={clickWeather} key={index}>                                      
                       {row.icon}
                     </span>
                     : null
@@ -169,7 +175,7 @@ const MakeCalendar = ({
                   {now}
                   {icons.map((row, index) => (
                     row.targetDate === idx ? 
-                    <span key={index}>                                      
+                    <span onClick={clickWeather} key={index}>                                      
                       {row.icon}
                     </span>
                     : null

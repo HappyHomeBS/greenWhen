@@ -17,6 +17,7 @@ import CalendarRecommendModal from "../modals/CalendarRecommendModal";
 import { BsCloudRainHeavy, BsBrightnessHigh, BsCloudSnow, BsFillCloudFill, BsFillCloudLightningRainFill, BsFillUmbrellaFill } from "react-icons/bs";
 import Region from "../module/Region";
 import Button from 'react-bootstrap/Button';
+import CalendarWeatherModal from "../modals/CalendarWeatherModal";
 
 const today = new Date();
 
@@ -59,6 +60,7 @@ const Calendar = (props) => {
   const [calendarMemoModalOn, setCalendarMemoModalOn] = useState(false);
   const [calendarRegionModalOn, setCalendarRegionModalOn] = useState(false);
   const [calendarRecommendModalOn, setCalendarRecommendModalOn] = useState(false);  
+  const [calendarWeatherModalOn, setCalendarWeatherModalOn] = useState(false);  
 
   // 지역
   const [selected, setSelected] = useState(sessionStorage.getItem("selected"));
@@ -261,7 +263,8 @@ const Calendar = (props) => {
               groupLeader,
               userid,
               groupName,
-              regionNum:sessionStorage.getItem("region")
+              regionNum:sessionStorage.getItem("region"),
+              setCalendarWeatherModalOn
             })}
           </tbody>
         </table>
@@ -302,7 +305,15 @@ const Calendar = (props) => {
           visible={calendarRecommendModalOn}
           onCancel={() => setCalendarRecommendModalOn(false)}
           region={Region({regionNumber:sessionStorage.getItem("region")})}
-        />        
+        />       
+        <CalendarWeatherModal
+        visible={calendarWeatherModalOn}
+        onCancel={() => setCalendarWeatherModalOn(false)}
+        targetdate={targetdate}
+        year={year}
+        month={month}
+        regionNum={sessionStorage.getItem("region")}
+        /> 
       </div>
     </>
   );
