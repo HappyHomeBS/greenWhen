@@ -101,7 +101,7 @@ const Calendar = (props) => {
           });
         });
       });
-  }, [selected, groupName]);
+  }, [selected, groupName, isLogin]);
 
   // Month 감소
   const onDecreases = () => {

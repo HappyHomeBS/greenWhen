@@ -126,7 +126,7 @@ const MakeCalendar = ({
               ) : null}
               {!isLogin || groupName && groupLeader !== userid ? (
                 <td
-                  className="calendarMainTd"                 
+                  className="calendarMainTd"
                   key={idx}
                 >
                   {now}
@@ -173,7 +173,7 @@ const MakeCalendar = ({
               ) : null}
               {!isLogin || groupName && groupLeader !== userid ? (
                 <td
-                 className="calendarMainTd"                
+                 className="calendarMainTd"  
                   key={idx}
                 >
                   {now}

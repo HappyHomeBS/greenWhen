@@ -49,8 +49,8 @@ const CalcWeather = ({lowTemp, highTemp, rain, dust, month}) => {
     {/* 일 강수량의 경우 없음: 좋음(5점) 5:보통(3점) 10이상: 나쁨(1점) */}
     const getRainScore = (rain) => {
         if(rain == 0 || rain == null) return 5
-        else if(rain <= 5) return 3
-        else return 1
+        else if(rain <= 5) return 4
+        else return 2
     }
 
     const getScore = (dust, avgTemp, rain) => {
