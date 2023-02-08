@@ -14,7 +14,6 @@ import CalendarUpdateModal from "../modals/CalendarUpdateModal";
 import CalendarMemoModal from "../modals/CalendarMemoModalList";
 import CalendarRegionModal from "../modals/CalendarRegionModal";
 import CalendarRecommendModal from "../modals/CalendarRecommendModal";
-import { BsCloudRainHeavy, BsBrightnessHigh, BsCloudSnow, BsFillCloudFill, BsFillCloudLightningRainFill, BsFillUmbrellaFill } from "react-icons/bs";
 import Region from "../module/Region";
 import Button from 'react-bootstrap/Button';
 import CalendarWeatherModal from "../modals/CalendarWeatherModal";
@@ -113,7 +112,7 @@ const Calendar = (props) => {
     dispatch({ type: "INCREMENT" });
   };
 
-  // Modal Active
+  // CalendarModal Active(날짜값(targetdate)을 가지고 있음)
   const changeVisible = (key) => {
     dispatch({ type: "MODAL", value: key });
   };
@@ -208,7 +207,6 @@ const Calendar = (props) => {
     <>
       <div className="Calendar calendarDiv">
         <div className="header calendarDiv">
-        {/*날씨 아이콘 <BsCloudRainHeavy /><BsBrightnessHigh /><BsCloudSnow /><BsFillCloudFill /><BsFillCloudLightningRainFill /><BsFillUmbrellaFill />*/}
           <button className="move" onClick={onDecreases}>
             &lt;
           </button>
@@ -251,6 +249,7 @@ const Calendar = (props) => {
             </tr>
           </thead>
           <tbody className="calendarTbody">
+            {/* 달력 화면 */}
             {MakeCalendar({
               year,
               month,
@@ -268,6 +267,7 @@ const Calendar = (props) => {
             })}
           </tbody>
         </table>
+        {/* 일정입력 Modal */}
         <CalendarModal
           visible={visible}
           onCancel={onCancel}
@@ -275,7 +275,8 @@ const Calendar = (props) => {
           targetdate={targetdate}
           region={selected}          
         />
-
+        
+        {/* 일정 수정, 삭제 Modal */}
         <CalendarUpdateModal
           visible={calendarUpdateModalOn}
           onCancel={() => setCalendarUpdateModalOn(false)}
@@ -283,6 +284,7 @@ const Calendar = (props) => {
           todo={todo}
         />
 
+        {/* 작성한 메모 Modal */}      
         <CalendarMemoModal
           visible={calendarMemoModalOn}
           onCancel={() => setCalendarMemoModalOn(false)}
@@ -294,18 +296,23 @@ const Calendar = (props) => {
           groupName = {props.groupName}
         />
 
+        {/* 지역 선택 Modal */}    
         <CalendarRegionModal 
           visible={calendarRegionModalOn}
           onCancel={() => setCalendarRegionModalOn(false)}
           onClickRegion={onClickRegion}
           setCalendarRegionModalOn = {setCalendarRegionModalOn}     
           groupName={props.groupName}     
-          />   
+        /> 
+
+        {/* 관광지 추천 Modal(미구현) */}    
         <CalendarRecommendModal 
           visible={calendarRecommendModalOn}
           onCancel={() => setCalendarRecommendModalOn(false)}
           region={Region({regionNumber:sessionStorage.getItem("region")})}
-        />       
+        />    
+
+        {/* 날씨 정보 Modal */}    
         <CalendarWeatherModal
         visible={calendarWeatherModalOn}
         onCancel={() => setCalendarWeatherModalOn(false)}

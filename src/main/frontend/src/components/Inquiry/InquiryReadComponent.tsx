@@ -53,9 +53,11 @@ const InquiryRead: React.FC = (props: any) => {
     //답글달고 목록 다시 불러오기
     const updatingInfo = ()=> {
         getInquiryRead(grpNo, token)
+        setInputReply(false)
+        console.log("updated-----------------------")
     }
 
-    //수정버튼 눌렀을 때 상태변화
+    //수정버튼 눌렀을 때 state 변경
     const handleUpdateClick = (no:any) => {
         setIsUpdating(no)
     }
@@ -86,11 +88,13 @@ const InquiryRead: React.FC = (props: any) => {
    
         <>
         {/* 업데이트 폼 */}
-        <div className = "card col-md-6 offset-md-3">
-            <h3 className = "text-center"> 1:1 문의 상세보기 </h3>
+        <div className = "card col-md-6 offset-md-3" style={{marginTop:"2%"}}>
+            <h3 className = "text-center" style={{marginTop:"2%"}}> 1:1 문의 상세보기 </h3>
         { Array.isArray(inquiryRead) && inquiryRead.map((inquiry: InquiryInterface) =>
            <div className = "card-body" key={inquiry.no}>
             {isUpdating === inquiry.no? (
+      
+            // 수정state인 경우 글 수정 폼으로 출력
                 <form onSubmit={inquiryUpdate}>
                     <div className="row">
                         <label>작성자: {inquiry.userId}</label>
@@ -99,7 +103,7 @@ const InquiryRead: React.FC = (props: any) => {
                         <input type="text" id="title" defaultValue={inquiry.title} style={{width: "auto", flex:"1", margin: "2%", resize:"none"}}/>
                         <div className="row" style={{height:"50%", flexGrow:"1"}}>
                             <label>내용</label>
-                            <textarea id="content" defaultValue={inquiry.content} style={{height:"20%", width: "auto", flex: "1", margin: "2%", resize: "vertical"}}/>
+                            <textarea id="content" defaultValue={inquiry.content} style={{height:"20%", width: "auto", flex: "1", margin: "2%", resize: "none"}}/>
                         </div>
                     </div>
                     <div style={{float:"right"}}>
@@ -110,6 +114,7 @@ const InquiryRead: React.FC = (props: any) => {
             ):
 
               (  
+                // 게시글 읽기
                 <>
                 <div className="row">
                     <label>작성자 : {inquiry.userId}</label>
@@ -126,12 +131,13 @@ const InquiryRead: React.FC = (props: any) => {
                     {inquiry.userId === userId? <button className = "btn btn-primary"onClick={()=> deleteInquiry(inquiry.no)}> 삭제하기</button> :
                      userRole ==='ROLE_ADMIN' && <button className = "btn btn-primary"onClick={()=> deleteInquiry(inquiry.no)}> 삭제하기</button>} 
                 </div>
-                <br></br>
+               
                 </>
             )
         }
             </div>
         )}  
+        
         {!inputReply}
         <button className = "btn btn-primary" onClick={()=> reply()}> {inputReply? "답글닫기" : "답글달기"} </button>
         <hr/>

@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { Modal, Container } from "react-bootstrap";
-import { BsCloudRainHeavy, BsBrightnessHigh, BsCloudSnow, BsFillCloudFill, BsFillCloudLightningRainFill, BsFillUmbrellaFill } from "react-icons/bs";
 import CalcWeather from "./CalcWeather";
 
 const WeatherIcon = ({ year, month, regionNum }) => {
-  {/*날씨 아이콘 <BsCloudRainHeavy /><BsBrightnessHigh /><BsCloudSnow /><BsFillCloudFill /><BsFillCloudLightningRainFill /><BsFillUmbrellaFill />*/}
-  const [csvData, setCsvData] = useState([]);
+    const [csvData, setCsvData] = useState([]);
     
+  // 지역 변경시 해당지역의 날씨 데이터 불러옴
   useEffect(() => {
     console.log('start')
     console.log('regionNum', regionNum)

@@ -43,9 +43,9 @@ class NoteReadComponent extends Component {
     render() {
         
         return (
-            <div>
+            <div style={{marginTop:"5%"}}>
                 <div className = "card col-md-6 offset-md-3">
-                    <h3 className = "text-center"> 상세보기 </h3>
+                    <h3 className = "text-center" style={{marginTop:"2%"}}> 상세보기 </h3>
                     <div className = "card-body">
                         <div className="row">
                                    <label> 보낸사람 : {this.state.note.send}</label>

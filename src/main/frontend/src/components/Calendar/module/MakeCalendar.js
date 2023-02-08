@@ -46,18 +46,16 @@ const MakeCalendar = ({
   const isLogin = authCtx.isLoggedIn;
   const result = [];  
   
+  // 기존 일정 클릭 시 수정, 삭제 Modal 활성화, CalendarModal 비활성화
   const viewModal = () => {
     setCalendarUpdateModalOn(true);
     changeVisible(onCancel);
   };
 
+  // 외출지수 아이콘 클릭 시 날씨정보 Modal 활성화, CalendarModal 비활성화
   const clickWeather = () => {
     setCalendarWeatherModalOn(true);
     changeVisible(onCancel);
-  }
-
-  const clickWeatherGest = () => {
-    setCalendarWeatherModalOn(true);    
   }
   
   console.log('시작')
@@ -65,6 +63,7 @@ const MakeCalendar = ({
   const icons = WeatherIcon({year:year, month:month+1, regionNum:regionNum});  
   console.log('iconss',icons)
 
+  // 비로그인 시 일정입력, 메모확인, 날씨확인 불가능
   const makeDay = (week) => {
 
     const result = [];
@@ -126,13 +125,13 @@ const MakeCalendar = ({
               ) : null}
               {!isLogin || groupName && groupLeader !== userid ? (
                 <td
-                  className="calendarMainTd"
+                  className="calendarMainTd"                 
                   key={idx}
                 >
                   {now}
                   {icons.map((row, index) => (
                     row.targetDate === idx ? 
-                    <span onClick={clickWeatherGest} key={index}>                                      
+                    <span key={index}>                                      
                       {row.icon}
                     </span>
                     : null
@@ -173,13 +172,13 @@ const MakeCalendar = ({
               ) : null}
               {!isLogin || groupName && groupLeader !== userid ? (
                 <td
-                 className="calendarMainTd"  
+                 className="calendarMainTd"                
                   key={idx}
                 >
                   {now}
                   {icons.map((row, index) => (
                     row.targetDate === idx ? 
-                    <span onClick={clickWeatherGest} key={index}>                                      
+                    <span key={index}>                                      
                       {row.icon}
                     </span>
                     : null
