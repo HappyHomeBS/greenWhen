@@ -87,9 +87,9 @@ const Calendar = (props) => {
       )
       .then((res) => {
         const data = res.data;
-        console.log("메모", data);
+        //console.log("메모", data);
         data.map((item) => {
-          console.log("아이템", item);
+          //console.log("아이템", item);
           dispatch({
             type: "INSERT",
             index: item.targetdate,

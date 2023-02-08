@@ -6,13 +6,8 @@ const WeatherIcon = ({ year, month, regionNum }) => {
     const [csvData, setCsvData] = useState([]);
     
   // 지역 변경시 해당지역의 날씨 데이터 불러옴
-  useEffect(() => {
-    console.log('start')
-    console.log('regionNum', regionNum)
-    console.log('regionidx', year)
-    console.log('regionidx', month)    
+  useEffect(() => {  
     const url = "/weather/"+regionNum+".csv";
-    console.log('csvFile', url)
     fetch(url)
       .then((response) => response.text())
       .then((text) => {
@@ -54,7 +49,7 @@ const WeatherIcon = ({ year, month, regionNum }) => {
   }
 
 });
-console.log('infomation', result)
+//console.log('infomation', result)
  
     return result;
  }

@@ -14,7 +14,7 @@ const CalendarRecommendModal = ({ visible, onCancel, region }) => {
           const data = reader.result;
           const rows = data.split(/\r?\n|\r/);
           const rowsData = rows.map(row => row.split(',(?=(["]*"[""]*")*[""*$)', -1));
-          console.log('지역',rows)
+          //console.log('지역',rows)
           setCsvData(rows);
         };
         reader.readAsText(new Blob([text], { type: "text/csv" }));

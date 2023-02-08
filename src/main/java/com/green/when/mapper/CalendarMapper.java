@@ -16,14 +16,19 @@ import java.util.Optional;
 @Repository
 @Mapper
 public interface CalendarMapper {
+    // 일정 등록
     void insertSchedule(ScheduleVo schedule);
 
+    // 해당하는 달력의 일정 불러오기
     List<ScheduleVo> getSchedules(ScheduleVo scheduleVo);
 
+    // 전체 일정 불러오기(내 메모 보기에서 사용)
+    List<ScheduleVo> getAllSchedules(ScheduleVo scheduleVo);
+
+    // 일정 삭제
     void deleteSchedule(ScheduleVo schedule);
 
+    // 일정 수정
     void updateSchedules(Map schedule);
-
-    List<ScheduleVo> getAllSchedules(ScheduleVo scheduleVo);
 
 }

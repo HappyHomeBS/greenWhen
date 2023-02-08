@@ -58,10 +58,10 @@ const MakeCalendar = ({
     changeVisible(onCancel);
   }
   
-  console.log('시작')
-  console.log('month', month)
+  
+  
   const icons = WeatherIcon({year:year, month:month+1, regionNum:regionNum});  
-  console.log('iconss',icons)
+  //console.log('iconss',icons)
 
   // 비로그인 시 일정입력, 메모확인, 날씨확인 불가능
   const makeDay = (week) => {

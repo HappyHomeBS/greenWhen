@@ -2,10 +2,6 @@ import React,{ useState } from 'react';
 import { BsEmojiLaughing, BsEmojiNeutral, BsEmojiFrown } from "react-icons/bs";
 
 const CalcWeather = ({lowTemp, highTemp, rain, dust, month}) => {
-    console.log('lowTemp', lowTemp)
-    console.log('highTemp', highTemp)
-    console.log('rain', rain)
-    console.log('dust', dust)
 
     const avgTemp = (lowTemp + highTemp)/2
 
@@ -62,7 +58,7 @@ const CalcWeather = ({lowTemp, highTemp, rain, dust, month}) => {
       };
 
     const score = getScore(dust, avgTemp, rain)
-    console.log('score', score)
+    //console.log('score', score)
 
     if (score > 4) return <BsEmojiLaughing />
     else if(score > 3) return <BsEmojiNeutral />
