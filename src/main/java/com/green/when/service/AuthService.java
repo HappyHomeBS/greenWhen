@@ -28,6 +28,7 @@ public class AuthService {
     private final TokenProvider tokenProvider;
     private final MailSender mailSender;
 
+    //회원가입
     public void signup(MemberRequestVo requestDto) {
         if (userMapper.userCheck(requestDto.getUserid())) {
             throw new RuntimeException("이미 가입되어 있는 유저입니다");
@@ -38,6 +39,7 @@ public class AuthService {
         userMapper.signup(memberVo);
     }
 
+    //로그인
     public TokenVo login(MemberRequestVo requestDto) {
         UsernamePasswordAuthenticationToken authenticationToken = requestDto.toAuthentication();
         Authentication authentication = managerBuilder.getObject().authenticate(authenticationToken);
@@ -45,6 +47,7 @@ public class AuthService {
         return tokenProvider.generateTokenDto(authentication);
     }
 
+    // ID 중복체크
     public int useridCheck(String userid) {
         int deleteUser = userMapper.deleteUserCheck(userid);
         int newUserCheck = userMapper.useridCheck(userid);
@@ -52,6 +55,7 @@ public class AuthService {
         return userIdCheck;
     }
 
+    // 이메일 중복체크
     public int useremailCheck(String useremail) {
         int deleteEmail = userMapper.deleteEmailCheck(useremail);
         int newEmail = userMapper.newEmailCheck(useremail);
@@ -59,6 +63,7 @@ public class AuthService {
         return emailCheck;
     }
 
+    // 닉네임 중복체크
     public int usernicknameCheck(String usernickname) {
         int deleteNickname = userMapper.deleteNickname(usernickname);
         int newNickname = userMapper.newNickname(usernickname);
@@ -66,12 +71,12 @@ public class AuthService {
         return nicknameCheck;
     }
 
+    // 아이디 찾기
     public String findId(String useremail) {
         return userMapper.findId(useremail);
     }
 
     //랜덤함수로 임시비밀번호 구문 만들기
-
     public String getTempPassword(){
         char[] charSet = new char[] { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F',
                 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z' };

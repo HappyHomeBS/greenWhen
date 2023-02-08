@@ -107,8 +107,8 @@ const CalendarRegionModal = ({
               <tr className="calendarTr">
                 <td className="regionTd">
                   <select onChange={changeRegion}>
-                    {regionList.map((item) => {
-                      return <option value={item.no}>{item.region}</option>;
+                    {regionList.map((item, index) => {
+                      return <option key={index} value={item.no}>{item.region}</option>;
                     })}
                   </select>
                 </td>

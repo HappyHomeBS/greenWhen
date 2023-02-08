@@ -125,7 +125,7 @@ const CalendarUpdateModal = ({
           <div>
             {info.map((info, index) => {
               return (
-                <div className="parentcustom-check-box" key={info}>                  
+                <div className="parentcustom-check-box" key={index}>                  
                   <input name="info" type="checkbox" className="custom-check-box-div" value1={info} value2={memo[index]} />
                   <div>일정: &nbsp;</div>
                   <span>

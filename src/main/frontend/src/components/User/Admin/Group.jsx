@@ -38,7 +38,6 @@ const Group = () => {
   return (
     <div className="page">
       <GroupList data = {groupListAll} Admin={Admin}  updateGroupList = {updateGroupList}/>
-
     </div>
   );
 }
