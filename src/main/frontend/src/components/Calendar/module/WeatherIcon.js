@@ -1,18 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { Modal, Container } from "react-bootstrap";
-import { BsCloudRainHeavy, BsBrightnessHigh, BsCloudSnow, BsFillCloudFill, BsFillCloudLightningRainFill, BsFillUmbrellaFill } from "react-icons/bs";
 import CalcWeather from "./CalcWeather";
 
 const WeatherIcon = ({ year, month, regionNum }) => {
-  {/*날씨 아이콘 <BsCloudRainHeavy /><BsBrightnessHigh /><BsCloudSnow /><BsFillCloudFill /><BsFillCloudLightningRainFill /><BsFillUmbrellaFill />*/}
-  const [csvData, setCsvData] = useState([]);
-  
-
-  const [lowTempScore, setLowTempScore] = useState(0);
-  const [highTempScore, setHighTempScore] = useState(0);
-  const [rainScore, setRainScore] = useState(0);
-  const [dustScore, setDustScore] = useState(0);  
-  
+    const [csvData, setCsvData] = useState([]);
+    
+  // 지역 변경시 해당지역의 날씨 데이터 불러옴
   useEffect(() => {
     console.log('start')
     console.log('regionNum', regionNum)
@@ -48,35 +41,16 @@ const WeatherIcon = ({ year, month, regionNum }) => {
     const infoDate = setDate.split('.')
 
     if (parseInt(infoDate[0]) === year && parseInt(infoDate[1]) === month) {
-    //const icon = CalcWeather({lowTemp:weatherData[3], highTemp:weatherData[4], rain:weatherData[5], dust:weatherData[11]})
-    //console.log('index', index)
-    const lowTemp = parseInt(weatherData[3])
-    const highTemp = parseInt(weatherData[4])
-    const rain = parseInt(weatherData[5])
-    const dust = parseInt(weatherData[11])
-  
-  const totalScore = (lowTempScore + highTempScore + rainScore + dustScore)/4 
-  // console.log('index', index)
-  // console.log('lowTemp', lowTemp)
-  // console.log('highTemp', highTemp)
-  // console.log('rain', rain)
-  // console.log('dust', dust)
-  // console.log('lowTempScore', lowTempScore)
-  // console.log('highTempScore', highTempScore)
-  // console.log('rainScore', rainScore)
-  // console.log('dustScore', dustScore)
-  // console.log('total', totalScore)
-
-
-    if(lowTemp >= 5){
-      result.push({targetDate: setDate,
-        icon: <BsBrightnessHigh />,
-        totalScore: totalScore })
-      } else {
-      result.push({targetDate: setDate,
-        icon: <BsCloudSnow />,
-        totalScore: totalScore })
-    }
+    const icon = CalcWeather({lowTemp:weatherData[3], highTemp:weatherData[4], rain:weatherData[5], dust:weatherData[11]})
+    
+    result.push({targetDate: setDate,
+      icon: icon,
+      lowTemp:weatherData[3], 
+      highTemp:weatherData[4], 
+      rain:weatherData[5], 
+      dust:weatherData[11] 
+      })
+      
   }
 
 });
