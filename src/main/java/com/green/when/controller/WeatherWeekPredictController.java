@@ -15,7 +15,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api")
-public class WeatherWeekPredicController {
+public class WeatherWeekPredictController {
     @GetMapping("/weekPredict")
     public ResponseEntity<Map>  weekPredict() throws Exception {
 

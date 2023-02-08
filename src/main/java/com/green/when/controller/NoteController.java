@@ -51,7 +51,7 @@ public class NoteController {
                                             @RequestParam(value="option", required=false) String option,
                                             @RequestParam(value="search", required=false) String search){
 
-        //페이징 계산
+        //페이지네이션 + 검색 옵션 세팅
         PageVo page = new PageVo();
         page.setNum(num);
         page.setOption(option);

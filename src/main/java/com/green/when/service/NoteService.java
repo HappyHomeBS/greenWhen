@@ -44,7 +44,7 @@ public class NoteService {
         noteRepository.delete(note);
     }
 
-    //리스트 조회
+    //쪽지 리스트 조회
     @Transactional
     public List<NoteVo> getNoteList(String userId) {
         List<NoteVo> noteList;
@@ -66,6 +66,7 @@ public class NoteService {
             throw e;
         }
     }
+    //페이징을 위한 카운트(보낸 쪽지함)
     @Transactional
     public int noteSentCount(PageVo page){
         try{

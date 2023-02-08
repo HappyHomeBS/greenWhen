@@ -43,6 +43,12 @@
         ORDER BY depth ASC
     </select>
 
+    <select id="setArticle" parameterType="int" resultType="InquiryVo">
+        SELECT * FROM inquiry_tb
+        WHERE no= #{no}
+    </select>
+
+
     <insert id="inquiryWrite" parameterType="inquiryVo">
         INSERT INTO inquiry_tb(no, grpno, title, content, userid, depth, status, userrole, time)
         VALUES ((COALESCE((SELECT MAX(no) FROM inquiry_tb i), 0)+1), (COALESCE((SELECT MAX(no) FROM inquiry_tb i), 0)+1),  #{title}, #{content}, #{userId}, 0, '읽지않음', #{userRole}, NOW())
@@ -64,9 +70,6 @@
             ,content = #{content}
             ,time = NOW()
         WHERE no= #{no}
-
-
-
     </update>
 
 </mapper>

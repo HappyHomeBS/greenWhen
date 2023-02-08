@@ -43,6 +43,7 @@ const InquiryRead: React.FC = (props: any) => {
     const deleteInquiry = (no :any) => {
         InquiryService.inquiryDelete(no, token).then((res) =>{
             if(res.status === 200) {
+                console.log("===============================", res)
                 alert("삭제하였습니다")
                 getInquiryRead(grpNo, token)
             }else{
@@ -137,7 +138,7 @@ const InquiryRead: React.FC = (props: any) => {
         }
             </div>
         )}  
-        
+
         {!inputReply}
         <button className = "btn btn-primary" onClick={()=> reply()}> {inputReply? "답글닫기" : "답글달기"} </button>
         <hr/>

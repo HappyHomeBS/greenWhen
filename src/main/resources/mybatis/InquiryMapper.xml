@@ -3,6 +3,7 @@
 
 <mapper namespace="com.green.when.mapper.InquiryMapper">
 
+<!-- 유저 권한 확인-->
     <select id = "getUserRole" parameterType="String" resultType="String">
     SELECT
         role
@@ -11,7 +12,7 @@
 
     </select>
 
-
+<!--1:1 문의 조회, 일반유저는 자신이 쓴 것만, admin은 모든 문의, 답글은 표시 안됨-->
     <select id = "inquiryList" parameterType="InquiryVo" resultType="InquiryVo">
         select
         no
@@ -32,41 +33,42 @@
         ORDER BY no DESC
     </select>
 
+<!-- 원글 + 답글 까지 한 화면에 표시  -->
     <select id="inquiryRead" parameterType="int" resultType="InquiryVo">
         SELECT * FROM inquiry_tb
         WHERE no= #{no} OR grpno= #{no}
-        <choose>
-            <when test="userRole.equals('ROLE_USER')">
-
-            </when>
-        </choose>
         ORDER BY depth ASC
     </select>
+<!--작성자 확인용 글 정보-->
+    <select id="setArticle" parameterType="int" resultType="InquiryVo">
+        SELECT * FROM inquiry_tb
+        WHERE no= #{no}
+    </select>
 
+<!--쓰기, 글 번호는 autoincrement 쓰지 않도록-->
     <insert id="inquiryWrite" parameterType="inquiryVo">
         INSERT INTO inquiry_tb(no, grpno, title, content, userid, depth, status, userrole, time)
         VALUES ((COALESCE((SELECT MAX(no) FROM inquiry_tb i), 0)+1), (COALESCE((SELECT MAX(no) FROM inquiry_tb i), 0)+1),  #{title}, #{content}, #{userId}, 0, '읽지않음', #{userRole}, NOW())
     </insert>
 
+<!--답글, depth는 정렬용도로만 사용  -->
     <insert id="inquiryReply" parameterType="inquiryVo">
         INSERT INTO inquiry_tb(no, grpno, title, content, userid, depth, status, userrole, time)
         VALUES ((COALESCE((SELECT MAX(no) FROM inquiry_tb i), 0)+1), #{grpNo},  #{title}, #{content}, #{userId}, (COALESCE((SELECT MAX(depth) FROM inquiry_tb i WHERE grpno=#{grpNo}), 0)+1), '읽지않음', #{userRole}, NOW())
     </insert>
-
+<!--삭제-->
     <delete id="inquiryDelete" parameterType= "int">
         DELETE FROM inquiry_tb
         WHERE no = #{no}
     </delete>
 
+<!-- 수정 -->
     <update id="inquiryUpdate" parameterType="inquiryVo">
         UPDATE inquiry_tb
         SET title = #{title}
             ,content = #{content}
             ,time = NOW()
         WHERE no= #{no}
-
-
-
     </update>
 
 </mapper>

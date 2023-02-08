@@ -61,7 +61,7 @@ public class InquiryService {
             throw e;
         }
     }
-
+    //삭제
     public void inquiryDelete(int no) {
         try {
             mapper.inquiryDelete(no);
@@ -70,7 +70,7 @@ public class InquiryService {
             throw e;
         }
     }
-
+    // 수정
     public void inquiryUpdate(InquiryVo inquiryVo) {
         try{
             mapper.inquiryUpdate(inquiryVo);
@@ -78,5 +78,17 @@ public class InquiryService {
             e.printStackTrace();
             throw e;
         }
+    }
+
+    //작성자 확인용
+    public InquiryVo setArticle (int no) {
+        InquiryVo targetArticle;
+        try{
+           targetArticle = mapper.setArticle(no);
+        }catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        }
+        return targetArticle;
     }
 }

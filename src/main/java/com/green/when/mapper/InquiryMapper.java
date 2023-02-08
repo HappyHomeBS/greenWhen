@@ -25,4 +25,6 @@ public interface InquiryMapper {
 
     void inquiryUpdate(InquiryVo inquiryVo);
 
+    InquiryVo setArticle(int no);
+
 }

@@ -29,7 +29,7 @@ const ServiceCenter =() => {
         {which === 1 && <FAQ /> }
         </div>
         <div>
-        {which === 2 && <InquiryList />}
+        {which === 2 && <InquiryList setWhich={setWhich}/>}
         </div>
         </div>
         </>

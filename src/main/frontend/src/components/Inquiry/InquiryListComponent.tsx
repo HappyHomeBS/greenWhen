@@ -20,7 +20,7 @@ const InquiryList: React.FC = (props: any) => {
     const authCtx = useContext(AuthContext);
     const token = authCtx.token;
     const navigate = useNavigate();
-    
+    const moveList = props.setWhich(2)
     //최초 리스트 로딩
     useEffect(() => {
         getInquiryList();
@@ -52,7 +52,7 @@ const InquiryList: React.FC = (props: any) => {
     };
 
     const InquiryWrite = () => {
-        navigate('/inquiryWrite')
+        navigate('/inquiryWrite');
     }
 
     return (
