@@ -57,7 +57,7 @@ const InquiryRead: React.FC = (props: any) => {
         console.log("updated-----------------------")
     }
 
-    //수정버튼 눌렀을 때 상태변화
+    //수정버튼 눌렀을 때 state 변경
     const handleUpdateClick = (no:any) => {
         setIsUpdating(no)
     }
@@ -93,6 +93,8 @@ const InquiryRead: React.FC = (props: any) => {
         { Array.isArray(inquiryRead) && inquiryRead.map((inquiry: InquiryInterface) =>
            <div className = "card-body" key={inquiry.no}>
             {isUpdating === inquiry.no? (
+      
+            // 수정state인 경우 글 수정 폼으로 출력
                 <form onSubmit={inquiryUpdate}>
                     <div className="row">
                         <label>작성자: {inquiry.userId}</label>
@@ -112,6 +114,7 @@ const InquiryRead: React.FC = (props: any) => {
             ):
 
               (  
+                // 게시글 읽기
                 <>
                 <div className="row">
                     <label>작성자 : {inquiry.userId}</label>
@@ -134,6 +137,7 @@ const InquiryRead: React.FC = (props: any) => {
         }
             </div>
         )}  
+        
         {!inputReply}
         <button className = "btn btn-primary" onClick={()=> reply()}> {inputReply? "답글닫기" : "답글달기"} </button>
         <hr/>

@@ -18,11 +18,11 @@ const InquiryWrite: React.FC = (props: any) => {
     const userId = authCtx.userObj.userid;
     const navigate = useNavigate();
 
-// 이미지 업로드
+// 이미지 업로드용 
     const [image, setImage] = useState<File[]>([]);
     const fileInput = React.useRef<HTMLInputElement | null>(null);
 
-
+//작성된 글 전송 
     const handleSubmit = (event: any) => {
         event.preventDefault();
         event.stopPropagation();
@@ -43,7 +43,7 @@ const InquiryWrite: React.FC = (props: any) => {
         
         writeInquiry(inquiry, token);
     };
-
+// 쓰기함수(작성 후 리스트로 돌아가기)
     const writeInquiry = async (inquiry: InquiryInterface, token: string) => {
         InquiryService.inquiryWrite(inquiry, token).then((res)=>{
             navigate(-1)
@@ -51,7 +51,6 @@ const InquiryWrite: React.FC = (props: any) => {
     }
         
     // input은 css 적용 불가능하니까  useRef 활용해서 input에 접근
-   
       
     const HandleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
       
@@ -61,13 +60,11 @@ const InquiryWrite: React.FC = (props: any) => {
         console.log(fileInput)
     };
 
+    // 첨부버튼
     const handleImageChange = (event: any) =>  { 
         setImage(Array.from(event.target.files));
     }
    
-
-    //읽기 폼 함수 
-
 
     return (
         <div style={{margin: '5%'}}>
