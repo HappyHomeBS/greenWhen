@@ -2,6 +2,9 @@ import React, { useContext, useState } from "react";
 import MainNavigation from "../components/Layout/MainNavigation";
 import AuthContext from "../store/authContext";
 import addNotification from "react-push-notification";
+import TodayWeatherComponent from "../components/WeatherAPI/TodayWeatherComponent";
+import WeekWeatherComponent from "../components/WeatherAPI/WeekWeatherComponent";
+import Calendar from "../components/Calendar/containers/Calendar";
 
 const HomePage = () => {
   const authCtx = useContext(AuthContext);
@@ -29,11 +32,7 @@ const HomePage = () => {
 
   return (
     <div>
-      <div>{userid}님 환영합니다.</div>
-      <div>{usernickname}님 환영합니다.</div>                                                      
-      <div>{userRole}님 환영합니다.</div>                                                      
-      <div>{token}님 환영합니다.</div>     
-      <button onClick={click} >알림</button>            
+      <Calendar />    
     </div>
   );
 };

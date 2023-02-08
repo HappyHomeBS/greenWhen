@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useCallback } from "react";
-import * as authAction from './authAction'; 
+import * as authAction from './authAction';
 
 let logoutTimer: NodeJS.Timeout;
 
 type Props = { children?: React.ReactNode }
-type UserInfo = { userid: string, usernickname: string, useremail: string};
-type LoginToken = { 
+type UserInfo = { userid: string, usernickname: string, useremail: string, role: string };
+type LoginToken = {
   grantType: string,
   accessToken: string,
   tokenExpiresIn: number
@@ -13,24 +13,28 @@ type LoginToken = {
 
 const AuthContext = React.createContext({
   token: '',
-  userObj: { userid: '', usernickname: '', useremail: '' },
+  userObj: { userid: '', usernickname: '', useremail: '', role: '' },
   isLoggedIn: false,
   isSuccess: false,
-  isGetSuccess: false,
-  signup: (userid: string, userpw: string, usernickname:string, useremail: string) =>  {},
-  login: (userid:string, userpw: string) => {},
-  logout: () => {},
-  getUser: () => {},
-  changeNickname: (usernickname:string) => {},
-  changePassword: (exPassword: string, newPassword: string) => {}
+  isGetSuccess: false,  
+  signup: (userid: string, userpw: string, usernickname: string, useremail: string) => { },
+  login: (userid: string, userpw: string) => { },
+  logout: () => { },
+  getUser: () => { },
+  changeNickname: (usernickname: string) => { },
+  changePassword: (exPassword: string, newPassword: string) => { },
+  profileImg: (file: string) => { },
+  userDelete: (userid: string, useremail: string, usernickname: string ) => { },
+  roleChange: (role: string, userid: string) => { }
+  
 });
 
 
-export const AuthContextProvider:React.FC<Props> = (props) => {
+export const AuthContextProvider: React.FC<Props> = (props) => {
 
   const tokenData = authAction.retrieveStoredToken();
 
-  let initialToken:any;
+  let initialToken: any;
   if (tokenData) {
     initialToken = tokenData.token!;
   }
@@ -39,17 +43,18 @@ export const AuthContextProvider:React.FC<Props> = (props) => {
   const [userObj, setUserObj] = useState({
     userid: '',
     usernickname: '',
-    useremail: ''
+    useremail: '',
+    role: ''
   });
-  
+
   const [isSuccess, setIsSuccess] = useState<boolean>(false);
-  const [isGetSuccess, setIsGetSuccess ] = useState<boolean>(false);
+  const [isGetSuccess, setIsGetSuccess] = useState<boolean>(false);
 
   const userIsLoggedIn = !!token;
 
 
-  
-  const signupHandler = (userid:string, userpw: string, usernickname: string, useremail: string) => {
+
+  const signupHandler = (userid: string, userpw: string, usernickname: string, useremail: string) => {
     setIsSuccess(false);
     const response = authAction.signupActionHandler(userid, userpw, usernickname, useremail);
     response.then((result) => {
@@ -59,14 +64,14 @@ export const AuthContextProvider:React.FC<Props> = (props) => {
     });
   }
 
-  const loginHandler = (userid:string, userpw: string) => {
+  const loginHandler = (userid: string, userpw: string) => {
     setIsSuccess(false);
     console.log(isSuccess);
-    
+
     const data = authAction.loginActionHandler(userid, userpw);
     data.then((result) => {
       if (result !== null) {
-        const loginData:LoginToken = result.data;
+        const loginData: LoginToken = result.data;
         setToken(loginData.accessToken);
         logoutTimer = setTimeout(
           logoutHandler,
@@ -84,11 +89,11 @@ export const AuthContextProvider:React.FC<Props> = (props) => {
 
     const data = authAction.findIdActionHandler(useremail);
     data.then((result) => {
-      if (result !== null) {      
+      if (result !== null) {
         alert("아이디는 " + result + " 입니다.")
-        const userData:UserInfo = result.data;
+        const userData: UserInfo = result.data;
         setUserObj(userData);
-        setIsSuccess(true);   
+        setIsSuccess(true);
         console.log(isSuccess);
       }
     })
@@ -108,28 +113,28 @@ export const AuthContextProvider:React.FC<Props> = (props) => {
     data.then((result) => {
       if (result !== null) {
         console.log('get user start!');
-        const userData:UserInfo = result.data;
+        const userData: UserInfo = result.data;
         setUserObj(userData);
         setIsGetSuccess(true);
       }
-    })    
-    
+    })
+
   };
 
-  const changeNicknameHandler = (usernickname:string) => {
+  const changeNicknameHandler = (usernickname: string) => {
     setIsSuccess(false);
 
     const data = authAction.changeNicknameActionHandler(usernickname, token);
     data.then((result) => {
       if (result !== null) {
-        const userData:UserInfo = result.data;
+        const userData: UserInfo = result.data;
         setUserObj(userData);
         setIsSuccess(true);
       }
     })
   };
 
-  const changePaswordHandler = (exPassword:string, newPassword: string) => {
+  const changePaswordHandler = (exPassword: string, newPassword: string) => {
     setIsSuccess(false);
     const data = authAction.changePasswordActionHandler(exPassword, newPassword, token);
     data.then((result) => {
@@ -140,8 +145,39 @@ export const AuthContextProvider:React.FC<Props> = (props) => {
     });
   };
 
+  const profileImgHandler = (file: string) => {
+    setIsSuccess(false);
+
+    const data = authAction.profileImgActionHandler(file, token);
+    data.then((result) => {
+      if (result !== null) {        
+        setIsSuccess(true);
+      }
+    })
+  };
+  
+  const userDeleteHandler = (userid:string, useremail:string, usernickname:string) => {
+    setIsSuccess(false);
+    const data = authAction.userDeleteActionHandler(userid, useremail, usernickname, token);
+    data.then((result) => {
+      if (result !== null) {        
+        setIsSuccess(true);
+      }
+    })
+  };
+  
+  const roleChangeHandler = (role:string, userid:string) => {
+    setIsSuccess(false);
+    const data = authAction.roleChangeActionHandler(role, userid, token);
+    data.then((result) => {
+      if (result !== null) {        
+        setIsSuccess(true);
+      }
+    })
+  };
+
   useEffect(() => {
-    if(tokenData) {
+    if (tokenData) {
       console.log(tokenData.duration);
       logoutTimer = setTimeout(logoutHandler, tokenData.duration);
     }
@@ -160,10 +196,13 @@ export const AuthContextProvider:React.FC<Props> = (props) => {
     logout: logoutHandler,
     getUser: getUserHandler,
     changeNickname: changeNicknameHandler,
-    changePassword: changePaswordHandler
+    changePassword: changePaswordHandler,
+    profileImg: profileImgHandler,
+    userDelete: userDeleteHandler,
+    roleChange: roleChangeHandler
   }
-  
-  return(
+
+  return (
     <AuthContext.Provider value={contextValue}>
       {props.children}
     </AuthContext.Provider>

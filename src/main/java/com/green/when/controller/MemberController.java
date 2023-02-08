@@ -61,6 +61,7 @@ public class MemberController {
     public void profileImg(@RequestParam MultipartFile file) {
         try {
             String userid = SecurityUtil.getCurrentMemberId();
+            System.out.println(userid);
             MemberVo memberVo = new MemberVo();
             String projectPath = /*System.getProperty("user.dir") +*/  "D:\\ws\\boot\\greenWhen\\src\\main\\frontend\\public\\profileImg\\";
             UUID uuid = UUID.randomUUID();
@@ -69,6 +70,7 @@ public class MemberController {
             memberVo.setFilename(fileName);
             memberVo.setFilepath("/profileImg/" +fileName);
             memberVo.setUserid(userid);
+            System.out.println(memberVo.toString());
             memberService.profileImgUpload(memberVo);
             file.transferTo(saveFile);
         } catch (Exception exception) {
@@ -80,7 +82,7 @@ public class MemberController {
     public MemberVo callProfile() {
         String userid = SecurityUtil.getCurrentMemberId();
         MemberVo memberVo = memberService.callProfileImg(userid);
-        System.out.println(memberVo);
+        System.out.println(memberVo.toString());
         return memberVo;
     }
 

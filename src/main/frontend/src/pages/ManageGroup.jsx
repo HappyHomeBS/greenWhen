@@ -10,6 +10,10 @@ import SelectList from "../components/Group/Board/SelectComponentForModify";
 import { EditableSelect } from "./ddd";
 import DDD from "./ddd";
 import InviteUserModal from "../components/Group/Modals/InviteUserModal";
+import NoteAllUserModal from "../components/Group/Modals/NoteAllUserModal";
+import "../DamCss/Page/page.css";
+import "../DamCss/newCss.css";
+
 
 const ManageGroup  = () => {
   const location = useLocation();
@@ -18,6 +22,7 @@ const ManageGroup  = () => {
   const groupname = location.state.groupname.selectedGroup;
   const groupleader = location.state.groupleader.groupLeader;
   const userid = location.state.userid.userid;
+  const Admin = location.state.Admin.Admin;
   const [memberListData, setMemeberListData] = useState([]);
   const [BoardListData, setBoardListData] = useState([]);
   const [Choice, setChoice] = useState(null);
@@ -25,6 +30,7 @@ const ManageGroup  = () => {
   const [ IsSubmitting, setIsSubmitting] = useState(false);
   const [ Error, setError ] = useState(null);
   const [showModal, setShowModal] = useState(false);
+  const [showModalForNote ,setShowModalForNote] = useState(false);
   const [fig, setFig] = useState(0);
   const navigate = useNavigate();
 
@@ -32,23 +38,7 @@ const ManageGroup  = () => {
   const [jsxElement, setJsxElement] = useState(null)
   const [modyElement, setModyElement]  = useState(null)
 
-/*
-const ExampleComponent = () => {
-  */
-    
-  
-
-    /*
-    return (
-        <div>
-            <button onClick={exampleFunction}>Click Me</button>
-            <div>{exampleFunction()}</div>
-        </div>
-    );
-
-}
-*/
-
+  console.log('managegroup-location.staes :  groupleader, userid, Admin : ', groupleader, userid, Admin);
 
   const deleteGroup = async (event) => {
     setIsSubmitting(true);
@@ -152,7 +142,7 @@ const ExampleComponent = () => {
 
   //callback해야댐. newData라는 state를 사용할겨
   const updateBoardList = () => {
-    setFig( {fig} + 1); 
+    setFig( fig + 1); 
   };
 
   console.log('MANAGEGROUP/FIG : ' , fig);
@@ -162,30 +152,36 @@ const ExampleComponent = () => {
 
     return (
         <>
-        <div>
+        <div className="dam-managegroup-total">
+        <div className="dam-managegroup-buttons">
           <code>
-        <button onClick={()=>setChoice(true)}> 모임인원관리 </button> 
-        <button onClick={()=> setChoice(false)}>게시판관리</button>
+        <button className="dambutton" onClick={()=>setChoice(true)}> 모임인원관리 </button> 
+        <button className="dambutton" onClick={()=> setChoice(false)}>게시판관리</button>
+        <button className="dambutton" onClick={deleteGroup}>소모임 삭제</button>
+
           </code>
         </div>
-            <h1>{groupname}</h1>
-            <div>
-            <button onClick={exampleFunction}>Click Me</button>
-            {jsxElement}
-            <button onClick={modifyTag}>modifyTag</button>
-            {modyElement}
-            <button onClick={deleteGroup}>소모임 삭제</button>
-            </div>
+            <h1 className="dam-managegroup-groupname">{groupname}</h1>
             
               { Choice === true  &&  <ManageMemberList data = {memberListData} updateBoardList={updateBoardList}/> }
               { Choice === false &&  <BoardList data = {BoardListData} state = { DeleteMultifle } updateBoardList={updateBoardList} /> }
-            <div>
+            
+          <div className="dam-managegroup-dd-butons-parents">
+            <div className="dam-managegroup-ddd">
               <DDD data = { forMody }/>
-              <button onClick={ () => setShowModal(true)}>INVITE</button>
+              </div>
+             {!Admin && <button className="dambutton" onClick={ () => setShowModal(true)}>INVITE</button>}
             {showModal && (
                 <InviteUserModal  groupname = {groupname} groupleader = {groupleader} data = {memberListData} onClose={() => setShowModal(false)} />
             )}
-            </div>
+            <div>
+             {!Admin && <button className="dambutton" onClick={ () => setShowModalForNote(true)}>전체쪽지</button>}
+              {showModalForNote && (
+                <NoteAllUserModal groupname = {groupname}  groupleader = {groupleader} onClose={() => setShowModalForNote(false)}  />
+              )}
+          </div>
+        </div>
+        </div>
         </>
     );
 }

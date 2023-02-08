@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
-import NoteSentListComponent from './NoteSentListComponent';
-import * as NoteListComponent from './NoteListComponent';
+
 export class NotePagingComponent extends Component{
 
     constructor(props) {
@@ -72,7 +71,7 @@ export class NotePagingComponent extends Component{
         if (this.props.num !==1){
             return ( 
                 <li className="page-item">
-                    <a className="page-link" onClick = {() => this.goPage(1)} tabIndex="-1">첫 페이지로</a>
+                    <a className="page-link" onClick = {() => this.goPage(1)} tabIndex="-1">처음으로</a>
                 </li>
             )
         }
@@ -81,7 +80,7 @@ export class NotePagingComponent extends Component{
         if(this.props.paging.endPageNum !== this.props.paging.lastPage) {
             return (
                 <li className="page-item">
-                    <a className = "page-link" onClick = {() => this.goPage(this.props.paging.lastPage)} tabIndex="-1"> 마지막페이지로({this.props.paging.lastPage})</a>
+                    <a className = "page-link" onClick = {() => this.goPage(this.props.paging.lastPage)} tabIndex="-1"> 마지막으로({this.props.paging.lastPage})</a>
                 </li>
             )
         }
@@ -90,8 +89,8 @@ export class NotePagingComponent extends Component{
         console.log("c-render")
         console.log(this.state)
             return(
-            <div>
-                <div className="row">
+            <div style={{justifyContent:"center"}}>
+                <div className="row" style={{justifyContent:"center", clear:"both"}}>
                 <nav aria-label="Page navigation example">
                     <ul className="pagination justify-content-center">
                         {
@@ -117,4 +116,4 @@ export class NotePagingComponent extends Component{
     }
 }
 
-export default NoteListComponent.withRouter(NotePagingComponent);
+export default NotePagingComponent;

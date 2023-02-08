@@ -43,7 +43,7 @@ const SignUpModal = ({ show, onHide }) => {
             <Container>
                 <Modal.Header closeButton onClick={dataReset}>
                     <Modal.Title id="contained-modal-title-vcenter">
-                        회원가입
+                        아이디 찾기
                     </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>

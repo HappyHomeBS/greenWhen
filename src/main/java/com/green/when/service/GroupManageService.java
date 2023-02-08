@@ -30,7 +30,7 @@ public class GroupManageService {
     }
 
     public GroupManageEntity findOne(Long no) {
-        return groupManageRepository.findById(no).orElseThrow(NullPointerException::new);
+       return groupManageRepository.findById(no).orElseThrow(NullPointerException::new);
     }
 
 
@@ -80,5 +80,16 @@ public class GroupManageService {
     @Transactional
     public void save(GroupManageEntity groupManageEntity) {
         groupManageRepository.save(groupManageEntity);
+    }
+
+
+    @Transactional
+    public void update(GroupManageEntity grovi, Long accessiblelevel) {
+        grovi.setAccessiblelevel(accessiblelevel);
+
+    }
+
+    public List<GroupManageEntity> findonlyByGroupName(String groupname) {
+        return groupManageRepository.findAllByGroupname(groupname);
     }
 }

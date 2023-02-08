@@ -43,6 +43,7 @@ constructor(props) {
             });
         });
     }
+    //페이징컴포넌트에 넘길 state변경함수
     pagi = (number) => {
         this.setState({
             ...this.state,
@@ -61,55 +62,7 @@ constructor(props) {
     noteList(){
         this.props.navigate('/note')
     }
-    viewPaging() {
-        const pageNums = [];
-        for ( let i = this.state.paging.startPageNum; i<= this.state.paging.endPageNum; i++) {
-            pageNums.push(i)
-        }
-        return (pageNums.map((page) => 
-        <li className="page-item" key={page.toString()}>
-            <a className="page-link" onClick= {() => this.listNote(page)}>{page}</a>
-        </li>
-        ));
-    }
 
-   
-    isPagingPrev(){
-        if(this.state.paging.prev) {
-            return (
-                <li className="page-item">
-                    <a className="page-link" onClick = { ()=> this.listNote((this.state.paging.num - 1) )} tabIndex="-1">이전</a>
-                </li>
-            );
-        }
-    }
-    isPagingNext(){
-        if (this.state.paging.next) {
-            return (
-                <li className="page-item">
-                    <a className="page-link" onClick = { ()=> this.listNote((this.state.paging.num +1))} tabIndex="-1">다음</a>
-                </li>
-            )
-        }
-    }
-    isMoveToFirstPage() {
-        if (this.state.num !==1){
-            return ( 
-                <li className="page-item">
-                    <a className="page-link" onClick = {() => this.listNote(1)} tabIndex="-1">첫 페이지로</a>
-                </li>
-            )
-        }
-    }
-    isMoveToLastPage() {
-        if(this.state.paging.endPageNum !== this.state.paging.lastPage) {
-            return (
-                <li className="page-item">
-                    <a className = "page-link" onClick = {() => this.listNote((this.state.paging.lastPage))} tabIndex="-1"> 마지막페이지로({this.state.paging.lastPage})</a>
-                </li>
-            )
-        }
-    }
     render() {
         const paged = this.state.paged;
         const num = this.state.num;
@@ -118,8 +71,8 @@ constructor(props) {
         console.log(paging)
         
         return (
-        <div clssName="noteList" style={{margin: "10%"}}>
-            <h2 className="text-center">보낸 쪽지함</h2>
+        <div clssName="noteList" style={{margin: "5%"}}>
+            <h2 className="text-center"style={{margin:"1%"}}>보낸 쪽지함</h2>
             <div className ="row">
                 <table className="table table-striped table-bordered">
                     <thead>

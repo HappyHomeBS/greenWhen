@@ -1,6 +1,6 @@
 import axios from 'axios'
 import React, { useRef, useState, useContext, useCallback, useEffect, componentDidMount } from 'react'
-import '../../../ProfileImagecss.css'
+import '../../../css/mainNavigation.css'
 import AuthContext from '../../../store/authContext';
 
 const ProfileImage = () => {

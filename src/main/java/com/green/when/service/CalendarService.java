@@ -34,8 +34,8 @@ public class CalendarService {
     }
 
     @Transactional
-    public List<ScheduleVo> getAllSchedules(String userid) {
-        List<ScheduleVo> allScheduleList = calendarMapper.getAllSchedules(userid);
+    public List<ScheduleVo> getAllSchedules(ScheduleVo scheduleVo) {
+        List<ScheduleVo> allScheduleList = calendarMapper.getAllSchedules(scheduleVo);
         return allScheduleList;
     }
 
