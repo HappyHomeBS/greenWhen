@@ -13,6 +13,7 @@ const MemberBox = (props: any) => {
   const [boardNoteModalOn, setBoardNoteModalOn] = useState(false);
   const navigate = useNavigate();
 
+  // 회원 삭제
   const userDelete = (event: React.MouseEvent<HTMLElement>) => {
     event.preventDefault();
     //console.log("정보:", user);
@@ -22,12 +23,14 @@ const MemberBox = (props: any) => {
     authCtx.userDelete(userid, useremail, usernickname);
   };
 
+  // 회원등급
   const selectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     event.preventDefault();
     setSelected(event.target.value);
     console.log(selected);
   };
 
+  // 회원등급 변경
   const submitHandler = (event: React.FormEvent, userid: string) => {
     event.preventDefault();
     //console.log('권한변경',selected, userid);

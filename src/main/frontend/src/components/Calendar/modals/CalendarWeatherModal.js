@@ -31,7 +31,7 @@ const CalendarWeatherModal = ({ targetdate, visible, onCancel, year, month, regi
                     <table>
                         {icons.map((row, index) => (
                             row.targetDate === targetdate ? 
-                        <tbody>
+                        <tbody key={index}>
                             <tr>
                                 <td>최저온도</td>
                                 <td>{row.lowTemp}도</td>                                

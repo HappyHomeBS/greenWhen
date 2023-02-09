@@ -48,6 +48,8 @@ public class AuthController {
         int usernicknameCheck = authService.usernicknameCheck(requestVo.getUsernickname());
         return usernicknameCheck;
     }
+
+    // 아이디 찾기
     @PostMapping("/findid")
     public String findId(@RequestBody MemberRequestVo requestVo){
         String userid = authService.findId(requestVo.getUseremail());

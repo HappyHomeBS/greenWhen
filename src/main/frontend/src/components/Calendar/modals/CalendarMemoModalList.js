@@ -77,7 +77,7 @@ const CalendarMemoModal = ({
     const scheduleList = items.map((schedule, index) => {
       //console.log('schedule:', schedule, index)
       return (
-        <tr className="calendarTr" onClick={() => clickSchedule(schedule)}>
+        <tr key={index} className="calendarTr" onClick={() => clickSchedule(schedule)}>
           <CalendarMemoModalBox
             key={index}
             memo={schedule.memo}

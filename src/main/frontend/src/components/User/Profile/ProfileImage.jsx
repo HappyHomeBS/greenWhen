@@ -11,6 +11,7 @@ const ProfileImage = () => {
   const authCtx = useContext(AuthContext);
   const token = authCtx.token;
 
+  // 프로필 이미지 불러오기, 없는경우 기존 이미지 사용
   useEffect(() => {
     axios.get('/member/callProfile', {
       headers: {
