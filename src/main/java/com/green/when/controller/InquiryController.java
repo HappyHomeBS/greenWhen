@@ -48,10 +48,17 @@ public class InquiryController {
     //상세보기
     @GetMapping("/inquiryRead")
     public ResponseEntity<Map> inquiryRead(@RequestParam int no){
-        InquiryVo inquiryVo = setUserInfo();
-        inquiryVo.setNo(no);
+        InquiryVo userInfo = setUserInfo();
+        userInfo.setNo(no);
 
-        List<InquiryVo> inquiryRead = inquiryService.inquiryRead(inquiryVo);
+        List<InquiryVo> inquiryRead = inquiryService.inquiryRead(no);
+        InquiryVo mainArticle = inquiryRead.get(0);
+        String mainArticleStatus = mainArticle.getStatus();
+        int grpNo = mainArticle.getGrpNo();
+
+        if (Objects.equals(userInfo.getUserRole(), "ROLE_ADMIN") && Objects.equals(mainArticleStatus, "읽지않음")){
+            inquiryService.statusUpdate(grpNo, "처리중");
+        }
 
         Map result = new HashMap<>();
         result.put("inquiryRead", inquiryRead);
@@ -60,20 +67,30 @@ public class InquiryController {
         return ResponseEntity.ok(result);
     }
 
-    // 1:1문의 쓰기 + 댓글달기 ( 클라이언트에서 전달받은 원글번호(grpNo) 값의 유무로 답글/원글 판단)
+    // 1:1문의 쓰기 + 답글달기 ( 클라이언트에서 전달받은 원글번호(grpNo) 값의 유무로 답글/원글 판단)
     @PostMapping("/inquiryWrite")
     public ResponseEntity<Map> inquiryWrite(@RequestBody InquiryVo inquiryVo){
-        String userId = SecurityUtil.getCurrentMemberId();
-        String userRole = inquiryService.getUserRole(userId);
-        inquiryVo.setUserId(userId);
-        inquiryVo.setUserRole(userRole);
+        InquiryVo userInfo = setUserInfo();
 
-        if (inquiryVo.getGrpNo()==0) {
+        inquiryVo.setUserId(userInfo.getUserId());
+        inquiryVo.setUserRole(userInfo.getUserRole());
+        int grpNo = inquiryVo.getGrpNo();
+
+        if (grpNo==0) {
             System.out.println("writeVo" + inquiryVo);
             inquiryService.inquiryWrite(inquiryVo);
+
         } else {
-            System.out.println("replyVo" + inquiryVo);
-            inquiryService.inquiryReply(inquiryVo);
+//            답변작성자가 admin일 경우 '답변완료'로 변경
+            if(Objects.equals(userInfo.getUserRole(), "ROLE_ADMIN")) {
+                String status = "답변완료";
+                inquiryService.inquiryReply(inquiryVo, grpNo, status);
+                System.out.println("replyVo" + inquiryVo);
+//             답변 작성자가 user일 경우 "처리중"으로 변경
+            }else if(Objects.equals(userInfo.getUserRole(), "ROLE_USER")){
+                String status = "처리중";
+                inquiryService.inquiryReply(inquiryVo, grpNo, status);
+            }
         }
 
         Map result = new HashMap<>();

@@ -15,7 +15,7 @@ public interface InquiryMapper {
 
     List<InquiryVo> inquiryList(InquiryVo inquiryVo);
 
-    List<InquiryVo> inquiryRead(InquiryVo inquiryVo);
+    List<InquiryVo> inquiryRead(int no);
 
     void inquiryWrite(InquiryVo inquiryVo);
 
@@ -26,5 +26,7 @@ public interface InquiryMapper {
     void inquiryUpdate(InquiryVo inquiryVo);
 
     InquiryVo setArticle(int no);
+
+    void statusUpdate(int grpNo, String status);
 
 }

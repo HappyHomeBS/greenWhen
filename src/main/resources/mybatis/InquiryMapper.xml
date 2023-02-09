@@ -48,13 +48,13 @@
 <!--쓰기, 글 번호는 autoincrement 쓰지 않도록-->
     <insert id="inquiryWrite" parameterType="inquiryVo">
         INSERT INTO inquiry_tb(no, grpno, title, content, userid, depth, status, userrole, time)
-        VALUES ((COALESCE((SELECT MAX(no) FROM inquiry_tb i), 0)+1), (COALESCE((SELECT MAX(no) FROM inquiry_tb i), 0)+1),  #{title}, #{content}, #{userId}, 0, '읽지않음', #{userRole}, NOW())
+        VALUES ((COALESCE((SELECT MAX(no) FROM inquiry_tb i), 0)+1), (COALESCE((SELECT MAX(no) FROM inquiry_tb i), 0)+1),  #{title}, #{content}, #{userId}, 0, '확인중', #{userRole}, NOW())
     </insert>
 
 <!--답글, depth는 정렬용도로만 사용  -->
     <insert id="inquiryReply" parameterType="inquiryVo">
         INSERT INTO inquiry_tb(no, grpno, title, content, userid, depth, status, userrole, time)
-        VALUES ((COALESCE((SELECT MAX(no) FROM inquiry_tb i), 0)+1), #{grpNo},  #{title}, #{content}, #{userId}, (COALESCE((SELECT MAX(depth) FROM inquiry_tb i WHERE grpno=#{grpNo}), 0)+1), '읽지않음', #{userRole}, NOW())
+        VALUES ((COALESCE((SELECT MAX(no) FROM inquiry_tb i), 0)+1), #{grpNo},  #{title}, #{content}, #{userId}, (COALESCE((SELECT MAX(depth) FROM inquiry_tb i WHERE grpno=#{grpNo}), 0)+1), '답글', #{userRole}, NOW())
     </insert>
 <!--삭제-->
     <delete id="inquiryDelete" parameterType= "int">
@@ -70,5 +70,10 @@
             ,time = NOW()
         WHERE no= #{no}
     </update>
-
+<!--상태갱신(답변)-->
+    <update id="statusUpdate">
+        Update inquiry_tb
+        set status = #{status}
+        WHERE no= #{grpNo}
+    </update>
 </mapper>
