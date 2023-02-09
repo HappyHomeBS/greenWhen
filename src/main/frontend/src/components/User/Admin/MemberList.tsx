@@ -95,7 +95,7 @@ const Member = () => {
         setUsers(res.data)                 
         setAllUser(res.data)                
       });
-  }, []);  
+  }, [allUser]);  
 
 
   return (

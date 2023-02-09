@@ -1,12 +1,9 @@
 import React, {
   useState,
   useEffect,
-  useCallback,
-  useReducer,
   useContext,
 } from "react";
 import { Modal, Container } from "react-bootstrap";
-import axios from "axios";
 import Region from "../module/Region";
 import AuthContext from "../../../store/authContext";
 
@@ -112,7 +109,7 @@ const CalendarRegionModal = ({
                     })}
                   </select>
                 </td>
-                <div>{Region({ regionNumber, ClickRegion, groupName })}</div>
+                <td>{Region({ regionNumber, ClickRegion, groupName })}</td>
               </tr>
             </tbody>
           </table>

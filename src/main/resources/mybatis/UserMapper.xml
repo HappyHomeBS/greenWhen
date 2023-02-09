@@ -142,6 +142,11 @@
         DELETE FROM member_tb WHERE userid = #{userid}
     </delete>
 
+    <!-- 회원 탈퇴시 소모임에서도 탈퇴 -->
+    <delete id="groupUserDelete">
+        DELETE FROM groupmanage_tb WHERE userid = #{userid}
+    </delete>
+
     <!-- 탈퇴된 회원테이블로 탈퇴회원 정보에 입력-->
     <insert id="deleteUserInsert">
         INSERT INTO deleteUser(userid, usernickname, useremail)

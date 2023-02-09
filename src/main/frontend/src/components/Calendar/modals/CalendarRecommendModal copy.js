@@ -17,7 +17,7 @@ const CalendarRecommendModal = ({ visible, onCancel, region }) => {
         //console.log('지역1.2', row)
         );
         console.log('지역1.2', rowsData)
-           
+        console.log('2')
 
         rowsData.map((item) => {                   
           console.log('지역1.5', item)        

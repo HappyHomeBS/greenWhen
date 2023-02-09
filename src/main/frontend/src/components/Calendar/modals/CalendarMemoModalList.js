@@ -41,7 +41,7 @@ const CalendarMemoModal = ({
 
   //페이징
   const [page, setPage] = useState(1); //현재 페이지
-  const itemsPerPage = 5; //보여줄 게시글 갯수
+  const itemsPerPage = 7; //보여줄 게시글 갯수
 
   //페이지 계산
   const totalPages = Math.ceil(allSchedules.length / itemsPerPage);

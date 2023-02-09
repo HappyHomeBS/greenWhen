@@ -11,13 +11,14 @@ import org.springframework.web.bind.annotation.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api")
 
 public class InquiryController {
-
+    //토큰에서 가져온 로그인 사용자 정보
     public InquiryVo setUserInfo() {
         String userId = SecurityUtil.getCurrentMemberId();
         String userRole = inquiryService.getUserRole(userId);
@@ -35,22 +36,29 @@ public class InquiryController {
     public ResponseEntity<Map> inquiryList(){
         InquiryVo inquiryVo = setUserInfo();
 
-        System.out.println("요청데이터");
         List<InquiryVo>inquiryList = inquiryService.inquiryList(inquiryVo);
 
         Map result = new HashMap<>();
         result.put ("inquiryList", inquiryList);
 
         System.out.println(result);
+
         return ResponseEntity.ok(result);
     }
     //상세보기
     @GetMapping("/inquiryRead")
     public ResponseEntity<Map> inquiryRead(@RequestParam int no){
-        InquiryVo inquiryVo = setUserInfo();
-        inquiryVo.setNo(no);
-        System.out.println("setting inquiryVo:" + inquiryVo);
-        List<InquiryVo> inquiryRead = inquiryService.inquiryRead(inquiryVo);
+        InquiryVo userInfo = setUserInfo();
+        userInfo.setNo(no);
+
+        List<InquiryVo> inquiryRead = inquiryService.inquiryRead(no);
+        InquiryVo mainArticle = inquiryRead.get(0);
+        String mainArticleStatus = mainArticle.getStatus();
+        int grpNo = mainArticle.getGrpNo();
+
+        if (Objects.equals(userInfo.getUserRole(), "ROLE_ADMIN") && Objects.equals(mainArticleStatus, "읽지않음")){
+            inquiryService.statusUpdate(grpNo, "처리중");
+        }
 
         Map result = new HashMap<>();
         result.put("inquiryRead", inquiryRead);
@@ -59,20 +67,30 @@ public class InquiryController {
         return ResponseEntity.ok(result);
     }
 
-    // 1:1문의 쓰기 + 댓글달기 ( 클라이언트에서 전달받은 grpNo 값의 유무로 답글/원글 판단)
+    // 1:1문의 쓰기 + 답글달기 ( 클라이언트에서 전달받은 원글번호(grpNo) 값의 유무로 답글/원글 판단)
     @PostMapping("/inquiryWrite")
     public ResponseEntity<Map> inquiryWrite(@RequestBody InquiryVo inquiryVo){
-        String userId = SecurityUtil.getCurrentMemberId();
-        String userRole = inquiryService.getUserRole(userId);
-        inquiryVo.setUserId(userId);
-        inquiryVo.setUserRole(userRole);
+        InquiryVo userInfo = setUserInfo();
 
-        if (inquiryVo.getGrpNo()==0) {
+        inquiryVo.setUserId(userInfo.getUserId());
+        inquiryVo.setUserRole(userInfo.getUserRole());
+        int grpNo = inquiryVo.getGrpNo();
+
+        if (grpNo==0) {
             System.out.println("writeVo" + inquiryVo);
             inquiryService.inquiryWrite(inquiryVo);
+
         } else {
-            System.out.println("replyVo" + inquiryVo);
-            inquiryService.inquiryReply(inquiryVo);
+//            답변작성자가 admin일 경우 '답변완료'로 변경
+            if(Objects.equals(userInfo.getUserRole(), "ROLE_ADMIN")) {
+                String status = "답변완료";
+                inquiryService.inquiryReply(inquiryVo, grpNo, status);
+                System.out.println("replyVo" + inquiryVo);
+//             답변 작성자가 user일 경우 "처리중"으로 변경
+            }else if(Objects.equals(userInfo.getUserRole(), "ROLE_USER")){
+                String status = "처리중";
+                inquiryService.inquiryReply(inquiryVo, grpNo, status);
+            }
         }
 
         Map result = new HashMap<>();
@@ -80,24 +98,63 @@ public class InquiryController {
         return ResponseEntity.ok(result);
     }
 
+    //삭제
     @GetMapping("/inquiryDelete")
     public ResponseEntity<Map> inquiryDelete(@RequestParam int no){
-        System.out.println("번호"+no);
-        inquiryService.inquiryDelete(no);
+
+        //글 작성자
+        InquiryVo targetArticle = inquiryService.setArticle(no);
+        String articleWriter = targetArticle.getUserId();
+        System.out.println("ta"+articleWriter);
+
+        //로그인 사용자
+        InquiryVo userInfo = setUserInfo();
+        System.out.println("loginuser"+userInfo.getUserId());
+
+        String msg = null;
+
+        //사용자 검증 :  글 작성자이거나 admin 권한 일 때 삭제
+        if (Objects.equals(articleWriter, userInfo.getUserId()) |
+                Objects.equals(userInfo.getUserRole(), "ROLE_ADMIN")){
+
+            inquiryService.inquiryDelete(no);
+            msg = "삭제성공!";
+        }
+
+        else {
+            msg = "권한이 없습니다!";
+        }
 
         Map result = new HashMap<>();
+        result.put("msg", msg);
         System.out.println(result);
         return  ResponseEntity.ok(result);
     }
 
+    //수정하기
     @PostMapping("/inquiryUpdate")
     public ResponseEntity<Map> inquiryUpdate(@RequestBody InquiryVo inquiryVo){
 
-        System.out.println(inquiryVo);
-        inquiryService.inquiryUpdate(inquiryVo);
+        String articleWriter = inquiryVo.getUserId();
+
+        //로그인 사용자
+        InquiryVo userInfo = setUserInfo();
+        System.out.println("loginuser"+userInfo.getUserId());
+
+        String msg = null;
+
+        if(Objects.equals(articleWriter, userInfo.getUserId())
+                | Objects.equals(userInfo.getUserRole(), "ROLE_ADMIN")) {
+            System.out.println(inquiryVo);
+            inquiryService.inquiryUpdate(inquiryVo);
+            msg = "수정완료!";
+        }else{
+            msg = "권한이 없습니다!";
+        }
+
 
         Map result = new HashMap<>();
-
+        result.put("msg", msg);
         return ResponseEntity.ok(result);
     }
 }

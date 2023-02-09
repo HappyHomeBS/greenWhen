@@ -16,8 +16,7 @@ const CalendarModal = ({ targetdate, visible, onConfirm, onCancel, region }) => 
     };
 
     const [state, dispatch] = useReducer(ModalReducer, initialState)
-
-
+    
     const color = state.color;
     const todo = state.todo;
     const todos = state.todos;

@@ -59,7 +59,7 @@ const MakeCalendar = ({
   }
   
   
-  
+  //월별 외출지수 아이콘 데이터
   const icons = WeatherIcon({year:year, month:month+1, regionNum:regionNum});  
   //console.log('iconss',icons)
 
