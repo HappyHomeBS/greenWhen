@@ -55,8 +55,9 @@ public class InquiryController {
         InquiryVo mainArticle = inquiryRead.get(0);
         String mainArticleStatus = mainArticle.getStatus();
         int grpNo = mainArticle.getGrpNo();
+        System.out.println(userInfo.getUserRole());
 
-        if (Objects.equals(userInfo.getUserRole(), "ROLE_ADMIN") && Objects.equals(mainArticleStatus, "읽지않음")){
+        if (Objects.equals(userInfo.getUserRole(), "ROLE_ADMIN") && Objects.equals(mainArticleStatus, "확인중")){
             inquiryService.statusUpdate(grpNo, "처리중");
         }
 
