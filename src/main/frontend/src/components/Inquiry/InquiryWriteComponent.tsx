@@ -82,7 +82,7 @@ const InquiryWrite: React.FC = (props: any) => {
                 <input
                     id="fileInput"
                     type="file"
-                    multiple accept=".png"
+                    multiple accept=".png, .jpg"
                     ref={fileInput}
                     style={{display:"none"}}
                     onChange={handleImageChange} />
