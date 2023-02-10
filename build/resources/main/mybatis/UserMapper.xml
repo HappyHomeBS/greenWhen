@@ -142,13 +142,13 @@
         DELETE FROM member_tb WHERE userid = #{userid}
     </delete>
 
-    <!-- 탈퇴된 회원테이블로 탈퇴회원 정보 입력-->
+    <!-- 탈퇴된 회원테이블로 탈퇴회원 정보에 입력-->
     <insert id="deleteUserInsert">
         INSERT INTO deleteUser(userid, usernickname, useremail)
         VALUES (#{userid}, #{usernickname}, #{useremail})
     </insert>
 
-    <!-- 유저권한 변경-->
+    <!-- 회원등급 변경 -->
     <update id="roleChange">
         UPDATE member_tb
         SET   role = #{role}
