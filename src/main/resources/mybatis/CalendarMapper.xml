@@ -40,7 +40,6 @@
         ORDER BY no desc
     </select>
 
-
     <!-- 일정 삭제 -->
     <delete id="deleteSchedule">
         DELETE FROM memo_tb

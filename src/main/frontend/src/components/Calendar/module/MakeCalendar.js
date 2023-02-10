@@ -38,23 +38,32 @@ const MakeCalendar = ({
   groupLeader,
   userid,
   groupName,
-  regionNum
+  regionNum,
+  setCalendarWeatherModalOn
 }) => {
   {/*날씨 아이콘 <BsCloudRainHeavy /><BsBrightnessHigh /><BsCloudSnow /><BsFillCloudFill /><BsFillCloudLightningRainFill /><BsFillUmbrellaFill />*/}
   const authCtx = useContext(AuthContext);
   const isLogin = authCtx.isLoggedIn;
   const result = [];  
   
+  // 기존 일정 클릭 시 수정, 삭제 Modal 활성화, CalendarModal 비활성화
   const viewModal = () => {
     setCalendarUpdateModalOn(true);
     changeVisible(onCancel);
   };
-  
-  console.log('시작')
-  console.log('month', month)
-  const icons = WeatherIcon({year:year, month:month+1, regionNum:regionNum});  
-  console.log('iconss',icons)
 
+  // 외출지수 아이콘 클릭 시 날씨정보 Modal 활성화, CalendarModal 비활성화
+  const clickWeather = () => {
+    setCalendarWeatherModalOn(true);
+    changeVisible(onCancel);
+  }
+  
+  
+  //월별 외출지수 아이콘 데이터
+  const icons = WeatherIcon({year:year, month:month+1, regionNum:regionNum});  
+  //console.log('iconss',icons)
+
+  // 비로그인 시 일정입력, 메모확인, 날씨확인 불가능
   const makeDay = (week) => {
 
     const result = [];
@@ -105,7 +114,7 @@ const MakeCalendar = ({
                   {now} 
                   {icons.map((row, index) => (
                     row.targetDate === idx ? 
-                    <span key={index}>                                      
+                    <span onClick={clickWeather} key={index}>                                      
                       {row.icon}
                     </span>
                     : null
@@ -153,7 +162,7 @@ const MakeCalendar = ({
                   {now}
                   {icons.map((row, index) => (
                     row.targetDate === idx ? 
-                    <span key={index}>                                      
+                    <span onClick={clickWeather} key={index}>                                      
                       {row.icon}
                     </span>
                     : null

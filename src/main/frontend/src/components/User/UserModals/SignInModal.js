@@ -32,6 +32,8 @@ const SignInModal = ({ show, onHide }) => {
 
     const submitHandler = async (event) => {
         event.preventDefault();
+        setUserid("");
+        setUserpw("");
 
         setIsLoading(true);
         authCtx.login(userid, userpw);

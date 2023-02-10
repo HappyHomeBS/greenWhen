@@ -3,7 +3,9 @@ import { Modal, Container } from "react-bootstrap";
 
 const CalendarRecommendModal = ({ visible, onCancel, region }) => {
   const [csvData, setCsvData] = useState([]);
-  // ""안에 ""가 있기때문에 ,로 split할수 없는듯
+  const array = [];
+  
+
   useEffect(() => {
     const url = "/csv/recommend.csv";
     fetch(url)
@@ -13,15 +15,33 @@ const CalendarRecommendModal = ({ visible, onCancel, region }) => {
         reader.onload = () => {
           const data = reader.result;
           const rows = data.split(/\r?\n|\r/);
+          console.log('관광지1', rows)
           const rowsData = rows.map(row => row.split(',(?=(["]*"[""]*")*[""*$)', -1));
-          //console.log('지역',rows)
-          setCsvData(rows);
+          console.log('관광지2', rowsData)
+          rowsData.map((item) => {
+            console.log('관광지2', item)    
+            //const splitData = item[0].split(",(?=([^\"]*\"[^\"]*\")*[^\"]*$)", -1)
+            const splitData = item[0].split(",")
+            console.log('관광지3', splitData)
+            array.push({              
+              place: splitData[0],
+              address: splitData[1],
+              info: splitData[2],
+              infoDate: splitData[3],
+              region: splitData[4],
+            });
+            
+          })
+          console.log('관광지4',array)
+          console.log('관광지5',region.props)
+          setCsvData(array);
         };
         reader.readAsText(new Blob([text], { type: "text/csv" }));
       })
       .catch((error) => console.error(error));
-  }, []);
-
+    }, []);
+    
+    
   if (!visible) return null;
   return (
     <Modal
@@ -42,9 +62,7 @@ const CalendarRecommendModal = ({ visible, onCancel, region }) => {
             <tbody>
               {csvData.map((row, index) => (
                 <tr key={index}>
-                  {row.split(",").map((cell, cellIndex) => (
-                    <td key={cellIndex}>{cellIndex === 0 ? cell : null}</td>
-                  ))}
+                  {row.region.includes({region}) && <td>{row.place}</td>}         
                 </tr>
               ))}
             </tbody>

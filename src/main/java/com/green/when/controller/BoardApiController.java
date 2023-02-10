@@ -44,24 +44,48 @@ public class BoardApiController {
         //
         List<BoardDto> boardDtoListForComment = new ArrayList<>();
 
-        for (BoardEntity board : boardList){
 
-       //     System.out.println("cycy : 1. 댓글개수 넣기 start");
+
+        //공지들은 앞으로 뺴둘거라 임시 list (공지 아닌애들이 임시로 들어감)
+        List<BoardDto> boardDtoListForNotNotification = new ArrayList<>();
+        //그냥 공지 전용 list도 만듦
+        List<BoardDto> boardDtoListForNotification = new ArrayList<>();
+
+
+        for (BoardEntity board : boardList) {
+
+            //  System.out.println("cycy : 1. 댓글개수 넣기 start");
             List<CommentEntity> comments = commentService.findByContentno(board.getNo());
-      //      System.out.println("cycy : 2. board.getNo() : " + board.getNo() );
+            //  System.out.println("cycy : 2. board.getNo() : " + board.getNo() );
 
             Long commentCount = Long.valueOf(comments.size());
-        //    System.out.println("cycy : 3. commentCount :  " + commentCount );
+            //  System.out.println("cycy : 3. commentCount :  " + commentCount );
 
             BoardDto boardD = new BoardDto(board);
-        //    System.out.println("cycy : 4 댓글갯수 없는 boardDto : " + boardD);
+            //  System.out.println("cycy : 4 댓글갯수 없는 boardDto : " + boardD);
             boardD.setCommentCount(commentCount);
-        //    System.out.println("cycy : 5 3번+4번 . 즉 boardDto 에 댓글개수 더함 :" + boardD);
+            //  System.out.println("cycy : 5 3번+4번 . 즉 boardDto 에 댓글개수 더함 :" + boardD);
 
-            boardDtoListForComment.add(boardD);
-           // System.out.println("cycy : 6 지금까지 총 list  :" + boardDtoListForComment  );
+            if (boardD.getTag().equals("공지")) {
+                System.out.println("공지랑동일");
+                boardDtoListForNotification.add(boardD);
 
+            } else {
+                System.out.println("공지가 아님");
+                boardDtoListForNotNotification.add(boardD);
+            }
         }
+
+        System.out.println("/get-boardList/공지인 list : " + boardDtoListForNotification);
+        System.out.println("/get-boardList/공지아닌 list : "  + boardDtoListForNotNotification);
+
+        boardDtoListForComment.addAll(boardDtoListForNotification);
+        boardDtoListForComment.addAll(boardDtoListForNotNotification);
+
+        System.out.println(boardDtoListForComment);
+        // System.out.println("cycy : 6 지금까지 총 list  :" + boardDtoListForComment  );
+
+
 
      //   List<BoardDto> boardDtoList = boardList.stream().map(b ->
       //          new BoardDto(b)).collect(Collectors.toList());

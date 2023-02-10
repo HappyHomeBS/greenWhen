@@ -71,8 +71,8 @@ constructor(props) {
         console.log(paging)
         
         return (
-        <div clssName="noteList" style={{margin: "10%"}}>
-            <h2 className="text-center">보낸 쪽지함</h2>
+        <div clssName="noteList" style={{margin: "5%"}}>
+            <h2 className="text-center"style={{margin:"1%"}}>보낸 쪽지함</h2>
             <div className ="row">
                 <table className="table table-striped table-bordered">
                     <thead>

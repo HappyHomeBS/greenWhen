@@ -83,6 +83,7 @@ const Member = () => {
     });
   };
 
+  // 회원목록 불러오기
   useEffect(() => {
     axios
       .get("/admin/userList", {
@@ -94,7 +95,7 @@ const Member = () => {
         setUsers(res.data)                 
         setAllUser(res.data)                
       });
-  }, []);  
+  }, [allUser]);  
 
 
   return (

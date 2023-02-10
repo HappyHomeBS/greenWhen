@@ -41,7 +41,7 @@ const CalendarMemoModal = ({
 
   //페이징
   const [page, setPage] = useState(1); //현재 페이지
-  const itemsPerPage = 5; //보여줄 게시글 갯수
+  const itemsPerPage = 7; //보여줄 게시글 갯수
 
   //페이지 계산
   const totalPages = Math.ceil(allSchedules.length / itemsPerPage);
@@ -77,7 +77,7 @@ const CalendarMemoModal = ({
     const scheduleList = items.map((schedule, index) => {
       //console.log('schedule:', schedule, index)
       return (
-        <tr className="calendarTr" onClick={() => clickSchedule(schedule)}>
+        <tr key={index} className="calendarTr" onClick={() => clickSchedule(schedule)}>
           <CalendarMemoModalBox
             key={index}
             memo={schedule.memo}

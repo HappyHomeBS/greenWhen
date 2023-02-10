@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback, useContext } from 'react'
 import { Modal, Button, Form, Container } from 'react-bootstrap'
 import axios from 'axios'
 import AuthContext from '../../../store/authContext'
+import { useNavigate } from 'react-router-dom'
 
 
 const SignUpModal = ({ show, onHide }) => {
@@ -22,10 +23,11 @@ const SignUpModal = ({ show, onHide }) => {
     const [pwcolor, setPwColor] = useState();
     const [pwcheckcolor, setPwCheckColor] = useState();
     const authCtx = useContext(AuthContext);
+    const navigate = useNavigate();
 
 
 
-    const dataReset = (e) => {
+    const dataReset = () => {
         setUserid('')
         setUserpw('')
         setcheckUserpw('')
@@ -210,6 +212,9 @@ const SignUpModal = ({ show, onHide }) => {
             usernickname,
             useremail
           );
+        
+        dataReset();
+        navigate("/");
     }
 
     return (

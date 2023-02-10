@@ -31,10 +31,10 @@ public class InquiryService {
     }
     // 상세보기
 
-    public List<InquiryVo> inquiryRead(InquiryVo inquiryVo) {
+    public List<InquiryVo> inquiryRead(int no) {
         List<InquiryVo> inquiryRead;
         try {
-            inquiryRead = mapper.inquiryRead(inquiryVo);
+            inquiryRead = mapper.inquiryRead(no);
         } catch (Exception e) {
             e.printStackTrace();
             throw e;
@@ -53,15 +53,16 @@ public class InquiryService {
         }
     }
     //답글달기
-    public void inquiryReply(InquiryVo inquiryVo) {
+    public void inquiryReply(InquiryVo inquiryVo, int grpNo, String status) {
         try {
             mapper.inquiryReply(inquiryVo);
+            mapper.statusUpdate(grpNo, status);
         } catch (Exception e) {
             e.printStackTrace();
             throw e;
         }
     }
-
+    //삭제
     public void inquiryDelete(int no) {
         try {
             mapper.inquiryDelete(no);
@@ -70,7 +71,7 @@ public class InquiryService {
             throw e;
         }
     }
-
+    // 수정
     public void inquiryUpdate(InquiryVo inquiryVo) {
         try{
             mapper.inquiryUpdate(inquiryVo);
@@ -79,4 +80,28 @@ public class InquiryService {
             throw e;
         }
     }
+
+    //작성자 확인용
+    public InquiryVo setArticle (int no) {
+        InquiryVo targetArticle;
+        try{
+            targetArticle = mapper.setArticle(no);
+        }catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        }
+        return targetArticle;
+    }
+
+    //상태관리용
+
+    public void statusUpdate (int grpNo, String status){
+        try{
+            mapper.statusUpdate(grpNo, status);
+        }catch(Exception e){
+            e.printStackTrace();
+            throw(e);
+        }
+    }
+
 }

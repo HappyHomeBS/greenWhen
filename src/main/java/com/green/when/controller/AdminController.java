@@ -25,6 +25,7 @@ public class AdminController {
 
     private final AdminService adminService;
 
+    // 유저 리스트 불러오기
     @GetMapping("/userList")
     public List<MemberResponseVo> getMyMemberInfo() {
         List<MemberResponseVo> userList = adminService.userList();
@@ -33,12 +34,14 @@ public class AdminController {
         // return ResponseEntity.ok(memberService.getMyInfoBySecurity());
     }
 
+    // 유저 탈퇴
     @PostMapping("/userDelete")
     public void userDelete(@RequestBody MemberVo memberVo) {
         //System.out.println(memberVo.toString());
         adminService.userDelete(memberVo);
     }
 
+    // 회원등급 변경
     @PostMapping("/roleChange")
     public void roleChange(@RequestBody MemberVo memberVo) {
         System.out.println(memberVo);

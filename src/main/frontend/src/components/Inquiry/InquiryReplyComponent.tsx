@@ -50,16 +50,19 @@ const InquiryReply = (props: { updatingInfo: () => void}) => {
         <Form noValidate validated={validated} onSubmit={handleSubmit}>
             <Form.Group controlId="titleInput"> 
                 <Form.Label>제목</Form.Label>
-                <Form.Control required as ="textarea" rows = {1}/>
+                <Form.Control required as ="textarea" rows = {1} style={{resize:"none"}}/>
                 <Form.Control.Feedback type="invalid"> 제목을 입력하세요 </Form.Control.Feedback>
             </Form.Group>
             <Form.Group controlId="contextText">
                 <Form.Label>내용</Form.Label>
-                <Form.Control required as="textarea" rows={20}/>
+                <Form.Control required as="textarea" rows={20} style={{resize:"none"}}/>
             </Form.Group>
             <Button variant="primary" type="submit">
                 등록
             </Button>
+            {/* <Button variant="primary" onClick={}>
+                취소
+            </Button> */}
         </Form>
     );
 }

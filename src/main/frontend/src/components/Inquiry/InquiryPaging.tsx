@@ -32,22 +32,23 @@ export function GetPostsLoaded(props: Array<InquiryInterface>, currentPage:numbe
 
 type pageNumbers = {
     currentPage:number
-    totalInquiry:number
+    totalList:any
     setCurrentPage:any
  }
 
-export function PageNumbers (pageNumbers:pageNumbers){  
+export function PageNumbers (pageNumbers:pageNumbers){
     const postNum = 10;
     const pageNumCnt = 10;
     console.log(pageNumbers);
-    const totalPages:number = Math.ceil( pageNumbers.totalInquiry/postNum) ; 
+    const inquiryCounts=pageNumbers.totalList.length;
+    const totalPages:number = Math.ceil( inquiryCounts/postNum) ;
     const pagenums: Array<number> = [pageNumbers.currentPage];
     const pageNums = [];
     for (let i = 1; i<= totalPages; i++) {
         pageNums.push(i)
     }
 
-    return( 
+    return(
         <div className ="row" style={{textAlign:"center"}} >
             <nav className="pagination" aria-label="pagination" style={{width: "auto", margin:"auto"}}>
                 {pageNums.map(number => (
@@ -55,13 +56,13 @@ export function PageNumbers (pageNumbers:pageNumbers){
                         <div
                         role="presentaton"
                         onClick={() => pageNumbers.setCurrentPage(number)}
-                        className="page-link"> 
+                        className="page-link">
                         {number}
                         </div>
                     </li>
                 ))}
             </nav>
         </div>
-        )    //현재페이지가 10의 배수일 때 
-  
+        )    //현재페이지가 10의 배수일 때
+
 }

@@ -22,6 +22,7 @@ public class MemberController {
 
     private final MemberService memberService;
 
+    // 내 정보 불러오기
     @GetMapping("/me")
     public ResponseEntity<MemberResponseVo> getMyMemberInfo() {
         MemberResponseVo myInfoBySecurity = memberService.getMyInfoBySecurity();
@@ -29,6 +30,7 @@ public class MemberController {
         // return ResponseEntity.ok(memberService.getMyInfoBySecurity());
     }
 
+    // 닉네임 변경
     @PostMapping("/nickname")
     public void setMemberNickname(@RequestBody MemberRequestVo request) {
 //        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -37,6 +39,7 @@ public class MemberController {
         memberService.changeMemberNickname(userid, request.getUsernickname());
     }
 
+    // 닉네임 중복 체크
     @PostMapping("/nicknameCheck")
     public int nicknameCheck(@RequestBody MemberVo memberVo) {
         int nicknameCheck = memberService.nicknameCheck(memberVo.getUsernickname());
@@ -44,23 +47,26 @@ public class MemberController {
         return nicknameCheck;
     }
 
-
+    //비밀번호 변경
     @PostMapping("/password")
     public void setMemberPassword(@RequestBody ChangePasswordRequestVo request) {
         memberService.changeMemberPassword(request.getExPassword(), request.getNewPassword());
     }
 
+    // 이전비밀번호 확인
     @PostMapping("/exPasswordCheck")
     public int passwordCheck(@RequestBody MemberVo memberVo) {
         int passwordCheck = memberService.passwordCheck(memberVo.getUserpw());
         return passwordCheck;
     }
 
+    //프로필 이미지 등록
     @SneakyThrows
     @PostMapping("/profileImg")
     public void profileImg(@RequestParam MultipartFile file) {
         try {
             String userid = SecurityUtil.getCurrentMemberId();
+            System.out.println(userid);
             MemberVo memberVo = new MemberVo();
             String projectPath = /*System.getProperty("user.dir") +*/  "D:\\ws\\boot\\greenWhen\\src\\main\\frontend\\public\\profileImg\\";
             UUID uuid = UUID.randomUUID();
@@ -69,6 +75,7 @@ public class MemberController {
             memberVo.setFilename(fileName);
             memberVo.setFilepath("/profileImg/" +fileName);
             memberVo.setUserid(userid);
+            System.out.println(memberVo.toString());
             memberService.profileImgUpload(memberVo);
             file.transferTo(saveFile);
         } catch (Exception exception) {
@@ -76,11 +83,12 @@ public class MemberController {
         }
     }
 
+    // 프로필 이미지 불러오기
     @GetMapping("/callProfile")
     public MemberVo callProfile() {
         String userid = SecurityUtil.getCurrentMemberId();
         MemberVo memberVo = memberService.callProfileImg(userid);
-        System.out.println(memberVo);
+        System.out.println(memberVo.toString());
         return memberVo;
     }
 

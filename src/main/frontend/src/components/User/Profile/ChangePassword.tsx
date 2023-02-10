@@ -1,17 +1,17 @@
 import React, { useContext, useRef } from "react";
-import { useNavigate } from "react-router-dom";
 import AuthContext from "../../../store/authContext";
 import axios from "axios";
 
-const ChangePassword = () => {
-  let navigate = useNavigate();
+const ChangePassword = () => {  
 
+  // 유저 정보
   const authCtx = useContext(AuthContext);
   const token = authCtx.token;
   const exPasswordInputRef = useRef<HTMLInputElement>(null);
   const newPasswordInputRef = useRef<HTMLInputElement>(null);
   const newPasswordAgainInputRef = useRef<HTMLInputElement>(null);
 
+  
   const submitHandler = (event: React.FormEvent) => {
     event.preventDefault();
     const enteredExPassword = exPasswordInputRef.current!.value;

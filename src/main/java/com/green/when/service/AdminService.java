@@ -19,19 +19,23 @@ import java.util.List;
 public class AdminService {
     private final UserMapper userMapper;
 
+    // 유저 리스트 불러오기
     public List<MemberResponseVo> userList() {
         List<MemberResponseVo> userList = userMapper.userList();
         return  userList;
     }
 
+    // 회원 탈퇴
     @Transactional
     public void userDelete(MemberVo memberVo) {
-        userMapper.deleteUserInsert(memberVo);
         userMapper.foreignKeyChecks();
+        userMapper.groupUserDelete(memberVo);
         userMapper.userDelete(memberVo);
         userMapper.foreignKeyCheck();
+        userMapper.deleteUserInsert(memberVo);
     }
 
+    // 회원등급 변경
     @Transactional
     public void roleChange(MemberVo memberVo) {
         userMapper.roleChange(memberVo);
