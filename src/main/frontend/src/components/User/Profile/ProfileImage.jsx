@@ -25,7 +25,7 @@ const ProfileImage = () => {
         if (!URL.isempty ){
         setImage(URL)
         console.log("주소", Image)
-      } 
+      }
       });
   }, []);
 

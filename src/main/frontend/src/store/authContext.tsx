@@ -26,7 +26,6 @@ const AuthContext = React.createContext({
   profileImg: (file: string) => { },
   userDelete: (userid: string, useremail: string, usernickname: string ) => { },
   roleChange: (role: string, userid: string) => { }
-  
 });
 
 
