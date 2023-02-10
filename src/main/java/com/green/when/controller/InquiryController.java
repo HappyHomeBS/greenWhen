@@ -113,7 +113,7 @@ public class InquiryController {
 
         String msg = null;
 
-        //사용자 검증 :  글 작성자이거나 admin 권한 일 때 삭제
+        //사용자 검증 :  글 작성자이거나 admin 권한일 때 삭제
         if (Objects.equals(articleWriter, userInfo.getUserId()) |
                 Objects.equals(userInfo.getUserRole(), "ROLE_ADMIN")){
 

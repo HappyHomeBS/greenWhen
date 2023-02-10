@@ -14,6 +14,7 @@ const InquiryList: React.FC = (props: any) => {
     const [currentPage, setCurrentPage] = useState(1);
     const [inquiryList, setInquiryList] = useState<Array<InquiryInterface>>([]); //현재페이지글
     const [totalList, setTotalList] = useState<Array<InquiryInterface>>([]); //전체글
+    const [originalList, setOriginalList] = useState<Array<InquiryInterface>>([]);
     // const [loaded, setLoaded] = useState(false);
     // const [inquiriesPerPage, setInquiresPerPage] = useState(10);
     const [inquiryCounts, setInquiryCounts] = useState(0); //전체글 숫자
@@ -31,10 +32,14 @@ const InquiryList: React.FC = (props: any) => {
 
     //현재페이지에 따라 바뀜
     useEffect(() => {
-
+       
         goPage();
 
-    }, [currentPage, totalList])
+    }, [currentPage])
+
+    useEffect(()=>{
+        statusChanged();
+    },[status])
 
     const getInquiryList = async () => {
 
@@ -43,12 +48,16 @@ const InquiryList: React.FC = (props: any) => {
 
         setInquiryList(newInquiryList);
 
-
-        setTotalList(listData) // 모든 게시글 리스트 저장
+        setTotalList(listData);
+        setOriginalList(listData);
+         // 모든 게시글 리스트 저장
         // setInquiryCounts(totalList.length) // 불러온 모든 게시글 수
     }
 
     const goPage = () => {
+        console.log("oneffect", status)
+        console.log("oneffect", currentPage)
+        console.log("totalList", totalList)
         const newInquiryList = InquiryPaging.GetPostsLoaded(totalList, currentPage);
         setInquiryList(newInquiryList);
     }
@@ -60,6 +69,28 @@ const InquiryList: React.FC = (props: any) => {
     const InquiryWrite = () => {
         navigate('/inquiryWrite');
     }
+
+    const statusHandler = (e:any) => {
+        e.preventDefault();
+        setStatus(e.target.value);
+        console.log(e.target.value);
+        
+    }
+
+    const statusChanged = async () => {
+     
+        if(status==='전체'){
+            getInquiryList();
+        }else{
+        const filterdData=originalList.filter((inquiry:any) => inquiry.status===status)
+        console.log("필터링데이터", filterdData)
+        
+        setTotalList(filterdData);
+        const newInquiryList = InquiryPaging.GetPostsLoaded(totalList, currentPage);
+        setInquiryList(newInquiryList);
+        setCurrentPage(1);
+    }
+    }
     const onChangeSearch = (e:any) =>{
         e.preventDefault();
         setSearch(e.target.value);
@@ -68,7 +99,8 @@ const InquiryList: React.FC = (props: any) => {
 
     const onSearch = (e:any) => {
         e.preventDefault();
-        if (search===null || search===''){ getInquiryList();
+        if (search===null || search===''){
+             getInquiryList();
         }
         const filteredData = totalList.filter((inquiry) =>inquiry.title.includes(search));
         console.log('totallist', totalList)
@@ -79,15 +111,7 @@ const InquiryList: React.FC = (props: any) => {
         setSearch('');
     }
 
-    const statusHandler = (e:any) => {
-        e.preventDefault();
-        setStatus(e.target.value);
-        console.log(e.target.value);
-        if(status!=='전체'){
-        const filterdData=totalList.filter((inquiry) => inquiry.status===status)
-        console.log(filterdData)
-        setTotalList(filterdData);}
-    }
+
 
 
     return (
@@ -133,7 +157,7 @@ const InquiryList: React.FC = (props: any) => {
                 </div>
             </div>
             <div style={{textAlign:"center"}}>
-              <InquiryPaging.PageNumbers currentPage={currentPage} totalList={totalList} setCurrentPage={setCurrentPage} />
+              <InquiryPaging.PageNumbers currentPage={currentPage} status={status} totalList={totalList} setCurrentPage={setCurrentPage} />
             </div>
             <div>
                 <form onSubmit={e => onSearch(e)}>

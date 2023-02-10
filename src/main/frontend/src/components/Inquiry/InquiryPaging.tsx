@@ -22,10 +22,10 @@ function getPagenationData(currentPage:number): PagenationData {
 }
 
 
-export function GetPostsLoaded(props: Array<InquiryInterface>, currentPage:number) {
-    console.log("props", props)
+export function GetPostsLoaded(totalList: Array<InquiryInterface>, currentPage:number) {
+    console.log("props", totalList)
     const paginationData = getPagenationData(currentPage);
-    const loadedInquires = props.slice(paginationData.firstInquiryNumber, paginationData.lastInquiryNumber)
+    const loadedInquires = totalList.slice(paginationData.firstInquiryNumber, paginationData.lastInquiryNumber)
     return loadedInquires;
 }
 
@@ -34,6 +34,7 @@ type pageNumbers = {
     currentPage:number
     totalList:any
     setCurrentPage:any
+    status:any
  }
 
 export function PageNumbers (pageNumbers:pageNumbers){
@@ -42,7 +43,7 @@ export function PageNumbers (pageNumbers:pageNumbers){
     console.log(pageNumbers);
     const inquiryCounts=pageNumbers.totalList.length;
     const totalPages:number = Math.ceil( inquiryCounts/postNum) ;
-    const pagenums: Array<number> = [pageNumbers.currentPage];
+    // const pagenums: Array<number> = [pageNumbers.currentPage];
     const pageNums = [];
     for (let i = 1; i<= totalPages; i++) {
         pageNums.push(i)
