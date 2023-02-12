@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { Modal, Container } from "react-bootstrap";
 import CalcWeather from "./CalcWeather";
 
 const WeatherIcon = ({ year, month, regionNum }) => {

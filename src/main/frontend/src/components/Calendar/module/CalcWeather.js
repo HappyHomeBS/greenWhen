@@ -1,4 +1,4 @@
-import React,{ useState } from 'react';
+import React from 'react';
 import { BsEmojiLaughing, BsEmojiNeutral, BsEmojiFrown } from "react-icons/bs";
 
 const CalcWeather = ({lowTemp, highTemp, rain, dust, month}) => {

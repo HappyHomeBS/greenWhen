@@ -1,6 +1,5 @@
-import React, { useState, useEffect, useCallback, useReducer } from 'react'
+import React, { useCallback, useReducer } from 'react'
 import { Modal, Container } from 'react-bootstrap'
-import axios from 'axios'
 import Picker from '../component/Picker';
 import Style from "../module/Style";
 import ModalReducer from '../containers/reducer/ModalReducer';

@@ -87,7 +87,7 @@ const ProfilePage = () => {
         <h5> ***소모임목록*** </h5>
         <GroupList onAccept={fetchGroupList} data={groupList} />
         <h5> ***최근 내가 쓴 게시글*** </h5>
-        <BoardList data={boardList} only4={only4} />
+        <BoardList data={boardList} only4={only4} />        
         <h5> ***내가 쓴 댓글*** </h5>
         <CommentList data={commentList} />
       </div>

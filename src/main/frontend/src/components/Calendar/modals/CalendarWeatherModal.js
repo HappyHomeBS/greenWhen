@@ -1,10 +1,5 @@
-import React, { useState, useEffect, useCallback, useReducer } from 'react'
+import React from 'react'
 import { Modal, Container } from 'react-bootstrap'
-import axios from 'axios'
-import Picker from '../component/Picker';
-import Style from "../module/Style";
-import ModalReducer from '../containers/reducer/ModalReducer';
-import CalcDate from '../module/CalcDate';
 import WeatherIcon from '../module/WeatherIcon';
 
 const CalendarWeatherModal = ({ targetdate, visible, onCancel, year, month, regionNum }) => {  
@@ -24,7 +19,7 @@ const CalendarWeatherModal = ({ targetdate, visible, onCancel, year, month, regi
             <Container>
                 <Modal.Header closeButton>
                     <Modal.Title id="contained-modal-title-vcenter">
-                    {targetdate} 예상날씨                       
+                    {targetdate} 날씨 정보                      
                     </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>

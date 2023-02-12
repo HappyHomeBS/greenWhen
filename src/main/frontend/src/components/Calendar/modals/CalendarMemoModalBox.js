@@ -1,6 +1,4 @@
-import React, { useState, useEffect, useCallback, useReducer } from 'react'
-import { Modal, Container } from 'react-bootstrap'
-import axios from 'axios'
+import React from 'react'
 import Region from '../module/Region'
 
 const CalendarMemoModalBox = ( props ) => {       
