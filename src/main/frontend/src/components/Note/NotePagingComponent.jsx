@@ -12,8 +12,6 @@ export class NotePagingComponent extends Component{
     }
     
     componentDidMount(){
-    console.log("......................")
-    console.log(this.state)
     this.setState({
         num: this.props.num
         ,paging: this.props.paging
@@ -27,12 +25,8 @@ export class NotePagingComponent extends Component{
                 ,paging: nextProps.paging
             }
         }
-        console.log (nextProps.value)
     }
-    componentDidUpdate() {
-        console.log("자식 업데이트")
-        console.log(this.state)
-    }
+  
     goPage(page){
         this.props.pagi(page);
     }
@@ -86,8 +80,6 @@ export class NotePagingComponent extends Component{
         }
     }
     render(){
-        console.log("c-render")
-        console.log(this.state)
             return(
             <div style={{justifyContent:"center"}}>
                 <div className="row" style={{justifyContent:"center", clear:"both"}}>

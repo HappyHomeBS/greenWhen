@@ -46,14 +46,12 @@ class NoteWriteComponent extends Component {
             ,title : this.state.title
             ,content : this.state.content
         };
-        console.log("note = > "+JSON.stringify(note));
         NoteService.noteWrite(note, token).then(res => {
             this.props.navigate('/note');
         });
     }
 
     cancel(send) {
-        console.log(send)
         this.props.navigate('/note');
     }
 

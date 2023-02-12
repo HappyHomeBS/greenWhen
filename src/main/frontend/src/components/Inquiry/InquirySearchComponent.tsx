@@ -14,9 +14,6 @@ export function InquirySearch(props:any){
         const searchResult = props.totalList.filter((inquiry:InquiryInterface) =>
         inquiry.title.toLowerCase().includes(searchWord))
         props.setTotalList(searchResult);
-        console.log("검색어", searchWord)
-        console.log("검색결과",searchResult)
-        console.log(props.totalList)
     }
 
 

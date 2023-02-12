@@ -24,7 +24,7 @@
         ,time
         ,status
         FROM inquiry_tb
-        WHERE depth = 0
+        WHERE depth = 0 AND deleted=0
         <choose>
             <when test= "userRole.equals('ROLE_USER')">
                 AND userid = #{userId}
@@ -35,20 +35,52 @@
 
     <!-- 원글 + 답글 까지 한 화면에 표시  -->
     <select id="inquiryRead" parameterType="int" resultType="InquiryVo">
-        SELECT * FROM inquiry_tb
-        WHERE no= #{no} OR grpno= #{no}
+        SELECT
+                no
+                ,grpno
+                ,depth
+                ,userid
+                ,title
+                ,content
+                ,time
+                ,status
+        FROM inquiry_tb
+        WHERE no= #{no} OR grpno= #{no} AND deleted=0
         ORDER BY depth ASC
     </select>
+    <!-- 파일 조회용   -->
+    <select id="getFile" parameterType="int" resultType="inquiryFilesVo">
+        SELECT *
+        FROM inquiryfile_tb
+        WHERE inquiryno= #{no}
+    </select>
+
     <!--작성자 확인용 글 정보-->
     <select id="setArticle" parameterType="int" resultType="InquiryVo">
         SELECT * FROM inquiry_tb
         WHERE no= #{no}
     </select>
 
+    <!--글번호 확인용 -->
+    <select id="getInquiryNo" resultType="int">
+        SELECT (COALESCE((SELECT MAX(no) FROM inquiry_tb i), 0)+1) as inquiryNo
+    </select>
+
     <!--쓰기, 글 번호는 autoincrement 쓰지 않도록-->
     <insert id="inquiryWrite" parameterType="inquiryVo">
         INSERT INTO inquiry_tb(no, grpno, title, content, userid, depth, status, userrole, time)
-        VALUES ((COALESCE((SELECT MAX(no) FROM inquiry_tb i), 0)+1), (COALESCE((SELECT MAX(no) FROM inquiry_tb i), 0)+1),  #{title}, #{content}, #{userId}, 0, '확인중', #{userRole}, NOW())
+        VALUES (#{no}, (COALESCE((SELECT MAX(no) FROM inquiry_tb i), 0)+1),  #{title}, #{content}, #{userId}, 0, '확인중', #{userRole}, NOW())
+    </insert>
+
+    <!--파일번호지정-->
+    <select id="getFileNumber" resultType="int">
+        SELECT (COALESCE((SELECT MAX(no) FROM inquiryfile_tb i), 0)+1) as fileNo
+    </select>
+
+    <!-- 파일정보 저장-->
+    <insert id="fileUpload" parameterType="inquiryFilesVo">
+        INSERT INTO inquiryfile_tb(no, originalfilename, filename, filePath, deleted, filesize, date, inquiryno)
+        VALUES (#{no}, #{originalFilename}, #{fileName}, #{filePath}, 0, #{fileSize}, NOW(), #{inquiryNo})
     </insert>
 
     <!--답글, depth는 정렬용도로만 사용  -->
@@ -56,11 +88,13 @@
         INSERT INTO inquiry_tb(no, grpno, title, content, userid, depth, status, userrole, time)
         VALUES ((COALESCE((SELECT MAX(no) FROM inquiry_tb i), 0)+1), #{grpNo},  #{title}, #{content}, #{userId}, (COALESCE((SELECT MAX(depth) FROM inquiry_tb i WHERE grpno=#{grpNo}), 0)+1), '답글', #{userRole}, NOW())
     </insert>
+
     <!--삭제-->
-    <delete id="inquiryDelete" parameterType= "int">
-        DELETE FROM inquiry_tb
+    <update id="inquiryDelete" parameterType= "int">
+        UPDATE inquiry_tb
+        set deleted = 1
         WHERE no = #{no}
-    </delete>
+    </update>
 
     <!-- 수정 -->
     <update id="inquiryUpdate" parameterType="inquiryVo">
@@ -76,4 +110,5 @@
         set status = #{status}
         WHERE no= #{grpNo}
     </update>
+
 </mapper>

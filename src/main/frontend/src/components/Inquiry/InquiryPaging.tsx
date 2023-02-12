@@ -12,7 +12,6 @@ type PagenationData = {
 //페이지 첫 글 번호와 마지막 글 번호, 반환형을 인터페이스 pagenationData로
 function getPagenationData(currentPage:number): PagenationData {
     const inquiriesPerPage=10;
-    console.log('currentPage', currentPage);
     const lastInquiryNumber= (currentPage * inquiriesPerPage);
     const firstInquiryNumber= (lastInquiryNumber - inquiriesPerPage);
     
@@ -23,7 +22,6 @@ function getPagenationData(currentPage:number): PagenationData {
 
 
 export function GetPostsLoaded(totalList: Array<InquiryInterface>, currentPage:number) {
-    console.log("props", totalList)
     const paginationData = getPagenationData(currentPage);
     const loadedInquires = totalList.slice(paginationData.firstInquiryNumber, paginationData.lastInquiryNumber)
     return loadedInquires;
@@ -34,13 +32,12 @@ type pageNumbers = {
     currentPage:number
     totalList:any
     setCurrentPage:any
-    status:any
+    
  }
 
 export function PageNumbers (pageNumbers:pageNumbers){
     const postNum = 10;
     const pageNumCnt = 10;
-    console.log(pageNumbers);
     const inquiryCounts=pageNumbers.totalList.length;
     const totalPages:number = Math.ceil( inquiryCounts/postNum) ;
     // const pagenums: Array<number> = [pageNumbers.currentPage];

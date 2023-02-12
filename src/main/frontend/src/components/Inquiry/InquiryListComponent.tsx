@@ -71,7 +71,6 @@ const InquiryList: React.FC = (props: any) => {
     const onChangeSearch = (e:any) =>{
         e.preventDefault();
         setSearch(e.target.value);
-        console.log(search)
     }
     
     const onSearch = (e:any) => {
@@ -79,18 +78,14 @@ const InquiryList: React.FC = (props: any) => {
         if (search===null || search===''){ getInquiryList();
         }
         const filteredData = totalList.filter((inquiry) =>inquiry.title.includes(search));
-        console.log('totallist', totalList)
-        console.log(search)
         setTotalList(filteredData);
         setCurrentPage(1);
-        console.log('newtotallist', filteredData)
         setSearch('');
     }
 
     const statusChangeHandler=(e:any) => {
         e.preventDefault();
         setStatus(e.target.value);
-        console.log(e.target.value);
       
     }
 
@@ -100,7 +95,6 @@ const InquiryList: React.FC = (props: any) => {
         }else{
         const listData =( (await InquiryService.getInquiryList(token)).data.inquiryList)
         const filterdData=listData.filter((inquiry:any) => inquiry.status===status)
-        console.log('fdata', filterdData)
         setTotalList(filterdData);
         setCurrentPage(1);
         }

@@ -46,12 +46,10 @@ class NoteListComponent extends Component {
     // 컴포넌트 생성시 실행(값 세팅)a
     componentDidMount() {
         this.listNote(1);
-        console.log(this.state)
     }
     //페이징 포함 리스트 호출
     
     listNote(num){
-        console.log("pageNum : ");
         const token = this.props.token;
         const option = queryString.parse(this.props.location.search).option
         const search = queryString.parse(this.props.location.search).search
@@ -63,21 +61,15 @@ class NoteListComponent extends Component {
                     ,option: option 
                 })
             }
-        } else {
-          console.log("검색없음")
-        }
+        } 
         
         NoteService.getNoteList(num, option, search, token).then((res) => {
-        console.log(res.data);
         this.setState({
             num: res.data.pagingData.num,
             paging: res.data.pagingData,
             note: res.data.noteList
             });
         });
-        console.log("lisNote 호출됨")
-        console.log("state:")
-        console.log(this.state)
     }
 
     pagi = (number) => {
@@ -104,11 +96,7 @@ class NoteListComponent extends Component {
             this.setState({
                 checkList: newList
             })
-        console.log("click!")
-        console.log(this.state.checkList)
-        console.log(this.state.checkList.includes(id))
         }
-        // console.log(newList)
     }
   
 
@@ -117,7 +105,6 @@ class NoteListComponent extends Component {
         this.state.note.map(
             note => numbers.push(note.no)
         )
-        // console.log(numbers)
         if (isChecked) {
             this.setState({
                 checkList: numbers,
@@ -130,7 +117,6 @@ class NoteListComponent extends Component {
             })
         }
         const log = [...this.state.checkList]
-        console.log(log)
     }
     
     // 쓰기 페이지 이동
@@ -147,8 +133,7 @@ class NoteListComponent extends Component {
     noteDelete = async function() {
         const token = this.props.token;
         NoteService.noteDelete(this.state.checkList, token).then(res => {
-            console.log(res);
-            if(res.status == 200) {
+            if(res.status === 200) {
                 this.listNote(1);
             }else{
                 alert("실패!");
@@ -161,11 +146,8 @@ class NoteListComponent extends Component {
   
   
     render() {
-        const paged = this.state.paged;
         const num = this.state.num;
         const paging = this.state.paging;
-        console.log("renderingnow")
-        console.log(paging)
         
         return (
             <div clssName="note_list" style={{margin: "5%"}}>

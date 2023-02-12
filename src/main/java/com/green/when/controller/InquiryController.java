@@ -2,16 +2,17 @@ package com.green.when.controller;
 
 import com.green.when.config.SecurityUtil;
 import com.green.when.service.InquiryService;
+import com.green.when.vo.InquiryFilesVo;
 import com.green.when.vo.InquiryVo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.io.File;
+import java.io.IOException;
+import java.util.*;
 
 @RequiredArgsConstructor
 @RestController
@@ -31,6 +32,8 @@ public class InquiryController {
     }
     @Autowired
     InquiryService inquiryService;
+
+
     //리스트 조회, 사용자 권한 확인 후  vo에 id와 함께 전달
     @GetMapping("/inquiryList")
     public ResponseEntity<Map> inquiryList(){
@@ -52,10 +55,12 @@ public class InquiryController {
         userInfo.setNo(no);
 
         List<InquiryVo> inquiryRead = inquiryService.inquiryRead(no);
+        List<InquiryFilesVo> inquiryFiles = inquiryService.getFile(no);
+        System.out.println("========inquiryFiles"+inquiryFiles);
+        //글 상태변경(관리자 확인용)
         InquiryVo mainArticle = inquiryRead.get(0);
         String mainArticleStatus = mainArticle.getStatus();
         int grpNo = mainArticle.getGrpNo();
-        System.out.println(userInfo.getUserRole());
 
         if (Objects.equals(userInfo.getUserRole(), "ROLE_ADMIN") && Objects.equals(mainArticleStatus, "확인중")){
             inquiryService.statusUpdate(grpNo, "처리중");
@@ -63,23 +68,27 @@ public class InquiryController {
 
         Map result = new HashMap<>();
         result.put("inquiryRead", inquiryRead);
+        result.put("inquiryFiles", inquiryFiles);
 
         System.out.println(result);
         return ResponseEntity.ok(result);
     }
 
+
     // 1:1문의 쓰기 + 답글달기 ( 클라이언트에서 전달받은 원글번호(grpNo) 값의 유무로 답글/원글 판단)
     @PostMapping("/inquiryWrite")
     public ResponseEntity<Map> inquiryWrite(@RequestBody InquiryVo inquiryVo){
+        int inquiryNo = 0;
         InquiryVo userInfo = setUserInfo();
 
         inquiryVo.setUserId(userInfo.getUserId());
         inquiryVo.setUserRole(userInfo.getUserRole());
         int grpNo = inquiryVo.getGrpNo();
+        System.out.println("쓰기쿼리"+inquiryVo);
 
         if (grpNo==0) {
             System.out.println("writeVo" + inquiryVo);
-            inquiryService.inquiryWrite(inquiryVo);
+            inquiryNo = inquiryService.inquiryWrite(inquiryVo);
 
         } else {
 //            답변작성자가 admin일 경우 '답변완료'로 변경
@@ -95,10 +104,49 @@ public class InquiryController {
         }
 
         Map result = new HashMap<>();
+        result.put("inquiryNo", inquiryNo);
         System.out.println(result);
         return ResponseEntity.ok(result);
     }
+    //파일저장
+    @PostMapping("/inquiryFiles")
+    public ResponseEntity<Map> inquiryFiles(@RequestParam("files") List<MultipartFile>files,
+                                            @RequestParam("inquiryNo") int inquiryNo) throws IOException {
+        ArrayList<Integer> fileList = new ArrayList<Integer>();
 
+        if(!files.isEmpty()) {
+            String savedFileName = "";
+            //저장경로지정
+            String uploadPath = "/inquiryFiles/";
+            ArrayList<String> originalFileNameList = new ArrayList<String>();
+
+            for (MultipartFile file : files) {
+                InquiryFilesVo inquiryFilesVo = new InquiryFilesVo();
+                //원본파일이름
+                String originalFileName = file.getOriginalFilename();
+                //파일 이름 변경(중복방지)
+                UUID uuid = UUID.randomUUID();
+                savedFileName = uuid.toString() + "_" + originalFileName;
+                //파일 생성
+                File file1 = new File(uploadPath+savedFileName);
+                //서버로 저장
+                file.transferTo(file1);
+                //vo 세팅
+                inquiryFilesVo.setFileName(savedFileName);
+                inquiryFilesVo.setFilePath(uploadPath+savedFileName);
+                inquiryFilesVo.setOriginalFilename(originalFileName);
+                inquiryFilesVo.setFileSize(file.getSize());
+                inquiryFilesVo.setInquiryNo(inquiryNo);
+                int Upload = inquiryService.fileUpload(inquiryFilesVo);
+                fileList.add(Upload);
+
+            }
+        }
+        Map result = new HashMap<>();
+        result.put("fileList", fileList);
+
+        return ResponseEntity.ok(result);
+    }
     //삭제
     @GetMapping("/inquiryDelete")
     public ResponseEntity<Map> inquiryDelete(@RequestParam int no){
