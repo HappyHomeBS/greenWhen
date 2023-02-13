@@ -5,6 +5,7 @@ import com.green.when.vo.InquiryVo;
 import com.green.when.vo.InquiryFilesVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -13,13 +14,13 @@ public class InquiryService {
     @Autowired
     public InquiryMapper mapper;
 
-    // 사이트 관리자 권한 체크
+// 사이트 관리자 권한 체크
     public String getUserRole(String userId) {
         String userRole = mapper.getUserRole(userId);
         return userRole;
     }
 
-    // 리스트 조회
+// 리스트 조회
     public List<InquiryVo> inquiryList(InquiryVo inquiryVo) {
         List<InquiryVo> inquiryList;
         try {
@@ -30,8 +31,8 @@ public class InquiryService {
         }
         return inquiryList;
     }
-    // 상세보기
-
+// 상세보기
+    @Transactional
     public List<InquiryVo> inquiryRead(int no) {
         List<InquiryVo> inquiryRead;
         try {
@@ -43,8 +44,8 @@ public class InquiryService {
         return inquiryRead;
     }
 
-    // 쓰기
-
+// 쓰기
+    @Transactional
     public int inquiryWrite(InquiryVo inquiryVo) {
        int inquiryNo=0;
         try {
@@ -57,7 +58,8 @@ public class InquiryService {
         }
         return inquiryNo;
     }
-    //답글달기
+//답글달기
+    @Transactional
     public void inquiryReply(InquiryVo inquiryVo, int grpNo, String status) {
         try {
             mapper.inquiryReply(inquiryVo);
@@ -67,7 +69,7 @@ public class InquiryService {
             throw e;
         }
     }
-    //삭제
+//삭제
     public void inquiryDelete(int no) {
         try {
             mapper.inquiryDelete(no);
@@ -76,7 +78,7 @@ public class InquiryService {
             throw e;
         }
     }
-    // 수정
+// 수정
     public void inquiryUpdate(InquiryVo inquiryVo) {
         try{
             mapper.inquiryUpdate(inquiryVo);
@@ -86,7 +88,7 @@ public class InquiryService {
         }
     }
 
-    //작성자 확인용
+//작성자 확인용
     public InquiryVo setArticle (int no) {
         InquiryVo targetArticle;
         try{
@@ -98,7 +100,7 @@ public class InquiryService {
         return targetArticle;
     }
 
-    //상태관리용
+//상태관리용
 
     public void statusUpdate (int grpNo, String status){
         try{
@@ -108,7 +110,8 @@ public class InquiryService {
             throw(e);
         }
     }
-    //파일업로드
+//파일업로드
+    @Transactional
     public int fileUpload(InquiryFilesVo inquiryFilesVo){
 
         int fileNo=0;
@@ -124,7 +127,7 @@ public class InquiryService {
         }
         return fileNo;
     }
-    //파일다운로드
+//파일다운로드
     public List<InquiryFilesVo> getFile(int no){
         List<InquiryFilesVo> fileList;
         try{

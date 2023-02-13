@@ -36,8 +36,7 @@ public class WeatherApiController2 {
         System.out.println("Response code: " + conn.getResponseCode());
 
         BufferedReader rd;
-        //응답코드 확인해볼것
-
+//응답코드 확인 후 정보읽어옴
         if(conn.getResponseCode() >= 200 && conn.getResponseCode() <= 300) {
             rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
         } else {
@@ -46,14 +45,14 @@ public class WeatherApiController2 {
 
         StringBuilder sb = new StringBuilder();
         String line;
-
-        //스트링 빌더?
+//읽어오는 정보마다 붙여줌
         while ((line = rd.readLine()) != null) {
             sb.append(line);
         }
 
         rd.close();
         conn.disconnect();
+//완성된 문자열을 잭슨맵으로 json 파싱
         String data = sb.toString();
         ObjectMapper objectMapper = new ObjectMapper();
         Map<String, Object> jacksonMap = objectMapper.readValue(data, new TypeReference<Map<String, Object>>(){});

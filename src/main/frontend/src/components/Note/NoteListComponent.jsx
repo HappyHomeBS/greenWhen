@@ -43,12 +43,12 @@ class NoteListComponent extends Component {
         this.noteSentList = this.noteSentList.bind(this);
     }
 
-    // 컴포넌트 생성시 실행(값 세팅)a
+// 컴포넌트 생성시 실행(값 세팅)
     componentDidMount() {
         this.listNote(1);
     }
-    //페이징 포함 리스트 호출
-    
+
+//페이징 포함 리스트 호출
     listNote(num){
         const token = this.props.token;
         const option = queryString.parse(this.props.location.search).option
@@ -72,7 +72,8 @@ class NoteListComponent extends Component {
         });
     }
 
-    pagi = (number) => {
+    // 페이지번호 세팅
+    pageNo = (number) => {
         this.setState({
             ...this.state,
             num: number
@@ -81,7 +82,6 @@ class NoteListComponent extends Component {
     };
     
     //체크박스 
-
     checkBoxHandler(id, isChecked){ 
         var newList = [...this.state.checkList];
         id=1*id;
@@ -99,7 +99,7 @@ class NoteListComponent extends Component {
         }
     }
   
-
+    //체크박스 전체선택
     allCheckHandler(isChecked){
         const numbers = []
         this.state.note.map(
@@ -120,7 +120,6 @@ class NoteListComponent extends Component {
     }
     
     // 쓰기 페이지 이동
-    // history.push 사라지면서 navigate로 바뀜(hook이기 때문에 클래스에서 사용하려면 래퍼 필요)
     noteWrite() {
         this.props.navigate('/noteWrite')
     }
@@ -129,6 +128,7 @@ class NoteListComponent extends Component {
     noteRead(no) {
         this.props.navigate('/noteRead/'+no)
     }
+
     //삭제
     noteDelete = async function() {
         const token = this.props.token;
@@ -140,6 +140,8 @@ class NoteListComponent extends Component {
             }
         });
     }
+    
+    //수신확인페이지로 이동
     noteSentList(){
         this.props.navigate('/noteSentList/')
     }
@@ -195,7 +197,7 @@ class NoteListComponent extends Component {
                             num={num}
                             paging={paging}
                             token={this.props.token}
-                            pagi={this.pagi}
+                            pageNo={this.pageNo}
                             />
                         </div>
                     </div>

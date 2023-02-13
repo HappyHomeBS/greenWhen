@@ -1,7 +1,6 @@
 import axios from "axios";
 import React, {useContext, useState, useEffect} from "react"
 import AuthContext from '../../store/authContext';
-import WeekWeatherComponent from "./WeekWeatherComponent";
 
 
 export const TodayWeatherComponent = (props) => {
@@ -33,18 +32,14 @@ export const TodayWeatherComponent = (props) => {
        })
        
     }
-    // const weatherRendering = ()=> {
-    //     setIconUrl("http://openweathermap.org/img/w/04d.png");
-   
-        
-    // }
+
     ;
     
     return(
        <>
         <div>
-            <div className="weatherBox" style = {{padding: '5%', marginTop: '10%', position: 'fixed', textalign:'center', width:'25%', left:'65%', border:'1px solid black'}} >
-                {city} 현재날씨
+            <div className="weatherBox" style = {{display:"block", width:"100%", height:"auto"}} >
+                {city} 
                 <br/>
                 <img src={iconUrl}/>
                 <br/>

@@ -20,7 +20,7 @@ function getPagenationData(currentPage:number): PagenationData {
    
 }
 
-
+// 페이지에 표시할 글 목록 얻기 
 export function GetPostsLoaded(totalList: Array<InquiryInterface>, currentPage:number) {
     const paginationData = getPagenationData(currentPage);
     const loadedInquires = totalList.slice(paginationData.firstInquiryNumber, paginationData.lastInquiryNumber)
@@ -35,12 +35,12 @@ type pageNumbers = {
     
  }
 
+//inquirylist에서 전달받은 값들 pagenumbers에 정의
 export function PageNumbers (pageNumbers:pageNumbers){
     const postNum = 10;
     const pageNumCnt = 10;
     const inquiryCounts=pageNumbers.totalList.length;
     const totalPages:number = Math.ceil( inquiryCounts/postNum) ;
-    // const pagenums: Array<number> = [pageNumbers.currentPage];
     const pageNums = [];
     for (let i = 1; i<= totalPages; i++) {
         pageNums.push(i)

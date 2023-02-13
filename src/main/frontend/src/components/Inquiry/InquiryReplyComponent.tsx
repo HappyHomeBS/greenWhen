@@ -12,13 +12,15 @@ const InquiryReply = (props: { updatingInfo: () => void}) => {
     const authCtx = useContext(AuthContext);
     const token = authCtx.token;
     const userId = authCtx.userObj.userid;
-    const navigate = useNavigate();
     const location = useLocation();
     const no:any  = queryString.parse(location.search).no;
+
+//등록버튼 누르면 실행    
     const handleSubmit = (event: any) => {
         event.preventDefault();
         event.stopPropagation();
         const form = event.currentTarget;
+    //html validity 체크
         if(!form.checkValidity()) {
             setValidated(false);
             return;
@@ -32,10 +34,11 @@ const InquiryReply = (props: { updatingInfo: () => void}) => {
         }
 
         writeInquiryReply(inquiry, token);
+        //전송 후 텍스트 비우기
         form.titleInput.value=''
         form.contextText.value=''
     };
-
+    //답글 전송 후 새로고침
     const writeInquiryReply = async (inquiry: InquiryInterface, token: string) => {
         InquiryService.inquiryReply(inquiry, token).then(props.updatingInfo)
        
@@ -53,7 +56,7 @@ const InquiryReply = (props: { updatingInfo: () => void}) => {
                 <Form.Label>내용</Form.Label>
                 <Form.Control required as="textarea" rows={20} style={{resize:"none"}}/>
             </Form.Group>
-            <Button variant="primary" type="submit">
+            <Button variant="primary" type="submit" style={{float:"right", marginTop:"1%", marginRight:"3%"}}>
                 등록
             </Button>
             {/* <Button variant="primary" onClick={}>

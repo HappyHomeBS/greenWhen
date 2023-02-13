@@ -18,7 +18,7 @@ public class NoteVo {
     private String time;             //시간
     private String title;            //제목
     private String content;          //내용
-    private int readCheck;           //수신확인
-    private String readCheckString;  //수신확인(문자변환)
+    private int readCheck;           //수신확인 (0,1)
+    private String readCheckString;  //수신확인(숫자를 문자로 변환)
     private int[] nos; // 다중선택에 쓰는 리스트
 }

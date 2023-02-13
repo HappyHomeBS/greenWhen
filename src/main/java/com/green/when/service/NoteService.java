@@ -44,7 +44,7 @@ public class NoteService {
         noteRepository.delete(note);
     }
 
-    //쪽지 리스트 조회
+//쪽지 리스트 조회
     @Transactional
     public List<NoteVo> getNoteList(String userId) {
         List<NoteVo> noteList;
@@ -56,7 +56,7 @@ public class NoteService {
         }
         return noteList;
     }
-    //페이징을 위한 카운트
+//페이징을 위한 카운트
     @Transactional
     public int noteCount(PageVo page){
         try{
@@ -66,7 +66,7 @@ public class NoteService {
             throw e;
         }
     }
-    //페이징을 위한 카운트(보낸 쪽지함)
+//페이징을 위한 카운트(보낸 쪽지함)
     @Transactional
     public int noteSentCount(PageVo page){
         try{
@@ -76,7 +76,7 @@ public class NoteService {
             throw e;
         }
     }
-    //리스트 조회 페이징
+//리스트 조회 페이징
     @Transactional
     public List<NoteVo> noteListPage(PageVo page) {
 
@@ -89,7 +89,7 @@ public class NoteService {
         }
         return noteList;
     }
-    //보낸 쪽지함
+//보낸 쪽지함
     @Transactional
     public List<NoteVo> noteSentList(PageVo page) {
 
@@ -102,7 +102,7 @@ public class NoteService {
         }
         return noteList;
     }
-    //쓰기
+//쓰기
     @Transactional
     public void noteWrite(NoteVo noteVo) {
         try {
@@ -112,7 +112,7 @@ public class NoteService {
             throw e;
         }
     }
-    //읽기
+//읽기
     @Transactional
     public NoteVo noteRead(int no) {
         NoteVo noteVo;
@@ -125,7 +125,7 @@ public class NoteService {
         return noteVo;
     }
 
-    //수신확인
+//수신확인
     @Transactional
     public void noteReadCheck(int no){
         try {
@@ -135,7 +135,7 @@ public class NoteService {
             throw e;
         }
     }
-    //삭제
+//삭제
     @Transactional
     public void noteDelete(int no){
         try {

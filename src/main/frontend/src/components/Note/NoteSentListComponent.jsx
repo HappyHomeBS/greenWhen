@@ -43,7 +43,7 @@ constructor(props) {
         });
     }
     //페이징컴포넌트에 넘길 state변경함수
-    pagi = (number) => {
+    pageNo = (number) => {
         this.setState({
             ...this.state,
             num: number
@@ -67,7 +67,7 @@ constructor(props) {
         const paging = this.state.paging;
         
         return (
-        <div clssName="noteList" style={{margin: "5%"}}>
+        <div className="noteList" style={{margin: "5%"}}>
             <h2 className="text-center"style={{margin:"1%"}}>보낸 쪽지함</h2>
             <div className ="row">
                 <table className="table table-striped table-bordered">
@@ -105,7 +105,7 @@ constructor(props) {
                 num={num}
                 paging={paging}
                 token={this.props.token}
-                pagi={this.pagi}
+                pageNo={this.pageNo}
                 />
             <div>
                 <NoteSearchComponent/>

@@ -23,7 +23,7 @@ class NoteWriteComponent extends Component {
         this.noteWrite= this.noteWrite.bind(this);
 
         }
-        
+// 입력시 state 변경
     changeSendHandler = (event) => {
         this.setState({send: event.target.value});
     }

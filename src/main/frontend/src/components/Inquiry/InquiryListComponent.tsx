@@ -2,13 +2,11 @@
 /* eslint-disable jsx-a11y/anchor-has-content */
 
 import React, { useContext, useEffect, useState } from "react"
-import { Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import * as InquiryService from "../../service/InquiryService";
 import AuthContext from '../../store/authContext';
 import {InquiryInterface} from '../Inquiry/InquiryInterface';
 import * as InquiryPaging from'../Inquiry/InquiryPaging';
-import { InquirySearch } from "./InquirySearchComponent";
 
 
 const InquiryList: React.FC = (props: any) => {
@@ -20,13 +18,9 @@ const InquiryList: React.FC = (props: any) => {
     const [inquiryList, setInquiryList] = useState<Array<InquiryInterface>>([]); //현재페이지글
     const [totalList, setTotalList] = useState<Array<InquiryInterface>>([]); //전체글
 
-    // const [loaded, setLoaded] = useState(false);
-    // const [inquiriesPerPage, setInquiresPerPage] = useState(10);
-    // const [inquiryCounts, setInquiryCounts] = useState(0); //전체글 숫자
-    const [search, setSearch] = useState<string>("")
-    const [status, setStatus] = useState<string>("전체")
+    const [search, setSearch] = useState<string>("") //검색어 설정
+    const [status, setStatus] = useState<string>("전체") //상태별 필터링
     const navigate = useNavigate();
-    // const moveList = props.setWhich(2)
     
     //최초 리스트 로딩
     useEffect(() => {
@@ -47,13 +41,11 @@ const InquiryList: React.FC = (props: any) => {
     const getInquiryList = async () => {
     
         const listData =( (await InquiryService.getInquiryList(token)).data.inquiryList);  
-        const newInquiryList = InquiryPaging.GetPostsLoaded(listData, currentPage); // 슬라이스후 현재페이지 글목록
+        const newInquiryList = InquiryPaging.GetPostsLoaded(listData, currentPage); // 슬라이스후 현재페이지 글 목록 얻기
         setTotalList(listData) // 모든 게시글 리스트 저장
       
-        setInquiryList(newInquiryList);
-
+        setInquiryList(newInquiryList); //현재페이지 글 목록 세팅
         
-        // setInquiryCounts(totalList.length) // 불러온 모든 게시글 수 
     }
 
     const goPage = () => {
@@ -73,11 +65,13 @@ const InquiryList: React.FC = (props: any) => {
         setSearch(e.target.value);
     }
     
-    const onSearch = (e:any) => {
+    const onSearch = async (e:any) => {
         e.preventDefault();
-        if (search===null || search===''){ getInquiryList();
+        if (search===null || search===''){ 
+            getInquiryList();
         }
-        const filteredData = totalList.filter((inquiry) =>inquiry.title.includes(search));
+        const listData = ((await InquiryService.getInquiryList(token)).data.inquiryList); //검색할 때 리스트 새로 가져옴(연속검색)
+        const filteredData = listData.filter((inquiry:InquiryInterface) =>inquiry.title.includes(search));
         setTotalList(filteredData);
         setCurrentPage(1);
         setSearch('');
@@ -85,7 +79,7 @@ const InquiryList: React.FC = (props: any) => {
 
     const statusChangeHandler=(e:any) => {
         e.preventDefault();
-        setStatus(e.target.value);
+        setStatus(e.target.value); //검색어 state 등록
       
     }
 
@@ -93,8 +87,8 @@ const InquiryList: React.FC = (props: any) => {
         if(status==='전체'){
         getInquiryList();
         }else{
-        const listData =( (await InquiryService.getInquiryList(token)).data.inquiryList)
-        const filterdData=listData.filter((inquiry:any) => inquiry.status===status)
+        const listData =( (await InquiryService.getInquiryList(token)).data.inquiryList) //검색과 같은 이유 
+        const filterdData=listData.filter((inquiry:InquiryInterface) => inquiry.status===status)
         setTotalList(filterdData);
         setCurrentPage(1);
         }
@@ -102,7 +96,7 @@ const InquiryList: React.FC = (props: any) => {
 
 
     return (
-        
+        // 어드민일경우에만 상태정렬 선택가능
         <>  {userRole ==='ROLE_ADMIN' &&
         <div className="select_status">
             <select defaultValue='전체' name='selectStatus' onChange={statusChangeHandler} style={{float:"right", marginRight:"5%"}}>
@@ -127,7 +121,7 @@ const InquiryList: React.FC = (props: any) => {
                         </thead>
                         <tbody>
                         { 
-                        Array.isArray(inquiryList) && inquiryList.map((inquiry: InquiryInterface) =>
+                        inquiryList.map((inquiry: InquiryInterface) =>
                         <tr key = {inquiry.no}>
                             <td style={{paddingLeft:"2%"}}> <a onClick = {()=> InquiryRead(inquiry.no)}> {inquiry.title}</a></td>
                             <td style={{textAlign:"center"}}>{inquiry.userId}</td>
@@ -137,7 +131,7 @@ const InquiryList: React.FC = (props: any) => {
                         )}
                          </tbody>
                     </table>
-                    <div style={{}}>
+                    <div>
                          <button style={{float: "right", width:"5%"}}className="btn btn-primary" onClick={() => InquiryWrite()}> 등 록 </button>
                     </div>
                 </div>
@@ -147,8 +141,8 @@ const InquiryList: React.FC = (props: any) => {
             </div>
             <div style={{marginTop:"3%", textAlign:"center"}}>
                 <form onSubmit={e => onSearch(e)}>
-                <input type="text" value={search} placeholder="검색어를 입력하세요." onChange={onChangeSearch}/>
-                <button type='submit'> 검색 </button>
+                    <input type="text" value={search} placeholder="검색어를 입력하세요." onChange={onChangeSearch}/>
+                    <button type='submit'> 검색 </button>
                 </form>
             </div>
         </>

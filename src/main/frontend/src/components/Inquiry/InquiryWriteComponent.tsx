@@ -50,7 +50,7 @@ const InquiryWrite: React.FC = (props: any) => {
          })
     }
         
-    // input은 css 적용 불가능하니까  useRef 활용해서 input에 접근
+// input은 css 적용 불가능하니까  useRef 활용해서 input에 접근
       
     const HandleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
       

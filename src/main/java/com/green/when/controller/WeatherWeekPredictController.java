@@ -44,12 +44,7 @@ public class WeatherWeekPredictController {
         ObjectMapper objectMapper = new ObjectMapper();
         Map<String, Object> jacksonMap = objectMapper.readValue(data, new TypeReference<Map<String, Object>>(){});
         System.out.println("weekly"+jacksonMap);
-//
-//        HashMap <String, Object> resultMap = new HashMap<>();
-//        data = data.replaceAll("\"", "");
-//
-//        Map result = new HashMap<>();
-//        result.put("data", data);
+
         return ResponseEntity.ok(jacksonMap);
     }
 }

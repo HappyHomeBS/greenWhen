@@ -25,12 +25,16 @@ const InquiryRead: React.FC = (props: any) => {
     useEffect(() => {
 
         getInquiryRead(no, token)
+        
     },[]);
 
     const getInquiryRead = async (no: string, token: string) => {
+       
         const readData = InquiryService.getInquiryRead(no, token);
+    //글 세팅
         const newInquiryRead = (await readData).data.inquiryRead;
         setInquiryRead(newInquiryRead);
+    //첨부파일 세팅
         const inquiryFiles = (await readData).data.inquiryFiles;
         setInquiryFiles(inquiryFiles);
     }
@@ -51,6 +55,7 @@ const InquiryRead: React.FC = (props: any) => {
             }
         });
     }
+
     //답글달고 목록 다시 불러오기
     const updatingInfo = ()=> {
         getInquiryRead(grpNo, token)
@@ -144,12 +149,12 @@ const InquiryRead: React.FC = (props: any) => {
         }
             </div>
         )}  
-
-        {!inputReply}
-        <button className = "btn btn-primary" onClick={()=> reply()}> {inputReply? "답글닫기" : "답글달기"} </button>
-        <hr/>
-        {inputReply && <InquiryReply updatingInfo={updatingInfo} />}
-        {}
+        
+            <div>
+                {!inputReply}
+                <button className = "btn btn-primary" onClick={()=> reply()} style={{float:"right", marginRight:"2%"}}> {inputReply? "답글닫기" : "답글달기"} </button>
+                {inputReply && <InquiryReply updatingInfo={updatingInfo} />}
+            </div>
         </div>
         </>
 

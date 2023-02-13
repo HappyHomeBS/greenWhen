@@ -19,13 +19,12 @@ import java.util.Map;
 public class NoteController {
     @Autowired
     NoteService noteService;
-//  쪽지 리스트 출력
+//  쪽지 리스트 출력(검색옵션 같이 받음, 페이징 정보 반환)
     @GetMapping("/note")
     public ResponseEntity<Map> noteList(@RequestParam(value="num", required=false) Integer num,
                                         @RequestParam(value="option", required=false) String option,
                                         @RequestParam(value= "search", required=false) String search){
-//        if(num==null) {num=1;}
-        //페이징 계산
+//페이징 계산
         PageVo page = new PageVo();
         page.setNum(num);
         page.setOption(option);
@@ -33,9 +32,9 @@ public class NoteController {
         page.setUserId(SecurityUtil.getCurrentMemberId());
         page.setCount(noteService.noteCount(page));
 
-        //쪽지 목록 가져오기
+//쪽지 목록 가져오기
         List<NoteVo>noteList = noteService.noteListPage(page);
-        //map에 전달
+//map에 전달
         Map result = new HashMap<>();
         result.put("pagingData", page);
         result.put("noteList", noteList);
@@ -51,7 +50,7 @@ public class NoteController {
                                             @RequestParam(value="option", required=false) String option,
                                             @RequestParam(value="search", required=false) String search){
 
-        //페이지네이션 + 검색 옵션 세팅
+//페이지네이션 + 검색 옵션 세팅
         PageVo page = new PageVo();
         page.setNum(num);
         page.setOption(option);
@@ -59,7 +58,7 @@ public class NoteController {
         page.setUserId(SecurityUtil.getCurrentMemberId());
         page.setCount(noteService.noteSentCount(page));
 
-        //쪽지 목록 가져오기
+//쪽지 목록 가져오기
         List<NoteVo>noteList = noteService.noteSentList(page);
 
         //map에 전달
@@ -86,7 +85,6 @@ public class NoteController {
         String userId = SecurityUtil.getCurrentMemberId();
         NoteVo noteVo = noteService.noteRead(no);
         String recept = noteVo.getRecept();
-        System.out.println(recept);
         if (userId.equals(recept)){
         noteService.noteReadCheck(no);
         }
@@ -96,7 +94,7 @@ public class NoteController {
         result.put("noteVo", noteVo);
         return ResponseEntity.ok(result);
     }
-//쪽지 삭제
+//쪽지 삭제(다중삭제 위해 nos(번호리스트))
     @PostMapping("/noteDelete")
     public ResponseEntity noteDelete(@RequestBody NoteVo noteVo) {
 
