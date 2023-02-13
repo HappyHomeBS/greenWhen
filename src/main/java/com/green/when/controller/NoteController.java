@@ -19,12 +19,12 @@ import java.util.Map;
 public class NoteController {
     @Autowired
     NoteService noteService;
-//  쪽지 리스트 출력(검색옵션 같이 받음, 페이징 정보 반환)
+    //  쪽지 리스트 출력(검색옵션 같이 받음, 페이징 정보 반환)
     @GetMapping("/note")
     public ResponseEntity<Map> noteList(@RequestParam(value="num", required=false) Integer num,
                                         @RequestParam(value="option", required=false) String option,
                                         @RequestParam(value= "search", required=false) String search){
-//페이징 계산
+        //페이징 계산
         PageVo page = new PageVo();
         page.setNum(num);
         page.setOption(option);
@@ -32,9 +32,9 @@ public class NoteController {
         page.setUserId(SecurityUtil.getCurrentMemberId());
         page.setCount(noteService.noteCount(page));
 
-//쪽지 목록 가져오기
+        //쪽지 목록 가져오기
         List<NoteVo>noteList = noteService.noteListPage(page);
-//map에 전달
+        //map에 전달
         Map result = new HashMap<>();
         result.put("pagingData", page);
         result.put("noteList", noteList);
@@ -42,15 +42,15 @@ public class NoteController {
         System.out.println(result);
 
         return ResponseEntity.ok(result);
-
     }
-//보낸 쪽지함
+
+    //보낸 쪽지함
     @GetMapping("/noteSentList")
     public ResponseEntity<Map> noteSentList(@RequestParam(value="num", required=false) Integer num,
                                             @RequestParam(value="option", required=false) String option,
                                             @RequestParam(value="search", required=false) String search){
 
-//페이지네이션 + 검색 옵션 세팅
+        //페이지네이션 + 검색 옵션 세팅
         PageVo page = new PageVo();
         page.setNum(num);
         page.setOption(option);
@@ -58,7 +58,7 @@ public class NoteController {
         page.setUserId(SecurityUtil.getCurrentMemberId());
         page.setCount(noteService.noteSentCount(page));
 
-//쪽지 목록 가져오기
+        //쪽지 목록 가져오기
         List<NoteVo>noteList = noteService.noteSentList(page);
 
         //map에 전달
@@ -71,7 +71,8 @@ public class NoteController {
 
         return ResponseEntity.ok(result);
     }
-// 쪽지 쓰기
+
+    // 쪽지 쓰기
     @PostMapping("/noteWrite")
     public ResponseEntity noteWrite(@RequestBody NoteVo noteVo) {
         System.out.println("writingVo"+ noteVo);
@@ -79,7 +80,7 @@ public class NoteController {
         return new ResponseEntity(HttpStatus.OK);
     }
 
-//쪽지 읽기
+    //쪽지 읽기
     @GetMapping("/noteRead/{no}")
     public ResponseEntity<Map> noteRead(@PathVariable int no){
         String userId = SecurityUtil.getCurrentMemberId();
@@ -94,7 +95,8 @@ public class NoteController {
         result.put("noteVo", noteVo);
         return ResponseEntity.ok(result);
     }
-//쪽지 삭제(다중삭제 위해 nos(번호리스트))
+
+    //쪽지 삭제(다중삭제 위해 nos(번호리스트))
     @PostMapping("/noteDelete")
     public ResponseEntity noteDelete(@RequestBody NoteVo noteVo) {
 

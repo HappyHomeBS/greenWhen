@@ -84,7 +84,7 @@ class NoteListComponent extends Component {
     //체크박스 
     checkBoxHandler(id, isChecked){ 
         var newList = [...this.state.checkList];
-        id=1*id;
+        id = 1*id;
         
         if (isChecked) {
             newList.push(id);
@@ -92,7 +92,7 @@ class NoteListComponent extends Component {
                 checkList: newList
             })
         } else if (!isChecked && newList.includes(id)) {
-            newList=newList.filter((element) => element !==id);
+            newList = newList.filter((element) => element !== id);
             this.setState({
                 checkList: newList
             })
@@ -158,7 +158,7 @@ class NoteListComponent extends Component {
                         <table className="table table-striped table-bordered">
                             <thead>
                                 <tr>
-                                    <th style = {{width: "2%"}}><input type="checkbox" className="note_checkbox" id="all_checkbox" onChange={(e)=>this.allCheckHandler(e.target.checked)}
+                                    <th style = {{width: "2%"}}><input type="checkbox" className="note_checkbox" id="all_checkbox" onChange={(e) => this.allCheckHandler(e.target.checked)}
                                     checked={this.state.checkList.length === this.state.note.length ? true : false} 
                                     /> </th>
                                     <th style = {{width: "50%", textAlign:"center"}}> 제  목 </th>
@@ -173,35 +173,35 @@ class NoteListComponent extends Component {
                                     this.state.note.map(
                                         note =>
                                         <tr key = {note.no}>
-                                            <td><input type="checkbox" id={note.no} classame="note_checkbox" onChange={(e)=> this.checkBoxHandler(e.target.id, e.target.checked)}
-                                            checked={this.state.checkList.includes(note.no)? true : false}
+                                            <td><input type = "checkbox" id = {note.no} classame = "note_checkbox" onChange = {(e) => this.checkBoxHandler(e.target.id, e.target.checked)}
+                                            checked = {this.state.checkList.includes(note.no)? true : false}
                                             /></td>
-                                            <td style={{paddingLeft:"2%"}}> <a onClick = {() => this.noteRead(note.no)}>{note.title}</a></td>
-                                            <td style={{textAlign:"center"}}>{note.send}</td>
-                                            <td style={{textAlign:"center"}}>{note.time}</td>
-                                            <td style={{textAlign:"center"}}>{note.readCheckString}</td>
+                                            <td style = {{paddingLeft:"2%"}}> <a onClick = {() => this.noteRead(note.no)}>{note.title}</a></td>
+                                            <td style = {{textAlign:"center"}}>{note.send}</td>
+                                            <td style = {{textAlign:"center"}}>{note.time}</td>
+                                            <td style = {{textAlign:"center"}}>{note.readCheckString}</td>
                                         </tr>
                                     )
                                 }
                             </tbody>
                         </table>
                     </div>
-                    <div className='foot'>
-                        <div className ="button_Box" style={{display:"block", float:"right", clear:"both", size:"70%"}}>
-                            <button className="btn btn-primary" onClick={this.noteWrite}>쪽지 보내기</button>
-                            <button className="btn btn-primary" onClick={this.noteSentList.bind(this)} style={{marginLeft: "5px"}}>보낸쪽지함</button>
-                            <button className="btn btn-primary" onClick={()=>this.noteDelete()} style={{marginLeft:"10px"}}>쪽지삭제</button>
+                    <div className = 'foot'>
+                        <div className = "button_Box" style = {{display:"block", float:"right", clear:"both", size:"70%"}}>
+                            <button className = "btn btn-primary" onClick = {this.noteWrite}>쪽지 보내기</button>
+                            <button className = "btn btn-primary" onClick = {this.noteSentList.bind(this)} style = {{marginLeft: "5px"}}>보낸쪽지함</button>
+                            <button className = "btn btn-primary" onClick = {()=>this.noteDelete()} style = {{marginLeft:"10px"}}>쪽지삭제</button>
                         </div>
                         <div className="row" style = {{display:"block", width:"100%"}}>
                             <NotePagingComponent
-                            num={num}
-                            paging={paging}
-                            token={this.props.token}
-                            pageNo={this.pageNo}
+                            num = {num}
+                            paging = {paging}
+                            token = {this.props.token}
+                            pageNo = {this.pageNo}
                             />
                         </div>
                     </div>
-                <div className="searchBox">
+                <div className = "searchBox">
                     <NoteSearchComponent/>
                 </div>
                 </div>

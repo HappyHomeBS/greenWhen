@@ -14,7 +14,7 @@ spring:
   servlet:
     multipart:
       file-size-threshold: 1MB
-      location: C:/Temp
+      location: C:\ws\greenWhen\src\main\frontend\public\
       max-file-size: 100MB
       max-request-size: 100MB
 

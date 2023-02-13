@@ -19,11 +19,12 @@ export const getInquiryRead = async(no:string, token:string) => {
 
 export const inquiryWrite = async(filesData:any, inquiry:InquiryInterface, token:string ) => {
     var res:any = '';
-    if(filesData.length!==0){
+    if(filesData.length !== 0){
         await axios.post("/api/inquiryWrite", inquiry, header(token))
-    .then( (inquiryData) =>{
+    .then((inquiryData) => {
         const inquiryNo=inquiryData.data["inquiryNo"];
         filesData.append('inquiryNo', inquiryNo)
+
         res = axios.post("/api/inquiryFiles", filesData, {headers: {
         'Authorization': 'Bearer ' + token,
         'Content-Type': 'multipart/form-data'
@@ -36,16 +37,16 @@ export const inquiryWrite = async(filesData:any, inquiry:InquiryInterface, token
 }
 
 export const inquiryReply = async(inquiry: InquiryInterface, token:string) => {
-    const res= await axios.post("/api/inquiryWrite", inquiry, header(token))
+    const res = await axios.post("/api/inquiryWrite", inquiry, header(token))
     return res;
 }
 
 export const inquiryDelete = async(no:any, token:string) => {
-    const res= await axios.get("/api/inquiryDelete?no="+no, header(token))
+    const res = await axios.get("/api/inquiryDelete?no="+no, header(token))
     return res;
 }
 
 export const inquiryUpdate = async(inquiry:InquiryInterface, token:string) => {
-    const res= await axios.post("api/inquiryUpdate", inquiry, header(token))
+    const res = await axios.post("api/inquiryUpdate", inquiry, header(token))
     return res;
 }

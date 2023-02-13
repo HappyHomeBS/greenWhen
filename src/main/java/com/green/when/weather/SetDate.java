@@ -7,9 +7,11 @@ import java.util.Date;
 public class SetDate {
 
     public String time() {
+
         Date thisTime = Calendar.getInstance().getTime();
         SimpleDateFormat timeFormat = new SimpleDateFormat("HH");
         String time = timeFormat.format(thisTime);
+
         switch(time) {
             case "02":
             case "03":
@@ -52,13 +54,15 @@ public class SetDate {
                 time ="2300";
                 break;
         }
+
         return time;
     }
 
     public String day () {
-    Date today = Calendar.getInstance().getTime();
-    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
-    String day = dateFormat.format(today);
+        Date today = Calendar.getInstance().getTime();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
+        String day = dateFormat.format(today);
+
         return day;
     }
 

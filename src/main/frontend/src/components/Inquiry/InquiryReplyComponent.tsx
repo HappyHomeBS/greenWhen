@@ -15,12 +15,12 @@ const InquiryReply = (props: { updatingInfo: () => void}) => {
     const location = useLocation();
     const no:any  = queryString.parse(location.search).no;
 
-//등록버튼 누르면 실행    
+    //등록버튼 누르면 실행    
     const handleSubmit = (event: any) => {
         event.preventDefault();
         event.stopPropagation();
         const form = event.currentTarget;
-    //html validity 체크
+         //html validity 체크
         if(!form.checkValidity()) {
             setValidated(false);
             return;
@@ -46,17 +46,17 @@ const InquiryReply = (props: { updatingInfo: () => void}) => {
 
 
     return (
-        <Form noValidate validated={validated} onSubmit={handleSubmit}>
-            <Form.Group controlId="titleInput"> 
+        <Form noValidate validated = {validated} onSubmit = {handleSubmit}>
+            <Form.Group controlId = "titleInput"> 
                 <Form.Label>제목</Form.Label>
-                <Form.Control required as ="textarea" rows = {1} style={{resize:"none"}}/>
-                <Form.Control.Feedback type="invalid"> 제목을 입력하세요 </Form.Control.Feedback>
+                <Form.Control required as = "textarea" rows = {1} style = {{resize:"none"}}/>
+                <Form.Control.Feedback type = "invalid"> 제목을 입력하세요 </Form.Control.Feedback>
             </Form.Group>
-            <Form.Group controlId="contextText">
+            <Form.Group controlId = "contextText">
                 <Form.Label>내용</Form.Label>
-                <Form.Control required as="textarea" rows={20} style={{resize:"none"}}/>
+                <Form.Control required as = "textarea" rows = {20} style = {{resize:"none"}}/>
             </Form.Group>
-            <Button variant="primary" type="submit" style={{float:"right", marginTop:"1%", marginRight:"3%"}}>
+            <Button variant = "primary" type = "submit" style = {{float:"right", marginTop:"1%", marginRight:"3%"}}>
                 등록
             </Button>
             {/* <Button variant="primary" onClick={}>
