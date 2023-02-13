@@ -19,7 +19,7 @@ import java.util.*;
 @RequestMapping("/api")
 
 public class InquiryController {
-    //토큰에서 가져온 로그인 사용자 정보
+    //토큰에서 가져온 로그인 사용자 정보저장
     public InquiryVo setUserInfo() {
         String userId = SecurityUtil.getCurrentMemberId();
         String userRole = inquiryService.getUserRole(userId);
@@ -36,33 +36,29 @@ public class InquiryController {
 
     //리스트 조회, 사용자 권한 확인 후  vo에 id와 함께 전달
     @GetMapping("/inquiryList")
-    public ResponseEntity<Map> inquiryList(){
+    public ResponseEntity<Map> inquiryList() {
         InquiryVo inquiryVo = setUserInfo();
-
         List<InquiryVo>inquiryList = inquiryService.inquiryList(inquiryVo);
-
         Map result = new HashMap<>();
-        result.put ("inquiryList", inquiryList);
-
-        System.out.println(result);
-
+        result.put("inquiryList", inquiryList);
         return ResponseEntity.ok(result);
     }
+
+
     //상세보기
     @GetMapping("/inquiryRead")
-    public ResponseEntity<Map> inquiryRead(@RequestParam int no){
+    public ResponseEntity<Map> inquiryRead(@RequestParam int no) {
         InquiryVo userInfo = setUserInfo();
         userInfo.setNo(no);
-
         List<InquiryVo> inquiryRead = inquiryService.inquiryRead(no);
         List<InquiryFilesVo> inquiryFiles = inquiryService.getFile(no);
-        System.out.println("========inquiryFiles"+inquiryFiles);
-        //글 상태변경(관리자 확인용)
+        System.out.println("inquiryFiles" + inquiryFiles);
+    //글 상태변경(관리자 확인용, 조건 만족하면 문자열 전달)
         InquiryVo mainArticle = inquiryRead.get(0);
         String mainArticleStatus = mainArticle.getStatus();
         int grpNo = mainArticle.getGrpNo();
 
-        if (Objects.equals(userInfo.getUserRole(), "ROLE_ADMIN") && Objects.equals(mainArticleStatus, "확인중")){
+        if (Objects.equals(userInfo.getUserRole(), "ROLE_ADMIN") && Objects.equals(mainArticleStatus, "확인중")) {
             inquiryService.statusUpdate(grpNo, "처리중");
         }
 
@@ -77,27 +73,28 @@ public class InquiryController {
 
     // 1:1문의 쓰기 + 답글달기 ( 클라이언트에서 전달받은 원글번호(grpNo) 값의 유무로 답글/원글 판단)
     @PostMapping("/inquiryWrite")
-    public ResponseEntity<Map> inquiryWrite(@RequestBody InquiryVo inquiryVo){
+    public ResponseEntity<Map> inquiryWrite(@RequestBody InquiryVo inquiryVo) {
+
         int inquiryNo = 0;
         InquiryVo userInfo = setUserInfo();
-
         inquiryVo.setUserId(userInfo.getUserId());
         inquiryVo.setUserRole(userInfo.getUserRole());
         int grpNo = inquiryVo.getGrpNo();
         System.out.println("쓰기쿼리"+inquiryVo);
 
+        //글작성
         if (grpNo==0) {
             System.out.println("writeVo" + inquiryVo);
             inquiryNo = inquiryService.inquiryWrite(inquiryVo);
-
+        //답글작성
         } else {
-//            답변작성자가 admin일 경우 '답변완료'로 변경
+            //답변작성자가 admin일 경우 '답변완료'로 변경
             if(Objects.equals(userInfo.getUserRole(), "ROLE_ADMIN")) {
                 String status = "답변완료";
                 inquiryService.inquiryReply(inquiryVo, grpNo, status);
                 System.out.println("replyVo" + inquiryVo);
-//             답변 작성자가 user일 경우 "처리중"으로 변경
-            }else if(Objects.equals(userInfo.getUserRole(), "ROLE_USER")){
+            // 답변 작성자가 user일 경우 "처리중"으로 변경
+            } else if (Objects.equals(userInfo.getUserRole(), "ROLE_USER")) {
                 String status = "처리중";
                 inquiryService.inquiryReply(inquiryVo, grpNo, status);
             }
@@ -108,7 +105,9 @@ public class InquiryController {
         System.out.println(result);
         return ResponseEntity.ok(result);
     }
-    //파일저장
+
+
+    //파일저장(업로드 할 파일이 있을때만 프론트에서 요청보냄)
     @PostMapping("/inquiryFiles")
     public ResponseEntity<Map> inquiryFiles(@RequestParam("files") List<MultipartFile>files,
                                             @RequestParam("inquiryNo") int inquiryNo) throws IOException {
@@ -116,7 +115,7 @@ public class InquiryController {
 
         if(!files.isEmpty()) {
             String savedFileName = "";
-            //저장경로지정
+            //저장경로지정(기본 C:\ws\greenWhen\src\main\frontend\public\)
             String uploadPath = "inquiryFiles/";
             ArrayList<String> originalFileNameList = new ArrayList<String>();
 
@@ -147,7 +146,7 @@ public class InquiryController {
 
         return ResponseEntity.ok(result);
     }
-    //삭제
+    //삭제(사용자 검증 후 삭제)
     @GetMapping("/inquiryDelete")
     public ResponseEntity<Map> inquiryDelete(@RequestParam int no){
 
@@ -163,13 +162,11 @@ public class InquiryController {
         String msg = null;
 
         //사용자 검증 :  글 작성자이거나 admin 권한일 때 삭제
-        if (Objects.equals(articleWriter, userInfo.getUserId()) |
+        if (Objects.equals(articleWriter, userInfo.getUserId()) ||
                 Objects.equals(userInfo.getUserRole(), "ROLE_ADMIN")){
-
             inquiryService.inquiryDelete(no);
             msg = "삭제성공!";
         }
-
         else {
             msg = "권한이 없습니다!";
         }
@@ -180,27 +177,24 @@ public class InquiryController {
         return  ResponseEntity.ok(result);
     }
 
-    //수정하기
+    //수정하기(권한 확인 후 실행)
     @PostMapping("/inquiryUpdate")
     public ResponseEntity<Map> inquiryUpdate(@RequestBody InquiryVo inquiryVo){
 
         String articleWriter = inquiryVo.getUserId();
-
         //로그인 사용자
         InquiryVo userInfo = setUserInfo();
         System.out.println("loginuser"+userInfo.getUserId());
-
         String msg = null;
-
+        //권한 확인(작성자 또는 admin일경우)
         if(Objects.equals(articleWriter, userInfo.getUserId())
-                | Objects.equals(userInfo.getUserRole(), "ROLE_ADMIN")) {
+                || Objects.equals(userInfo.getUserRole(), "ROLE_ADMIN")) {
             System.out.println(inquiryVo);
             inquiryService.inquiryUpdate(inquiryVo);
             msg = "수정완료!";
         }else{
             msg = "권한이 없습니다!";
         }
-
 
         Map result = new HashMap<>();
         result.put("msg", msg);

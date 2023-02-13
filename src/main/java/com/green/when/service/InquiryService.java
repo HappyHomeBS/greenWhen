@@ -5,6 +5,7 @@ import com.green.when.vo.InquiryVo;
 import com.green.when.vo.InquiryFilesVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -15,13 +16,18 @@ public class InquiryService {
 
     // 사이트 관리자 권한 체크
     public String getUserRole(String userId) {
+
         String userRole = mapper.getUserRole(userId);
+
         return userRole;
     }
 
+
     // 리스트 조회
     public List<InquiryVo> inquiryList(InquiryVo inquiryVo) {
+
         List<InquiryVo> inquiryList;
+
         try {
             inquiryList = mapper.inquiryList(inquiryVo);
         } catch (Exception e) {
@@ -30,10 +36,14 @@ public class InquiryService {
         }
         return inquiryList;
     }
-    // 상세보기
 
+
+    // 상세보기
+    @Transactional
     public List<InquiryVo> inquiryRead(int no) {
+
         List<InquiryVo> inquiryRead;
+
         try {
             inquiryRead = mapper.inquiryRead(no);
         } catch (Exception e) {
@@ -43,10 +53,13 @@ public class InquiryService {
         return inquiryRead;
     }
 
-    // 쓰기
 
+    // 쓰기
+    @Transactional
     public int inquiryWrite(InquiryVo inquiryVo) {
-       int inquiryNo=0;
+
+        int inquiryNo=0;
+
         try {
             inquiryNo = mapper.getInquiryNo();
             inquiryVo.setNo(inquiryNo);
@@ -57,8 +70,12 @@ public class InquiryService {
         }
         return inquiryNo;
     }
+
+
     //답글달기
+    @Transactional
     public void inquiryReply(InquiryVo inquiryVo, int grpNo, String status) {
+
         try {
             mapper.inquiryReply(inquiryVo);
             mapper.statusUpdate(grpNo, status);
@@ -67,8 +84,11 @@ public class InquiryService {
             throw e;
         }
     }
+
+
     //삭제
     public void inquiryDelete(int no) {
+
         try {
             mapper.inquiryDelete(no);
         }catch (Exception e) {
@@ -76,8 +96,11 @@ public class InquiryService {
             throw e;
         }
     }
+
+
     // 수정
     public void inquiryUpdate(InquiryVo inquiryVo) {
+
         try{
             mapper.inquiryUpdate(inquiryVo);
         }catch (Exception e) {
@@ -86,21 +109,26 @@ public class InquiryService {
         }
     }
 
+
     //작성자 확인용
     public InquiryVo setArticle (int no) {
+
         InquiryVo targetArticle;
+
         try{
             targetArticle = mapper.setArticle(no);
         }catch (Exception e) {
             e.printStackTrace();
             throw e;
         }
+
         return targetArticle;
     }
 
-    //상태관리용
 
+    //상태관리용
     public void statusUpdate (int grpNo, String status){
+
         try{
             mapper.statusUpdate(grpNo, status);
         }catch(Exception e){
@@ -108,7 +136,10 @@ public class InquiryService {
             throw(e);
         }
     }
+
+
     //파일업로드
+    @Transactional
     public int fileUpload(InquiryFilesVo inquiryFilesVo){
 
         int fileNo=0;
@@ -122,11 +153,15 @@ public class InquiryService {
             e.printStackTrace();;
             throw(e);
         }
+
         return fileNo;
     }
+
     //파일다운로드
     public List<InquiryFilesVo> getFile(int no){
+
         List<InquiryFilesVo> fileList;
+
         try{
 
             fileList= mapper.getFile(no);
@@ -134,6 +169,7 @@ public class InquiryService {
             e.printStackTrace();
             throw(e);
         }
+
         return fileList;
     }
 }

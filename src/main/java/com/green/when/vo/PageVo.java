@@ -18,18 +18,17 @@ public class PageVo {
     private int pageNum; // 표시될 페이지 번호 (ex: 1~10)
     private int displayPost; //출력할 글
     private int pageNumCnt = 10; //페이지 카운트
-    private int endPageNum;
-    private int startPageNum;
+    private int endPageNum; //마지막 페이지 번호
+    private int startPageNum; //시작 페이지 번호
 
-
-    private int lastPage;
-    private boolean prev;
-    private boolean next;
+    private int lastPage; //마지막페이지일 경우
+    private boolean prev; //이전 버튼 여부
+    private boolean next; //다음 버튼 여부
 
     //검색옵션
-    private String option;
-    private String search;
-    private String userId;
+    private String option; //검색옵션
+    private String search; //검색어
+    private String userId; //검색할 작성자 ID
 
     public void setUserId(String userId) {
         this.userId = userId;
@@ -55,9 +54,9 @@ public class PageVo {
 
     private void pagingCalc(){
 
-        //마지막 번호
+        //마지막 페이지 번호
         endPageNum = (int)( (Math.ceil((double)num / (double)pageNumCnt)) * pageNumCnt);
-        //시작번호
+        //시작 페이지 번호
         startPageNum = endPageNum - (pageNumCnt - 1);
 
         //마지막번호 재계산

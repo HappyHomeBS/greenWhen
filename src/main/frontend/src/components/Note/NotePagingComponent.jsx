@@ -17,7 +17,7 @@ export class NotePagingComponent extends Component{
         ,paging: this.props.paging
     })
     }
-    
+    // state 갱신용, render 직전 실행
     static getDerivedStateFromProps(nextProps, prevState){
         if(prevState.paging !== nextProps.paging){
             return {
@@ -28,7 +28,7 @@ export class NotePagingComponent extends Component{
     }
   
     goPage(page){
-        this.props.pagi(page);
+        this.props.pageNo(page);
     }
 
     viewPaging() {

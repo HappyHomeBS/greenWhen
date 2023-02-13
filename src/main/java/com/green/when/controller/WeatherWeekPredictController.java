@@ -15,7 +15,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api")
-public class WeatherWeekPredicController {
+public class WeatherWeekPredictController {
     @GetMapping("/weekPredict")
     public ResponseEntity<Map>  weekPredict() throws Exception {
 
@@ -44,12 +44,7 @@ public class WeatherWeekPredicController {
         ObjectMapper objectMapper = new ObjectMapper();
         Map<String, Object> jacksonMap = objectMapper.readValue(data, new TypeReference<Map<String, Object>>(){});
         System.out.println("weekly"+jacksonMap);
-//
-//        HashMap <String, Object> resultMap = new HashMap<>();
-//        data = data.replaceAll("\"", "");
-//
-//        Map result = new HashMap<>();
-//        result.put("data", data);
+
         return ResponseEntity.ok(jacksonMap);
     }
 }

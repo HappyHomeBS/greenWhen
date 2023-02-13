@@ -8,6 +8,7 @@ import SignUpModal from '../User/UserModals/SignUpModal'
 import SignInModal from '../User/UserModals/SignInModal';
 
 import '../../css/mainNavigation.css'
+import TodayWeatherComponent from '../WeatherAPI/TodayWeatherComponent';
 
 
 const MainNavigation = () => {
@@ -71,6 +72,7 @@ const MainNavigation = () => {
 
   return (
     <>
+      
       <SignUpModal
         show={SignUpModalOn}
         onHide={() => setSignUpModalOn(false)} />
@@ -79,6 +81,7 @@ const MainNavigation = () => {
         onHide={() => setSignInModalOn(false)} /> 
         <Navbar bg="light" expand="lg">
           <Container>
+            <Navbar  style={{marginRight:"5%"}}><TodayWeatherComponent/></Navbar>
             <Navbar.Brand><Nav.Link href='/'>언제갈래?</Nav.Link></Navbar.Brand>
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse  className='navBar-right' id="basic-navbar-nav">
