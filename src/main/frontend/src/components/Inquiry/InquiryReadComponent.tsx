@@ -45,7 +45,7 @@ const InquiryRead: React.FC = (props: any) => {
 
 
     const deleteInquiry = (no :any) => {
-        InquiryService.inquiryDelete(no, token).then((res) =>{
+        InquiryService.inquiryDelete(no, token).then((res) => {
             if(res.status === 200) {
                 alert("삭제하였습니다")
                 getInquiryRead(grpNo, token)
@@ -93,9 +93,9 @@ const InquiryRead: React.FC = (props: any) => {
         <>
             {/* 업데이트 폼 */}
             <div className = "card col-md-6 offset-md-3" style = {{marginTop:"2%"}}>
-                <h3 className = "text-center" style={{marginTop:"2%"}}> 1:1 문의 상세보기 </h3>
+                <h3 className = "text-center" style = {{marginTop:"2%"}}> 1:1 문의 상세보기 </h3>
             { Array.isArray(inquiryRead) && inquiryRead.map((inquiry: InquiryInterface) =>
-            <div className = "card-body" key={inquiry.no}>
+            <div className = "card-body" key = {inquiry.no}>
                 {isUpdating === inquiry.no? (
         
                 // 수정state인 경우 글 수정 폼으로 출력
@@ -112,7 +112,7 @@ const InquiryRead: React.FC = (props: any) => {
                         </div>
                         <div style = {{float:"right"}}>
                         <button className = "btn btn-primary" type = "submit" > 수정하기 </button>
-                        <button className = "btn btn-primary" onClick = {()=> setIsUpdating(null)}>취  소</button>
+                        <button className = "btn btn-primary" onClick = {() => setIsUpdating(null)}>취  소</button>
                         </div>
                     </form>
                 ):
@@ -137,6 +137,7 @@ const InquiryRead: React.FC = (props: any) => {
                         ))
                         }
                     </div>
+                    {/* 버튼은 당사자일 경우 수정과 삭제, 관리자일 경우 삭제 활성화 */}
                     <div className= "buttons" style={{float:"right"}}>
                         {inquiry.userId === userId && <button className = "btn btn-primary"onClick={() => handleUpdateClick(inquiry.no)}> 수정하기</button>}               
                         {inquiry.userId === userId? <button className = "btn btn-primary"onClick={() => deleteInquiry(inquiry.no)}> 삭제하기</button> :
@@ -150,10 +151,11 @@ const InquiryRead: React.FC = (props: any) => {
             )}  
             
                 <div>
-                    {!inputReply}
-                    <button className = "btn btn-primary" onClick={() => reply()} style = {{float:"right", marginRight:"2%"}}>
+                    {inputReply===true}
+                    <button className = "btn btn-primary" onClick = {() => reply()} style = {{float:"right", marginRight:"2%"}}>
+                        {/* inputreply가 참인경우 답글닫기, 거짓인경우 답글달기 */}
                         {inputReply? "답글닫기" : "답글달기"} </button>
-                    {inputReply && <InquiryReply updatingInfo={updatingInfo} />}
+                    {inputReply && <InquiryReply updatingInfo = {updatingInfo} />}
                 </div>
             </div>
         </>

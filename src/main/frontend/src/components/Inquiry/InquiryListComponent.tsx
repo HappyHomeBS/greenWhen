@@ -9,7 +9,7 @@ import {InquiryInterface} from '../Inquiry/InquiryInterface';
 import * as InquiryPaging from'../Inquiry/InquiryPaging';
 
 
-const InquiryList: React.FC = (props: any) => {
+const InquiryList: React.FC = () => {
     const authCtx = useContext(AuthContext);
     const token = authCtx.token;
     const userId = authCtx.userObj.userid;
@@ -21,7 +21,7 @@ const InquiryList: React.FC = (props: any) => {
     const [search, setSearch] = useState<string>("") //검색어 설정
     const [status, setStatus] = useState<string>("전체") //상태별 필터링
     const navigate = useNavigate();
-    
+
     //최초 리스트 로딩
     useEffect(() => {
         getInquiryList();
