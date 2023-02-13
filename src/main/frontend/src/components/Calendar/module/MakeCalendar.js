@@ -2,7 +2,6 @@ import React,{useContext} from "react";
 import Schedule from "./Schedule";
 import { transString } from "./CalcDate";
 import AuthContext from "../../../store/authContext";
-import { BsCloudRainHeavy, BsBrightnessHigh, BsCloudSnow, BsFillCloudFill, BsFillCloudLightningRainFill, BsFillUmbrellaFill } from "react-icons/bs";
 import WeatherIcon from "./WeatherIcon";
 /*
  * 현재 날짜를 key값 형식으로 변환
@@ -59,7 +58,7 @@ const MakeCalendar = ({
   }
   
   
-  
+  //월별 외출지수 아이콘 데이터
   const icons = WeatherIcon({year:year, month:month+1, regionNum:regionNum});  
   //console.log('iconss',icons)
 

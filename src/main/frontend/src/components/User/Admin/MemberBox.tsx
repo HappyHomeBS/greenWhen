@@ -35,7 +35,7 @@ const MemberBox = (props: any) => {
     event.preventDefault();
     //console.log('권한변경',selected, userid);
     authCtx.roleChange(selected, userid);
-    window.location.reload();
+    //window.location.reload();
     //navigate("/admin", { replace: true });
   };
 

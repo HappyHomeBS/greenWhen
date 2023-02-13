@@ -28,10 +28,11 @@ public class AdminService {
     // 회원 탈퇴
     @Transactional
     public void userDelete(MemberVo memberVo) {
-        userMapper.deleteUserInsert(memberVo);
         userMapper.foreignKeyChecks();
+        userMapper.groupUserDelete(memberVo);
         userMapper.userDelete(memberVo);
         userMapper.foreignKeyCheck();
+        userMapper.deleteUserInsert(memberVo);
     }
 
     // 회원등급 변경

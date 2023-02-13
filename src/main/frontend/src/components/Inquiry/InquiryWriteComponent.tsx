@@ -19,7 +19,7 @@ const InquiryWrite: React.FC = (props: any) => {
     const navigate = useNavigate();
 
 // 이미지 업로드용 
-    const [image, setImage] = useState<File[]>([]);
+    const [files, setFiles] = useState<File[]>([]);
     const fileInput = React.useRef<HTMLInputElement | null>(null);
 
 //작성된 글 전송 
@@ -32,20 +32,20 @@ const InquiryWrite: React.FC = (props: any) => {
             return;
         }
         setVaildated(true);
-        console.log('실행test')
-        console.log(form.titleInput.value);
+        const filesData = new FormData();
+        files.forEach(file => filesData.append('files', file));
+        
         const inquiry = {
             title: form.titleInput.value,
             content: form.contextText.value,
-            userId: userId,
-            image: image
+            userId: userId
         }
         
-        writeInquiry(inquiry, token);
+        writeInquiry(filesData, inquiry, token);
     };
 // 쓰기함수(작성 후 리스트로 돌아가기)
-    const writeInquiry = async (inquiry: InquiryInterface, token: string) => {
-        InquiryService.inquiryWrite(inquiry, token).then((res)=>{
+    const writeInquiry = async (filesData: any, inquiry: InquiryInterface, token: string) => {
+        InquiryService.inquiryWrite(filesData, inquiry, token).then((res)=>{
             navigate(-1)
          })
     }
@@ -57,12 +57,11 @@ const InquiryWrite: React.FC = (props: any) => {
         if (fileInput.current) {
             fileInput.current.click();
         }
-        console.log(fileInput)
     };
 
     // 첨부버튼
     const handleImageChange = (event: any) =>  { 
-        setImage(Array.from(event.target.files));
+        setFiles(Array.from(event.target.files));
     }
    
 
@@ -82,7 +81,7 @@ const InquiryWrite: React.FC = (props: any) => {
                 <input
                     id="fileInput"
                     type="file"
-                    multiple accept=".png"
+                    multiple accept=".png, .jpg"
                     ref={fileInput}
                     style={{display:"none"}}
                     onChange={handleImageChange} />
@@ -92,11 +91,11 @@ const InquiryWrite: React.FC = (props: any) => {
             <Form.Group controlId="contextText">
                 {/*사진 미리보기 */}
                 <div style={{marginBottom:"1%", display:"flex", flexWrap:"wrap"}}>
-                    {image.map((image) => (
+                    {files.map((files) => (
                         <img
-                        key={image.name}
-                        src={URL.createObjectURL(image)}
-                        alt={image.name}
+                        key={files.name}
+                        src={URL.createObjectURL(files)}
+                        alt={files.name}
                         style={{height: 100, marginRight: 10}}
                         />
                     ))}

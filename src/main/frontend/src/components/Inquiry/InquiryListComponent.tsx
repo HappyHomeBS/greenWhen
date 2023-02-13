@@ -16,28 +16,30 @@ const InquiryList: React.FC = (props: any) => {
     const token = authCtx.token;
     const userId = authCtx.userObj.userid;
     const userRole = authCtx.userObj.role;
-    //페이지네이션
     const [currentPage, setCurrentPage] = useState(1);
-    const [inquiryList, setInquiryList] = useState<Array<InquiryInterface>>([]); //현재페이지글목록
-    const [totalList, setTotalList] = useState<Array<InquiryInterface>>([]); //전체글목록
-    
-    const [search, setSearch] = useState<string>("")//검색어
-    const [status, setStatus] = useState<string>("전체")//처리상황
+    const [inquiryList, setInquiryList] = useState<Array<InquiryInterface>>([]); //현재페이지글
+    const [totalList, setTotalList] = useState<Array<InquiryInterface>>([]); //전체글
+
+    // const [loaded, setLoaded] = useState(false);
+    // const [inquiriesPerPage, setInquiresPerPage] = useState(10);
+    // const [inquiryCounts, setInquiryCounts] = useState(0); //전체글 숫자
+    const [search, setSearch] = useState<string>("")
+    const [status, setStatus] = useState<string>("전체")
     const navigate = useNavigate();
+    // const moveList = props.setWhich(2)
     
     //최초 리스트 로딩
     useEffect(() => {
         getInquiryList();
     }, []);
     
-    //currentPage에 따라 바뀜    
+    //현재페이지에 따라 바뀜    
     useEffect(() => {
     
         goPage();
     
     }, [currentPage, totalList])
-    
-    //status 필터링용
+
     useEffect(()=>{
         statusHandler();
     }, [status])
@@ -47,8 +49,11 @@ const InquiryList: React.FC = (props: any) => {
         const listData =( (await InquiryService.getInquiryList(token)).data.inquiryList);  
         const newInquiryList = InquiryPaging.GetPostsLoaded(listData, currentPage); // 슬라이스후 현재페이지 글목록
         setTotalList(listData) // 모든 게시글 리스트 저장
+      
         setInquiryList(newInquiryList);
-        //setInquiryCounts(totalList.length) // 불러온 모든 게시글 수 
+
+        
+        // setInquiryCounts(totalList.length) // 불러온 모든 게시글 수 
     }
 
     const goPage = () => {
@@ -66,7 +71,6 @@ const InquiryList: React.FC = (props: any) => {
     const onChangeSearch = (e:any) =>{
         e.preventDefault();
         setSearch(e.target.value);
-        console.log(search)
     }
     
     const onSearch = (e:any) => {
@@ -74,29 +78,23 @@ const InquiryList: React.FC = (props: any) => {
         if (search===null || search===''){ getInquiryList();
         }
         const filteredData = totalList.filter((inquiry) =>inquiry.title.includes(search));
-        console.log('totallist', totalList)
-        console.log(search)
         setTotalList(filteredData);
         setCurrentPage(1);
-        console.log('newtotallist', filteredData)
         setSearch('');
     }
-    //상태별정렬(admin용)
-    //status 상태변경
+
     const statusChangeHandler=(e:any) => {
         e.preventDefault();
         setStatus(e.target.value);
-        console.log(e.target.value);
       
     }
-    //status 변경시 useEffect로 totalList변경 실행
+
     const statusHandler = async () => {
         if(status==='전체'){
         getInquiryList();
         }else{
-        const listData =(await InquiryService.getInquiryList(token)).data.inquiryList
+        const listData =( (await InquiryService.getInquiryList(token)).data.inquiryList)
         const filterdData=listData.filter((inquiry:any) => inquiry.status===status)
-        console.log('fdata', filterdData)
         setTotalList(filterdData);
         setCurrentPage(1);
         }

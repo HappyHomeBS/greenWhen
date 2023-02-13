@@ -17,15 +17,26 @@ export const getInquiryRead = async(no:string, token:string) => {
     return res;
 }
 
-export const inquiryWrite = async(inquiry: InquiryInterface, token:string ) => {
-    const res = await axios.post("/api/inquiryWrite", inquiry, header(token))
-    console.log(inquiry)
+export const inquiryWrite = async(filesData:any, inquiry:InquiryInterface, token:string ) => {
+    var res:any = '';
+    if(filesData.length!==0){
+        await axios.post("/api/inquiryWrite", inquiry, header(token))
+    .then( (inquiryData) =>{
+        const inquiryNo=inquiryData.data["inquiryNo"];
+        filesData.append('inquiryNo', inquiryNo)
+        res = axios.post("/api/inquiryFiles", filesData, {headers: {
+        'Authorization': 'Bearer ' + token,
+        'Content-Type': 'multipart/form-data'
+        }})
+    })
+    }else{
+         res = axios.post("/api/inquiryWrite", inquiry, header(token))
+    }
     return res;
 }
 
 export const inquiryReply = async(inquiry: InquiryInterface, token:string) => {
     const res= await axios.post("/api/inquiryWrite", inquiry, header(token))
-    console.log(inquiry)
     return res;
 }
 

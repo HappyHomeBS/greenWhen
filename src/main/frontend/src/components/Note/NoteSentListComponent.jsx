@@ -35,7 +35,6 @@ constructor(props) {
         let search = queryString.parse(this.props.location.search).search
 
         NoteService.noteSentList(num, option, search, token).then((res) => {
-            console.log(res.data);
             this.setState({
                 paging: res.data.pagingData
                 ,note: res.data.noteList
@@ -64,11 +63,8 @@ constructor(props) {
     }
 
     render() {
-        const paged = this.state.paged;
         const num = this.state.num;
         const paging = this.state.paging;
-        console.log("renderingnow")
-        console.log(paging)
         
         return (
         <div clssName="noteList" style={{margin: "5%"}}>

@@ -20,6 +20,5 @@ public class InquiryVo {
     private String time;
     private String status;
     private String userRole;
-    private String filename;
-    private String filepath;
+
 }

@@ -1,5 +1,6 @@
 package com.green.when.mapper;
 
+import com.green.when.vo.InquiryFilesVo;
 import com.green.when.vo.InquiryVo;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
@@ -29,4 +30,11 @@ public interface InquiryMapper {
 
     void statusUpdate(int grpNo, String status);
 
+    void fileUpload(InquiryFilesVo inquiryFilesVo);
+
+    int getFileNumber();
+
+    int getInquiryNo();
+
+    List<InquiryFilesVo> getFile(int no);
 }

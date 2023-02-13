@@ -2,6 +2,7 @@ package com.green.when.service;
 
 import com.green.when.mapper.InquiryMapper;
 import com.green.when.vo.InquiryVo;
+import com.green.when.vo.InquiryFilesVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -44,13 +45,17 @@ public class InquiryService {
 
     // 쓰기
 
-    public void inquiryWrite(InquiryVo inquiryVo) {
+    public int inquiryWrite(InquiryVo inquiryVo) {
+       int inquiryNo=0;
         try {
+            inquiryNo = mapper.getInquiryNo();
+            inquiryVo.setNo(inquiryNo);
             mapper.inquiryWrite(inquiryVo);
         } catch (Exception e) {
             e.printStackTrace();
             throw e;
         }
+        return inquiryNo;
     }
     //답글달기
     public void inquiryReply(InquiryVo inquiryVo, int grpNo, String status) {
@@ -85,7 +90,7 @@ public class InquiryService {
     public InquiryVo setArticle (int no) {
         InquiryVo targetArticle;
         try{
-           targetArticle = mapper.setArticle(no);
+            targetArticle = mapper.setArticle(no);
         }catch (Exception e) {
             e.printStackTrace();
             throw e;
@@ -103,5 +108,32 @@ public class InquiryService {
             throw(e);
         }
     }
+    //파일업로드
+    public int fileUpload(InquiryFilesVo inquiryFilesVo){
 
+        int fileNo=0;
+
+        try{
+            fileNo= mapper.getFileNumber()+1;
+            inquiryFilesVo.setNo(fileNo);
+            mapper.fileUpload(inquiryFilesVo);
+
+        }catch(Exception e) {
+            e.printStackTrace();;
+            throw(e);
+        }
+        return fileNo;
+    }
+    //파일다운로드
+    public List<InquiryFilesVo> getFile(int no){
+        List<InquiryFilesVo> fileList;
+        try{
+
+            fileList= mapper.getFile(no);
+        }catch(Exception e) {
+            e.printStackTrace();
+            throw(e);
+        }
+        return fileList;
+    }
 }

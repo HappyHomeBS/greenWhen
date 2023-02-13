@@ -1,6 +1,5 @@
 import axios from 'axios';
 import React, { useContext, useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import AuthContext from '../../../store/authContext';
 import GroupList from '../../Group/ManageSide/GroupList/GroupList';
 import "../../../DamCss/Page/page.css"

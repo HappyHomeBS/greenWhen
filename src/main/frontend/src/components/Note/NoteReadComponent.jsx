@@ -15,7 +15,6 @@ class NoteReadComponent extends Component {
         no=this.state.no
         token = this.props.token;
         NoteService.noteRead(no, token).then((res) => {
-        console.log(res.data);
         this.setState({note: res.data.noteVo});
         
         
@@ -30,7 +29,6 @@ class NoteReadComponent extends Component {
             var no = [this.state.no];
             var token = this.props.token;
             NoteService.noteDelete(no, token).then(res => {
-                console.log("result => " + JSON.stringify(res));
                 if (res.status === 200) {
                     this.props.navigate('/note');
                 } else {

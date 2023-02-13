@@ -1,4 +1,4 @@
-import React, { useRef, useState, useContext } from 'react'
+import React, { useState, useContext } from 'react'
 import { Modal, Button, Form, Container } from 'react-bootstrap'
 import { useNavigate } from 'react-router-dom';
 import AuthContext from '../../../store/authContext';
@@ -32,6 +32,8 @@ const SignInModal = ({ show, onHide }) => {
 
     const submitHandler = async (event) => {
         event.preventDefault();
+        setUserid("");
+        setUserpw("");
 
         setIsLoading(true);
         authCtx.login(userid, userpw);

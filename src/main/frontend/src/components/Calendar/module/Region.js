@@ -1,6 +1,5 @@
-import React, { useState, useContext } from "react";
+import React, { useContext } from "react";
 import AuthContext from "../../../store/authContext";
-import Style from "./Style";
 
 const Region = ({ regionNumber, ClickRegion, groupName }) => {
   const authCtx = useContext(AuthContext);

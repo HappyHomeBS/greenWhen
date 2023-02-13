@@ -1,5 +1,4 @@
 import React from "react";
-import Style from "./Style";
 
 const ScheduleData = (index, todo) => {    
     const info = []

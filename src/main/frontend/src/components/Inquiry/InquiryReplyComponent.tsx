@@ -24,8 +24,6 @@ const InquiryReply = (props: { updatingInfo: () => void}) => {
             return;
         }
         setValidated(true);
-        console.log('실행test')
-        console.log(form.titleInput.value);
         const inquiry = {
             title: form.titleInput.value,
             content: form.contextText.value,
@@ -40,8 +38,6 @@ const InquiryReply = (props: { updatingInfo: () => void}) => {
 
     const writeInquiryReply = async (inquiry: InquiryInterface, token: string) => {
         InquiryService.inquiryReply(inquiry, token).then(props.updatingInfo)
-        console.log("입력")
-        console.log(no)
        
     }
 

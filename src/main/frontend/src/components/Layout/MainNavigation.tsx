@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import axios from 'axios'
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Button, Container, Nav, Navbar } from 'react-bootstrap';
 
 import AuthContext from '../../store/authContext';
@@ -18,6 +18,7 @@ const MainNavigation = () => {
   let isLogin = authCtx.isLoggedIn;
   let isGet = authCtx.isGetSuccess;
   const role = authCtx.userObj.role;
+  const navigate = useNavigate();
 
 
   const [SignUpModalOn, setSignUpModalOn] = useState(false);
@@ -47,8 +48,6 @@ const MainNavigation = () => {
           console.log('프로필이미지',URL)
           if (!URL.isempty ){
             setImage(URL)
-            console.log("주소", URL)
-            console.log("주소!!!", Image)
           } 
         });
     }
@@ -66,6 +65,7 @@ const MainNavigation = () => {
 
   const toggleLogoutHandler = () => {
     authCtx.logout();
+    navigate("/");
     window.location.reload();
   }
 

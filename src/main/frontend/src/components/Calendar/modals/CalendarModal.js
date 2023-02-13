@@ -1,6 +1,5 @@
-import React, { useState, useEffect, useCallback, useReducer } from 'react'
+import React, { useCallback, useReducer } from 'react'
 import { Modal, Container } from 'react-bootstrap'
-import axios from 'axios'
 import Picker from '../component/Picker';
 import Style from "../module/Style";
 import ModalReducer from '../containers/reducer/ModalReducer';
@@ -16,7 +15,7 @@ const CalendarModal = ({ targetdate, visible, onConfirm, onCancel, region }) => 
     };
 
     const [state, dispatch] = useReducer(ModalReducer, initialState)
- 
+    
     const color = state.color;
     const todo = state.todo;
     const todos = state.todos;

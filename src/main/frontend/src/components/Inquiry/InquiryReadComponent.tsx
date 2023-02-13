@@ -9,6 +9,7 @@ import { Right } from "react-bootstrap/lib/Media";
 
 const InquiryRead: React.FC = (props: any) => {
     const [inquiryRead, setInquiryRead] = useState<Array<InquiryInterface>>([]);
+    const [inquiryFiles, setInquiryFiles] = useState<any>([])
     const [inputReply, setInputReply] = useState(false);
     const [isUpdating, setIsUpdating] = useState<number | null>(null);
     const authCtx = useContext(AuthContext);
@@ -20,23 +21,22 @@ const InquiryRead: React.FC = (props: any) => {
     const userId = authCtx.userObj.userid;
     const userRole = authCtx.userObj.role;
     const navigate = useNavigate();
+    
     useEffect(() => {
 
         getInquiryRead(no, token)
-       
     },[]);
 
     const getInquiryRead = async (no: string, token: string) => {
         const readData = InquiryService.getInquiryRead(no, token);
-        const newInquiryRead = (await readData).data.inquiryRead
-        setInquiryRead(newInquiryRead)
-        console.log('listData', (await readData).data)
-        console.log('inquiryRead', inquiryRead)
+        const newInquiryRead = (await readData).data.inquiryRead;
+        setInquiryRead(newInquiryRead);
+        const inquiryFiles = (await readData).data.inquiryFiles;
+        setInquiryFiles(inquiryFiles);
     }
     
     const reply = () =>{
         setInputReply(!inputReply);
-        console.log("버튼")
     }
 
 
@@ -55,7 +55,6 @@ const InquiryRead: React.FC = (props: any) => {
     const updatingInfo = ()=> {
         getInquiryRead(grpNo, token)
         setInputReply(false)
-        console.log("updated-----------------------")
     }
 
     //수정버튼 눌렀을 때 state 변경
@@ -126,6 +125,13 @@ const InquiryRead: React.FC = (props: any) => {
                 <div className = "row">
                     <label>내 용</label>
                     <textarea value={inquiry.content} readOnly style={{flex: "1", margin: "2%", resize: "none"}}/>
+                </div>
+                <div>
+                    <label>첨 부 </label>
+                    {inquiryFiles.map((file:any, index:number) => (
+                        <img key={index} src={file.filePath} alt={file.name} style={{height:"300px", width:"300px", flexWrap:"wrap"}}/>
+                    ))
+                    }
                 </div>
                 <div className= "buttons" style={{float:"right"}}>
                     {inquiry.userId === userId && <button className = "btn btn-primary"onClick={()=> handleUpdateClick(inquiry.no)}> 수정하기</button>}               

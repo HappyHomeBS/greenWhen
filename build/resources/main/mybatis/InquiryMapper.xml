@@ -3,16 +3,16 @@
 
 <mapper namespace="com.green.when.mapper.InquiryMapper">
 
-<!-- 유저 권한 확인-->
+    <!-- 유저 권한 확인-->
     <select id = "getUserRole" parameterType="String" resultType="String">
-    SELECT
+        SELECT
         role
-    FROM member_tb
-    WHERE userid = #{userid}
+        FROM member_tb
+        WHERE userid = #{userid}
 
     </select>
 
-<!--1:1 문의 조회, 일반유저는 자신이 쓴 것만, admin은 모든 문의, 답글은 표시 안됨-->
+    <!--1:1 문의 조회, 일반유저는 자신이 쓴 것만, admin은 모든 문의, 답글은 표시 안됨-->
     <select id = "inquiryList" parameterType="InquiryVo" resultType="InquiryVo">
         select
         no
@@ -24,56 +24,91 @@
         ,time
         ,status
         FROM inquiry_tb
-        WHERE depth = 0
+        WHERE depth = 0 AND deleted=0
         <choose>
             <when test= "userRole.equals('ROLE_USER')">
-            AND userid = #{userId}
+                AND userid = #{userId}
             </when>
         </choose>
         ORDER BY no DESC
     </select>
 
-<!-- 원글 + 답글 까지 한 화면에 표시  -->
+    <!-- 원글 + 답글 까지 한 화면에 표시  -->
     <select id="inquiryRead" parameterType="int" resultType="InquiryVo">
-        SELECT * FROM inquiry_tb
-        WHERE no= #{no} OR grpno= #{no}
+        SELECT
+                no
+                ,grpno
+                ,depth
+                ,userid
+                ,title
+                ,content
+                ,time
+                ,status
+        FROM inquiry_tb
+        WHERE no= #{no} OR grpno= #{no} AND deleted=0
         ORDER BY depth ASC
     </select>
-<!--작성자 확인용 글 정보-->
+    <!-- 파일 조회용   -->
+    <select id="getFile" parameterType="int" resultType="inquiryFilesVo">
+        SELECT *
+        FROM inquiryfile_tb
+        WHERE inquiryno= #{no}
+    </select>
+
+    <!--작성자 확인용 글 정보-->
     <select id="setArticle" parameterType="int" resultType="InquiryVo">
         SELECT * FROM inquiry_tb
         WHERE no= #{no}
     </select>
 
-<!--쓰기, 글 번호는 autoincrement 쓰지 않도록-->
+    <!--글번호 확인용 -->
+    <select id="getInquiryNo" resultType="int">
+        SELECT (COALESCE((SELECT MAX(no) FROM inquiry_tb i), 0)+1) as inquiryNo
+    </select>
+
+    <!--쓰기, 글 번호는 autoincrement 쓰지 않도록-->
     <insert id="inquiryWrite" parameterType="inquiryVo">
         INSERT INTO inquiry_tb(no, grpno, title, content, userid, depth, status, userrole, time)
-        VALUES ((COALESCE((SELECT MAX(no) FROM inquiry_tb i), 0)+1), (COALESCE((SELECT MAX(no) FROM inquiry_tb i), 0)+1),  #{title}, #{content}, #{userId}, 0, '확인중', #{userRole}, NOW())
+        VALUES (#{no}, (COALESCE((SELECT MAX(no) FROM inquiry_tb i), 0)+1),  #{title}, #{content}, #{userId}, 0, '확인중', #{userRole}, NOW())
     </insert>
 
-<!--답글, depth는 정렬용도로만 사용  -->
+    <!--파일번호지정-->
+    <select id="getFileNumber" resultType="int">
+        SELECT (COALESCE((SELECT MAX(no) FROM inquiryfile_tb i), 0)+1) as fileNo
+    </select>
+
+    <!-- 파일정보 저장-->
+    <insert id="fileUpload" parameterType="inquiryFilesVo">
+        INSERT INTO inquiryfile_tb(no, originalfilename, filename, filePath, deleted, filesize, date, inquiryno)
+        VALUES (#{no}, #{originalFilename}, #{fileName}, #{filePath}, 0, #{fileSize}, NOW(), #{inquiryNo})
+    </insert>
+
+    <!--답글, depth는 정렬용도로만 사용  -->
     <insert id="inquiryReply" parameterType="inquiryVo">
         INSERT INTO inquiry_tb(no, grpno, title, content, userid, depth, status, userrole, time)
         VALUES ((COALESCE((SELECT MAX(no) FROM inquiry_tb i), 0)+1), #{grpNo},  #{title}, #{content}, #{userId}, (COALESCE((SELECT MAX(depth) FROM inquiry_tb i WHERE grpno=#{grpNo}), 0)+1), '답글', #{userRole}, NOW())
     </insert>
-<!--삭제-->
-    <delete id="inquiryDelete" parameterType= "int">
-        DELETE FROM inquiry_tb
-        WHERE no = #{no}
-    </delete>
 
-<!-- 수정 -->
+    <!--삭제-->
+    <update id="inquiryDelete" parameterType= "int">
+        UPDATE inquiry_tb
+        set deleted = 1
+        WHERE no = #{no}
+    </update>
+
+    <!-- 수정 -->
     <update id="inquiryUpdate" parameterType="inquiryVo">
         UPDATE inquiry_tb
         SET title = #{title}
-            ,content = #{content}
-            ,time = NOW()
+        ,content = #{content}
+        ,time = NOW()
         WHERE no= #{no}
     </update>
-<!--상태갱신(답변)-->
+    <!--상태갱신(답변)-->
     <update id="statusUpdate">
         Update inquiry_tb
         set status = #{status}
         WHERE no= #{grpNo}
     </update>
+
 </mapper>

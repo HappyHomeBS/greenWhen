@@ -80,5 +80,6 @@ public interface UserMapper {
 
     // 회원등급 변경
     void roleChange(MemberVo memberVo);
-
+    // 회원 탈퇴시 소모임에서도 탈퇴
+    void groupUserDelete(MemberVo memberVo);
 }

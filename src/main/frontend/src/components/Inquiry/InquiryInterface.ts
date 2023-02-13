@@ -8,4 +8,5 @@ export type InquiryInterface = {
     status?: string;
     userId?: string;
     userRole?: string;
+    fileId?: any;
 }

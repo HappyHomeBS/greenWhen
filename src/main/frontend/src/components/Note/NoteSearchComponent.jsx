@@ -3,9 +3,7 @@
 import React, {Component } from 'react';
 
 class NoteSearchComponent extends Component{
-    constructor(props) {
-        super(props)
-    }
+
 
     render() {
         return (

@@ -129,10 +129,6 @@ const Calendar = (props) => {
 
   // 일정 입력
   const onConfirm = ({ targetdate, todo, color, todos, region }) => {
-    console.log("날짜", targetdate);
-    console.log("일정", todo);
-    console.log("컬러", color);
-    console.log("지역", region);
 
     if (todos.length != 0) {
       const schedules = [];
@@ -184,7 +180,7 @@ const Calendar = (props) => {
 
       console.log(schedule);
     }
-    window.location.reload();
+    window.location.reload();    
     dispatch({ type: "MODAL" });
   };
 
@@ -220,7 +216,7 @@ const Calendar = (props) => {
             <Button variant="outline-danger" onClick={() => setCalendarMemoModalOn(true)}>
               내 메모 보기
             </Button> 
-            } 
+            }
             {isLogin &&  props.groupName &&
             <Button variant="outline-danger" onClick={() => setCalendarMemoModalOn(true)}>
               그룹 메모 보기
@@ -228,12 +224,12 @@ const Calendar = (props) => {
             } &nbsp;
             <Button variant="outline-danger" onClick={() => setCalendarRegionModalOn(true)}>
               지역 선택
-            </Button>
-            {/* 미완성
+            </Button> &nbsp;
+            
             <Button variant="outline-danger" onClick={() => setCalendarRecommendModalOn(true)}>
               관광지 추천
-            </Button> &nbsp;
-            */}           
+            </Button> 
+            
           </div>
         </div>
         <table className="calendarMainTable">
