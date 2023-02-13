@@ -117,7 +117,7 @@ public class InquiryController {
         if(!files.isEmpty()) {
             String savedFileName = "";
             //저장경로지정
-            String uploadPath = "/inquiryFiles/";
+            String uploadPath = "inquiryFiles/";
             ArrayList<String> originalFileNameList = new ArrayList<String>();
 
             for (MultipartFile file : files) {

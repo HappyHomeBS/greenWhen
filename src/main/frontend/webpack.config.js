@@ -1,4 +1,5 @@
 module.exports = {
+  
     entry: {
       dev: "./src/index.tsx",
     },
@@ -9,10 +10,21 @@ module.exports = {
     resolve: {
       extensions: [".ts", ".tsx", ".js", ".jsx"],
     },
+   
     module: {
       loaders: [
         // Typescript
         { test: /\.tsx?$/, loader: "ts-loader" },
+      ],
+      rules: [
+        {
+          test: /\.(png|jpe?g|gif)$/i,
+          use: [
+            {
+              loader: 'file-loader',
+            },
+          ],
+        },
       ],
     },
   };

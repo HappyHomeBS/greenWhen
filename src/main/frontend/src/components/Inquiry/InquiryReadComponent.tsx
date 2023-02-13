@@ -21,10 +21,10 @@ const InquiryRead: React.FC = (props: any) => {
     const userId = authCtx.userObj.userid;
     const userRole = authCtx.userObj.role;
     const navigate = useNavigate();
+    
     useEffect(() => {
 
         getInquiryRead(no, token)
-       
     },[]);
 
     const getInquiryRead = async (no: string, token: string) => {
@@ -126,10 +126,11 @@ const InquiryRead: React.FC = (props: any) => {
                     <textarea value={inquiry.content} readOnly style={{flex: "1", margin: "2%", resize: "none"}}/>
                 </div>
                 <div>
-                    <label>첨부</label>
+                    <label>첨 부 </label>
                     {inquiryFiles.map((file:any, index:number) => (
-                        <img key={index} src={file.filePath} alt={file.name}/>
-                    ))}
+                        <img key={index} src={file.filePath} alt={file.name} style={{height:"300px", width:"300px", flexWrap:"wrap"}}/>
+                    ))
+                    }
                 </div>
                 <div className= "buttons" style={{float:"right"}}>
                     {inquiry.userId === userId && <button className = "btn btn-primary"onClick={()=> handleUpdateClick(inquiry.no)}> 수정하기</button>}               
